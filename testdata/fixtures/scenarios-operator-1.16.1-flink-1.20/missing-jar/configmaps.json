@@ -5,7 +5,7 @@
       "apiVersion": "v1",
       "kind": "ConfigMap",
       "metadata": {
-        "creationTimestamp": "2026-10-24T19:34:28Z",
+        "creationTimestamp": "2026-10-24T20:37:18Z",
         "labels": {
           "app": "missing-jar",
           "component": "autoscaler"
@@ -19,11 +19,11 @@
             "controller": false,
             "kind": "FlinkDeployment",
             "name": "missing-jar",
-            "uid": "11b1d023-bd57-4e8b-9cd9-f987df71d963"
+            "uid": "8d2347fb-cccc-44ae-9d7b-4fe84fab58ad"
           }
         ],
-        "resourceVersion": "45498",
-        "uid": "c9df2e72-4c53-4d5d-89eb-8dfec5c19648"
+        "resourceVersion": "56669",
+        "uid": "6393a4ec-6906-41c0-95c4-86708a9c2aba"
       },
       "data": null
     },
@@ -35,7 +35,7 @@
       },
       "kind": "ConfigMap",
       "metadata": {
-        "creationTimestamp": "2026-10-24T19:34:28Z",
+        "creationTimestamp": "2026-10-24T20:37:18Z",
         "labels": {
           "app": "missing-jar",
           "type": "flink-native-kubernetes"
@@ -49,11 +49,11 @@
             "controller": true,
             "kind": "Deployment",
             "name": "missing-jar",
-            "uid": "158030ed-309e-401a-8ca3-ab2168d088d1"
+            "uid": "af2c227d-7d16-4b60-b06c-e13ae3d5b62e"
           }
         ],
-        "resourceVersion": "45464",
-        "uid": "a0520a87-10f8-446e-8854-49a203d72a6b"
+        "resourceVersion": "56648",
+        "uid": "931acf42-1f0b-4d47-b66b-f775bf5a551f"
       }
     }
   ],

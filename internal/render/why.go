@@ -48,11 +48,18 @@ func Why(out io.Writer, ev *triage.Evidence, v *triage.Verdict) error {
 	}
 
 	w.blank()
-	w.line(0, "Verdict")
+	w.line(0, "Matched patterns")
+	if len(v.Findings) == 0 {
+		w.line(1, "none of the known patterns matches")
+	}
 	if len(v.Findings) > 0 {
 		for i := range v.Findings {
 			f := &v.Findings[i]
-			w.line(1, "%d. %s: %s (%s)", i+1, f.Severity, f.Title, f.Layer)
+			when := ""
+			if t := f.Newest(); !t.IsZero() {
+				when = ", newest evidence " + age(t, ev.Now)
+			}
+			w.line(1, "%d. %s: %s (%s%s)", i+1, f.Severity, f.Title, f.Layer, when)
 			w.wrap(2, f.Explain)
 			if f.Remedy != "" {
 				w.wrap(2, "Next: "+f.Remedy)
@@ -63,15 +70,21 @@ func Why(out io.Writer, ev *triage.Evidence, v *triage.Verdict) error {
 		}
 	}
 	switch {
-	case len(v.Leads) > 0 && len(v.Findings) > 0:
-		w.line(1, "None of these explains the %s health. Look first at:", v.Health)
-	case len(v.Leads) > 0:
-		w.line(1, "No known pattern matches. Look first at:")
+	case len(v.Unexplained) > 0 && v.Health >= model.Degraded && !v.Explained:
+		w.blank()
+		w.line(0, "Not explained by a known pattern; look first at")
+	case len(v.Unexplained) > 0:
+		w.blank()
+		w.line(0, "Also seen, not explained by the above")
 	case len(v.Findings) == 0:
-		w.line(1, "Nothing wrong found.")
+		w.line(1, "and nothing else looks wrong")
 	}
-	for _, s := range v.Leads {
-		w.line(2, "· %s: %s", s.Kind, s.Text)
+	for _, s := range v.Unexplained {
+		when := ""
+		if !s.At.IsZero() {
+			when = " (" + age(s.At, ev.Now) + ")"
+		}
+		w.line(1, "· %s: %s%s", s.Kind, s.Text, when)
 	}
 	for _, layer := range triage.Layers {
 		w.blank()

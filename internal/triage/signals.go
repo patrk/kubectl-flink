@@ -20,7 +20,12 @@ type Signal struct {
 	Kind  string `json:"kind"`
 	Text  string `json:"text"`
 	Layer Layer  `json:"layer"`
+	// At is when it happened, for signals that know: events, exceptions, terminations, spec changes.
+	At time.Time `json:"at,omitzero"`
 }
+
+// adder adds a signal; at is given when the signal knows when it happened.
+type adder func(kind string, layer Layer, text string, at ...time.Time)
 
 // Signal kinds. Rules may only name these; the rule loader rejects others.
 const (
@@ -59,9 +64,13 @@ var Kinds = []string{
 // Signals reduces evidence to signals, deduplicated, in a stable order.
 func Signals(ev *Evidence) []Signal {
 	var out []Signal
-	add := func(kind string, layer Layer, text string) {
+	add := func(kind string, layer Layer, text string, at ...time.Time) {
 		if text = strings.TrimSpace(text); text != "" {
-			out = append(out, Signal{Kind: kind, Text: text, Layer: layer})
+			s := Signal{Kind: kind, Text: text, Layer: layer}
+			if len(at) > 0 {
+				s.At = at[0]
+			}
+			out = append(out, s)
 		}
 	}
 	j := ev.Job
@@ -81,12 +90,12 @@ func Signals(ev *Evidence) []Signal {
 		e := &ev.Events[i]
 		switch {
 		case e.Type == "Warning":
-			add(SigEvent, Kubernetes, e.Reason+": "+e.Message)
+			add(SigEvent, Kubernetes, e.Reason+": "+e.Message, e.Last())
 		case e.Reason == "SpecChanged":
 			// "UPGRADE change(s) detected (Diff: FlinkDeploymentSpec[restartNonce : 1 -> 2]), starting ..."
 			if _, diff, ok := strings.Cut(e.Message, "Diff: "); ok {
 				diff, _, _ = strings.Cut(diff, "), ")
-				add(SigSpecChange, Operator, fmt.Sprintf("%s (%s ago)", diff, duration.HumanDuration(ev.Now.Sub(e.Last()))))
+				add(SigSpecChange, Operator, fmt.Sprintf("%s (%s ago)", diff, duration.HumanDuration(ev.Now.Sub(e.Last()))), e.Last())
 			}
 		}
 	}
@@ -107,8 +116,8 @@ func Signals(ev *Evidence) []Signal {
 		recent := 0
 		for i := range r.Exceptions {
 			e := &r.Exceptions[i]
-			add(SigException, Runtime, e.Message())
-			add(SigExceptionCause, Runtime, e.Cause())
+			add(SigException, Runtime, e.Message(), e.Timestamp.Time())
+			add(SigExceptionCause, Runtime, e.Cause(), e.Timestamp.Time())
 			if ev.Now.Sub(e.Timestamp.Time()) <= restartWindow {
 				recent++
 			}
@@ -156,17 +165,19 @@ func Signals(ev *Evidence) []Signal {
 		haSignals(ev.HA, j, add)
 	}
 	slices.SortStableFunc(out, func(a, b Signal) int { return strings.Compare(a.Kind, b.Kind) })
-	seen := map[Signal]bool{}
+	type key struct{ kind, text string }
+	seen := map[key]bool{}
 	return slices.DeleteFunc(out, func(s Signal) bool {
-		dup := seen[s]
-		seen[s] = true
+		k := key{s.Kind, s.Text}
+		dup := seen[k]
+		seen[k] = true
 		return dup
 	})
 }
 
 // podSignals ends every pod signal with the pod's component, such as "(taskmanager)", so that a rule can tell a
 // crashing JobManager from a crashing TaskManager.
-func podSignals(p *kube.Pod, add func(kind string, layer Layer, text string)) {
+func podSignals(p *kube.Pod, add adder) {
 	component := " (" + cmp.Or(p.Labels[kube.LabelComponent], "pod") + ")"
 	for _, c := range p.Status.Conditions {
 		if c.Type == "PodScheduled" && c.Status == "False" {
@@ -179,7 +190,7 @@ func podSignals(p *kube.Pod, add func(kind string, layer Layer, text string)) {
 		}
 		for _, t := range []*kube.ContainerTerminated{cs.State.Terminated, cs.LastState.Terminated} {
 			if t != nil && (t.Reason != "Completed" || t.ExitCode != 0) {
-				add(SigPodTerminated, Kubernetes, strings.TrimSuffix(fmt.Sprintf("%s exit %d: %s", t.Reason, t.ExitCode, t.Message), ": ")+component)
+				add(SigPodTerminated, Kubernetes, strings.TrimSuffix(fmt.Sprintf("%s exit %d: %s", t.Reason, t.ExitCode, t.Message), ": ")+component, t.FinishedAt.Time)
 			}
 		}
 	}

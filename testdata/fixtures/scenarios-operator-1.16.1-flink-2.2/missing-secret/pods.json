@@ -8,7 +8,7 @@
                 "annotations": {
                     "flinkdeployment.flink.apache.org/generation": "1"
                 },
-                "creationTimestamp": "2026-10-24T19:40:16Z",
+                "creationTimestamp": "2026-10-24T20:32:28Z",
                 "generateName": "missing-secret-574d597f6d-",
                 "generation": 1,
                 "labels": {
@@ -17,7 +17,7 @@
                     "pod-template-hash": "574d597f6d",
                     "type": "flink-native-kubernetes"
                 },
-                "name": "missing-secret-574d597f6d-s8dfc",
+                "name": "missing-secret-574d597f6d-l2v8j",
                 "namespace": "default",
                 "ownerReferences": [
                     {
@@ -26,11 +26,11 @@
                         "controller": true,
                         "kind": "ReplicaSet",
                         "name": "missing-secret-574d597f6d",
-                        "uid": "1015e9de-a056-44ac-bd4d-3c996b1cc77c"
+                        "uid": "91a5560e-8ca1-489d-90a9-66b6afa0ef58"
                     }
                 ],
-                "resourceVersion": "48051",
-                "uid": "a66c99de-7bea-406c-bc29-41a0f64d4bfc"
+                "resourceVersion": "54534",
+                "uid": "270f557a-7a59-4efc-8135-b25bd8519be7"
             },
             "spec": {
                 "containers": [
@@ -116,7 +116,7 @@
                             },
                             {
                                 "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
-                                "name": "kube-api-access-8xlj4",
+                                "name": "kube-api-access-xdphf",
                                 "readOnly": true
                             }
                         ]
@@ -190,7 +190,7 @@
                         "name": "pod-template-volume"
                     },
                     {
-                        "name": "kube-api-access-8xlj4",
+                        "name": "kube-api-access-xdphf",
                         "projected": {
                             "defaultMode": 420,
                             "sources": [
@@ -237,7 +237,7 @@
                 "conditions": [
                     {
                         "lastProbeTime": null,
-                        "lastTransitionTime": "2026-10-24T19:40:16Z",
+                        "lastTransitionTime": "2026-10-24T20:32:28Z",
                         "message": "no pod sandbox exists",
                         "observedGeneration": 1,
                         "reason": "PodSandboxNotReady",
@@ -246,14 +246,14 @@
                     },
                     {
                         "lastProbeTime": null,
-                        "lastTransitionTime": "2026-10-24T19:40:16Z",
+                        "lastTransitionTime": "2026-10-24T20:32:28Z",
                         "observedGeneration": 1,
                         "status": "True",
                         "type": "Initialized"
                     },
                     {
                         "lastProbeTime": null,
-                        "lastTransitionTime": "2026-10-24T19:40:16Z",
+                        "lastTransitionTime": "2026-10-24T20:32:28Z",
                         "message": "containers with unready status: [flink-main-container]",
                         "observedGeneration": 1,
                         "reason": "ContainersNotReady",
@@ -262,7 +262,7 @@
                     },
                     {
                         "lastProbeTime": null,
-                        "lastTransitionTime": "2026-10-24T19:40:16Z",
+                        "lastTransitionTime": "2026-10-24T20:32:28Z",
                         "message": "containers with unready status: [flink-main-container]",
                         "observedGeneration": 1,
                         "reason": "ContainersNotReady",
@@ -271,7 +271,7 @@
                     },
                     {
                         "lastProbeTime": null,
-                        "lastTransitionTime": "2026-10-24T19:40:16Z",
+                        "lastTransitionTime": "2026-10-24T20:32:28Z",
                         "observedGeneration": 1,
                         "status": "True",
                         "type": "PodScheduled"
@@ -310,7 +310,7 @@
                             },
                             {
                                 "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
-                                "name": "kube-api-access-8xlj4",
+                                "name": "kube-api-access-xdphf",
                                 "readOnly": true,
                                 "recursiveReadOnly": "Disabled"
                             }
@@ -336,7 +336,7 @@
                         "memory": "1Gi"
                     }
                 },
-                "startTime": "2026-10-24T19:40:16Z"
+                "startTime": "2026-10-24T20:32:28Z"
             }
         }
     ],

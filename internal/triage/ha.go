@@ -64,7 +64,7 @@ func collectHA(ctx context.Context, kc *kube.Client, namespace, cluster string) 
 // haSignals reports HA state that does not belong to the current job: on restart, the JobManager recovers
 // every stored job plan, so a leftover one runs an old job next to, or instead of, the current one. Only an
 // application cluster with a known job can tell; a session cluster runs several jobs by design.
-func haSignals(st *HAState, j *model.Job, add func(kind string, layer Layer, text string)) {
+func haSignals(st *HAState, j *model.Job, add adder) {
 	jobID := j.JobID
 	if j.Kind != model.KindDeployment || j.SessionCluster || jobID == "" {
 		return

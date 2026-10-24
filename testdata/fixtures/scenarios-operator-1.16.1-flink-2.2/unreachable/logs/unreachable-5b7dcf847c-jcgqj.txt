@@ -1,0 +1,300 @@
+2026-10-24 20:33:31,244 INFO  org.apache.flink.kubernetes.KubernetesResourceManagerDriver  [] - Received new TaskManager pod: unreachable-taskmanager-1-1
+2026-10-24 20:33:31,244 INFO  org.apache.flink.runtime.resourcemanager.active.ActiveResourceManager [] - Requested worker unreachable-taskmanager-1-1 with resource spec WorkerResourceSpec {cpuCores=0.5, taskHeapSize=25.600mb (26843542 bytes), taskOffHeapSize=0 bytes, networkMemSize=64.000mb (67108864 bytes), managedMemSize=230.400mb (241591914 bytes), numSlots=1}.
+2026-10-24 20:33:38,261 INFO  org.apache.flink.runtime.resourcemanager.active.ActiveResourceManager [] - Registering TaskManager with ResourceID unreachable-taskmanager-1-1 (pekko.tcp://flink@10.244.0.101:6122/user/rpc/taskmanager_0) at ResourceManager
+2026-10-24 20:33:38,312 INFO  org.apache.flink.runtime.resourcemanager.slotmanager.FineGrainedSlotManager [] - Registering task executor unreachable-taskmanager-1-1 under 51c6d616acea9a30494c00bb362f9e17 at the slot manager.
+2026-10-24 20:33:38,313 INFO  org.apache.flink.runtime.resourcemanager.slotmanager.DefaultSlotStatusSyncer [] - Starting allocation of slot c5104920a1bff9b65c53a294a1343887 from unreachable-taskmanager-1-1 for job c5810351640e925f97de9a0e3c475dcc with resource profile ResourceProfile{cpuCores=0.5, taskHeapMemory=25.600mb (26843542 bytes), taskOffHeapMemory=0 bytes, managedMemory=230.400mb (241591914 bytes), networkMemory=64.000mb (67108864 bytes)}.
+2026-10-24 20:33:38,314 INFO  org.apache.flink.runtime.resourcemanager.active.ActiveResourceManager [] - Worker unreachable-taskmanager-1-1 is registered.
+2026-10-24 20:33:38,315 INFO  org.apache.flink.runtime.resourcemanager.active.ActiveResourceManager [] - Worker unreachable-taskmanager-1-1 with resource spec WorkerResourceSpec {cpuCores=0.5, taskHeapSize=25.600mb (26843542 bytes), taskOffHeapSize=0 bytes, networkMemSize=64.000mb (67108864 bytes), managedMemSize=230.400mb (241591914 bytes), numSlots=1} was requested in current attempt. Current pending count after registering: 0.
+2026-10-24 20:33:38,426 INFO  org.apache.flink.runtime.executiongraph.ExecutionGraph       [] - Source: Socket Stream -> Flat Map (1/1) (5ab9d3e01b383e981b6746fa15fc5c29_cbc357ccb763df2852fee8c4fc7d55f2_0_0) switched from SCHEDULED to DEPLOYING.
+2026-10-24 20:33:44,429 INFO  org.apache.flink.runtime.executiongraph.ExecutionGraph       [] - Deploying Source: Socket Stream -> Flat Map (1/1) (attempt #0) with attempt id 5ab9d3e01b383e981b6746fa15fc5c29_cbc357ccb763df2852fee8c4fc7d55f2_0_0 and vertex id cbc357ccb763df2852fee8c4fc7d55f2_0 to unreachable-taskmanager-1-1 @ 10.244.0.101 (dataPort=35363) with allocation id c5104920a1bff9b65c53a294a1343887
+2026-10-24 20:33:44,430 INFO  org.apache.flink.runtime.executiongraph.ExecutionGraph       [] - TumblingProcessingTimeWindows -> Sink: Print to Std. Out (1/1) (5ab9d3e01b383e981b6746fa15fc5c29_90bea66de1c231edf33913ecd54406c1_0_0) switched from SCHEDULED to DEPLOYING.
+2026-10-24 20:33:44,430 INFO  org.apache.flink.runtime.executiongraph.ExecutionGraph       [] - Deploying TumblingProcessingTimeWindows -> Sink: Print to Std. Out (1/1) (attempt #0) with attempt id 5ab9d3e01b383e981b6746fa15fc5c29_90bea66de1c231edf33913ecd54406c1_0_0 and vertex id 90bea66de1c231edf33913ecd54406c1_0 to unreachable-taskmanager-1-1 @ 10.244.0.101 (dataPort=35363) with allocation id c5104920a1bff9b65c53a294a1343887
+2026-10-24 20:33:44,623 INFO  org.apache.flink.runtime.executiongraph.ExecutionGraph       [] - TumblingProcessingTimeWindows -> Sink: Print to Std. Out (1/1) (5ab9d3e01b383e981b6746fa15fc5c29_90bea66de1c231edf33913ecd54406c1_0_0) switched from DEPLOYING to INITIALIZING.
+2026-10-24 20:33:44,623 INFO  org.apache.flink.runtime.executiongraph.ExecutionGraph       [] - Source: Socket Stream -> Flat Map (1/1) (5ab9d3e01b383e981b6746fa15fc5c29_cbc357ccb763df2852fee8c4fc7d55f2_0_0) switched from DEPLOYING to INITIALIZING.
+2026-10-24 20:33:44,921 INFO  org.apache.flink.runtime.executiongraph.ExecutionGraph       [] - Source: Socket Stream -> Flat Map (1/1) (5ab9d3e01b383e981b6746fa15fc5c29_cbc357ccb763df2852fee8c4fc7d55f2_0_0) switched from INITIALIZING to RUNNING.
+2026-10-24 20:33:45,010 INFO  org.apache.flink.runtime.executiongraph.ExecutionGraph       [] - TumblingProcessingTimeWindows -> Sink: Print to Std. Out (1/1) (5ab9d3e01b383e981b6746fa15fc5c29_90bea66de1c231edf33913ecd54406c1_0_0) switched from INITIALIZING to RUNNING.
+2026-10-24 20:33:58,158 WARN  org.apache.flink.runtime.webmonitor.retriever.impl.RpcGatewayRetriever [] - Error while retrieving the leader gateway. Retrying to connect to pekko.tcp://flink@unreachable.default:6123/user/rpc/resourcemanager_*.
+2026-10-24 20:33:58,159 ERROR org.apache.flink.runtime.rest.handler.taskmanager.TaskManagersHandler [] - Exception occurred in REST handler: Cannot connect to ResourceManager right now. Please try to refresh.
+2026-10-24 20:33:59,939 INFO  org.apache.flink.runtime.executiongraph.ExecutionGraph       [] - Source: Socket Stream -> Flat Map (1/1) (5ab9d3e01b383e981b6746fa15fc5c29_cbc357ccb763df2852fee8c4fc7d55f2_0_0) switched from RUNNING to FAILED on unreachable-taskmanager-1-1 @ 10.244.0.101 (dataPort=35363).
+java.net.UnknownHostException: nowhere.invalid
+	at java.base/sun.nio.ch.NioSocketImpl.connect(Unknown Source) ~[?:?]
+	at java.base/java.net.SocksSocketImpl.connect(Unknown Source) ~[?:?]
+	at java.base/java.net.Socket.connect(Unknown Source) ~[?:?]
+	at org.apache.flink.streaming.api.functions.source.legacy.SocketTextStreamFunction.run(SocketTextStreamFunction.java:107) ~[flink-dist-2.2.1.jar:2.2.1]
+	at org.apache.flink.streaming.api.operators.StreamSource.run(StreamSource.java:107) ~[flink-dist-2.2.1.jar:2.2.1]
+	at org.apache.flink.streaming.api.operators.StreamSource.run(StreamSource.java:68) ~[flink-dist-2.2.1.jar:2.2.1]
+	at org.apache.flink.streaming.runtime.tasks.SourceStreamTask$LegacySourceFunctionThread.run(SourceStreamTask.java:346) ~[flink-dist-2.2.1.jar:2.2.1]
+2026-10-24 20:33:59,943 INFO  org.apache.flink.runtime.executiongraph.ExecutionGraph       [] - Job Socket Window WordCount (c5810351640e925f97de9a0e3c475dcc) switched from state RUNNING to FAILING.
+org.apache.flink.runtime.JobException: Recovery is suppressed by NoRestartBackoffTimeStrategy
+	at org.apache.flink.runtime.executiongraph.failover.ExecutionFailureHandler.handleFailure(ExecutionFailureHandler.java:213) ~[flink-dist-2.2.1.jar:2.2.1]
+	at org.apache.flink.runtime.executiongraph.failover.ExecutionFailureHandler.handleFailureAndReport(ExecutionFailureHandler.java:163) ~[flink-dist-2.2.1.jar:2.2.1]
+	at org.apache.flink.runtime.executiongraph.failover.ExecutionFailureHandler.getFailureHandlingResult(ExecutionFailureHandler.java:118) ~[flink-dist-2.2.1.jar:2.2.1]
+	at org.apache.flink.runtime.scheduler.DefaultScheduler.recordTaskFailure(DefaultScheduler.java:294) ~[flink-dist-2.2.1.jar:2.2.1]
+	at org.apache.flink.runtime.scheduler.DefaultScheduler.handleTaskFailure(DefaultScheduler.java:285) ~[flink-dist-2.2.1.jar:2.2.1]
+	at org.apache.flink.runtime.scheduler.DefaultScheduler.onTaskFailed(DefaultScheduler.java:278) ~[flink-dist-2.2.1.jar:2.2.1]
+	at org.apache.flink.runtime.scheduler.SchedulerBase.onTaskExecutionStateUpdate(SchedulerBase.java:836) ~[flink-dist-2.2.1.jar:2.2.1]
+	at org.apache.flink.runtime.scheduler.SchedulerBase.updateTaskExecutionState(SchedulerBase.java:813) ~[flink-dist-2.2.1.jar:2.2.1]
+	at org.apache.flink.runtime.scheduler.SchedulerNG.updateTaskExecutionState(SchedulerNG.java:83) ~[flink-dist-2.2.1.jar:2.2.1]
+	at org.apache.flink.runtime.jobmaster.JobMaster.updateTaskExecutionState(JobMaster.java:532) ~[flink-dist-2.2.1.jar:2.2.1]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:?]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(Unknown Source) ~[?:?]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source) ~[?:?]
+	at java.base/java.lang.reflect.Method.invoke(Unknown Source) ~[?:?]
+	at org.apache.flink.runtime.rpc.pekko.PekkoRpcActor.lambda$handleRpcInvocation$1(PekkoRpcActor.java:318) ~[flink-rpc-akka2633bb1b-dbe2-4dab-9d56-da56c804bce7.jar:2.2.1]
+	at org.apache.flink.runtime.concurrent.ClassLoadingUtils.runWithContextClassLoader(ClassLoadingUtils.java:83) ~[flink-dist-2.2.1.jar:2.2.1]
+	at org.apache.flink.runtime.rpc.pekko.PekkoRpcActor.handleRpcInvocation(PekkoRpcActor.java:316) ~[flink-rpc-akka2633bb1b-dbe2-4dab-9d56-da56c804bce7.jar:2.2.1]
+	at org.apache.flink.runtime.rpc.pekko.PekkoRpcActor.handleRpcMessage(PekkoRpcActor.java:229) ~[flink-rpc-akka2633bb1b-dbe2-4dab-9d56-da56c804bce7.jar:2.2.1]
+	at org.apache.flink.runtime.rpc.pekko.FencedPekkoRpcActor.handleRpcMessage(FencedPekkoRpcActor.java:88) ~[flink-rpc-akka2633bb1b-dbe2-4dab-9d56-da56c804bce7.jar:2.2.1]
+	at org.apache.flink.runtime.rpc.pekko.PekkoRpcActor.handleMessage(PekkoRpcActor.java:174) ~[flink-rpc-akka2633bb1b-dbe2-4dab-9d56-da56c804bce7.jar:2.2.1]
+	at org.apache.pekko.japi.pf.UnitCaseStatement.apply(CaseStatements.scala:33) [flink-rpc-akka2633bb1b-dbe2-4dab-9d56-da56c804bce7.jar:2.2.1]
+	at org.apache.pekko.japi.pf.UnitCaseStatement.apply(CaseStatements.scala:29) [flink-rpc-akka2633bb1b-dbe2-4dab-9d56-da56c804bce7.jar:2.2.1]
+	at scala.PartialFunction.applyOrElse(PartialFunction.scala:127) [flink-rpc-akka2633bb1b-dbe2-4dab-9d56-da56c804bce7.jar:2.2.1]
+	at scala.PartialFunction.applyOrElse$(PartialFunction.scala:126) [flink-rpc-akka2633bb1b-dbe2-4dab-9d56-da56c804bce7.jar:2.2.1]
+	at org.apache.pekko.japi.pf.UnitCaseStatement.applyOrElse(CaseStatements.scala:29) [flink-rpc-akka2633bb1b-dbe2-4dab-9d56-da56c804bce7.jar:2.2.1]
+	at scala.PartialFunction$OrElse.applyOrElse(PartialFunction.scala:175) [flink-rpc-akka2633bb1b-dbe2-4dab-9d56-da56c804bce7.jar:2.2.1]
+	at scala.PartialFunction$OrElse.applyOrElse(PartialFunction.scala:176) [flink-rpc-akka2633bb1b-dbe2-4dab-9d56-da56c804bce7.jar:2.2.1]
+	at scala.PartialFunction$OrElse.applyOrElse(PartialFunction.scala:176) [flink-rpc-akka2633bb1b-dbe2-4dab-9d56-da56c804bce7.jar:2.2.1]
+	at org.apache.pekko.actor.Actor.aroundReceive(Actor.scala:547) [flink-rpc-akka2633bb1b-dbe2-4dab-9d56-da56c804bce7.jar:2.2.1]
+	at org.apache.pekko.actor.Actor.aroundReceive$(Actor.scala:545) [flink-rpc-akka2633bb1b-dbe2-4dab-9d56-da56c804bce7.jar:2.2.1]
+	at org.apache.pekko.actor.AbstractActor.aroundReceive(AbstractActor.scala:229) [flink-rpc-akka2633bb1b-dbe2-4dab-9d56-da56c804bce7.jar:2.2.1]
+	at org.apache.pekko.actor.ActorCell.receiveMessage(ActorCell.scala:590) [flink-rpc-akka2633bb1b-dbe2-4dab-9d56-da56c804bce7.jar:2.2.1]
+	at org.apache.pekko.actor.ActorCell.invoke(ActorCell.scala:557) [flink-rpc-akka2633bb1b-dbe2-4dab-9d56-da56c804bce7.jar:2.2.1]
+	at org.apache.pekko.dispatch.Mailbox.processMailbox(Mailbox.scala:272) [flink-rpc-akka2633bb1b-dbe2-4dab-9d56-da56c804bce7.jar:2.2.1]
+	at org.apache.pekko.dispatch.Mailbox.run(Mailbox.scala:233) [flink-rpc-akka2633bb1b-dbe2-4dab-9d56-da56c804bce7.jar:2.2.1]
+	at org.apache.pekko.dispatch.Mailbox.exec(Mailbox.scala:245) [flink-rpc-akka2633bb1b-dbe2-4dab-9d56-da56c804bce7.jar:2.2.1]
+	at java.base/java.util.concurrent.ForkJoinTask.doExec(Unknown Source) [?:?]
+	at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(Unknown Source) [?:?]
+	at java.base/java.util.concurrent.ForkJoinPool.scan(Unknown Source) [?:?]
+	at java.base/java.util.concurrent.ForkJoinPool.runWorker(Unknown Source) [?:?]
+	at java.base/java.util.concurrent.ForkJoinWorkerThread.run(Unknown Source) [?:?]
+Caused by: java.net.UnknownHostException: nowhere.invalid
+	at java.base/sun.nio.ch.NioSocketImpl.connect(Unknown Source) ~[?:?]
+	at java.base/java.net.SocksSocketImpl.connect(Unknown Source) ~[?:?]
+	at java.base/java.net.Socket.connect(Unknown Source) ~[?:?]
+	at org.apache.flink.streaming.api.functions.source.legacy.SocketTextStreamFunction.run(SocketTextStreamFunction.java:107) ~[flink-dist-2.2.1.jar:2.2.1]
+	at org.apache.flink.streaming.api.operators.StreamSource.run(StreamSource.java:107) ~[flink-dist-2.2.1.jar:2.2.1]
+	at org.apache.flink.streaming.api.operators.StreamSource.run(StreamSource.java:68) ~[flink-dist-2.2.1.jar:2.2.1]
+	at org.apache.flink.streaming.runtime.tasks.SourceStreamTask$LegacySourceFunctionThread.run(SourceStreamTask.java:346) ~[flink-dist-2.2.1.jar:2.2.1]
+2026-10-24 20:33:59,944 INFO  org.apache.flink.runtime.executiongraph.ExecutionGraph       [] - TumblingProcessingTimeWindows -> Sink: Print to Std. Out (1/1) (5ab9d3e01b383e981b6746fa15fc5c29_90bea66de1c231edf33913ecd54406c1_0_0) switched from RUNNING to CANCELING.
+2026-10-24 20:33:59,950 INFO  org.apache.flink.runtime.executiongraph.ExecutionGraph       [] - TumblingProcessingTimeWindows -> Sink: Print to Std. Out (1/1) (5ab9d3e01b383e981b6746fa15fc5c29_90bea66de1c231edf33913ecd54406c1_0_0) switched from CANCELING to CANCELED.
+2026-10-24 20:33:59,950 INFO  org.apache.flink.runtime.executiongraph.ExecutionGraph       [] - Job Socket Window WordCount (c5810351640e925f97de9a0e3c475dcc) switched from state FAILING to FAILED.
+org.apache.flink.runtime.JobException: Recovery is suppressed by NoRestartBackoffTimeStrategy
+	at org.apache.flink.runtime.executiongraph.failover.ExecutionFailureHandler.handleFailure(ExecutionFailureHandler.java:213) ~[flink-dist-2.2.1.jar:2.2.1]
+	at org.apache.flink.runtime.executiongraph.failover.ExecutionFailureHandler.handleFailureAndReport(ExecutionFailureHandler.java:163) ~[flink-dist-2.2.1.jar:2.2.1]
+	at org.apache.flink.runtime.executiongraph.failover.ExecutionFailureHandler.getFailureHandlingResult(ExecutionFailureHandler.java:118) ~[flink-dist-2.2.1.jar:2.2.1]
+	at org.apache.flink.runtime.scheduler.DefaultScheduler.recordTaskFailure(DefaultScheduler.java:294) ~[flink-dist-2.2.1.jar:2.2.1]
+	at org.apache.flink.runtime.scheduler.DefaultScheduler.handleTaskFailure(DefaultScheduler.java:285) ~[flink-dist-2.2.1.jar:2.2.1]
+	at org.apache.flink.runtime.scheduler.DefaultScheduler.onTaskFailed(DefaultScheduler.java:278) ~[flink-dist-2.2.1.jar:2.2.1]
+	at org.apache.flink.runtime.scheduler.SchedulerBase.onTaskExecutionStateUpdate(SchedulerBase.java:836) ~[flink-dist-2.2.1.jar:2.2.1]
+	at org.apache.flink.runtime.scheduler.SchedulerBase.updateTaskExecutionState(SchedulerBase.java:813) ~[flink-dist-2.2.1.jar:2.2.1]
+	at org.apache.flink.runtime.scheduler.SchedulerNG.updateTaskExecutionState(SchedulerNG.java:83) ~[flink-dist-2.2.1.jar:2.2.1]
+	at org.apache.flink.runtime.jobmaster.JobMaster.updateTaskExecutionState(JobMaster.java:532) ~[flink-dist-2.2.1.jar:2.2.1]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:?]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(Unknown Source) ~[?:?]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source) ~[?:?]
+	at java.base/java.lang.reflect.Method.invoke(Unknown Source) ~[?:?]
+	at org.apache.flink.runtime.rpc.pekko.PekkoRpcActor.lambda$handleRpcInvocation$1(PekkoRpcActor.java:318) ~[flink-rpc-akka2633bb1b-dbe2-4dab-9d56-da56c804bce7.jar:2.2.1]
+	at org.apache.flink.runtime.concurrent.ClassLoadingUtils.runWithContextClassLoader(ClassLoadingUtils.java:83) ~[flink-dist-2.2.1.jar:2.2.1]
+	at org.apache.flink.runtime.rpc.pekko.PekkoRpcActor.handleRpcInvocation(PekkoRpcActor.java:316) ~[flink-rpc-akka2633bb1b-dbe2-4dab-9d56-da56c804bce7.jar:2.2.1]
+	at org.apache.flink.runtime.rpc.pekko.PekkoRpcActor.handleRpcMessage(PekkoRpcActor.java:229) ~[flink-rpc-akka2633bb1b-dbe2-4dab-9d56-da56c804bce7.jar:2.2.1]
+	at org.apache.flink.runtime.rpc.pekko.FencedPekkoRpcActor.handleRpcMessage(FencedPekkoRpcActor.java:88) ~[flink-rpc-akka2633bb1b-dbe2-4dab-9d56-da56c804bce7.jar:2.2.1]
+	at org.apache.flink.runtime.rpc.pekko.PekkoRpcActor.handleMessage(PekkoRpcActor.java:174) ~[flink-rpc-akka2633bb1b-dbe2-4dab-9d56-da56c804bce7.jar:2.2.1]
+	at org.apache.pekko.japi.pf.UnitCaseStatement.apply(CaseStatements.scala:33) [flink-rpc-akka2633bb1b-dbe2-4dab-9d56-da56c804bce7.jar:2.2.1]
+	at org.apache.pekko.japi.pf.UnitCaseStatement.apply(CaseStatements.scala:29) [flink-rpc-akka2633bb1b-dbe2-4dab-9d56-da56c804bce7.jar:2.2.1]
+	at scala.PartialFunction.applyOrElse(PartialFunction.scala:127) [flink-rpc-akka2633bb1b-dbe2-4dab-9d56-da56c804bce7.jar:2.2.1]
+	at scala.PartialFunction.applyOrElse$(PartialFunction.scala:126) [flink-rpc-akka2633bb1b-dbe2-4dab-9d56-da56c804bce7.jar:2.2.1]
+	at org.apache.pekko.japi.pf.UnitCaseStatement.applyOrElse(CaseStatements.scala:29) [flink-rpc-akka2633bb1b-dbe2-4dab-9d56-da56c804bce7.jar:2.2.1]
+	at scala.PartialFunction$OrElse.applyOrElse(PartialFunction.scala:175) [flink-rpc-akka2633bb1b-dbe2-4dab-9d56-da56c804bce7.jar:2.2.1]
+	at scala.PartialFunction$OrElse.applyOrElse(PartialFunction.scala:176) [flink-rpc-akka2633bb1b-dbe2-4dab-9d56-da56c804bce7.jar:2.2.1]
+	at scala.PartialFunction$OrElse.applyOrElse(PartialFunction.scala:176) [flink-rpc-akka2633bb1b-dbe2-4dab-9d56-da56c804bce7.jar:2.2.1]
+	at org.apache.pekko.actor.Actor.aroundReceive(Actor.scala:547) [flink-rpc-akka2633bb1b-dbe2-4dab-9d56-da56c804bce7.jar:2.2.1]
+	at org.apache.pekko.actor.Actor.aroundReceive$(Actor.scala:545) [flink-rpc-akka2633bb1b-dbe2-4dab-9d56-da56c804bce7.jar:2.2.1]
+	at org.apache.pekko.actor.AbstractActor.aroundReceive(AbstractActor.scala:229) [flink-rpc-akka2633bb1b-dbe2-4dab-9d56-da56c804bce7.jar:2.2.1]
+	at org.apache.pekko.actor.ActorCell.receiveMessage(ActorCell.scala:590) [flink-rpc-akka2633bb1b-dbe2-4dab-9d56-da56c804bce7.jar:2.2.1]
+	at org.apache.pekko.actor.ActorCell.invoke(ActorCell.scala:557) [flink-rpc-akka2633bb1b-dbe2-4dab-9d56-da56c804bce7.jar:2.2.1]
+	at org.apache.pekko.dispatch.Mailbox.processMailbox(Mailbox.scala:272) [flink-rpc-akka2633bb1b-dbe2-4dab-9d56-da56c804bce7.jar:2.2.1]
+	at org.apache.pekko.dispatch.Mailbox.run(Mailbox.scala:233) [flink-rpc-akka2633bb1b-dbe2-4dab-9d56-da56c804bce7.jar:2.2.1]
+	at org.apache.pekko.dispatch.Mailbox.exec(Mailbox.scala:245) [flink-rpc-akka2633bb1b-dbe2-4dab-9d56-da56c804bce7.jar:2.2.1]
+	at java.base/java.util.concurrent.ForkJoinTask.doExec(Unknown Source) [?:?]
+	at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(Unknown Source) [?:?]
+	at java.base/java.util.concurrent.ForkJoinPool.scan(Unknown Source) [?:?]
+	at java.base/java.util.concurrent.ForkJoinPool.runWorker(Unknown Source) [?:?]
+	at java.base/java.util.concurrent.ForkJoinWorkerThread.run(Unknown Source) [?:?]
+Caused by: java.net.UnknownHostException: nowhere.invalid
+	at java.base/sun.nio.ch.NioSocketImpl.connect(Unknown Source) ~[?:?]
+	at java.base/java.net.SocksSocketImpl.connect(Unknown Source) ~[?:?]
+	at java.base/java.net.Socket.connect(Unknown Source) ~[?:?]
+	at org.apache.flink.streaming.api.functions.source.legacy.SocketTextStreamFunction.run(SocketTextStreamFunction.java:107) ~[flink-dist-2.2.1.jar:2.2.1]
+	at org.apache.flink.streaming.api.operators.StreamSource.run(StreamSource.java:107) ~[flink-dist-2.2.1.jar:2.2.1]
+	at org.apache.flink.streaming.api.operators.StreamSource.run(StreamSource.java:68) ~[flink-dist-2.2.1.jar:2.2.1]
+	at org.apache.flink.streaming.runtime.tasks.SourceStreamTask$LegacySourceFunctionThread.run(SourceStreamTask.java:346) ~[flink-dist-2.2.1.jar:2.2.1]
+2026-10-24 20:33:59,951 INFO  org.apache.flink.runtime.checkpoint.CheckpointCoordinator    [] - Stopping checkpoint coordinator for job c5810351640e925f97de9a0e3c475dcc.
+2026-10-24 20:33:59,952 WARN  org.apache.flink.runtime.taskmanager.TaskManagerLocation     [] - No hostname could be resolved for the IP address 10.244.0.101, using IP address as host name. Local input split assignment (such as for HDFS files) may be impacted.
+2026-10-24 20:33:59,954 INFO  org.apache.flink.runtime.dispatcher.StandaloneDispatcher     [] - Job c5810351640e925f97de9a0e3c475dcc reached terminal state FAILED.
+org.apache.flink.runtime.JobException: Recovery is suppressed by NoRestartBackoffTimeStrategy
+	at org.apache.flink.runtime.executiongraph.failover.ExecutionFailureHandler.handleFailure(ExecutionFailureHandler.java:213)
+	at org.apache.flink.runtime.executiongraph.failover.ExecutionFailureHandler.handleFailureAndReport(ExecutionFailureHandler.java:163)
+	at org.apache.flink.runtime.executiongraph.failover.ExecutionFailureHandler.getFailureHandlingResult(ExecutionFailureHandler.java:118)
+	at org.apache.flink.runtime.scheduler.DefaultScheduler.recordTaskFailure(DefaultScheduler.java:294)
+	at org.apache.flink.runtime.scheduler.DefaultScheduler.handleTaskFailure(DefaultScheduler.java:285)
+	at org.apache.flink.runtime.scheduler.DefaultScheduler.onTaskFailed(DefaultScheduler.java:278)
+	at org.apache.flink.runtime.scheduler.SchedulerBase.onTaskExecutionStateUpdate(SchedulerBase.java:836)
+	at org.apache.flink.runtime.scheduler.SchedulerBase.updateTaskExecutionState(SchedulerBase.java:813)
+	at org.apache.flink.runtime.scheduler.SchedulerNG.updateTaskExecutionState(SchedulerNG.java:83)
+	at org.apache.flink.runtime.jobmaster.JobMaster.updateTaskExecutionState(JobMaster.java:532)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.base/java.lang.reflect.Method.invoke(Unknown Source)
+	at org.apache.flink.runtime.rpc.pekko.PekkoRpcActor.lambda$handleRpcInvocation$1(PekkoRpcActor.java:318)
+	at org.apache.flink.runtime.concurrent.ClassLoadingUtils.runWithContextClassLoader(ClassLoadingUtils.java:83)
+	at org.apache.flink.runtime.rpc.pekko.PekkoRpcActor.handleRpcInvocation(PekkoRpcActor.java:316)
+	at org.apache.flink.runtime.rpc.pekko.PekkoRpcActor.handleRpcMessage(PekkoRpcActor.java:229)
+	at org.apache.flink.runtime.rpc.pekko.FencedPekkoRpcActor.handleRpcMessage(FencedPekkoRpcActor.java:88)
+	at org.apache.flink.runtime.rpc.pekko.PekkoRpcActor.handleMessage(PekkoRpcActor.java:174)
+	at org.apache.pekko.japi.pf.UnitCaseStatement.apply(CaseStatements.scala:33)
+	at org.apache.pekko.japi.pf.UnitCaseStatement.apply(CaseStatements.scala:29)
+	at scala.PartialFunction.applyOrElse(PartialFunction.scala:127)
+	at scala.PartialFunction.applyOrElse$(PartialFunction.scala:126)
+	at org.apache.pekko.japi.pf.UnitCaseStatement.applyOrElse(CaseStatements.scala:29)
+	at scala.PartialFunction$OrElse.applyOrElse(PartialFunction.scala:175)
+	at scala.PartialFunction$OrElse.applyOrElse(PartialFunction.scala:176)
+	at scala.PartialFunction$OrElse.applyOrElse(PartialFunction.scala:176)
+	at org.apache.pekko.actor.Actor.aroundReceive(Actor.scala:547)
+	at org.apache.pekko.actor.Actor.aroundReceive$(Actor.scala:545)
+	at org.apache.pekko.actor.AbstractActor.aroundReceive(AbstractActor.scala:229)
+	at org.apache.pekko.actor.ActorCell.receiveMessage(ActorCell.scala:590)
+	at org.apache.pekko.actor.ActorCell.invoke(ActorCell.scala:557)
+	at org.apache.pekko.dispatch.Mailbox.processMailbox(Mailbox.scala:272)
+	at org.apache.pekko.dispatch.Mailbox.run(Mailbox.scala:233)
+	at org.apache.pekko.dispatch.Mailbox.exec(Mailbox.scala:245)
+	at java.base/java.util.concurrent.ForkJoinTask.doExec(Unknown Source)
+	at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(Unknown Source)
+	at java.base/java.util.concurrent.ForkJoinPool.scan(Unknown Source)
+	at java.base/java.util.concurrent.ForkJoinPool.runWorker(Unknown Source)
+	at java.base/java.util.concurrent.ForkJoinWorkerThread.run(Unknown Source)
+Caused by: java.net.UnknownHostException: nowhere.invalid
+	at java.base/sun.nio.ch.NioSocketImpl.connect(Unknown Source)
+	at java.base/java.net.SocksSocketImpl.connect(Unknown Source)
+	at java.base/java.net.Socket.connect(Unknown Source)
+	at org.apache.flink.streaming.api.functions.source.legacy.SocketTextStreamFunction.run(SocketTextStreamFunction.java:107)
+	at org.apache.flink.streaming.api.operators.StreamSource.run(StreamSource.java:107)
+	at org.apache.flink.streaming.api.operators.StreamSource.run(StreamSource.java:68)
+	at org.apache.flink.streaming.runtime.tasks.SourceStreamTask$LegacySourceFunctionThread.run(SourceStreamTask.java:346)
+2026-10-24 20:33:59,955 INFO  org.apache.flink.runtime.jobmaster.JobMaster                 [] - Stopping the JobMaster for job 'Socket Window WordCount' (c5810351640e925f97de9a0e3c475dcc).
+2026-10-24 20:33:59,956 INFO  org.apache.flink.runtime.checkpoint.StandaloneCompletedCheckpointStore [] - Shutting down
+2026-10-24 20:33:59,957 INFO  org.apache.flink.runtime.jobmaster.slotpool.DefaultDeclarativeSlotPool [] - Releasing slot [c5104920a1bff9b65c53a294a1343887].
+2026-10-24 20:33:59,957 INFO  org.apache.flink.runtime.jobmaster.JobMaster                 [] - Disconnect TaskExecutor unreachable-taskmanager-1-1 because: Stopping JobMaster for job 'Socket Window WordCount' (c5810351640e925f97de9a0e3c475dcc).
+2026-10-24 20:33:59,957 INFO  org.apache.flink.runtime.jobmaster.JobMaster                 [] - Close ResourceManager connection 52af4f551089d6f73ca6304278a37888: Stopping JobMaster for job 'Socket Window WordCount' (c5810351640e925f97de9a0e3c475dcc).
+2026-10-24 20:33:59,957 INFO  org.apache.flink.runtime.resourcemanager.active.ActiveResourceManager [] - Disconnect job manager 00000000000000000000000000000000@pekko.tcp://flink@unreachable.default:6123/user/rpc/jobmanager_1 for job c5810351640e925f97de9a0e3c475dcc from the resource manager.
+2026-10-24 20:33:59,958 INFO  org.apache.flink.runtime.resourcemanager.slotmanager.FineGrainedTaskManagerTracker [] - Clear all pending allocations for job c5810351640e925f97de9a0e3c475dcc.
+2026-10-24 20:34:00,028 INFO  org.apache.flink.runtime.resourcemanager.slotmanager.DefaultSlotStatusSyncer [] - Freeing slot c5104920a1bff9b65c53a294a1343887.
+2026-10-24 20:34:00,589 INFO  org.apache.flink.client.deployment.application.ApplicationDispatcherBootstrap [] - Application FAILED: 
+java.util.concurrent.CompletionException: org.apache.flink.client.deployment.application.UnsuccessfulExecutionException: Application Status: FAILED
+	at org.apache.flink.client.deployment.application.ApplicationDispatcherBootstrap.lambda$unwrapJobResultException$7(ApplicationDispatcherBootstrap.java:401) ~[flink-dist-2.2.1.jar:2.2.1]
+	at java.base/java.util.concurrent.CompletableFuture$UniApply.tryFire(Unknown Source) ~[?:?]
+	at java.base/java.util.concurrent.CompletableFuture.postComplete(Unknown Source) ~[?:?]
+	at java.base/java.util.concurrent.CompletableFuture.complete(Unknown Source) ~[?:?]
+	at org.apache.flink.client.deployment.application.JobStatusPollingUtils.lambda$pollJobResultAsync$2(JobStatusPollingUtils.java:101) ~[flink-dist-2.2.1.jar:2.2.1]
+	at java.base/java.util.concurrent.CompletableFuture.uniWhenComplete(Unknown Source) ~[?:?]
+	at java.base/java.util.concurrent.CompletableFuture.uniWhenCompleteStage(Unknown Source) ~[?:?]
+	at java.base/java.util.concurrent.CompletableFuture.whenComplete(Unknown Source) ~[?:?]
+	at org.apache.flink.client.deployment.application.JobStatusPollingUtils.lambda$pollJobResultAsync$4(JobStatusPollingUtils.java:96) ~[flink-dist-2.2.1.jar:2.2.1]
+	at java.base/java.util.concurrent.CompletableFuture.uniWhenComplete(Unknown Source) ~[?:?]
+	at java.base/java.util.concurrent.CompletableFuture$UniWhenComplete.tryFire(Unknown Source) ~[?:?]
+	at java.base/java.util.concurrent.CompletableFuture.postComplete(Unknown Source) ~[?:?]
+	at java.base/java.util.concurrent.CompletableFuture.complete(Unknown Source) ~[?:?]
+	at org.apache.flink.runtime.rpc.pekko.PekkoInvocationHandler.lambda$invokeRpc$1(PekkoInvocationHandler.java:268) ~[?:?]
+	at java.base/java.util.concurrent.CompletableFuture.uniWhenComplete(Unknown Source) ~[?:?]
+	at java.base/java.util.concurrent.CompletableFuture$UniWhenComplete.tryFire(Unknown Source) ~[?:?]
+	at java.base/java.util.concurrent.CompletableFuture.postComplete(Unknown Source) ~[?:?]
+	at java.base/java.util.concurrent.CompletableFuture.complete(Unknown Source) ~[?:?]
+	at org.apache.flink.util.concurrent.FutureUtils.doForward(FutureUtils.java:1317) ~[flink-dist-2.2.1.jar:2.2.1]
+	at org.apache.flink.runtime.concurrent.ClassLoadingUtils.lambda$guardCompletionWithContextClassLoader$1(ClassLoadingUtils.java:93) ~[flink-dist-2.2.1.jar:2.2.1]
+	at org.apache.flink.runtime.concurrent.ClassLoadingUtils.runWithContextClassLoader(ClassLoadingUtils.java:68) ~[flink-dist-2.2.1.jar:2.2.1]
+	at org.apache.flink.runtime.concurrent.ClassLoadingUtils.lambda$guardCompletionWithContextClassLoader$2(ClassLoadingUtils.java:92) ~[flink-dist-2.2.1.jar:2.2.1]
+	at java.base/java.util.concurrent.CompletableFuture.uniWhenComplete(Unknown Source) ~[?:?]
+	at java.base/java.util.concurrent.CompletableFuture$UniWhenComplete.tryFire(Unknown Source) ~[?:?]
+	at java.base/java.util.concurrent.CompletableFuture.postComplete(Unknown Source) ~[?:?]
+	at java.base/java.util.concurrent.CompletableFuture.complete(Unknown Source) ~[?:?]
+	at org.apache.flink.runtime.concurrent.pekko.ScalaFutureUtils$1.onComplete(ScalaFutureUtils.java:47) ~[flink-rpc-akka2633bb1b-dbe2-4dab-9d56-da56c804bce7.jar:2.2.1]
+	at org.apache.pekko.dispatch.OnComplete.internal(Future.scala:310) ~[flink-rpc-akka2633bb1b-dbe2-4dab-9d56-da56c804bce7.jar:2.2.1]
+	at org.apache.pekko.dispatch.OnComplete.internal(Future.scala:307) ~[flink-rpc-akka2633bb1b-dbe2-4dab-9d56-da56c804bce7.jar:2.2.1]
+	at org.apache.pekko.dispatch.japi$CallbackBridge.apply(Future.scala:234) ~[flink-rpc-akka2633bb1b-dbe2-4dab-9d56-da56c804bce7.jar:2.2.1]
+	at org.apache.pekko.dispatch.japi$CallbackBridge.apply(Future.scala:231) ~[flink-rpc-akka2633bb1b-dbe2-4dab-9d56-da56c804bce7.jar:2.2.1]
+	at scala.concurrent.impl.CallbackRunnable.run(Promise.scala:74) ~[flink-rpc-akka2633bb1b-dbe2-4dab-9d56-da56c804bce7.jar:2.2.1]
+	at org.apache.flink.runtime.concurrent.pekko.ScalaFutureUtils$DirectExecutionContext.execute(ScalaFutureUtils.java:65) ~[flink-rpc-akka2633bb1b-dbe2-4dab-9d56-da56c804bce7.jar:2.2.1]
+	at scala.concurrent.impl.CallbackRunnable.executeWithValue(Promise.scala:82) ~[flink-rpc-akka2633bb1b-dbe2-4dab-9d56-da56c804bce7.jar:2.2.1]
+	at scala.concurrent.impl.Promise$DefaultPromise.$anonfun$tryComplete$1(Promise.scala:298) ~[flink-rpc-akka2633bb1b-dbe2-4dab-9d56-da56c804bce7.jar:2.2.1]
+	at scala.concurrent.impl.Promise$DefaultPromise.$anonfun$tryComplete$1$adapted(Promise.scala:298) ~[flink-rpc-akka2633bb1b-dbe2-4dab-9d56-da56c804bce7.jar:2.2.1]
+	at scala.concurrent.impl.Promise$DefaultPromise.tryComplete(Promise.scala:298) ~[flink-rpc-akka2633bb1b-dbe2-4dab-9d56-da56c804bce7.jar:2.2.1]
+	at org.apache.pekko.pattern.PromiseActorRef.$bang(AskSupport.scala:624) ~[flink-rpc-akka2633bb1b-dbe2-4dab-9d56-da56c804bce7.jar:2.2.1]
+	at org.apache.pekko.pattern.PipeToSupport$PipeableFuture$$anonfun$pipeTo$1.applyOrElse(PipeToSupport.scala:33) ~[flink-rpc-akka2633bb1b-dbe2-4dab-9d56-da56c804bce7.jar:2.2.1]
+	at scala.concurrent.Future.$anonfun$andThen$1(Future.scala:536) ~[flink-rpc-akka2633bb1b-dbe2-4dab-9d56-da56c804bce7.jar:2.2.1]
+	at scala.concurrent.impl.Promise.$anonfun$transform$1(Promise.scala:42) ~[flink-rpc-akka2633bb1b-dbe2-4dab-9d56-da56c804bce7.jar:2.2.1]
+	at scala.concurrent.impl.CallbackRunnable.run(Promise.scala:74) ~[flink-rpc-akka2633bb1b-dbe2-4dab-9d56-da56c804bce7.jar:2.2.1]
+	at org.apache.pekko.dispatch.BatchingExecutor$AbstractBatch.processBatch(BatchingExecutor.scala:73) ~[flink-rpc-akka2633bb1b-dbe2-4dab-9d56-da56c804bce7.jar:2.2.1]
+	at org.apache.pekko.dispatch.BatchingExecutor$BlockableBatch.$anonfun$run$1(BatchingExecutor.scala:110) ~[flink-rpc-akka2633bb1b-dbe2-4dab-9d56-da56c804bce7.jar:2.2.1]
+	at scala.runtime.java8.JFunction0$mcV$sp.apply(JFunction0$mcV$sp.java:23) [flink-rpc-akka2633bb1b-dbe2-4dab-9d56-da56c804bce7.jar:2.2.1]
+	at scala.concurrent.BlockContext$.withBlockContext(BlockContext.scala:85) [flink-rpc-akka2633bb1b-dbe2-4dab-9d56-da56c804bce7.jar:2.2.1]
+	at org.apache.pekko.dispatch.BatchingExecutor$BlockableBatch.run(BatchingExecutor.scala:110) [flink-rpc-akka2633bb1b-dbe2-4dab-9d56-da56c804bce7.jar:2.2.1]
+	at org.apache.pekko.dispatch.TaskInvocation.run(AbstractDispatcher.scala:59) [flink-rpc-akka2633bb1b-dbe2-4dab-9d56-da56c804bce7.jar:2.2.1]
+	at org.apache.pekko.dispatch.ForkJoinExecutorConfigurator$PekkoForkJoinTask.exec(ForkJoinExecutorConfigurator.scala:61) [flink-rpc-akka2633bb1b-dbe2-4dab-9d56-da56c804bce7.jar:2.2.1]
+	at java.base/java.util.concurrent.ForkJoinTask.doExec(Unknown Source) [?:?]
+	at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(Unknown Source) [?:?]
+	at java.base/java.util.concurrent.ForkJoinPool.scan(Unknown Source) [?:?]
+	at java.base/java.util.concurrent.ForkJoinPool.runWorker(Unknown Source) [?:?]
+	at java.base/java.util.concurrent.ForkJoinWorkerThread.run(Unknown Source) [?:?]
+Caused by: org.apache.flink.client.deployment.application.UnsuccessfulExecutionException: Application Status: FAILED
+	at org.apache.flink.client.deployment.application.UnsuccessfulExecutionException.fromJobResult(UnsuccessfulExecutionException.java:71) ~[flink-dist-2.2.1.jar:2.2.1]
+	... 54 more
+Caused by: org.apache.flink.runtime.client.JobExecutionException: Job execution failed.
+	at org.apache.flink.runtime.jobmaster.JobResult.toJobExecutionResult(JobResult.java:144) ~[flink-dist-2.2.1.jar:2.2.1]
+	at org.apache.flink.client.deployment.application.UnsuccessfulExecutionException.fromJobResult(UnsuccessfulExecutionException.java:60) ~[flink-dist-2.2.1.jar:2.2.1]
+	... 54 more
+Caused by: org.apache.flink.runtime.JobException: Recovery is suppressed by NoRestartBackoffTimeStrategy
+	at org.apache.flink.runtime.executiongraph.failover.ExecutionFailureHandler.handleFailure(ExecutionFailureHandler.java:213) ~[flink-dist-2.2.1.jar:2.2.1]
+	at org.apache.flink.runtime.executiongraph.failover.ExecutionFailureHandler.handleFailureAndReport(ExecutionFailureHandler.java:163) ~[flink-dist-2.2.1.jar:2.2.1]
+	at org.apache.flink.runtime.executiongraph.failover.ExecutionFailureHandler.getFailureHandlingResult(ExecutionFailureHandler.java:118) ~[flink-dist-2.2.1.jar:2.2.1]
+	at org.apache.flink.runtime.scheduler.DefaultScheduler.recordTaskFailure(DefaultScheduler.java:294) ~[flink-dist-2.2.1.jar:2.2.1]
+	at org.apache.flink.runtime.scheduler.DefaultScheduler.handleTaskFailure(DefaultScheduler.java:285) ~[flink-dist-2.2.1.jar:2.2.1]
+	at org.apache.flink.runtime.scheduler.DefaultScheduler.onTaskFailed(DefaultScheduler.java:278) ~[flink-dist-2.2.1.jar:2.2.1]
+	at org.apache.flink.runtime.scheduler.SchedulerBase.onTaskExecutionStateUpdate(SchedulerBase.java:836) ~[flink-dist-2.2.1.jar:2.2.1]
+	at org.apache.flink.runtime.scheduler.SchedulerBase.updateTaskExecutionState(SchedulerBase.java:813) ~[flink-dist-2.2.1.jar:2.2.1]
+	at org.apache.flink.runtime.scheduler.SchedulerNG.updateTaskExecutionState(SchedulerNG.java:83) ~[flink-dist-2.2.1.jar:2.2.1]
+	at org.apache.flink.runtime.jobmaster.JobMaster.updateTaskExecutionState(JobMaster.java:532) ~[flink-dist-2.2.1.jar:2.2.1]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:?]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(Unknown Source) ~[?:?]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source) ~[?:?]
+	at java.base/java.lang.reflect.Method.invoke(Unknown Source) ~[?:?]
+	at org.apache.flink.runtime.rpc.pekko.PekkoRpcActor.lambda$handleRpcInvocation$1(PekkoRpcActor.java:318) ~[?:?]
+	at org.apache.flink.runtime.concurrent.ClassLoadingUtils.runWithContextClassLoader(ClassLoadingUtils.java:83) ~[flink-dist-2.2.1.jar:2.2.1]
+	at org.apache.flink.runtime.rpc.pekko.PekkoRpcActor.handleRpcInvocation(PekkoRpcActor.java:316) ~[?:?]
+	at org.apache.flink.runtime.rpc.pekko.PekkoRpcActor.handleRpcMessage(PekkoRpcActor.java:229) ~[?:?]
+	at org.apache.flink.runtime.rpc.pekko.FencedPekkoRpcActor.handleRpcMessage(FencedPekkoRpcActor.java:88) ~[?:?]
+	at org.apache.flink.runtime.rpc.pekko.PekkoRpcActor.handleMessage(PekkoRpcActor.java:174) ~[?:?]
+	at org.apache.pekko.japi.pf.UnitCaseStatement.apply(CaseStatements.scala:33) ~[?:?]
+	at org.apache.pekko.japi.pf.UnitCaseStatement.apply(CaseStatements.scala:29) ~[?:?]
+	at scala.PartialFunction.applyOrElse(PartialFunction.scala:127) ~[flink-scala_2.12-2.2.1.jar:2.2.1]
+	at scala.PartialFunction.applyOrElse$(PartialFunction.scala:126) ~[flink-scala_2.12-2.2.1.jar:2.2.1]
+	at org.apache.pekko.japi.pf.UnitCaseStatement.applyOrElse(CaseStatements.scala:29) ~[?:?]
+	at scala.PartialFunction$OrElse.applyOrElse(PartialFunction.scala:175) ~[flink-scala_2.12-2.2.1.jar:2.2.1]
+	at scala.PartialFunction$OrElse.applyOrElse(PartialFunction.scala:176) ~[flink-scala_2.12-2.2.1.jar:2.2.1]
+	at scala.PartialFunction$OrElse.applyOrElse(PartialFunction.scala:176) ~[flink-scala_2.12-2.2.1.jar:2.2.1]
+	at org.apache.pekko.actor.Actor.aroundReceive(Actor.scala:547) ~[?:?]
+	at org.apache.pekko.actor.Actor.aroundReceive$(Actor.scala:545) ~[?:?]
+	at org.apache.pekko.actor.AbstractActor.aroundReceive(AbstractActor.scala:229) ~[?:?]
+	at org.apache.pekko.actor.ActorCell.receiveMessage(ActorCell.scala:590) ~[?:?]
+	at org.apache.pekko.actor.ActorCell.invoke(ActorCell.scala:557) ~[?:?]
+	at org.apache.pekko.dispatch.Mailbox.processMailbox(Mailbox.scala:272) ~[?:?]
+	at org.apache.pekko.dispatch.Mailbox.run(Mailbox.scala:233) ~[?:?]
+	at org.apache.pekko.dispatch.Mailbox.exec(Mailbox.scala:245) ~[?:?]
+	... 5 more
+Caused by: java.net.UnknownHostException: nowhere.invalid
+	at java.base/sun.nio.ch.NioSocketImpl.connect(Unknown Source) ~[?:?]
+	at java.base/java.net.SocksSocketImpl.connect(Unknown Source) ~[?:?]
+	at java.base/java.net.Socket.connect(Unknown Source) ~[?:?]
+	at org.apache.flink.streaming.api.functions.source.legacy.SocketTextStreamFunction.run(SocketTextStreamFunction.java:107) ~[flink-dist-2.2.1.jar:2.2.1]
+	at org.apache.flink.streaming.api.operators.StreamSource.run(StreamSource.java:107) ~[flink-dist-2.2.1.jar:2.2.1]
+	at org.apache.flink.streaming.api.operators.StreamSource.run(StreamSource.java:68) ~[flink-dist-2.2.1.jar:2.2.1]
+	at org.apache.flink.streaming.runtime.tasks.SourceStreamTask$LegacySourceFunctionThread.run(SourceStreamTask.java:346) ~[flink-dist-2.2.1.jar:2.2.1]

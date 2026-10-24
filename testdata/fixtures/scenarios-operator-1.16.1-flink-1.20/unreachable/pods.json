@@ -8,7 +8,7 @@
                 "annotations": {
                     "flinkdeployment.flink.apache.org/generation": "1"
                 },
-                "creationTimestamp": "2026-10-24T19:35:15Z",
+                "creationTimestamp": "2026-10-24T20:38:11Z",
                 "generateName": "unreachable-d9d8c5b88-",
                 "generation": 1,
                 "labels": {
@@ -17,7 +17,7 @@
                     "pod-template-hash": "d9d8c5b88",
                     "type": "flink-native-kubernetes"
                 },
-                "name": "unreachable-d9d8c5b88-4gs9m",
+                "name": "unreachable-d9d8c5b88-4cn5k",
                 "namespace": "default",
                 "ownerReferences": [
                     {
@@ -26,11 +26,11 @@
                         "controller": true,
                         "kind": "ReplicaSet",
                         "name": "unreachable-d9d8c5b88",
-                        "uid": "fb8f202d-fb04-4095-af88-b5ed3bc723d3"
+                        "uid": "74f50799-d3c7-4b0a-aca4-32fc04623c69"
                     }
                 ],
-                "resourceVersion": "46352",
-                "uid": "59bb8e87-b976-4061-8dec-69dcca5c7e1d"
+                "resourceVersion": "57536",
+                "uid": "8cc9d781-f83f-4429-a819-111b9fefc504"
             },
             "spec": {
                 "containers": [
@@ -108,7 +108,7 @@
                             },
                             {
                                 "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
-                                "name": "kube-api-access-bl4bc",
+                                "name": "kube-api-access-l69sp",
                                 "readOnly": true
                             }
                         ]
@@ -162,7 +162,7 @@
                         "name": "flink-config-volume"
                     },
                     {
-                        "name": "kube-api-access-bl4bc",
+                        "name": "kube-api-access-l69sp",
                         "projected": {
                             "defaultMode": 420,
                             "sources": [
@@ -209,35 +209,35 @@
                 "conditions": [
                     {
                         "lastProbeTime": null,
-                        "lastTransitionTime": "2026-10-24T19:35:15Z",
+                        "lastTransitionTime": "2026-10-24T20:38:12Z",
                         "observedGeneration": 1,
                         "status": "True",
                         "type": "PodReadyToStartContainers"
                     },
                     {
                         "lastProbeTime": null,
-                        "lastTransitionTime": "2026-10-24T19:35:15Z",
+                        "lastTransitionTime": "2026-10-24T20:38:11Z",
                         "observedGeneration": 1,
                         "status": "True",
                         "type": "Initialized"
                     },
                     {
                         "lastProbeTime": null,
-                        "lastTransitionTime": "2026-10-24T19:35:24Z",
+                        "lastTransitionTime": "2026-10-24T20:38:20Z",
                         "observedGeneration": 1,
                         "status": "True",
                         "type": "Ready"
                     },
                     {
                         "lastProbeTime": null,
-                        "lastTransitionTime": "2026-10-24T19:35:24Z",
+                        "lastTransitionTime": "2026-10-24T20:38:20Z",
                         "observedGeneration": 1,
                         "status": "True",
                         "type": "ContainersReady"
                     },
                     {
                         "lastProbeTime": null,
-                        "lastTransitionTime": "2026-10-24T19:35:15Z",
+                        "lastTransitionTime": "2026-10-24T20:38:11Z",
                         "observedGeneration": 1,
                         "status": "True",
                         "type": "PodScheduled"
@@ -249,7 +249,7 @@
                             "cpu": "500m",
                             "memory": "1Gi"
                         },
-                        "containerID": "containerd://52c2204b6c36c052ca576a36ca554a8b7636f7ca0966f232d163584d2e7f2860",
+                        "containerID": "containerd://c60c66a43dcd16f68ddfad84ea1dd5b2bf5df9a928b3c8e60bde39df81da5478",
                         "image": "docker.io/library/flink:1.20",
                         "imageID": "docker.io/library/flink@sha256:671e890a10e783374d626a6870756c6ad86983e8f94e8a21b6d1408a1f86be2c",
                         "lastState": {},
@@ -269,7 +269,7 @@
                         "started": true,
                         "state": {
                             "running": {
-                                "startedAt": "2026-10-24T19:35:15Z"
+                                "startedAt": "2026-10-24T20:38:12Z"
                             }
                         },
                         "user": {
@@ -292,7 +292,7 @@
                             },
                             {
                                 "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
-                                "name": "kube-api-access-bl4bc",
+                                "name": "kube-api-access-l69sp",
                                 "readOnly": true,
                                 "recursiveReadOnly": "Disabled"
                             }
@@ -307,10 +307,10 @@
                 ],
                 "observedGeneration": 1,
                 "phase": "Running",
-                "podIP": "10.244.0.59",
+                "podIP": "10.244.0.116",
                 "podIPs": [
                     {
-                        "ip": "10.244.0.59"
+                        "ip": "10.244.0.116"
                     }
                 ],
                 "qosClass": "Guaranteed",
@@ -324,14 +324,14 @@
                         "memory": "1Gi"
                     }
                 },
-                "startTime": "2026-10-24T19:35:15Z"
+                "startTime": "2026-10-24T20:38:11Z"
             }
         },
         {
             "apiVersion": "v1",
             "kind": "Pod",
             "metadata": {
-                "creationTimestamp": "2026-10-24T19:35:26Z",
+                "creationTimestamp": "2026-10-24T20:38:23Z",
                 "generation": 1,
                 "labels": {
                     "app": "unreachable",
@@ -347,11 +347,11 @@
                         "controller": true,
                         "kind": "Deployment",
                         "name": "unreachable",
-                        "uid": "7edfbe3f-d8b9-48fc-b98d-e113061a4a09"
+                        "uid": "ede194b6-7a2f-4136-b098-46072f6ab0ba"
                     }
                 ],
-                "resourceVersion": "46397",
-                "uid": "dc956017-7859-477d-bd00-b6f4e6d5a178"
+                "resourceVersion": "57607",
+                "uid": "88353592-0b06-4358-a4b2-8155fa7f85b1"
             },
             "spec": {
                 "containers": [
@@ -359,7 +359,7 @@
                         "args": [
                             "bash",
                             "-c",
-                            "kubernetes-taskmanager.sh -Djobmanager.memory.jvm-overhead.min='201326592b' -Dpipeline.classpaths='' -Dtaskmanager.resource-id='unreachable-taskmanager-1-1' -Djobmanager.memory.off-heap.size='134217728b' -Dexecution.target='embedded' -Dweb.tmpdir='/tmp/flink-web-333d672a-41a6-41b3-ace8-c1b88a8f0c5f' -Djobmanager.rpc.port='6123' -Dpipeline.jars='file:/opt/flink/examples/streaming/SocketWindowWordCount.jar' -Djobmanager.memory.jvm-metaspace.size='268435456b' -Djobmanager.memory.heap.size='469762048b' -Djobmanager.memory.jvm-overhead.max='201326592b' -D taskmanager.memory.network.min=67108864b -D taskmanager.cpu.cores=0.5 -D taskmanager.memory.task.off-heap.size=0b -D taskmanager.memory.jvm-metaspace.size=268435456b -D external-resources=none -D taskmanager.memory.jvm-overhead.min=201326592b -D taskmanager.memory.framework.off-heap.size=134217728b -D taskmanager.memory.network.max=67108864b -D taskmanager.memory.framework.heap.size=134217728b -D taskmanager.memory.managed.size=241591914b -D taskmanager.memory.task.heap.size=26843542b -D taskmanager.numberOfTaskSlots=1 -D taskmanager.memory.jvm-overhead.max=201326592b "
+                            "kubernetes-taskmanager.sh -Djobmanager.memory.jvm-overhead.min='201326592b' -Dpipeline.classpaths='' -Dtaskmanager.resource-id='unreachable-taskmanager-1-1' -Djobmanager.memory.off-heap.size='134217728b' -Dexecution.target='embedded' -Dweb.tmpdir='/tmp/flink-web-7a22a526-1dfb-45eb-bfb2-2a291b069094' -Djobmanager.rpc.port='6123' -Dpipeline.jars='file:/opt/flink/examples/streaming/SocketWindowWordCount.jar' -Djobmanager.memory.jvm-metaspace.size='268435456b' -Djobmanager.memory.heap.size='469762048b' -Djobmanager.memory.jvm-overhead.max='201326592b' -D taskmanager.memory.network.min=67108864b -D taskmanager.cpu.cores=0.5 -D taskmanager.memory.task.off-heap.size=0b -D taskmanager.memory.jvm-metaspace.size=268435456b -D external-resources=none -D taskmanager.memory.jvm-overhead.min=201326592b -D taskmanager.memory.framework.off-heap.size=134217728b -D taskmanager.memory.network.max=67108864b -D taskmanager.memory.framework.heap.size=134217728b -D taskmanager.memory.managed.size=241591914b -D taskmanager.memory.task.heap.size=26843542b -D taskmanager.numberOfTaskSlots=1 -D taskmanager.memory.jvm-overhead.max=201326592b "
                         ],
                         "command": [
                             "/docker-entrypoint.sh"
@@ -408,7 +408,7 @@
                             },
                             {
                                 "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
-                                "name": "kube-api-access-rcsgb",
+                                "name": "kube-api-access-kxd8x",
                                 "readOnly": true
                             }
                         ]
@@ -458,7 +458,7 @@
                         "name": "flink-config-volume"
                     },
                     {
-                        "name": "kube-api-access-rcsgb",
+                        "name": "kube-api-access-kxd8x",
                         "projected": {
                             "defaultMode": 420,
                             "sources": [
@@ -505,35 +505,35 @@
                 "conditions": [
                     {
                         "lastProbeTime": null,
-                        "lastTransitionTime": "2026-10-24T19:35:26Z",
+                        "lastTransitionTime": "2026-10-24T20:38:23Z",
                         "observedGeneration": 1,
                         "status": "True",
                         "type": "PodReadyToStartContainers"
                     },
                     {
                         "lastProbeTime": null,
-                        "lastTransitionTime": "2026-10-24T19:35:26Z",
+                        "lastTransitionTime": "2026-10-24T20:38:23Z",
                         "observedGeneration": 1,
                         "status": "True",
                         "type": "Initialized"
                     },
                     {
                         "lastProbeTime": null,
-                        "lastTransitionTime": "2026-10-24T19:35:26Z",
+                        "lastTransitionTime": "2026-10-24T20:38:23Z",
                         "observedGeneration": 1,
                         "status": "True",
                         "type": "Ready"
                     },
                     {
                         "lastProbeTime": null,
-                        "lastTransitionTime": "2026-10-24T19:35:26Z",
+                        "lastTransitionTime": "2026-10-24T20:38:23Z",
                         "observedGeneration": 1,
                         "status": "True",
                         "type": "ContainersReady"
                     },
                     {
                         "lastProbeTime": null,
-                        "lastTransitionTime": "2026-10-24T19:35:26Z",
+                        "lastTransitionTime": "2026-10-24T20:38:23Z",
                         "observedGeneration": 1,
                         "status": "True",
                         "type": "PodScheduled"
@@ -545,7 +545,7 @@
                             "cpu": "500m",
                             "memory": "1Gi"
                         },
-                        "containerID": "containerd://33e217db4d050fe192e38e4b93c30abec5e9ad8844255c79d5608e0bc4b2f780",
+                        "containerID": "containerd://bb8484c5d94f6a761e4eca9ac9bb7d2861a63407712ac017c77ec651e3d2f225",
                         "image": "docker.io/library/flink:1.20",
                         "imageID": "docker.io/library/flink@sha256:671e890a10e783374d626a6870756c6ad86983e8f94e8a21b6d1408a1f86be2c",
                         "lastState": {},
@@ -565,7 +565,7 @@
                         "started": true,
                         "state": {
                             "running": {
-                                "startedAt": "2026-10-24T19:35:26Z"
+                                "startedAt": "2026-10-24T20:38:23Z"
                             }
                         },
                         "user": {
@@ -584,7 +584,7 @@
                             },
                             {
                                 "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
-                                "name": "kube-api-access-rcsgb",
+                                "name": "kube-api-access-kxd8x",
                                 "readOnly": true,
                                 "recursiveReadOnly": "Disabled"
                             }
@@ -599,10 +599,10 @@
                 ],
                 "observedGeneration": 1,
                 "phase": "Running",
-                "podIP": "10.244.0.63",
+                "podIP": "10.244.0.121",
                 "podIPs": [
                     {
-                        "ip": "10.244.0.63"
+                        "ip": "10.244.0.121"
                     }
                 ],
                 "qosClass": "Guaranteed",
@@ -616,7 +616,7 @@
                         "memory": "1Gi"
                     }
                 },
-                "startTime": "2026-10-24T19:35:26Z"
+                "startTime": "2026-10-24T20:38:23Z"
             }
         }
     ],

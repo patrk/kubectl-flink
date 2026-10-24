@@ -55,10 +55,11 @@ save() {
   uids=$(jq -r '.metadata.uid' "$OUT/$1/flinkdeployment.json"; jq -r '.items[].metadata.uid' "$OUT/$1/pods.json")
   k get events -o json | jq --arg uids "$uids" '($uids | split("\n")) as $u | .items |= map(select(.involvedObject.uid as $x | $u | index($x)))' > "$OUT/$1/events.json"
   # JobManager logs, current and of the previous container after a crash; a pod that never started has none.
+  # Saved as .txt: global gitignore files commonly exclude *.log, which would drop them from commits silently.
   mkdir -p "$OUT/$1/logs"
   for pod in $(k get pods -l "app=$1,component=jobmanager" -o name); do
-    k logs "$pod" -c flink-main-container --tail 300 > "$OUT/$1/logs/${pod#pod/}.log" 2>/dev/null || true
-    k logs "$pod" -c flink-main-container --tail 300 --previous > "$OUT/$1/logs/${pod#pod/}.previous.log" 2>/dev/null || true
+    k logs "$pod" -c flink-main-container --tail 300 > "$OUT/$1/logs/${pod#pod/}.txt" 2>/dev/null || true
+    k logs "$pod" -c flink-main-container --tail 300 --previous > "$OUT/$1/logs/${pod#pod/}.previous.txt" 2>/dev/null || true
   done
   find "$OUT/$1/logs" -empty -delete
   # ConfigMaps of the cluster (HA leader, job plans, checkpoint pointers) by key; values are blobs and dropped.

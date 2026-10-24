@@ -70,6 +70,7 @@ func TestLoadRejects(t *testing.T) {
 		"no match":        {"apiVersion: kubectl-flink/v1alpha1\nprofiles: [{name: a}]\n", "match is empty"},
 		"dup":             {"apiVersion: kubectl-flink/v1alpha1\nprofiles: [{name: a, match: [x], scopes: [{context: c}, {context: c}]}]\n", "two scopes"},
 		"negative":        {"apiVersion: kubectl-flink/v1alpha1\nprofiles: [{name: a, match: [x], reconcileInterval: -1s}]\n", "negative"},
+		"redact pattern":  {"apiVersion: kubectl-flink/v1alpha1\nprofiles: [{name: a, match: [x], report: {redactKeys: ['(']}}]\n", "report: error parsing regexp"},
 		"disable typo":    {"apiVersion: kubectl-flink/v1alpha1\nprofiles: [{name: a, match: [x], disableRules: [image-pul]}]\n", `no rule "image-pul"`},
 		"supersedes typo": {"apiVersion: kubectl-flink/v1alpha1\nprofiles: [{name: a, match: [x], rules: [{id: r, layer: kubernetes, severity: OK, title: t, explain: e, when: [{signal: event, match: x}], supersedes: [nope]}]}]\n", `supersedes unknown rule "nope"`},
 	} {

@@ -8,7 +8,7 @@
                 "annotations": {
                     "flinkdeployment.flink.apache.org/generation": "1"
                 },
-                "creationTimestamp": "2026-10-24T19:40:16Z",
+                "creationTimestamp": "2026-10-24T20:32:28Z",
                 "generateName": "unschedulable-64d7b79697-",
                 "generation": 1,
                 "labels": {
@@ -17,7 +17,7 @@
                     "pod-template-hash": "64d7b79697",
                     "type": "flink-native-kubernetes"
                 },
-                "name": "unschedulable-64d7b79697-2b54z",
+                "name": "unschedulable-64d7b79697-79ms4",
                 "namespace": "default",
                 "ownerReferences": [
                     {
@@ -26,11 +26,11 @@
                         "controller": true,
                         "kind": "ReplicaSet",
                         "name": "unschedulable-64d7b79697",
-                        "uid": "f81941fc-9a9d-4c0c-ba76-4df1d05d81df"
+                        "uid": "9a96b605-e151-4006-ab63-f9b108389477"
                     }
                 ],
-                "resourceVersion": "48082",
-                "uid": "287ab691-e055-4fcd-a996-22d6ec1f8c80"
+                "resourceVersion": "54550",
+                "uid": "6c08f8a4-df4c-454b-8feb-1e6ba6b46cec"
             },
             "spec": {
                 "containers": [
@@ -108,7 +108,7 @@
                             },
                             {
                                 "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
-                                "name": "kube-api-access-9sxvd",
+                                "name": "kube-api-access-49f7l",
                                 "readOnly": true
                             }
                         ]
@@ -161,7 +161,7 @@
                         "name": "flink-config-volume"
                     },
                     {
-                        "name": "kube-api-access-9sxvd",
+                        "name": "kube-api-access-49f7l",
                         "projected": {
                             "defaultMode": 420,
                             "sources": [
@@ -204,7 +204,7 @@
                 "conditions": [
                     {
                         "lastProbeTime": null,
-                        "lastTransitionTime": "2026-10-24T19:40:16Z",
+                        "lastTransitionTime": "2026-10-24T20:32:28Z",
                         "message": "0/1 nodes are available: 1 Insufficient cpu. preemption: 0/1 nodes are available: 1 Preemption is not helpful for scheduling.",
                         "observedGeneration": 1,
                         "reason": "Unschedulable",

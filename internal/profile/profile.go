@@ -16,6 +16,7 @@ import (
 
 	"github.com/patrk/kubectl-flink/internal/kube"
 	"github.com/patrk/kubectl-flink/internal/model"
+	"github.com/patrk/kubectl-flink/internal/redact"
 	"github.com/patrk/kubectl-flink/internal/triage"
 )
 
@@ -46,8 +47,24 @@ type Profile struct {
 	Rules []triage.RuleSpec `json:"rules,omitempty"`
 	// DisableRules lists default rule ids not to use.
 	DisableRules []string `json:"disableRules,omitempty"`
+	// Report adds redaction patterns for the report bundle and history, for secrets only this platform has.
+	Report ReportSettings `json:"report,omitzero"`
 	// ReconcileInterval is the operator's reconcile interval, from which health thresholds are derived.
 	ReconcileInterval metav1.Duration `json:"reconcileInterval,omitzero"`
+}
+
+// ReportSettings extend the redaction of the report bundle.
+type ReportSettings struct {
+	// RedactKeys are regular expressions for further keys whose values are secret.
+	RedactKeys []string `json:"redactKeys,omitempty"`
+	// RedactText are regular expressions masked in free text; with two groups, the groups are kept around the
+	// masked part.
+	RedactText []string `json:"redactText,omitempty"`
+}
+
+// Redactor returns the redactor for the profile: the defaults plus the profile's patterns.
+func (p *Profile) Redactor() (*redact.Redactor, error) {
+	return redact.NewRedactor(p.Report.RedactKeys, p.Report.RedactText)
 }
 
 // Default is used when no profile matches: the current context and namespace, and the operator's defaults.
@@ -130,6 +147,9 @@ func (f *File) Validate() error {
 					errs = append(errs, fmt.Errorf("%s: rule %q supersedes unknown rule %q", where, p.Rules[j].ID, id))
 				}
 			}
+		}
+		if _, err := p.Redactor(); err != nil {
+			errs = append(errs, fmt.Errorf("%s: report: %w", where, err))
 		}
 		if p.ReconcileInterval.Duration < 0 {
 			errs = append(errs, fmt.Errorf("%s: reconcileInterval is negative", where))

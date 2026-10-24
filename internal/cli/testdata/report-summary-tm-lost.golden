@@ -1,0 +1,60 @@
+# FlinkDeployment default/tm-lost
+
+Context `dev`, captured 2026-10-24T20:37:17Z by kubectl-flink dev.
+Flink job `eb7b727117c18b1a3b48e0d4539bc5a1`.
+
+**Health: OK**
+
+## Matched patterns
+
+1. **OK**: The job restarted after losing a TaskManager, from checkpoint #95 (runtime)
+   A TaskManager went away, for example its pod was deleted, evicted or its node drained, and Flink restarted the job from its last checkpoint.
+   Next: If it happens often, look at node events and kubectl flink exceptions default/tm-lost.
+
+## Timeline, newest first
+
+| UTC | Source | What |
+|---|---|---|
+| 10-24 20:37:15 | status | job state RUNNING |
+| 10-24 20:37:15 | event flinkdeployment | JobStatusChanged: Job status changed from CREATED to RUNNING |
+| 10-24 20:37:00 | event flinkdeployment | JobStatusChanged: Job status changed from RUNNING to CREATED |
+| 10-24 20:37:00 | event flinkdeployment | JobException: org.apache.flink.util.FlinkExpectedException: The TaskExecutor is shutting down. at org.apache.flink.runtime.taskexecutor.Tas… |
+| 10-24 20:36:56 | checkpoints | restored from checkpoint #95 |
+| 10-24 20:36:55 | event pod | Scheduled: Successfully assigned default/tm-lost-taskmanager-1-2 to kubectl-flink-control-plane |
+| 10-24 20:36:55 | job failure | org.apache.flink.util.FlinkExpectedException: The TaskExecutor is shutting down. |
+| 10-24 20:36:55 | event pod | Pulled: Container image "flink:2.2" already present on machine and can be accessed by the pod |
+| 10-24 20:36:55 | event pod | Created: Container created |
+| 10-24 20:36:55 | event pod | Started: Container started |
+| 10-24 20:36:55 | pod | taskmanager pod tm-lost-taskmanager-1-2 created |
+| 10-24 20:34:00 | event flinkdeployment | JobStatusChanged: Job status changed from RECONCILING to RUNNING |
+| 10-24 20:33:28 | status | job started |
+| 10-24 20:33:27 | event pod | Unhealthy: Startup probe failed: Get "http://10.244.0.96:8081/config": dial tcp 10.244.0.96:8081: connect: connection refused (×7 since 20:… |
+| 10-24 20:33:20 | status | operator reconciled generation 1: lifecycle STABLE |
+| … | | 8 more in history.txt |
+
+## Not collected
+
+- log of tm-lost-taskmanager-1-2: pods "tm-lost-taskmanager-1-2" not found
+
+## Files
+
+| File | Values redacted |
+|---|---|
+| events.json | 0 |
+| flink-config.json | 0 |
+| history.txt | 0 |
+| logs/tm-lost-54ff4b8b7c-dqcx8.txt | 0 |
+| pods.json | 4 |
+| resource.json | 0 |
+| rest/checkpoints-config.json | 0 |
+| rest/checkpoints.json | 0 |
+| rest/config.json | 0 |
+| rest/exceptions.json | 0 |
+| rest/job-config.json | 0 |
+| rest/job.json | 0 |
+| rest/jobmanager-config.json | 0 |
+| rest/jobs-overview.json | 0 |
+| rest/taskmanagers.json | 0 |
+| why.txt | 0 |
+
+Values under keys that name passwords, tokens and keys, and secrets in URLs, JAAS and Bearer headers, are replaced with `[REDACTED]`. Check the files before sharing them outside your team.
