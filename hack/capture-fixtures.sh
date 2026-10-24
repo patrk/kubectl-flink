@@ -27,7 +27,15 @@ for _ in $(seq 30); do
 done
 [[ -n $port ]] || { echo "JobManager REST not reachable through port-forward after 30 s" >&2; cat "$pflog" >&2; exit 1; }
 
-get() { curl -sf "localhost:$port$1" > "$OUT/rest/$2.json" || { echo "GET $1 failed" >&2; exit 1; }; }
+# Some endpoints, such as backpressure, fail until the JobManager has sampled the job once; retry for 60 s.
+get() {
+  for _ in $(seq 30); do
+    curl -sf "localhost:$port$1" > "$OUT/rest/$2.json" && return
+    sleep 2
+  done
+  echo "GET $1 failed for 60 s: $(curl -s "localhost:$port$1" | head -c 300)" >&2
+  exit 1
+}
 get /config config
 get /jobmanager/config jobmanager-config
 get /taskmanagers taskmanagers

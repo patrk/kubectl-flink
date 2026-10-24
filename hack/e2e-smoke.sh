@@ -14,12 +14,19 @@ diagnose() {
   exit 1
 }
 
+# A JobManager ERROR right after submit is normal: the operator creates the config ConfigMap just after the
+# Deployment, so the first pod can fail to mount it. Only an ERROR that lasts counts as a failure.
 deadline=$((SECONDS + 600))
+error_since=
 while :; do
   state=$(k get flinkdeployment basic -o jsonpath='{.status.lifecycleState}/{.status.jobStatus.state}/{.status.jobManagerDeploymentStatus}')
   case "$state" in
     STABLE/RUNNING/*) break ;;
-    FAILED/* | */FAILED/* | */*/ERROR) echo "basic failed: $state" >&2; diagnose ;;
+    FAILED/* | */FAILED/*) echo "basic failed: $state" >&2; diagnose ;;
+    */*/ERROR)
+      error_since=${error_since:-$SECONDS}
+      (( SECONDS - error_since > 90 )) && { echo "basic in JobManager ERROR for 90 s: $state" >&2; diagnose; } ;;
+    *) error_since= ;;
   esac
   (( SECONDS > deadline )) && { echo "basic not running after 600 s: $state" >&2; diagnose; }
   sleep 5
