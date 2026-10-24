@@ -7,7 +7,7 @@ LDFLAGS := -s -w -X github.com/patrk/kubectl-flink/internal/version.Version=$(VE
            -X github.com/patrk/kubectl-flink/internal/version.Commit=$(shell git rev-parse --short HEAD 2>/dev/null || echo none) \
            -X github.com/patrk/kubectl-flink/internal/version.Date=$(shell date -u +%FT%TZ)
 
-.PHONY: build test bench lint snapshot kind-up kind-deps kind-down e2e fixtures
+.PHONY: build test bench lint snapshot kind-up kind-deps kind-down e2e fixtures scenarios
 
 build: ; CGO_ENABLED=0 go build -ldflags "$(LDFLAGS)" -o bin/kubectl-flink ./cmd/kubectl-flink
 test:  ; go test -race ./...
@@ -36,3 +36,8 @@ e2e: build
 fixtures:
 	KUBE_CONTEXT=$(KUBE_CONTEXT) OUT=testdata/fixtures/operator-$(FLINK_OPERATOR_VERSION)-flink-$(FLINK_VERSION) \
 	  hack/capture-fixtures.sh basic
+
+# Failure states (bad image, missing jar, suspended) captured from the operator under test.
+scenarios:
+	KUBE_CONTEXT=$(KUBE_CONTEXT) FLINK_VERSION=$(FLINK_VERSION) \
+	  OUT=testdata/fixtures/scenarios-operator-$(FLINK_OPERATOR_VERSION)-flink-$(FLINK_VERSION) hack/capture-scenarios.sh

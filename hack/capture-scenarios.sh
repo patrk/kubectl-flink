@@ -1,0 +1,57 @@
+#!/usr/bin/env bash
+# Captures FlinkDeployments in failure states as test fixtures for health and triage.
+# Usage: OUT=<dir> KUBE_CONTEXT=<ctx> FLINK_VERSION=<x.y> hack/capture-scenarios.sh
+set -euo pipefail
+: "${OUT:?}" "${KUBE_CONTEXT:?}" "${FLINK_VERSION:?}"
+k() { kubectl --context "$KUBE_CONTEXT" "$@"; }
+minor=$(cut -d. -f1-2 <<<"$FLINK_VERSION")
+export FLINK_VERSION FLINK_VERSION_ENUM=${minor/./_}
+mkdir -p "$OUT"
+
+# deploy <name> <yq-style sed edits...>: renders the basic template under a new name with edits applied.
+deploy() {
+  local name=$1; shift
+  envsubst < test/e2e/basic.yaml.tmpl | sed "s/name: basic/name: $name/" | sed "$@" | k apply -f -
+}
+# wait_for <name> <jsonpath> <regex> <seconds>
+wait_for() {
+  local deadline=$((SECONDS + $4))
+  until [[ "$(k get flinkdeployment "$1" -o jsonpath="$2")" =~ $3 ]]; do
+    (( SECONDS > deadline )) && { echo "$1: timeout waiting for $2 =~ $3" >&2; return 1; }
+    sleep 5
+  done
+}
+# wait_pod <name> <regex>: waits until the JobManager container's waiting reason matches, so a fixture shows the
+# real failure rather than a startup state.
+wait_pod() {
+  local deadline=$((SECONDS + 300))
+  until [[ "$(k get pods -l "app=$1,component=jobmanager" -o jsonpath='{.items[*].status.containerStatuses[*].state.waiting.reason}')" =~ $2 ]]; do
+    (( SECONDS > deadline )) && { echo "$1: timeout waiting for pod reason =~ $2" >&2; return 1; }
+    sleep 5
+  done
+}
+save() {
+  mkdir -p "$OUT/$1"
+  k get flinkdeployment "$1" -o json --show-managed-fields > "$OUT/$1/flinkdeployment.json"
+  k get pods -l "app=$1" -o json > "$OUT/$1/pods.json"
+  k get events --field-selector "involvedObject.name=$1" -o json > "$OUT/$1/events-cr.json"
+}
+
+trap 'k delete flinkdeployment bad-image missing-jar suspended --ignore-not-found --wait=false >/dev/null' EXIT
+
+deploy bad-image -e "s|image: flink:.*|image: flink:does-not-exist|"
+deploy missing-jar -e "s|jarURI: .*|jarURI: local:///opt/flink/does-not-exist.jar|"
+deploy suspended -e ""
+
+# Suspended the way users do it: a running job whose spec.job.state is flipped.
+wait_for suspended '{.status.lifecycleState}/{.status.jobStatus.state}' '^STABLE/RUNNING$' 300
+k patch flinkdeployment suspended --type merge -p '{"spec":{"job":{"state":"suspended"}}}'
+wait_for suspended '{.status.lifecycleState}' '^SUSPENDED$' 300
+save suspended
+wait_pod bad-image 'ImagePullBackOff'
+wait_for bad-image '{.status.jobManagerDeploymentStatus}' '^ERROR$' 300
+save bad-image
+wait_pod missing-jar 'CrashLoopBackOff'
+wait_for missing-jar '{.status.jobManagerDeploymentStatus}' '^ERROR$' 300
+save missing-jar
+echo "scenarios in $OUT"
