@@ -76,6 +76,17 @@ func DefaultThresholds() Thresholds { return ThresholdsFor(time.Minute) }
 type Finding struct {
 	Health Health `json:"health"`
 	Reason string `json:"reason"`
+	// Since is when a state that has lasted too long began. It is kept apart from Reason so that the reason
+	// stays the same while time passes; Text adds the duration.
+	Since *time.Time `json:"since,omitempty"`
+}
+
+// Text is the reason with how long the state has lasted at now, such as "job RESTARTING for 20m".
+func (f *Finding) Text(now time.Time) string {
+	if f.Since == nil {
+		return f.Reason
+	}
+	return f.Reason + " for " + duration.HumanDuration(now.Sub(*f.Since))
 }
 
 // Assessment is a job's health and the findings behind it, worst first.
@@ -107,24 +118,25 @@ func (a *assessor) add(h Health, format string, args ...any) {
 	a.findings = append(a.findings, Finding{Health: h, Reason: fmt.Sprintf(format, args...)})
 }
 
-// since is the time elapsed from the first non-zero time; -1 if none is known.
-func (a *assessor) since(ts ...time.Time) time.Duration {
+// first returns the first non-zero time; zero if none is known.
+func first(ts ...time.Time) time.Time {
 	for _, t := range ts {
 		if !t.IsZero() {
-			return a.now.Sub(t)
+			return t
 		}
 	}
-	return -1
+	return time.Time{}
 }
 
-// timed adds a finding that is PROGRESSING until d exceeds limit, then late. A negative d means the start is
-// unknown; the finding stays PROGRESSING because there is no evidence that it has lasted too long.
-func (a *assessor) timed(d, limit time.Duration, late Health, what string) {
+// timed adds a finding that is PROGRESSING until the state that began at start has lasted longer than limit,
+// then late. A zero start is unknown; the finding stays PROGRESSING because there is no evidence that it has
+// lasted too long.
+func (a *assessor) timed(start time.Time, limit time.Duration, late Health, what string) {
 	switch {
-	case d < 0:
+	case start.IsZero():
 		a.add(Progressing, "%s (since unknown)", what)
-	case d > limit:
-		a.add(late, "%s for %s", what, duration.HumanDuration(d))
+	case a.now.Sub(start) > limit:
+		a.findings = append(a.findings, Finding{Health: late, Reason: what, Since: &start})
 	default:
 		a.add(Progressing, "%s", what)
 	}
@@ -133,11 +145,11 @@ func (a *assessor) timed(d, limit time.Duration, late Health, what string) {
 func (a *assessor) run() {
 	j := a.j
 	if !j.DeletingSince.IsZero() {
-		a.timed(a.since(j.DeletingSince), a.th.StuckAfter, Stuck, "being deleted")
+		a.timed(j.DeletingSince, a.th.StuckAfter, Stuck, "being deleted")
 		return
 	}
 	if j.Lifecycle == "" && j.ReconciledAt.IsZero() {
-		a.timed(a.since(j.Created), a.th.Grace, Stuck, "not reconciled by the operator yet")
+		a.timed(j.Created, a.th.Grace, Stuck, "not reconciled by the operator yet")
 		return
 	}
 	if j.SpecJobState == "suspended" {
@@ -149,6 +161,7 @@ func (a *assessor) run() {
 	a.job()
 	a.drift()
 	a.statusError()
+	a.pods()
 }
 
 func (a *assessor) suspended() {
@@ -156,7 +169,7 @@ func (a *assessor) suspended() {
 	if j.Lifecycle == "SUSPENDED" {
 		a.add(Suspended, "suspended")
 	} else {
-		a.timed(a.since(j.SpecChangedAt), a.th.StuckAfter, Stuck, "suspend requested, lifecycle "+j.Lifecycle)
+		a.timed(j.SpecChangedAt, a.th.StuckAfter, Stuck, "suspend requested, lifecycle "+j.Lifecycle)
 	}
 	a.drift()
 }
@@ -165,11 +178,16 @@ func (a *assessor) operator() {
 	j := a.j
 	switch j.Lifecycle {
 	case "FAILED":
-		a.add(Failed, "lifecycle FAILED")
+		// The operator's error says why; it is shown here instead of as a separate finding.
+		if j.Error != nil {
+			a.add(Failed, "lifecycle FAILED: %s", j.Error.Summary(120))
+		} else {
+			a.add(Failed, "lifecycle FAILED")
+		}
 	case "ROLLED_BACK":
 		a.add(Degraded, "rolled back: running the last stable spec, not the current one")
 	case "UPGRADING", "ROLLING_BACK":
-		a.timed(a.since(j.ReconciledAt), a.th.StuckAfter, Stuck, "lifecycle "+j.Lifecycle)
+		a.timed(j.ReconciledAt, a.th.StuckAfter, Stuck, "lifecycle "+j.Lifecycle)
 	}
 }
 
@@ -178,20 +196,27 @@ func (a *assessor) jobManager() {
 	if j.Kind != KindDeployment {
 		return
 	}
-	reconciled := a.since(j.ReconciledAt)
+	reconciled := j.ReconciledAt
+	// The pod's waiting reason, such as ImagePullBackOff, says why the JobManager is not up.
+	waiting := ""
+	if j.Pods != nil && j.Pods.JM.Waiting != "" {
+		waiting = ", waiting: " + j.Pods.JM.Waiting
+	}
 	switch j.JMStatus {
 	case "ERROR":
 		what := "JobManager deployment ERROR"
 		if j.Error != nil {
 			what += ": " + j.Error.Summary(120)
+		} else {
+			what += waiting
 		}
 		a.timed(reconciled, a.th.Grace, Failed, what)
 	case "MISSING":
 		a.timed(reconciled, a.th.Grace, Failed, "JobManager deployment MISSING")
 	case "DEPLOYING":
-		a.timed(reconciled, a.th.StuckAfter, Stuck, "JobManager DEPLOYING")
+		a.timed(reconciled, a.th.StuckAfter, Stuck, "JobManager DEPLOYING"+waiting)
 	case "DEPLOYED_NOT_READY":
-		a.timed(reconciled, a.th.DegradedAfter, Degraded, "JobManager deployed, not ready")
+		a.timed(reconciled, a.th.DegradedAfter, Degraded, "JobManager deployed, not ready"+waiting)
 	}
 }
 
@@ -209,11 +234,11 @@ func (a *assessor) job() {
 		a.add(Degraded, "job CANCELED")
 	case "RUNNING", "FINISHED":
 	case "":
-		a.timed(a.since(j.ReconciledAt, j.Created), a.th.DegradedAfter, Degraded, "no job status")
+		a.timed(first(j.ReconciledAt, j.Created), a.th.DegradedAfter, Degraded, "no job status")
 	default:
 		// RESTARTING, RECONCILING, INITIALIZING, CREATED, CANCELLING, and SUSPENDED by Flink itself (for
 		// example after a JobManager failover) while the spec says running.
-		a.timed(a.since(j.JobStateSince, j.ReconciledAt), a.th.DegradedAfter, Degraded, "job "+j.JobState)
+		a.timed(first(j.JobStateSince, j.ReconciledAt), a.th.DegradedAfter, Degraded, "job "+j.JobState)
 	}
 }
 
@@ -224,14 +249,14 @@ func (a *assessor) drift() {
 	}
 	what := fmt.Sprintf("spec generation %d not observed (operator at %d)", j.Generation, j.ObservedGeneration)
 	// ReconciledAt is no fallback: it predates the change, so it would make a fresh change look old.
-	a.timed(a.since(j.SpecChangedAt), a.th.DriftAfter, Stuck, what)
+	a.timed(j.SpecChangedAt, a.th.DriftAfter, Stuck, what)
 }
 
 // statusError: the operator clears a FlinkDeployment's error on the next healthy observe, so an error under
 // STABLE is transient there. A FlinkSessionJob's error persists until the next spec change.
 func (a *assessor) statusError() {
 	j := a.j
-	if j.Error == nil || j.JMStatus == "ERROR" {
+	if j.Error == nil || j.JMStatus == "ERROR" || j.Lifecycle == "FAILED" {
 		return
 	}
 	msg := "operator error: " + j.Error.Summary(120)
@@ -239,5 +264,41 @@ func (a *assessor) statusError() {
 		a.add(Stuck, "%s", msg)
 		return
 	}
-	a.timed(a.since(j.ReconciledAt), a.th.Grace, Degraded, msg)
+	a.timed(j.ReconciledAt, a.th.Grace, Degraded, msg)
+}
+
+// pods compares ready TaskManagers with the desired count. It runs only when pods were read, and only for a
+// running job, since TaskManagers come and go while a job deploys.
+func (a *assessor) pods() {
+	j := a.j
+	if j.Pods == nil || j.Kind != KindDeployment {
+		return
+	}
+	if j.JobState != "RUNNING" || j.TMReplicas == 0 {
+		return
+	}
+	tm := j.Pods.TM
+	if tm.Ready >= int(j.TMReplicas) {
+		return
+	}
+	what := fmt.Sprintf("%d/%d TaskManagers ready", tm.Ready, j.TMReplicas)
+	if tm.Waiting != "" {
+		what += ", waiting: " + tm.Waiting
+	}
+	// A missing pod has no not-ready time; the job's last state change is the best bound for it.
+	start := tm.NotReadySince
+	if tm.Total < int(j.TMReplicas) || start.IsZero() {
+		start = latest(j.JobStateSince, j.ReconciledAt)
+	}
+	a.timed(start, a.th.DegradedAfter, Degraded, what)
+}
+
+func latest(ts ...time.Time) time.Time {
+	var out time.Time
+	for _, t := range ts {
+		if t.After(out) {
+			out = t
+		}
+	}
+	return out
 }

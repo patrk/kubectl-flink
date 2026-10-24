@@ -67,10 +67,21 @@ type Job struct {
 	SpecChangedAt time.Time
 	// SpecOwners are the managers that own spec fields, the operator excluded.
 	SpecOwners []string
+
+	// Pods is nil when pods could not be read; the pod checks are then skipped.
+	Pods *ClusterPods
 }
 
 // Key is namespace/name, unique within a context.
 func (j *Job) Key() string { return j.Namespace + "/" + j.Name }
+
+// StateSince is when the job's current state began: the job state's update time, else the last reconcile.
+func (j *Job) StateSince() time.Time {
+	if !j.JobStateSince.IsZero() {
+		return j.JobStateSince
+	}
+	return j.ReconciledAt
+}
 
 // Drift reports whether the operator has not yet acted on the latest spec.
 func (j *Job) Drift() bool { return j.ObservedGeneration < j.Generation }
@@ -111,7 +122,7 @@ func fromMeta(kind Kind, context string, m *kube.Metadata) Job {
 		Context:    context,
 		Namespace:  m.Namespace,
 		Name:       m.Name,
-		UID:        m.UID,
+		UID:        string(m.UID),
 		Generation: m.Generation,
 		Created:    m.CreationTimestamp.Time,
 		Labels:     m.Labels,

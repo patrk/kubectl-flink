@@ -1,0 +1,6 @@
+CONTEXT   NAMESPACE   NAME       HEALTH     LIFECYCLE   JOB       JM      IN STATE   REASON
+prd       -           -          ERROR      -           -         -       -          context prd: Unauthorized
+dev       team-b      replay     FAILED     FAILED      FAILED    READY   3h         lifecycle FAILED: java.lang.OutOfMemoryError: Java heap spa…
+dev       team-a      payments   DEGRADED   STABLE      RUNNING   READY   3h         1/2 TaskManagers ready for 20m
+dev       team-a      enrich     OK         STABLE      RUNNING   -       3h         -
+dev       team-a      orders     OK         STABLE      RUNNING   READY   3h         -

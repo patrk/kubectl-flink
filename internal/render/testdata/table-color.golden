@@ -1,0 +1,5 @@
+NAME       HEALTH              LIFECYCLE   JOB       JM      IN STATE   REASON
+replay     [31mFAILED[0m     FAILED      FAILED    READY   3h         lifecycle FAILED: java.lang.OutOfMemoryError: Java heap spa…
+payments   [33mDEGRADED[0m   STABLE      RUNNING   READY   3h         1/2 TaskManagers ready for 20m
+enrich     [32mOK[0m         STABLE      RUNNING   -       3h         -
+orders     [32mOK[0m         STABLE      RUNNING   READY   3h         -

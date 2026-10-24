@@ -9,7 +9,9 @@ Before opening a PR:
 
     make lint test bench   # golangci-lint, race tests, benchmarks
     make kind-up e2e       # kind cluster with the operator, one job to RUNNING
+    make e2e-go            # kube layer against that cluster: probe, load, WatchList informers
     make fixtures          # capture CR and JobManager REST JSON from that job
+    make crds              # refresh the operator CRDs the field check reads
 
 `FLINK_OPERATOR_VERSION` and `FLINK_VERSION` select the versions; CI runs the grid of operator 1.15.0 and 1.16.1 with
 Flink 1.20 and 2.2.

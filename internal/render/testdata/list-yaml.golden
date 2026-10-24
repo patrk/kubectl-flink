@@ -1,0 +1,86 @@
+apiVersion: kubectl-flink/v1alpha1
+items:
+- context: dev
+  drift: true
+  error: 'java.lang.OutOfMemoryError: Java heap space in the operator while it tried
+    to read a very long reason'
+  findings:
+  - health: FAILED
+    reason: 'lifecycle FAILED: java.lang.OutOfMemoryError: Java heap space in the
+      operator while it tried to read a very long reason'
+  - health: FAILED
+    reason: job FAILED
+  - health: PROGRESSING
+    reason: spec generation 3 not observed (operator at 2) (since unknown)
+  flinkVersion: 2.2.0
+  health: FAILED
+  image: flink:2.2
+  jobManager: READY
+  jobState: FAILED
+  kind: FlinkDeployment
+  lifecycle: FAILED
+  name: replay
+  namespace: team-b
+  owners:
+  - argocd-controller
+  stateSince: "2026-10-24T09:00:00Z"
+- context: dev
+  findings:
+  - health: DEGRADED
+    reason: 1/2 TaskManagers ready
+    since: "2026-10-24T11:40:00Z"
+  flinkVersion: 2.2.0
+  health: DEGRADED
+  image: flink:2.2
+  jobManager: READY
+  jobManagerRestarts: 2
+  jobState: RUNNING
+  kind: FlinkDeployment
+  lifecycle: STABLE
+  name: payments
+  namespace: team-a
+  owners:
+  - argocd-controller
+  stateSince: "2026-10-24T09:00:00Z"
+  taskManagers:
+    desired: 2
+    ready: 1
+- context: dev
+  flinkVersion: 2.2.0
+  health: OK
+  jobState: RUNNING
+  kind: FlinkSessionJob
+  lifecycle: STABLE
+  name: enrich
+  namespace: team-a
+  owners:
+  - argocd-controller
+  sessionCluster: session
+  stateSince: "2026-10-24T09:00:00Z"
+- context: dev
+  flinkVersion: 2.2.0
+  health: OK
+  image: flink:2.2
+  jobManager: READY
+  jobState: RUNNING
+  kind: FlinkDeployment
+  lifecycle: STABLE
+  name: orders
+  namespace: team-a
+  owners:
+  - argocd-controller
+  stateSince: "2026-10-24T09:00:00Z"
+kind: JobList
+scopes:
+- context: dev
+- context: prd
+  error: 'context prd: Unauthorized'
+summary:
+  cpuRequests: 1500m
+  health:
+    DEGRADED: 1
+    FAILED: 1
+    OK: 2
+  jobs: 4
+  memoryRequests: 4Gi
+  pods: 3

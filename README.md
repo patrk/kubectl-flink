@@ -9,10 +9,11 @@ value per job and explains a failure layer by layer: Flink runtime (exceptions, 
 OOMKilled, events), performance (backpressure, checkpoints, source lag) and operator (lifecycle, reconciliation,
 rollbacks).
 
-> **Status: design and research.** Nothing to install yet. The command surface below is the working draft.
+> **Status: early development.** `ls` works; the other commands below are the working draft. Build with `make build`.
 
 ```
-kubectl flink ls [-A] [--health failed,stuck,degraded | --not-ok] [--sort health|restarts|age] [-o wide|json|yaml] [-w]
+kubectl flink ls [-A] [FILTER] [--unhealthy | --health failed,stuck] [-l selector] [--sort health|name|state-age]
+                [-o wide|json|yaml|name] [-w] [--exit-code]
 kubectl flink why <job>            # one-screen verdict, then the raw evidence
 kubectl flink report <job>         # handover bundle: every fact needed to debug the job, secrets redacted
 kubectl flink exceptions | checkpoints | snapshots | logs | history <job>

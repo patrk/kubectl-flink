@@ -3,6 +3,7 @@ package model
 import (
 	"encoding/json"
 	"os"
+	"path/filepath"
 	"strings"
 	"testing"
 	"time"
@@ -24,6 +25,13 @@ func running() Job {
 	}
 }
 
+func tms(total, ready int, notReadySince time.Time) *ClusterPods {
+	return &ClusterPods{
+		JM: Component{Total: 1, Ready: 1},
+		TM: Component{Total: total, Ready: ready, NotReadySince: notReadySince},
+	}
+}
+
 func TestAssess(t *testing.T) {
 	tests := []struct {
 		name   string
@@ -35,6 +43,9 @@ func TestAssess(t *testing.T) {
 		{"deployed not yet stable but running", func(j *Job) { j.Lifecycle = "DEPLOYED" }, OK, ""},
 		{"finished batch job", func(j *Job) { j.JobState = "FINISHED" }, OK, ""},
 		{"lifecycle failed", func(j *Job) { j.Lifecycle = "FAILED" }, Failed, "lifecycle FAILED"},
+		{"lifecycle failed with error", func(j *Job) {
+			j.Lifecycle, j.Error = "FAILED", ParseStatusError(`{"type":"a.B","message":"savepoint not found"}`)
+		}, Failed, "lifecycle FAILED: savepoint not found"},
 		{"job failed", func(j *Job) { j.JobState = "FAILED" }, Failed, "job FAILED"},
 		{"job failing", func(j *Job) { j.JobState = "FAILING" }, Failed, "job FAILING"},
 		{"JM error after grace", func(j *Job) {
@@ -80,6 +91,27 @@ func TestAssess(t *testing.T) {
 		{"session cluster ready", func(j *Job) { j.SessionCluster, j.JobState = true, "" }, OK, ""},
 		{"session cluster missing JM", func(j *Job) { j.SessionCluster, j.JobState, j.JMStatus = true, "", "MISSING" }, Failed, "MISSING"},
 		{"worst finding wins", func(j *Job) { j.JobState, j.Lifecycle = "RESTARTING", "FAILED" }, Failed, "lifecycle FAILED"},
+		{"TaskManagers ready", func(j *Job) { j.TMReplicas, j.Pods = 2, tms(2, 2, time.Time{}) }, OK, ""},
+		{"pods unknown", func(j *Job) { j.TMReplicas = 2 }, OK, ""},
+		{"TaskManager not ready long", func(j *Job) { j.TMReplicas, j.Pods = 2, tms(2, 1, ago(20*time.Minute)) }, Degraded, "1/2 TaskManagers ready for 20m"},
+		{"TaskManager not ready briefly", func(j *Job) { j.TMReplicas, j.Pods = 2, tms(2, 1, ago(time.Minute)) }, Progressing, "1/2 TaskManagers ready"},
+		{"TaskManager pod missing", func(j *Job) { j.TMReplicas, j.Pods = 2, tms(1, 1, time.Time{}) }, Degraded, "1/2 TaskManagers ready for 60m"},
+		{"TaskManager waiting", func(j *Job) {
+			j.TMReplicas, j.Pods = 2, tms(2, 1, ago(time.Hour))
+			j.Pods.TM.Waiting = "CrashLoopBackOff (job-taskmanager-1-2)"
+		}, Degraded, "waiting: CrashLoopBackOff (job-taskmanager-1-2)"},
+		{"TaskManagers while restarting", func(j *Job) { j.JobState, j.TMReplicas, j.Pods = "RESTARTING", 2, tms(2, 0, ago(time.Hour)) }, Degraded, "job RESTARTING"},
+		{"session job ignores cluster TaskManagers", func(j *Job) {
+			j.Kind, j.JMStatus, j.TMReplicas, j.Pods = KindSessionJob, "", 2, tms(2, 0, ago(time.Hour))
+		}, OK, ""},
+		{"JobManager waiting while deploying", func(j *Job) {
+			j.JMStatus, j.ReconciledAt = "DEPLOYING", ago(3*time.Minute)
+			j.Pods = &ClusterPods{JM: Component{Total: 1, Waiting: "ImagePullBackOff (job-abc)"}}
+		}, Progressing, "JobManager DEPLOYING, waiting: ImagePullBackOff (job-abc)"},
+		{"JobManager waiting, not ready too long", func(j *Job) {
+			j.JMStatus = "DEPLOYED_NOT_READY"
+			j.Pods = &ClusterPods{JM: Component{Total: 1, Waiting: "CrashLoopBackOff (job-abc)"}}
+		}, Degraded, "JobManager deployed, not ready, waiting: CrashLoopBackOff (job-abc) for 60m"},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -97,7 +129,7 @@ func TestAssess(t *testing.T) {
 			}
 			// The reason must be among the findings with the job's health, which sort first.
 			for _, f := range got.Findings {
-				if f.Health == got.Health && strings.Contains(f.Reason, tt.reason) {
+				if f.Health == got.Health && strings.Contains(f.Text(now), tt.reason) {
 					return
 				}
 			}
@@ -119,6 +151,23 @@ func loadJob(t *testing.T, path string) Job {
 	return FromDeployment("kind", &fd)
 }
 
+// loadPods reads a captured pod list; nil when the fixture has none.
+func loadPods(t *testing.T, path string) []kube.Pod {
+	t.Helper()
+	b, err := os.ReadFile(path)
+	if os.IsNotExist(err) {
+		return nil
+	}
+	if err != nil {
+		t.Fatal(err)
+	}
+	var l kube.PodList
+	if err := json.Unmarshal(b, &l); err != nil {
+		t.Fatal(err)
+	}
+	return l.Items
+}
+
 // Fixtures are real operator output; health is checked at the capture time plus an offset.
 func TestAssessFixtures(t *testing.T) {
 	const dir = "../../testdata/fixtures/"
@@ -137,6 +186,11 @@ func TestAssessFixtures(t *testing.T) {
 	}
 	for _, tt := range tests {
 		j := loadJob(t, dir+tt.path)
+		if pods := loadPods(t, filepath.Join(filepath.Dir(dir+tt.path), "pods.json")); pods != nil {
+			jobs := []Job{j}
+			AttachPods(jobs, SummarisePods(pods), func(string) bool { return true })
+			j = jobs[0]
+		}
 		at := j.ReconciledAt.Add(tt.after)
 		if got := Assess(&j, at, DefaultThresholds()); got.Health != tt.want {
 			t.Errorf("%s: %s, want %s; findings %+v", tt.path, got.Health, tt.want, got.Findings)

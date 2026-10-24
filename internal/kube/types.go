@@ -40,16 +40,8 @@ type FlinkSessionJob struct {
 // Metadata is ObjectMeta reduced to what health, selection and owner detection need. Managed fields are
 // summarised while decoding, and the last-applied-configuration annotation is dropped.
 type Metadata struct {
-	Name              string            `json:"name"`
-	Namespace         string            `json:"namespace"`
-	UID               string            `json:"uid"`
-	ResourceVersion   string            `json:"resourceVersion"`
-	Generation        int64             `json:"generation"`
-	CreationTimestamp metav1.Time       `json:"creationTimestamp"`
-	DeletionTimestamp *metav1.Time      `json:"deletionTimestamp,omitempty"`
-	Labels            map[string]string `json:"labels,omitempty"`
-	Annotations       Annotations       `json:"annotations,omitempty"`
-	Managers          Managers          `json:"managedFields,omitempty"`
+	ObjectMeta `json:",inline"`
+	Managers   Managers `json:"managedFields,omitempty"`
 }
 
 // Annotations drops kubectl's last-applied-configuration, a full copy of the spec.

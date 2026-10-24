@@ -1,0 +1,117 @@
+{
+  "apiVersion": "kubectl-flink/v1alpha1",
+  "kind": "JobList",
+  "items": [
+    {
+      "context": "dev",
+      "namespace": "team-b",
+      "name": "replay",
+      "kind": "FlinkDeployment",
+      "health": "FAILED",
+      "findings": [
+        {
+          "health": "FAILED",
+          "reason": "lifecycle FAILED: java.lang.OutOfMemoryError: Java heap space in the operator while it tried to read a very long reason"
+        },
+        {
+          "health": "FAILED",
+          "reason": "job FAILED"
+        },
+        {
+          "health": "PROGRESSING",
+          "reason": "spec generation 3 not observed (operator at 2) (since unknown)"
+        }
+      ],
+      "lifecycle": "FAILED",
+      "jobState": "FAILED",
+      "jobManager": "READY",
+      "stateSince": "2026-10-24T09:00:00Z",
+      "error": "java.lang.OutOfMemoryError: Java heap space in the operator while it tried to read a very long reason",
+      "drift": true,
+      "flinkVersion": "2.2.0",
+      "image": "flink:2.2",
+      "owners": [
+        "argocd-controller"
+      ]
+    },
+    {
+      "context": "dev",
+      "namespace": "team-a",
+      "name": "payments",
+      "kind": "FlinkDeployment",
+      "health": "DEGRADED",
+      "findings": [
+        {
+          "health": "DEGRADED",
+          "reason": "1/2 TaskManagers ready",
+          "since": "2026-10-24T11:40:00Z"
+        }
+      ],
+      "lifecycle": "STABLE",
+      "jobState": "RUNNING",
+      "jobManager": "READY",
+      "stateSince": "2026-10-24T09:00:00Z",
+      "taskManagers": {
+        "ready": 1,
+        "desired": 2
+      },
+      "jobManagerRestarts": 2,
+      "flinkVersion": "2.2.0",
+      "image": "flink:2.2",
+      "owners": [
+        "argocd-controller"
+      ]
+    },
+    {
+      "context": "dev",
+      "namespace": "team-a",
+      "name": "enrich",
+      "kind": "FlinkSessionJob",
+      "health": "OK",
+      "lifecycle": "STABLE",
+      "jobState": "RUNNING",
+      "stateSince": "2026-10-24T09:00:00Z",
+      "sessionCluster": "session",
+      "flinkVersion": "2.2.0",
+      "owners": [
+        "argocd-controller"
+      ]
+    },
+    {
+      "context": "dev",
+      "namespace": "team-a",
+      "name": "orders",
+      "kind": "FlinkDeployment",
+      "health": "OK",
+      "lifecycle": "STABLE",
+      "jobState": "RUNNING",
+      "jobManager": "READY",
+      "stateSince": "2026-10-24T09:00:00Z",
+      "flinkVersion": "2.2.0",
+      "image": "flink:2.2",
+      "owners": [
+        "argocd-controller"
+      ]
+    }
+  ],
+  "scopes": [
+    {
+      "context": "dev"
+    },
+    {
+      "context": "prd",
+      "error": "context prd: Unauthorized"
+    }
+  ],
+  "summary": {
+    "jobs": 4,
+    "health": {
+      "DEGRADED": 1,
+      "FAILED": 1,
+      "OK": 2
+    },
+    "pods": 3,
+    "cpuRequests": "1500m",
+    "memoryRequests": "4Gi"
+  }
+}
