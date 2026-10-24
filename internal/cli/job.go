@@ -13,13 +13,15 @@ import (
 	"github.com/patrk/kubectl-flink/internal/flink"
 	"github.com/patrk/kubectl-flink/internal/kube"
 	"github.com/patrk/kubectl-flink/internal/model"
+	"github.com/patrk/kubectl-flink/internal/profile"
 	"github.com/patrk/kubectl-flink/internal/render"
 )
 
 // target is a resolved job with the client of its context.
 type target struct {
-	job    *model.Job
-	client *kube.Client
+	job     *model.Job
+	client  *kube.Client
+	profile *profile.Profile
 }
 
 // cluster is the Flink cluster serving the job's REST API and holding its pods.
@@ -57,6 +59,7 @@ func (o *Options) resolveJob(ctx context.Context, arg string, allNamespaces bool
 			}
 		}
 		if len(found) == 1 {
+			found[0].profile = prof
 			return found[0], nil
 		}
 		if len(found) > 1 {
@@ -88,7 +91,7 @@ func (o *Options) resolveJob(ctx context.Context, arg string, allNamespaces bool
 	case err != nil:
 		return nil, err
 	}
-	return &target{job: job, client: clients[job]}, nil
+	return &target{job: job, client: clients[job], profile: prof}, nil
 }
 
 func ambiguous(arg string, found []*target) error {

@@ -1,0 +1,28 @@
+FlinkDeployment default/bad-image in context kind, job 5b1c6a1517a7f5e98a6235325db3bf95 · PROGRESSING
+  JobManager deployment ERROR: ErrImagePull: [flink-main-container] rpc error: code = NotFound desc = failed to pull and unpack image "docker.io/libra…
+  job RECONCILING
+
+Verdict
+  1. FAILED: The image flink:does-not-exist cannot be pulled (kubernetes)
+    Kubernetes cannot pull the image, so the JobManager never starts and the operator reports it in ERROR. Either the image or tag does not exist, or the
+    registry refuses the pull.
+    Next: Check spec.image and the tag, the registry, and the pull secret of the service account.
+    · event: ErrImagePull: [flink-main-container] rpc error: code = NotFound desc = failed to pull and unpack image "docker.io/library/flink:does-not-exist": f…
+    · event: Failed: Failed to pull image "flink:does-not-exist": rpc error: code = NotFound desc = failed to pull and unpack image "docker.io/library/flink:do…
+    · pod.waiting: ImagePullBackOff: Back-off pulling image "flink:does-not-exist": ErrImagePull: rpc error: code = NotFound desc = failed to pull and unpack i…
+
+Operator
+  lifecycle DEPLOYED, JobManager ERROR, job RECONCILING, reconciled 100s ago, generation 1 (observed 1)
+  error: ErrImagePull: [flink-main-container] rpc error: code = NotFound desc = failed to pull and unpack image "docker.io/library/flink:does-not-exist": faile…
+  spec written by kubectl-client-side-apply, last 101s ago
+
+Kubernetes
+  pod bad-image-67b999879b-z2mhv (jobmanager): Pending, waiting ImagePullBackOff
+  warning events, newest first:
+    60s ago Failed ×3 on Pod: Failed to pull image "flink:does-not-exist": rpc error: code = NotFound desc = failed to pull and unpack image "docker.io/library…
+    60s ago Failed ×3 on Pod: Error: ErrImagePull
+    73s ago Failed ×2 on Pod: Error: ImagePullBackOff
+    96s ago ErrImagePull on FlinkDeployment: [flink-main-container] rpc error: code = NotFound desc = failed to pull and unpack image "docker.io/library/flink:…
+
+Runtime
+  not collected: JobManager REST API: not asked: the JobManager is ERROR

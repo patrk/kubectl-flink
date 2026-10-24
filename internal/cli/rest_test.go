@@ -15,6 +15,7 @@ import (
 	"github.com/patrk/kubectl-flink/internal/flink"
 	"github.com/patrk/kubectl-flink/internal/flink/flinktest"
 	"github.com/patrk/kubectl-flink/internal/kube/kubetest"
+	"github.com/patrk/kubectl-flink/internal/triage"
 )
 
 var update = flag.Bool("update", false, "rewrite golden files")
@@ -164,10 +165,10 @@ func TestStale(t *testing.T) {
 		"old":                {cps(45*time.Minute, 3), cfg, "last completed checkpoint is 45m old, interval 60s"},
 		"never completed":    {cps(-1, 7), cfg, "no checkpoint has completed; 7 failed"},
 		"not started":        {cps(-1, 0), cfg, ""},
-		"periodic off":       {cps(45*time.Minute, 0), &flink.CheckpointConfig{Interval: periodicOff}, ""},
+		"periodic off":       {cps(45*time.Minute, 0), &flink.CheckpointConfig{Interval: triage.PeriodicOff}, ""},
 		"no config":          {cps(45*time.Minute, 0), nil, ""},
 	} {
-		if got := stale(tc.c, tc.cfg, now); tc.want == "" && got != "" || !strings.Contains(got, tc.want) {
+		if got := triage.StaleCheckpoint(tc.c, tc.cfg, now); tc.want == "" && got != "" || !strings.Contains(got, tc.want) {
 			t.Errorf("%s: %q, want %q", name, got, tc.want)
 		}
 	}

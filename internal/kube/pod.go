@@ -59,6 +59,8 @@ type PodStatus struct {
 type PodCondition struct {
 	Type               string      `json:"type"`
 	Status             string      `json:"status"`
+	Reason             string      `json:"reason,omitempty"`  // such as Unschedulable
+	Message            string      `json:"message,omitempty"` // such as "0/3 nodes are available: ..."
 	LastTransitionTime metav1.Time `json:"lastTransitionTime"`
 }
 
@@ -73,18 +75,26 @@ type ContainerStatus struct {
 
 // ContainerState keeps why a container waits or how it last terminated.
 type ContainerState struct {
+	Running    *ContainerRunning    `json:"running,omitempty"`
 	Waiting    *ContainerWaiting    `json:"waiting,omitempty"`
 	Terminated *ContainerTerminated `json:"terminated,omitempty"`
 }
 
+// ContainerRunning is a running container.
+type ContainerRunning struct {
+	StartedAt metav1.Time `json:"startedAt"`
+}
+
 // ContainerWaiting is why a container is not running, such as ImagePullBackOff or CrashLoopBackOff.
 type ContainerWaiting struct {
-	Reason string `json:"reason,omitempty"`
+	Reason  string `json:"reason,omitempty"`
+	Message string `json:"message,omitempty"`
 }
 
 // ContainerTerminated is a container's termination.
 type ContainerTerminated struct {
 	Reason     string      `json:"reason,omitempty"`
+	Message    string      `json:"message,omitempty"`
 	ExitCode   int32       `json:"exitCode"`
 	FinishedAt metav1.Time `json:"finishedAt"`
 }

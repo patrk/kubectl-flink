@@ -1,0 +1,263 @@
+{
+  "apiVersion": "v1",
+  "items": [
+    {
+      "apiVersion": "v1",
+      "count": 1,
+      "eventTime": null,
+      "firstTimestamp": "2026-10-24T18:38:44Z",
+      "involvedObject": {
+        "apiVersion": "flink.apache.org/v1beta1",
+        "kind": "FlinkDeployment",
+        "name": "bad-image",
+        "namespace": "default",
+        "uid": "71f5415f-170c-401d-af1f-9b4000311deb"
+      },
+      "kind": "Event",
+      "lastTimestamp": "2026-10-24T18:38:44Z",
+      "message": "Starting deployment",
+      "metadata": {
+        "creationTimestamp": "2026-10-24T18:38:44Z",
+        "name": "JobManagerDeployment.415348488",
+        "namespace": "default",
+        "resourceVersion": "37193",
+        "uid": "4f00052c-0cb0-42a4-bc31-592b2dc4cda3"
+      },
+      "reason": "Submit",
+      "reportingComponent": "",
+      "reportingInstance": "",
+      "source": {
+        "component": "JobManagerDeployment"
+      },
+      "type": "Normal"
+    },
+    {
+      "apiVersion": "v1",
+      "count": 1,
+      "eventTime": null,
+      "firstTimestamp": "2026-10-24T18:38:49Z",
+      "involvedObject": {
+        "apiVersion": "flink.apache.org/v1beta1",
+        "kind": "FlinkDeployment",
+        "name": "bad-image",
+        "namespace": "default",
+        "uid": "71f5415f-170c-401d-af1f-9b4000311deb"
+      },
+      "kind": "Event",
+      "lastTimestamp": "2026-10-24T18:38:49Z",
+      "message": "[flink-main-container] rpc error: code = NotFound desc = failed to pull and unpack image \"docker.io/library/flink:does-not-exist\": failed to resolve reference \"docker.io/library/flink:does-not-exist\": docker.io/library/flink:does-not-exist: not found",
+      "metadata": {
+        "creationTimestamp": "2026-10-24T18:38:49Z",
+        "name": "JobManagerDeployment.736803224",
+        "namespace": "default",
+        "resourceVersion": "37385",
+        "uid": "b4c09053-a191-4597-afb7-5d87231f7563"
+      },
+      "reason": "ErrImagePull",
+      "reportingComponent": "",
+      "reportingInstance": "",
+      "source": {
+        "component": "JobManagerDeployment"
+      },
+      "type": "Warning"
+    },
+    {
+      "action": "Binding",
+      "apiVersion": "v1",
+      "eventTime": "2026-10-24T18:38:44.273592Z",
+      "firstTimestamp": null,
+      "involvedObject": {
+        "apiVersion": "v1",
+        "kind": "Pod",
+        "name": "bad-image-67b999879b-z2mhv",
+        "namespace": "default",
+        "resourceVersion": "37204",
+        "uid": "8e280c3b-0be5-4a31-8e7e-e8f58b3fbf07"
+      },
+      "kind": "Event",
+      "lastTimestamp": null,
+      "message": "Successfully assigned default/bad-image-67b999879b-z2mhv to kubectl-flink-control-plane",
+      "metadata": {
+        "creationTimestamp": "2026-10-24T18:38:44Z",
+        "name": "bad-image-67b999879b-z2mhv.18e18b2687cdc7d7",
+        "namespace": "default",
+        "resourceVersion": "37214",
+        "uid": "199289c1-c306-40a7-abd0-74b1e18bf5e2"
+      },
+      "reason": "Scheduled",
+      "reportingComponent": "default-scheduler",
+      "reportingInstance": "default-scheduler-kubectl-flink-control-plane",
+      "source": {},
+      "type": "Normal"
+    },
+    {
+      "apiVersion": "v1",
+      "count": 3,
+      "eventTime": null,
+      "firstTimestamp": "2026-10-24T18:38:44Z",
+      "involvedObject": {
+        "apiVersion": "v1",
+        "fieldPath": "spec.containers{flink-main-container}",
+        "kind": "Pod",
+        "name": "bad-image-67b999879b-z2mhv",
+        "namespace": "default",
+        "resourceVersion": "37209",
+        "uid": "8e280c3b-0be5-4a31-8e7e-e8f58b3fbf07"
+      },
+      "kind": "Event",
+      "lastTimestamp": "2026-10-24T18:39:25Z",
+      "message": "Pulling image \"flink:does-not-exist\"",
+      "metadata": {
+        "creationTimestamp": "2026-10-24T18:38:44Z",
+        "name": "bad-image-67b999879b-z2mhv.18e18b269d19804d",
+        "namespace": "default",
+        "resourceVersion": "37532",
+        "uid": "4dc778fb-9938-4389-84c6-23d5885cba57"
+      },
+      "reason": "Pulling",
+      "reportingComponent": "kubelet",
+      "reportingInstance": "kubectl-flink-control-plane",
+      "source": {
+        "component": "kubelet",
+        "host": "kubectl-flink-control-plane"
+      },
+      "type": "Normal"
+    },
+    {
+      "apiVersion": "v1",
+      "count": 3,
+      "eventTime": null,
+      "firstTimestamp": "2026-10-24T18:38:45Z",
+      "involvedObject": {
+        "apiVersion": "v1",
+        "fieldPath": "spec.containers{flink-main-container}",
+        "kind": "Pod",
+        "name": "bad-image-67b999879b-z2mhv",
+        "namespace": "default",
+        "resourceVersion": "37209",
+        "uid": "8e280c3b-0be5-4a31-8e7e-e8f58b3fbf07"
+      },
+      "kind": "Event",
+      "lastTimestamp": "2026-10-24T18:39:25Z",
+      "message": "Failed to pull image \"flink:does-not-exist\": rpc error: code = NotFound desc = failed to pull and unpack image \"docker.io/library/flink:does-not-exist\": failed to resolve reference \"docker.io/library/flink:does-not-exist\": docker.io/library/flink:does-not-exist: not found",
+      "metadata": {
+        "creationTimestamp": "2026-10-24T18:38:45Z",
+        "name": "bad-image-67b999879b-z2mhv.18e18b26cd001b5b",
+        "namespace": "default",
+        "resourceVersion": "37554",
+        "uid": "00a2aedd-607c-464b-8588-52257a03b0e7"
+      },
+      "reason": "Failed",
+      "reportingComponent": "kubelet",
+      "reportingInstance": "kubectl-flink-control-plane",
+      "source": {
+        "component": "kubelet",
+        "host": "kubectl-flink-control-plane"
+      },
+      "type": "Warning"
+    },
+    {
+      "apiVersion": "v1",
+      "count": 3,
+      "eventTime": null,
+      "firstTimestamp": "2026-10-24T18:38:45Z",
+      "involvedObject": {
+        "apiVersion": "v1",
+        "fieldPath": "spec.containers{flink-main-container}",
+        "kind": "Pod",
+        "name": "bad-image-67b999879b-z2mhv",
+        "namespace": "default",
+        "resourceVersion": "37209",
+        "uid": "8e280c3b-0be5-4a31-8e7e-e8f58b3fbf07"
+      },
+      "kind": "Event",
+      "lastTimestamp": "2026-10-24T18:39:25Z",
+      "message": "Error: ErrImagePull",
+      "metadata": {
+        "creationTimestamp": "2026-10-24T18:38:45Z",
+        "name": "bad-image-67b999879b-z2mhv.18e18b26cd016615",
+        "namespace": "default",
+        "resourceVersion": "37555",
+        "uid": "ee647091-fb3b-4ed2-99b7-71caf2f977ac"
+      },
+      "reason": "Failed",
+      "reportingComponent": "kubelet",
+      "reportingInstance": "kubectl-flink-control-plane",
+      "source": {
+        "component": "kubelet",
+        "host": "kubectl-flink-control-plane"
+      },
+      "type": "Warning"
+    },
+    {
+      "apiVersion": "v1",
+      "count": 2,
+      "eventTime": null,
+      "firstTimestamp": "2026-10-24T18:38:45Z",
+      "involvedObject": {
+        "apiVersion": "v1",
+        "fieldPath": "spec.containers{flink-main-container}",
+        "kind": "Pod",
+        "name": "bad-image-67b999879b-z2mhv",
+        "namespace": "default",
+        "resourceVersion": "37209",
+        "uid": "8e280c3b-0be5-4a31-8e7e-e8f58b3fbf07"
+      },
+      "kind": "Event",
+      "lastTimestamp": "2026-10-24T18:39:12Z",
+      "message": "Back-off pulling image \"flink:does-not-exist\"",
+      "metadata": {
+        "creationTimestamp": "2026-10-24T18:38:45Z",
+        "name": "bad-image-67b999879b-z2mhv.18e18b26ea199546",
+        "namespace": "default",
+        "resourceVersion": "37497",
+        "uid": "5cf76d20-6f71-4ff4-8767-e30e603eb6bb"
+      },
+      "reason": "BackOff",
+      "reportingComponent": "kubelet",
+      "reportingInstance": "kubectl-flink-control-plane",
+      "source": {
+        "component": "kubelet",
+        "host": "kubectl-flink-control-plane"
+      },
+      "type": "Normal"
+    },
+    {
+      "apiVersion": "v1",
+      "count": 2,
+      "eventTime": null,
+      "firstTimestamp": "2026-10-24T18:38:45Z",
+      "involvedObject": {
+        "apiVersion": "v1",
+        "fieldPath": "spec.containers{flink-main-container}",
+        "kind": "Pod",
+        "name": "bad-image-67b999879b-z2mhv",
+        "namespace": "default",
+        "resourceVersion": "37209",
+        "uid": "8e280c3b-0be5-4a31-8e7e-e8f58b3fbf07"
+      },
+      "kind": "Event",
+      "lastTimestamp": "2026-10-24T18:39:12Z",
+      "message": "Error: ImagePullBackOff",
+      "metadata": {
+        "creationTimestamp": "2026-10-24T18:38:45Z",
+        "name": "bad-image-67b999879b-z2mhv.18e18b26ea1a2674",
+        "namespace": "default",
+        "resourceVersion": "37499",
+        "uid": "1edc45cc-c116-4bb4-b27c-9e7a83cb2354"
+      },
+      "reason": "Failed",
+      "reportingComponent": "kubelet",
+      "reportingInstance": "kubectl-flink-control-plane",
+      "source": {
+        "component": "kubelet",
+        "host": "kubectl-flink-control-plane"
+      },
+      "type": "Warning"
+    }
+  ],
+  "kind": "List",
+  "metadata": {
+    "resourceVersion": ""
+  }
+}

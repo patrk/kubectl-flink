@@ -1,0 +1,206 @@
+# Default verdict rules. Each names a known pattern in the evidence; why shows the evidence whether or not a rule
+# matches. A rule ships with the fixture that triggers it (see TestEveryRuleFires). Profiles add rules in the same
+# format. Signals are listed in signals.go.
+rules:
+  - id: image-pull
+    layer: kubernetes
+    severity: FAILED
+    any:
+      - signal: pod.waiting
+        match: '^(?:ImagePullBackOff|ErrImagePull)\b.*?image "(?P<image>[^"]+)"'
+      - signal: event
+        match: '^(?:Failed|ErrImagePull|ImagePullBackOff): .*?(?:pull|pulling)(?: and unpack)? image "(?P<image>[^"]+)"'
+    supersedes: [jobmanager-crashloop]
+    title: 'The image {{.image}} cannot be pulled'
+    explain: >-
+      Kubernetes cannot pull the image, so the JobManager never starts and the operator reports it in ERROR.
+      Either the image or tag does not exist, or the registry refuses the pull.
+    remedy: 'Check spec.image and the tag, the registry, and the pull secret of the service account.'
+
+  - id: jar-missing
+    layer: runtime
+    severity: FAILED
+    any:
+      - signal: log.jobmanager
+        match: "JAR file does not exist '(?P<path>[^']+)'"
+      - signal: operator.error
+        match: "JAR file does not exist '(?P<path>[^']+)'"
+    supersedes: [jobmanager-crashloop]
+    title: 'The job jar {{.path}} does not exist'
+    explain: >-
+      The JobManager exits at startup because spec.job.jarURI points at a file that is not in the image or was
+      not downloaded. Kubernetes restarts it, so the pod is in CrashLoopBackOff.
+    remedy: 'Fix spec.job.jarURI, or build the jar into the image at that path.'
+
+  - id: jobmanager-crashloop
+    layer: kubernetes
+    severity: FAILED
+    any:
+      - signal: pod.waiting
+        match: '^CrashLoopBackOff\b.*\(jobmanager\)$'
+      # The operator reports the JobManager's container state on the resource.
+      - signal: event
+        match: '^CrashLoopBackOff:'
+    optional:
+      - signal: pod.terminated
+        match: '^(?P<termination>\w+ exit \d+).*\(jobmanager\)$'
+    title: 'The JobManager crashes at startup{{if .termination}} ({{.termination}}){{end}}'
+    explain: >-
+      The JobManager container exits and Kubernetes keeps restarting it. The reason is in the log of the previous
+      container; the error lines are below.
+    remedy: 'kubectl flink logs {{.job}} --previous'
+
+  - id: taskmanager-crashloop
+    layer: kubernetes
+    severity: DEGRADED
+    when:
+      - signal: pod.waiting
+        match: '^CrashLoopBackOff\b.*\(taskmanager\)$'
+    optional:
+      - signal: pod.terminated
+        match: '^(?P<termination>\w+ exit \d+).*\(taskmanager\)$'
+    title: 'A TaskManager crashes at startup{{if .termination}} ({{.termination}}){{end}}'
+    explain: >-
+      A TaskManager container exits and Kubernetes keeps restarting it, so the job has fewer slots than it needs.
+    remedy: 'kubectl flink logs {{.job}} --taskmanagers --previous'
+
+  - id: mount-failed
+    layer: kubernetes
+    severity: FAILED
+    any:
+      - signal: event
+        match: '^FailedMount: MountVolume\.SetUp failed for volume "(?P<volume>[^"]+)" : (?P<kind>secret|configmap) "(?P<object>[^"]+)" not found'
+      - signal: event
+        match: '^FailedMount: (?P<detail>.+)'
+    title: '{{if .object}}The {{.kind}} {{.object}} for volume {{.volume}} does not exist{{else}}A volume cannot be mounted{{end}}'
+    explain: >-
+      The pod cannot start until all its volumes are mounted, so it stays in ContainerCreating.
+      {{if not .object}}{{.detail}}{{end}}
+    remedy: '{{if .object}}Create the {{.kind}} {{.object}} in namespace {{.namespace}}, or remove the volume from the pod template.{{else}}Check the volumes of the pod template.{{end}}'
+
+  - id: unschedulable
+    layer: kubernetes
+    severity: STUCK
+    any:
+      - signal: pod.unschedulable
+        match: '(?P<detail>\d+/\d+ nodes are available: [^.]*)'
+      - signal: event
+        match: '^FailedScheduling: (?P<detail>\d+/\d+ nodes are available: [^.]*)'
+    title: 'No node can run the pod: {{.detail}}'
+    explain: >-
+      The scheduler finds no node with the requested resources, labels or tolerations, so the pod stays Pending.
+    remedy: 'Lower the resources of the job, or add capacity; check node selectors, affinity and taints.'
+
+  - id: memory-config
+    layer: operator
+    severity: FAILED
+    any:
+      - signal: operator.error
+        match: '(?P<component>TaskManager|JobManager) memory configuration failed'
+      - signal: event
+        match: '^Error: (?P<component>TaskManager|JobManager) memory configuration failed'
+    title: 'The {{.component}} memory is too small for its configured memory pools'
+    explain: >-
+      Flink derives its memory pools from spec.{{if eq .component "TaskManager"}}taskManager{{else}}jobManager{{end}}.resource.memory
+      and rejects a total smaller than its fixed parts, so the operator does not deploy the change. The sizes are
+      in the error below.
+    remedy: 'Raise the memory of the {{.component}}, or lower the fixed pools (metaspace, overhead, framework memory) in flinkConfiguration.'
+
+  - id: oom-killed
+    layer: kubernetes
+    severity: DEGRADED
+    when:
+      - signal: pod.terminated
+        match: '^OOMKilled'
+    title: 'A container was killed for exceeding its memory limit'
+    explain: >-
+      The kernel killed a Flink container because its process used more memory than the pod limit; usually
+      native or off-heap memory such as RocksDB, not the Java heap.
+    remedy: 'Raise the process memory, or give more to taskmanager.memory.jvm-overhead or managed memory.'
+
+  - id: quota-exceeded
+    layer: kubernetes
+    severity: FAILED
+    any:
+      - signal: event
+        match: '^(?:FailedCreate|ResourceQuotaReached): .*exceeded quota: (?P<detail>.+)'
+      - signal: operator.error
+        match: 'exceeded quota: (?P<detail>.+)'
+    title: 'The namespace quota does not allow the pods'
+    explain: 'Kubernetes refuses to create the pods because the namespace resource quota is used up: {{.detail}}'
+    remedy: 'Free resources in the namespace, lower the requests of the job, or raise the quota.'
+
+  - id: admission-denied
+    layer: kubernetes
+    severity: FAILED
+    any:
+      - signal: event
+        match: 'admission webhook "(?P<webhook>[^"]+)" denied the request: (?P<detail>.+)'
+      - signal: operator.error
+        match: 'admission webhook "(?P<webhook>[^"]+)" denied the request: (?P<detail>.+)'
+    title: 'The admission webhook {{.webhook}} denies the pods'
+    explain: 'A policy in the cluster rejects the pods or the resource: {{.detail}}'
+    remedy: 'Change the pod template or the resource to meet the policy, or ask its owners for an exception.'
+
+  - id: validation-error
+    layer: operator
+    severity: FAILED
+    any:
+      - signal: event
+        match: '^ValidationError: (?P<detail>.+)'
+    title: 'The operator rejects the spec'
+    explain: '{{.detail}}'
+    remedy: 'Fix the spec; nothing is deployed until it validates.'
+
+  - id: unsupported-flink-version
+    layer: operator
+    severity: FAILED
+    any:
+      - signal: event
+        match: '^UnsupportedFlinkVersion: (?P<detail>.+)'
+    title: 'The operator does not support this Flink version'
+    explain: '{{.detail}}'
+    remedy: 'Use a spec.flinkVersion the installed operator supports, or upgrade the operator.'
+
+  - id: taskmanagers-short
+    layer: kubernetes
+    severity: DEGRADED
+    when:
+      - signal: health.finding
+        match: '(?P<ready>\d+)/(?P<desired>\d+) TaskManagers ready'
+    title: 'Only {{.ready}} of {{.desired}} TaskManagers are ready'
+    explain: >-
+      The job runs with fewer TaskManagers than it asked for, so it has fewer slots than its parallelism needs
+      and may not run all tasks.
+    remedy: 'Look at the TaskManager pods: kubectl flink logs {{.job}} --taskmanagers'
+
+  - id: checkpoints-stale
+    layer: runtime
+    severity: DEGRADED
+    when:
+      - signal: checkpoint.stale
+        match: '(?P<detail>.+)'
+    optional:
+      - signal: checkpoint.failure
+        match: '(?P<failure>.+)'
+    title: 'Checkpoints are not completing: {{.detail}}'
+    explain: >-
+      Transactional sinks, such as Kafka with exactly-once delivery, commit only on a completed checkpoint, so
+      their consumers see no new data; a restart would replay everything since the last one.
+      {{if .failure}}The latest failure: {{.failure}}{{end}}
+    remedy: 'kubectl flink checkpoints {{.job}}'
+
+  - id: taskmanager-lost
+    layer: runtime
+    severity: OK
+    any:
+      - signal: exception
+        match: '(?:TaskExecutor is shutting down|TaskManager with id \S+ is no longer reachable|Heartbeat of TaskManager with id \S+ timed out|Connection unexpectedly closed by remote task manager)'
+    optional:
+      - signal: checkpoint.restored
+        match: '(?P<restored>.+)'
+    title: 'The job restarted after losing a TaskManager{{if .restored}}, from {{.restored}}{{end}}'
+    explain: >-
+      A TaskManager went away, for example its pod was deleted, evicted or its node drained, and Flink restarted
+      the job{{if .restored}} from its last checkpoint{{end}}.
+    remedy: 'If it happens often, look at node events and kubectl flink exceptions {{.job}}.'

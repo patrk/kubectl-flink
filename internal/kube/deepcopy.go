@@ -106,6 +106,7 @@ func (sj *FlinkSessionJob) DeepCopyInto(out *FlinkSessionJob) {
 func (sj *FlinkSessionJob) DeepCopyObject() runtime.Object { return sj.DeepCopy() }
 
 func (s *ContainerState) deepCopyInto(out *ContainerState) {
+	out.Running = ptrCopy(s.Running)
 	out.Waiting = ptrCopy(s.Waiting)
 	out.Terminated = nil
 	if s.Terminated != nil {

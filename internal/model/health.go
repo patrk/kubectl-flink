@@ -44,6 +44,16 @@ func ParseHealth(s string) (Health, error) {
 // MarshalText implements encoding.TextMarshaler, so JSON and YAML output use the name.
 func (h Health) MarshalText() ([]byte, error) { return []byte(h.String()), nil }
 
+// UnmarshalText implements encoding.TextUnmarshaler, so the JSON output reads back.
+func (h *Health) UnmarshalText(b []byte) error {
+	v, err := ParseHealth(string(b))
+	if err != nil {
+		return err
+	}
+	*h = v
+	return nil
+}
+
 // Thresholds turn transient states into DEGRADED or STUCK once they last too long.
 type Thresholds struct {
 	// Grace covers startup noise, such as a JobManager ERROR while the config ConfigMap is still being created.

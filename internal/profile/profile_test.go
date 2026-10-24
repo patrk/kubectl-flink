@@ -65,11 +65,13 @@ func TestMissingFileIsDefault(t *testing.T) {
 
 func TestLoadRejects(t *testing.T) {
 	for name, tc := range map[string]struct{ body, want string }{
-		"version":  {"apiVersion: v9\n", "not supported"},
-		"unknown":  {"apiVersion: kubectl-flink/v1alpha1\nprofiles: [{name: a, match: [x], colour: red}]\n", "unknown field"},
-		"no match": {"apiVersion: kubectl-flink/v1alpha1\nprofiles: [{name: a}]\n", "match is empty"},
-		"dup":      {"apiVersion: kubectl-flink/v1alpha1\nprofiles: [{name: a, match: [x], scopes: [{context: c}, {context: c}]}]\n", "two scopes"},
-		"negative": {"apiVersion: kubectl-flink/v1alpha1\nprofiles: [{name: a, match: [x], reconcileInterval: -1s}]\n", "negative"},
+		"version":         {"apiVersion: v9\n", "not supported"},
+		"unknown":         {"apiVersion: kubectl-flink/v1alpha1\nprofiles: [{name: a, match: [x], colour: red}]\n", "unknown field"},
+		"no match":        {"apiVersion: kubectl-flink/v1alpha1\nprofiles: [{name: a}]\n", "match is empty"},
+		"dup":             {"apiVersion: kubectl-flink/v1alpha1\nprofiles: [{name: a, match: [x], scopes: [{context: c}, {context: c}]}]\n", "two scopes"},
+		"negative":        {"apiVersion: kubectl-flink/v1alpha1\nprofiles: [{name: a, match: [x], reconcileInterval: -1s}]\n", "negative"},
+		"disable typo":    {"apiVersion: kubectl-flink/v1alpha1\nprofiles: [{name: a, match: [x], disableRules: [image-pul]}]\n", `no rule "image-pul"`},
+		"supersedes typo": {"apiVersion: kubectl-flink/v1alpha1\nprofiles: [{name: a, match: [x], rules: [{id: r, layer: kubernetes, severity: OK, title: t, explain: e, when: [{signal: event, match: x}], supersedes: [nope]}]}]\n", `supersedes unknown rule "nope"`},
 	} {
 		if _, err := Load(write(t, tc.body)); err == nil || !strings.Contains(err.Error(), tc.want) {
 			t.Errorf("%s: %v, want %q", name, err, tc.want)

@@ -112,7 +112,8 @@ Each milestone is a set of PRs from feature branches, merged with green CI. Test
 |---|---|---|
 | M0 | `go.mod` (client-go v0.37, Kubernetes 1.34+ supported), Makefile, mise, lint, CI, PR template, goreleaser snapshot build, kind harness with operator 1.15.0 and 1.16.1 (charts from `archive.apache.org`, which keeps every patch release), fixture capture tool | CI green on an empty command; kind job reaches RUNNING in CI |
 | M1 | Typed CRD structs and client, scopes and multi-context, RBAC fallback, `model.Job`, health derivation, profile loader, job matcher, `ls` with filters, sort, outputs, `-w`, summary line | Budgets for `ls` and memory met; health table tests cover every enum combination in the fixtures |
-| M2 | Port-forward pool, REST client for 1.20 and 2.x, `exceptions`, `checkpoints`, `logs`, rules engine with default rules, `why` with runtime, Kubernetes, performance, operator and HA layers, external restarter detection | Golden tests for each failure fixture; `why` on kind identifies induced failures |
+| M2 | Port-forward pool, REST client for 1.20 and 2.x, `exceptions`, `checkpoints`, `logs`, rules engine with default rules, `why` with operator, Kubernetes and runtime layers | Golden tests for each failure fixture; `why` on kind identifies induced failures |
+| M2c | `why` performance layer (sink without output, growing `pendingRecords`, backpressure), HA layer, external restarter detection | Fixtures with a real sink and with HA leftovers |
 | M3 | `report` with redaction, `history` | Redaction tests with secrets in every known location; bundle golden test |
 | M4 | `top`: list, filters, search, sort, contexts, detail panes reusing M2 collectors, prefetch | teatest golden screens; frame and redraw budgets |
 | M5 | Policy, owner detection, `restart`, `suspend`, `resume`, `savepoint`, `snapshots`, bulk runner, `--wait` | e2e on kind for each op including bulk and abort on failures; dry-run tests assert no writes |

@@ -1,0 +1,218 @@
+{
+    "apiVersion": "flink.apache.org/v1beta1",
+    "kind": "FlinkDeployment",
+    "metadata": {
+        "annotations": {
+            "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"flink.apache.org/v1beta1\",\"kind\":\"FlinkDeployment\",\"metadata\":{\"annotations\":{},\"name\":\"missing-secret\",\"namespace\":\"default\"},\"spec\":{\"flinkConfiguration\":{\"taskmanager.numberOfTaskSlots\":\"1\"},\"flinkVersion\":\"v2_2\",\"image\":\"flink:2.2\",\"job\":{\"jarURI\":\"local:///opt/flink/examples/streaming/StateMachineExample.jar\",\"parallelism\":1,\"upgradeMode\":\"stateless\"},\"jobManager\":{\"resource\":{\"cpu\":0.5,\"memory\":\"1024m\"}},\"podTemplate\":{\"spec\":{\"containers\":[{\"name\":\"flink-main-container\",\"volumeMounts\":[{\"mountPath\":\"/opt/creds\",\"name\":\"creds\"}]}],\"volumes\":[{\"name\":\"creds\",\"secret\":{\"secretName\":\"does-not-exist\"}}]}},\"serviceAccount\":\"flink\",\"taskManager\":{\"resource\":{\"cpu\":0.5,\"memory\":\"1024m\"}}}}\n"
+        },
+        "creationTimestamp": "2026-10-24T18:38:44Z",
+        "finalizers": [
+            "flinkdeployments.flink.apache.org/finalizer"
+        ],
+        "generation": 1,
+        "managedFields": [
+            {
+                "apiVersion": "flink.apache.org/v1beta1",
+                "fieldsType": "FieldsV1",
+                "fieldsV1": {
+                    "f:metadata": {
+                        "f:finalizers": {
+                            ".": {},
+                            "v:\"flinkdeployments.flink.apache.org/finalizer\"": {}
+                        }
+                    }
+                },
+                "manager": "fabric8-kubernetes-client",
+                "operation": "Update",
+                "time": "2026-10-24T18:38:44Z"
+            },
+            {
+                "apiVersion": "flink.apache.org/v1beta1",
+                "fieldsType": "FieldsV1",
+                "fieldsV1": {
+                    "f:metadata": {
+                        "f:annotations": {
+                            ".": {},
+                            "f:kubectl.kubernetes.io/last-applied-configuration": {}
+                        }
+                    },
+                    "f:spec": {
+                        ".": {},
+                        "f:flinkConfiguration": {
+                            ".": {},
+                            "f:taskmanager.numberOfTaskSlots": {}
+                        },
+                        "f:flinkVersion": {},
+                        "f:image": {},
+                        "f:job": {
+                            ".": {},
+                            "f:jarURI": {},
+                            "f:parallelism": {},
+                            "f:upgradeMode": {}
+                        },
+                        "f:jobManager": {
+                            ".": {},
+                            "f:resource": {
+                                ".": {},
+                                "f:cpu": {},
+                                "f:memory": {}
+                            }
+                        },
+                        "f:podTemplate": {
+                            ".": {},
+                            "f:spec": {
+                                ".": {},
+                                "f:containers": {},
+                                "f:volumes": {}
+                            }
+                        },
+                        "f:serviceAccount": {},
+                        "f:taskManager": {
+                            ".": {},
+                            "f:resource": {
+                                ".": {},
+                                "f:cpu": {},
+                                "f:memory": {}
+                            }
+                        }
+                    }
+                },
+                "manager": "kubectl-client-side-apply",
+                "operation": "Update",
+                "time": "2026-10-24T18:38:44Z"
+            },
+            {
+                "apiVersion": "flink.apache.org/v1beta1",
+                "fieldsType": "FieldsV1",
+                "fieldsV1": {
+                    "f:status": {
+                        ".": {},
+                        "f:clusterInfo": {},
+                        "f:conditions": {},
+                        "f:error": {},
+                        "f:jobManagerDeploymentStatus": {},
+                        "f:jobStatus": {
+                            ".": {},
+                            "f:checkpointInfo": {
+                                ".": {},
+                                "f:lastPeriodicCheckpointTimestamp": {}
+                            },
+                            "f:jobId": {},
+                            "f:savepointInfo": {
+                                ".": {},
+                                "f:lastPeriodicSavepointTimestamp": {},
+                                "f:savepointHistory": {}
+                            },
+                            "f:state": {}
+                        },
+                        "f:lifecycleState": {},
+                        "f:observedGeneration": {},
+                        "f:reconciliationStatus": {
+                            ".": {},
+                            "f:lastReconciledSpec": {},
+                            "f:reconciliationTimestamp": {},
+                            "f:state": {}
+                        },
+                        "f:taskManager": {
+                            ".": {},
+                            "f:labelSelector": {},
+                            "f:replicas": {}
+                        }
+                    }
+                },
+                "manager": "fabric8-kubernetes-client",
+                "operation": "Update",
+                "subresource": "status",
+                "time": "2026-10-24T18:38:49Z"
+            }
+        ],
+        "name": "missing-secret",
+        "namespace": "default",
+        "resourceVersion": "37396",
+        "uid": "d6d96388-6224-4354-b237-b2b93e1bd331"
+    },
+    "spec": {
+        "flinkConfiguration": {
+            "taskmanager.numberOfTaskSlots": "1"
+        },
+        "flinkVersion": "v2_2",
+        "image": "flink:2.2",
+        "job": {
+            "jarURI": "local:///opt/flink/examples/streaming/StateMachineExample.jar",
+            "parallelism": 1,
+            "upgradeMode": "stateless"
+        },
+        "jobManager": {
+            "resource": {
+                "cpu": 0.5,
+                "memory": "1024m"
+            }
+        },
+        "podTemplate": {
+            "spec": {
+                "containers": [
+                    {
+                        "name": "flink-main-container",
+                        "volumeMounts": [
+                            {
+                                "mountPath": "/opt/creds",
+                                "name": "creds"
+                            }
+                        ]
+                    }
+                ],
+                "volumes": [
+                    {
+                        "name": "creds",
+                        "secret": {
+                            "secretName": "does-not-exist"
+                        }
+                    }
+                ]
+            }
+        },
+        "serviceAccount": "flink",
+        "taskManager": {
+            "resource": {
+                "cpu": 0.5,
+                "memory": "1024m"
+            }
+        }
+    },
+    "status": {
+        "clusterInfo": {},
+        "conditions": [
+            {
+                "lastTransitionTime": "2026-10-24T18:38:44.622750125Z",
+                "message": "Job status RECONCILING",
+                "reason": "Reconciling",
+                "status": "False",
+                "type": "Running"
+            }
+        ],
+        "error": "{\"type\":\"org.apache.flink.kubernetes.operator.exception.DeploymentFailedException\",\"message\":\"MountVolume.SetUp failed for volume \\\"creds\\\" : secret \\\"does-not-exist\\\" not found\",\"additionalMetadata\":{\"reason\":\"FailedMount\"},\"throwableList\":[]}",
+        "jobManagerDeploymentStatus": "ERROR",
+        "jobStatus": {
+            "checkpointInfo": {
+                "lastPeriodicCheckpointTimestamp": 0
+            },
+            "jobId": "eb288f75965007a88bba85db504a7cd9",
+            "savepointInfo": {
+                "lastPeriodicSavepointTimestamp": 0,
+                "savepointHistory": []
+            },
+            "state": "RECONCILING"
+        },
+        "lifecycleState": "DEPLOYED",
+        "observedGeneration": 1,
+        "reconciliationStatus": {
+            "lastReconciledSpec": "{\"spec\":{\"job\":{\"jarURI\":\"local:///opt/flink/examples/streaming/StateMachineExample.jar\",\"parallelism\":1,\"entryClass\":null,\"args\":[],\"state\":\"running\",\"savepointTriggerNonce\":null,\"initialSavepointPath\":null,\"checkpointTriggerNonce\":null,\"upgradeMode\":\"stateless\",\"allowNonRestoredState\":null,\"savepointRedeployNonce\":null,\"autoscalerResetNonce\":null},\"restartNonce\":null,\"flinkConfiguration\":{\"taskmanager.numberOfTaskSlots\":\"1\"},\"image\":\"flink:2.2\",\"imagePullPolicy\":null,\"serviceAccount\":\"flink\",\"flinkVersion\":\"v2_2\",\"ingress\":null,\"podTemplate\":{\"spec\":{\"containers\":[{\"name\":\"flink-main-container\",\"volumeMounts\":[{\"mountPath\":\"/opt/creds\",\"name\":\"creds\"}]}],\"volumes\":[{\"name\":\"creds\",\"secret\":{\"secretName\":\"does-not-exist\"}}]}},\"jobManager\":{\"resource\":{\"cpu\":0.5,\"memory\":\"1024m\",\"ephemeralStorage\":null},\"resources\":null,\"replicas\":1,\"podTemplate\":null},\"taskManager\":{\"resource\":{\"cpu\":0.5,\"memory\":\"1024m\",\"ephemeralStorage\":null},\"resources\":null,\"replicas\":null,\"podTemplate\":null},\"logConfiguration\":null,\"mode\":null},\"resource_metadata\":{\"apiVersion\":\"flink.apache.org/v1beta1\",\"firstDeployment\":true}}",
+            "reconciliationTimestamp": 1792867124622,
+            "state": "DEPLOYED"
+        },
+        "taskManager": {
+            "labelSelector": "component=taskmanager,app=missing-secret",
+            "replicas": 1
+        }
+    }
+}

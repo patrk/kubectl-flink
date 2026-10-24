@@ -145,9 +145,13 @@ func (l *PodList) appendPage(p runtime.Object) { l.Items = append(l.Items, p.(*P
 // List lists r in namespace ("" for all namespaces) in pages of PageSize and returns one typed list. If the
 // continue token expires between pages, the list starts over once.
 func (c *Client) List(ctx context.Context, r Resource, namespace, labelSelector string) (runtime.Object, error) {
-	obj, err := c.listAll(ctx, r, namespace, labelSelector)
+	return c.list(ctx, r, namespace, metav1.ListOptions{LabelSelector: labelSelector})
+}
+
+func (c *Client) list(ctx context.Context, r Resource, namespace string, opts metav1.ListOptions) (runtime.Object, error) {
+	obj, err := c.listAll(ctx, r, namespace, opts)
 	if apierrors.IsResourceExpired(err) || apierrors.IsGone(err) {
-		obj, err = c.listAll(ctx, r, namespace, labelSelector)
+		obj, err = c.listAll(ctx, r, namespace, opts)
 	}
 	if err != nil {
 		return nil, fmt.Errorf("list %s: %w", r.GVR.Resource, err)
@@ -155,8 +159,8 @@ func (c *Client) List(ctx context.Context, r Resource, namespace, labelSelector 
 	return obj, nil
 }
 
-func (c *Client) listAll(ctx context.Context, r Resource, namespace, labelSelector string) (runtime.Object, error) {
-	opts := metav1.ListOptions{LabelSelector: labelSelector, Limit: PageSize}
+func (c *Client) listAll(ctx context.Context, r Resource, namespace string, opts metav1.ListOptions) (runtime.Object, error) {
+	opts.Limit = PageSize
 	var all pagedList
 	for {
 		page, err := c.listPage(ctx, r, namespace, opts)
