@@ -5,7 +5,7 @@
         "annotations": {
             "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"flink.apache.org/v1beta1\",\"kind\":\"FlinkDeployment\",\"metadata\":{\"annotations\":{},\"name\":\"restart-bot\",\"namespace\":\"default\"},\"spec\":{\"flinkConfiguration\":{\"taskmanager.numberOfTaskSlots\":\"1\"},\"flinkVersion\":\"v2_2\",\"image\":\"flink:2.2\",\"job\":{\"jarURI\":\"local:///opt/flink/examples/streaming/StateMachineExample.jar\",\"parallelism\":1,\"upgradeMode\":\"stateless\"},\"jobManager\":{\"resource\":{\"cpu\":0.5,\"memory\":\"1024m\"}},\"serviceAccount\":\"flink\",\"taskManager\":{\"resource\":{\"cpu\":0.5,\"memory\":\"1024m\"}}}}\n"
         },
-        "creationTimestamp": "2026-10-24T19:41:08Z",
+        "creationTimestamp": "2026-10-24T20:33:20Z",
         "finalizers": [
             "flinkdeployments.flink.apache.org/finalizer"
         ],
@@ -24,7 +24,7 @@
                 },
                 "manager": "fabric8-kubernetes-client",
                 "operation": "Update",
-                "time": "2026-10-24T19:41:08Z"
+                "time": "2026-10-24T20:33:20Z"
             },
             {
                 "apiVersion": "flink.apache.org/v1beta1",
@@ -71,7 +71,7 @@
                 },
                 "manager": "kubectl-client-side-apply",
                 "operation": "Update",
-                "time": "2026-10-24T19:41:08Z"
+                "time": "2026-10-24T20:33:20Z"
             },
             {
                 "apiVersion": "flink.apache.org/v1beta1",
@@ -83,7 +83,7 @@
                 },
                 "manager": "restart-bot",
                 "operation": "Update",
-                "time": "2026-10-24T19:43:10Z"
+                "time": "2026-10-24T20:35:26Z"
             },
             {
                 "apiVersion": "flink.apache.org/v1beta1",
@@ -137,13 +137,13 @@
                 "manager": "fabric8-kubernetes-client",
                 "operation": "Update",
                 "subresource": "status",
-                "time": "2026-10-24T19:43:38Z"
+                "time": "2026-10-24T20:36:00Z"
             }
         ],
         "name": "restart-bot",
         "namespace": "default",
-        "resourceVersion": "49619",
-        "uid": "0f8b5842-d614-4c37-bc04-550f6fb0625b"
+        "resourceVersion": "56145",
+        "uid": "eecb5ed9-4770-45f9-a122-174380a849d7"
     },
     "spec": {
         "flinkConfiguration": {
@@ -175,13 +175,13 @@
         "clusterInfo": {
             "flink-revision": "450c63e @ 2026-05-03T10:10:44+02:00",
             "flink-version": "2.2.1",
-            "state-size": "8531",
+            "state-size": "8459",
             "total-cpu": "1.0",
             "total-memory": "2147483648"
         },
         "conditions": [
             {
-                "lastTransitionTime": "2026-10-24T19:43:38.413965344Z",
+                "lastTransitionTime": "2026-10-24T20:36:00.177504465Z",
                 "message": "Job status RUNNING",
                 "reason": "Running",
                 "status": "True",
@@ -193,22 +193,22 @@
             "checkpointInfo": {
                 "lastPeriodicCheckpointTimestamp": 0
             },
-            "jobId": "425a83edb931eda8d7656c952eba5e62",
+            "jobId": "7637d9c57479e876cc2bdeb09d5f22e2",
             "jobName": "State machine job",
             "savepointInfo": {
                 "lastPeriodicSavepointTimestamp": 0,
                 "savepointHistory": []
             },
-            "startTime": "1792871001235",
+            "startTime": "1792874138137",
             "state": "RUNNING",
-            "updateTime": "1792871018386"
+            "updateTime": "1792874160151"
         },
         "lifecycleState": "STABLE",
         "observedGeneration": 3,
         "reconciliationStatus": {
             "lastReconciledSpec": "{\"spec\":{\"job\":{\"jarURI\":\"local:///opt/flink/examples/streaming/StateMachineExample.jar\",\"parallelism\":1,\"entryClass\":null,\"args\":[],\"state\":\"running\",\"savepointTriggerNonce\":null,\"initialSavepointPath\":null,\"checkpointTriggerNonce\":null,\"upgradeMode\":\"stateless\",\"allowNonRestoredState\":null,\"savepointRedeployNonce\":null,\"autoscalerResetNonce\":null},\"restartNonce\":2,\"flinkConfiguration\":{\"taskmanager.numberOfTaskSlots\":\"1\"},\"image\":\"flink:2.2\",\"imagePullPolicy\":null,\"serviceAccount\":\"flink\",\"flinkVersion\":\"v2_2\",\"ingress\":null,\"podTemplate\":null,\"jobManager\":{\"resource\":{\"cpu\":0.5,\"memory\":\"1024m\",\"ephemeralStorage\":null},\"resources\":null,\"replicas\":1,\"podTemplate\":null},\"taskManager\":{\"resource\":{\"cpu\":0.5,\"memory\":\"1024m\",\"ephemeralStorage\":null},\"resources\":null,\"replicas\":null,\"podTemplate\":null},\"logConfiguration\":null,\"mode\":null},\"resource_metadata\":{\"apiVersion\":\"flink.apache.org/v1beta1\",\"firstDeployment\":false}}",
             "lastStableSpec": "{\"spec\":{\"job\":{\"jarURI\":\"local:///opt/flink/examples/streaming/StateMachineExample.jar\",\"parallelism\":1,\"entryClass\":null,\"args\":[],\"state\":\"running\",\"savepointTriggerNonce\":null,\"initialSavepointPath\":null,\"checkpointTriggerNonce\":null,\"upgradeMode\":\"stateless\",\"allowNonRestoredState\":null,\"savepointRedeployNonce\":null,\"autoscalerResetNonce\":null},\"restartNonce\":2,\"flinkConfiguration\":{\"taskmanager.numberOfTaskSlots\":\"1\"},\"image\":\"flink:2.2\",\"imagePullPolicy\":null,\"serviceAccount\":\"flink\",\"flinkVersion\":\"v2_2\",\"ingress\":null,\"podTemplate\":null,\"jobManager\":{\"resource\":{\"cpu\":0.5,\"memory\":\"1024m\",\"ephemeralStorage\":null},\"resources\":null,\"replicas\":1,\"podTemplate\":null},\"taskManager\":{\"resource\":{\"cpu\":0.5,\"memory\":\"1024m\",\"ephemeralStorage\":null},\"resources\":null,\"replicas\":null,\"podTemplate\":null},\"logConfiguration\":null,\"mode\":null},\"resource_metadata\":{\"apiVersion\":\"flink.apache.org/v1beta1\",\"firstDeployment\":false}}",
-            "reconciliationTimestamp": 1792870992289,
+            "reconciliationTimestamp": 1792874129304,
             "state": "DEPLOYED"
         },
         "taskManager": {

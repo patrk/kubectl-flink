@@ -1,9 +1,9 @@
-FlinkDeployment default/unschedulable in context kind, job dbf38a0359fd129f69dda7cbc108e450 · PROGRESSING
+FlinkDeployment default/unschedulable in context kind, job c2650a3ac02de2f9e2e405739ccd5962 · PROGRESSING
   JobManager DEPLOYING
   job RECONCILING
 
-Verdict
-  1. STUCK: No node can run the pod: 0/1 nodes are available: 1 Insufficient cpu (kubernetes)
+Matched patterns
+  1. STUCK: No node can run the pod: 0/1 nodes are available: 1 Insufficient cpu (kubernetes, newest evidence 60s ago)
     The scheduler finds no node with the requested resources, labels or tolerations, so the pod stays Pending.
     Next: Lower the resources of the job, or add capacity; check node selectors, affinity and taints.
     · event: FailedScheduling: 0/1 nodes are available: 1 Insufficient cpu. preemption: 0/1 nodes are available: 1 Preemption is not helpful for scheduling.
@@ -14,7 +14,7 @@ Operator
   spec written by kubectl-client-side-apply, last 62s ago
 
 Kubernetes
-  pod unschedulable-5bdd4b9576-vttsz (jobmanager): Pending, unschedulable
+  pod unschedulable-5bdd4b9576-mknkb (jobmanager): Pending, unschedulable
   warning events, newest first:
     60s ago FailedScheduling ×2 on Pod: 0/1 nodes are available: 1 Insufficient cpu. preemption: 0/1 nodes are available: 1 Preemption is not helpful for sched…
     61s ago FailedScheduling on Pod: 0/1 nodes are available: 1 Insufficient cpu. preemption: 0/1 nodes are available: 1 Preemption is not helpful for scheduli…

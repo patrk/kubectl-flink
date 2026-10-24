@@ -49,7 +49,7 @@ func TestPlan(t *testing.T) {
 func TestPerformanceSignals(t *testing.T) {
 	collect := func(vms []VertexMetrics) string {
 		var out []string
-		performanceSignals(plan(), vms, func(kind string, _ Layer, text string) { out = append(out, kind+" "+text) })
+		performanceSignals(plan(), vms, func(kind string, _ Layer, text string, _ ...time.Time) { out = append(out, kind+" "+text) })
 		return strings.Join(out, "|")
 	}
 	healthy := []VertexMetrics{vm("src", "Source", true, false, 30, 0, 0, 200), vm("map", "Map", false, false, 40, 0, 200, 200), vm("sink", "Sink", false, true, 10, 0, 200, 0)}
@@ -101,13 +101,13 @@ func TestHA(t *testing.T) {
 	}
 	var got []string
 	app := &model.Job{Kind: model.KindDeployment, JobID: "cur"}
-	haSignals(st, app, func(_ string, _ Layer, text string) { got = append(got, text) })
+	haSignals(st, app, func(_ string, _ Layer, text string, _ ...time.Time) { got = append(got, text) })
 	if strings.Join(got, "|") != "job plan of old, not the current job cur|checkpoint pointers of stale, not the current job cur" {
 		t.Errorf("%q", got)
 	}
 	// A session cluster runs several jobs; nothing is left over there.
 	for _, j := range []*model.Job{{Kind: model.KindDeployment, SessionCluster: true}, {Kind: model.KindSessionJob, JobID: "cur"}, {Kind: model.KindDeployment}} {
-		haSignals(st, j, func(_ string, _ Layer, text string) { t.Errorf("%+v: %s", j, text) })
+		haSignals(st, j, func(_ string, _ Layer, text string, _ ...time.Time) { t.Errorf("%+v: %s", j, text) })
 	}
 	f.Forbidden["configmaps/ns"] = true
 	if _, err := collectHA(context.Background(), c, "ns", "ha"); err == nil {
@@ -127,7 +127,7 @@ func TestBottleneckSearchesEveryBranch(t *testing.T) {
 	j.Plan.Nodes = []flink.PlanNode{{ID: "src"}, {ID: "a", Inputs: in("src")}, {ID: "b", Inputs: in("src")}}
 	vms := []VertexMetrics{vm("src", "Source", true, false, 100, 870, 0, 50), vm("a", "A", false, true, 10, 0, 25, 0), vm("b", "B", false, true, 990, 0, 25, 0)}
 	var got []string
-	performanceSignals(j, vms, func(kind string, _ Layer, text string) { got = append(got, kind+" "+text) })
+	performanceSignals(j, vms, func(kind string, _ Layer, text string, _ ...time.Time) { got = append(got, kind+" "+text) })
 	if strings.Join(got, "|") != "performance.backpressure Source: backpressured 870 ms/s|performance.bottleneck B: busy 990 ms/s" {
 		t.Errorf("%q", got)
 	}
@@ -136,7 +136,7 @@ func TestBottleneckSearchesEveryBranch(t *testing.T) {
 // A sink whose metrics could not be read is not a sink that receives nothing.
 func TestMissingMetricsAreNotZero(t *testing.T) {
 	vms := []VertexMetrics{vm("src", "Source", true, false, 30, 0, 0, 200), {ID: "sink", Name: "Sink", Sink: true}}
-	performanceSignals(plan(), vms, func(kind string, _ Layer, text string) { t.Errorf("%s %s", kind, text) })
+	performanceSignals(plan(), vms, func(kind string, _ Layer, text string, _ ...time.Time) { t.Errorf("%s %s", kind, text) })
 }
 
 func TestRuntimeSignals(t *testing.T) {

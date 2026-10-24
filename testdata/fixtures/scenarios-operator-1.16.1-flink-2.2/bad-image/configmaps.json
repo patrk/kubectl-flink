@@ -5,7 +5,7 @@
       "apiVersion": "v1",
       "kind": "ConfigMap",
       "metadata": {
-        "creationTimestamp": "2026-10-24T19:40:16Z",
+        "creationTimestamp": "2026-10-24T20:32:28Z",
         "labels": {
           "app": "bad-image",
           "component": "autoscaler"
@@ -19,11 +19,11 @@
             "controller": false,
             "kind": "FlinkDeployment",
             "name": "bad-image",
-            "uid": "a39ef3e5-23cc-4d91-a6d5-ce8e2f734cc5"
+            "uid": "c72ae5c6-0d4b-41eb-b4cb-20471b147fee"
           }
         ],
-        "resourceVersion": "47965",
-        "uid": "34c15d30-97a8-4cb6-bdb1-a770b7aad7b9"
+        "resourceVersion": "54470",
+        "uid": "af30edb5-6091-4a7a-906d-110582133f4f"
       },
       "data": null
     },
@@ -35,7 +35,7 @@
       },
       "kind": "ConfigMap",
       "metadata": {
-        "creationTimestamp": "2026-10-24T19:40:16Z",
+        "creationTimestamp": "2026-10-24T20:32:28Z",
         "labels": {
           "app": "bad-image",
           "type": "flink-native-kubernetes"
@@ -49,11 +49,11 @@
             "controller": true,
             "kind": "Deployment",
             "name": "bad-image",
-            "uid": "47c05ecf-ef51-495c-b27f-8fc297266027"
+            "uid": "face958f-9f47-4176-87eb-9f3a2d171810"
           }
         ],
-        "resourceVersion": "47956",
-        "uid": "8f6d50ce-9a8e-4ca0-b719-dd837a1696d1"
+        "resourceVersion": "54433",
+        "uid": "4172a9f9-e390-4eab-9d80-619000521e48"
       }
     }
   ],

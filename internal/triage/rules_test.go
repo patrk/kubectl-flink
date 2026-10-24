@@ -141,44 +141,66 @@ func TestParseRulesRejects(t *testing.T) {
 	}
 }
 
+func kinds(signals []triage.Signal) string {
+	out := make([]string, 0, len(signals))
+	for _, s := range signals {
+		out = append(out, s.Kind)
+	}
+	return strings.Join(out, ",")
+}
+
 func TestJudge(t *testing.T) {
 	ev := &triage.Evidence{Job: job, Health: model.Assessment{Health: model.Failed}}
-	// image-pull supersedes the crash loop it causes.
+	// image-pull supersedes the crash loop it causes; nothing else strong was seen.
 	signals := []triage.Signal{
 		{Kind: triage.SigPodWaiting, Text: `ImagePullBackOff: Back-off pulling image "flink:nope"`},
 		{Kind: triage.SigEvent, Text: "CrashLoopBackOff: back-off 10s restarting failed container"},
 		{Kind: triage.SigPodTerminated, Text: "OOMKilled exit 137 (taskmanager)"},
 	}
 	v, err := triage.Judge(ev, signals, triage.DefaultRules())
-	if err != nil || ids(v) != "image-pull,oom-killed" || v.Leads != nil {
-		t.Errorf("superseded: %s %v %+v", ids(v), err, v.Leads)
+	if err != nil || ids(v) != "image-pull,oom-killed" || !v.Explained || len(v.Unexplained) != 0 {
+		t.Errorf("superseded: %s %v %+v", ids(v), err, v.Unexplained)
 	}
-	// Nothing known: the leads point at the cause.
-	signals = make([]triage.Signal, 0, 5)
-	signals = append(signals, []triage.Signal{
+	// Nothing known: the strongest signals, in order of preference.
+	signals = []triage.Signal{
 		{Kind: triage.SigEvent, Text: "Unhealthy: Readiness probe failed"},
 		{Kind: triage.SigExceptionCause, Text: "java.lang.IllegalStateException: Unexpected record"},
 		{Kind: triage.SigLog, Text: "ERROR something"},
-	}...)
+	}
 	v, _ = triage.Judge(ev, signals, triage.DefaultRules())
-	if len(v.Findings) != 0 || len(v.Leads) != 3 || v.Leads[0].Kind != triage.SigExceptionCause {
-		t.Errorf("leads: %+v", v)
+	if len(v.Findings) != 0 || v.Explained || kinds(v.Unexplained) != "exception.cause,event,log.jobmanager" {
+		t.Errorf("unknown: %+v", v)
 	}
-	// A finding that does not explain the health leaves the leads in place, ending with the health itself.
-	signals = append(signals,
-		triage.Signal{Kind: triage.SigHealth, Text: "JobManager DEPLOYING for 20m"},
-		triage.Signal{Kind: triage.SigException, Text: "org.apache.flink.util.FlinkExpectedException: The TaskExecutor is shutting down."})
+	// A match does not hide a second problem: the unrelated exception is still listed.
+	signals = []triage.Signal{
+		{Kind: triage.SigPodWaiting, Text: `ImagePullBackOff: Back-off pulling image "flink:nope" (taskmanager)`},
+		{Kind: triage.SigExceptionCause, Text: "java.lang.IllegalStateException: Unexpected record"},
+		{Kind: triage.SigEvent, Text: `Failed: Failed to pull image "flink:nope": not found`},
+	}
 	v, _ = triage.Judge(ev, signals, triage.DefaultRules())
-	if ids(v) != "taskmanager-lost" || len(v.Leads) == 0 {
-		t.Errorf("note does not explain: %s %+v", ids(v), v.Leads)
+	if ids(v) != "image-pull" || kinds(v.Unexplained) != "exception.cause" {
+		t.Errorf("second problem: %s %+v", ids(v), v.Unexplained)
 	}
-	v, _ = triage.Judge(ev, []triage.Signal{{Kind: triage.SigHealth, Text: "JobManager DEPLOYING for 20m"}}, triage.DefaultRules())
-	if len(v.Leads) != 1 || v.Leads[0].Kind != triage.SigHealth {
-		t.Errorf("health only: %+v", v.Leads)
+	// A note that does not explain the health leaves the health itself to look at.
+	v, _ = triage.Judge(ev, []triage.Signal{
+		{Kind: triage.SigHealth, Text: "JobManager DEPLOYING for 20m"},
+		{Kind: triage.SigException, Text: "org.apache.flink.util.FlinkExpectedException: The TaskExecutor is shutting down."},
+	}, triage.DefaultRules())
+	if ids(v) != "taskmanager-lost" || v.Explained || kinds(v.Unexplained) != "health.finding" {
+		t.Errorf("note: %s %+v", ids(v), v.Unexplained)
 	}
-	// A healthy job gets no leads.
+	// A healthy job with nothing found gets nothing more; one with an unexplained exception gets it, but not
+	// events or log lines, which healthy jobs have too.
 	ev.Health.Health = model.OK
-	if v, _ = triage.Judge(ev, signals, triage.DefaultRules()); v.Leads != nil {
-		t.Errorf("healthy: %+v", v.Leads)
+	if v, _ = triage.Judge(ev, []triage.Signal{{Kind: triage.SigEvent, Text: "Unhealthy: probe"}}, triage.DefaultRules()); v.Unexplained != nil {
+		t.Errorf("healthy: %+v", v.Unexplained)
+	}
+	v, _ = triage.Judge(ev, []triage.Signal{
+		{Kind: triage.SigException, Text: "org.apache.flink.util.FlinkExpectedException: The TaskExecutor is shutting down."},
+		{Kind: triage.SigExceptionCause, Text: "java.io.IOException: disk full"},
+		{Kind: triage.SigEvent, Text: "Unhealthy: probe"},
+	}, triage.DefaultRules())
+	if kinds(v.Unexplained) != "exception.cause" {
+		t.Errorf("healthy with a note: %+v", v.Unexplained)
 	}
 }

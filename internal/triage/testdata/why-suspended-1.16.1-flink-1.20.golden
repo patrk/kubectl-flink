@@ -1,8 +1,9 @@
-FlinkDeployment default/suspended in context kind, job 90f12f31c09691f5db4da24ffdfdd290 · SUSPENDED
+FlinkDeployment default/suspended in context kind, job b58f1f93f230403a3fc6c1c33195b614 · SUSPENDED
   suspended
 
-Verdict
-  Nothing wrong found.
+Matched patterns
+  none of the known patterns matches
+  and nothing else looks wrong
 
 Operator
   lifecycle SUSPENDED, JobManager MISSING, job FINISHED, reconciled 60s ago, generation 2 (observed 2)

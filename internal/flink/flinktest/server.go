@@ -34,7 +34,8 @@ func Server(t testing.TB, dir string) (srv *httptest.Server, jid string) {
 	routes := map[string]string{
 		"/config": "config", "/jobs/overview": "jobs-overview", "/jobs/" + jid: "job",
 		"/jobs/" + jid + "/exceptions": "exceptions", "/jobs/" + jid + "/checkpoints": "checkpoints",
-		"/jobs/" + jid + "/checkpoints/config": "checkpoints-config",
+		"/jobs/" + jid + "/checkpoints/config": "checkpoints-config", "/jobs/" + jid + "/config": "job-config",
+		"/jobmanager/config": "jobmanager-config", "/taskmanagers": "taskmanagers",
 	}
 	// Vertex metrics: the names list without get, the captured aggregates with it.
 	files, _ := filepath.Glob(filepath.Join(dir, "rest", "metric-names-*.json"))

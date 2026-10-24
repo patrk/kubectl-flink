@@ -8,6 +8,7 @@ and be able to explain what you submit.
 Before opening a PR:
 
     make lint test bench   # golangci-lint, race tests, benchmarks
+    make test-committed    # the tests on exactly what a commit would contain, as CI sees it
     make kind-up e2e       # kind cluster with the operator, one job to RUNNING
     make e2e-go            # kube layer against that cluster: probe, load, WatchList informers
     make fixtures          # capture CR and JobManager REST JSON from that job
@@ -23,3 +24,7 @@ Conventions:
 - Every TUI feature exists as a CLI command first.
 - Errors are returned, wrapped with `%w`, and checked with `errors.Is`.
 - No interface with a single implementation unless a test needs to fake it.
+
+Fixtures are captured from kind with `make scenarios`. Logs are saved as `.txt`, not `.log`: global gitignore files
+often exclude `*.log`, which would leave a fixture out of a commit without a warning. Run `make test-committed` before
+opening a pull request.

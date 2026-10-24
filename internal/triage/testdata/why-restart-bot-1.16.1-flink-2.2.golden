@@ -1,25 +1,25 @@
-FlinkDeployment default/restart-bot in context kind, job 425a83edb931eda8d7656c952eba5e62 · OK
+FlinkDeployment default/restart-bot in context kind, job 7637d9c57479e876cc2bdeb09d5f22e2 · OK
 
-Verdict
-  1. OK: Restarted through spec.restartNonce 88s ago; restart-bot writes the field (operator)
+Matched patterns
+  1. OK: Restarted through spec.restartNonce 94s ago; restart-bot writes the field (operator, newest evidence 94s ago)
     Changing spec.restartNonce makes the operator restart the job, and restart-bot owns the field. The resource is at generation 3; if the restarts are not
     yours, they come from whatever runs as restart-bot.
     Next: kubectl get flinkdeployment restart-bot -n default --show-managed-fields -o yaml
-    · spec.change: FlinkDeploymentSpec[restartNonce : 1 -> 2] (88s ago)
-    · spec.change: FlinkDeploymentSpec[restartNonce : null -> 1] (119s ago)
+    · spec.change: FlinkDeploymentSpec[restartNonce : 1 -> 2] (94s ago)
+    · spec.change: FlinkDeploymentSpec[restartNonce : null -> 1] (2m10s ago)
     · spec.writer: restartNonce by restart-bot (generation 3)
 
 Operator
-  lifecycle STABLE, JobManager READY, job RUNNING, reconciled 85s ago, generation 3 (observed 3)
-  spec written by kubectl-client-side-apply, restart-bot, last 88s ago
+  lifecycle STABLE, JobManager READY, job RUNNING, reconciled 90s ago, generation 3 (observed 3)
+  spec written by kubectl-client-side-apply, restart-bot, last 94s ago
 
 Kubernetes
-  pod restart-bot-f76bb5d7f-vggn6 (jobmanager): Running, ready
+  pod restart-bot-f76bb5d7f-c55qn (jobmanager): Running, ready
   pod restart-bot-taskmanager-1-1 (taskmanager): Running, ready
   warning events, newest first:
-    79s ago Unhealthy ×7 on Pod: Startup probe failed: Get "http://10.244.0.89:8081/config": dial tcp 10.244.0.89:8081: connect: connection refused
+    84s ago Unhealthy ×7 on Pod: Startup probe failed: Get "http://10.244.0.108:8081/config": dial tcp 10.244.0.108:8081: connect: connection refused
   JobManager log, error lines:
-    2026-10-24 19:43:38,401 ERROR org.apache.flink.runtime.rest.handler.taskmanager.TaskManagersHandler [] - Exception occurred in REST handler: Cannot connect…
+    2026-10-24 20:36:00,165 ERROR org.apache.flink.runtime.rest.handler.taskmanager.TaskManagersHandler [] - Exception occurred in REST handler: Cannot connect…
 
 Runtime
   not collected: JobManager REST API: Get "http://127.0.0.1:1/config": dial tcp 127.0.0.1:1: connect: connection refused

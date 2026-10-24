@@ -5,23 +5,23 @@
       "apiVersion": "v1",
       "count": 1,
       "eventTime": null,
-      "firstTimestamp": "2026-10-24T19:40:16Z",
+      "firstTimestamp": "2026-10-24T20:32:28Z",
       "involvedObject": {
         "apiVersion": "flink.apache.org/v1beta1",
         "kind": "FlinkDeployment",
         "name": "missing-secret",
         "namespace": "default",
-        "uid": "5ab88b08-41ea-46a7-8033-16cdb72719e2"
+        "uid": "1971cb08-092a-4d76-9e93-2bced42f04a9"
       },
       "kind": "Event",
-      "lastTimestamp": "2026-10-24T19:40:16Z",
+      "lastTimestamp": "2026-10-24T20:32:28Z",
       "message": "Starting deployment",
       "metadata": {
-        "creationTimestamp": "2026-10-24T19:40:16Z",
-        "name": "JobManagerDeployment.1161870776",
+        "creationTimestamp": "2026-10-24T20:32:28Z",
+        "name": "JobManagerDeployment.1549509428",
         "namespace": "default",
-        "resourceVersion": "48028",
-        "uid": "e22f2d34-0f7b-4ab0-8f11-30b5640b29c8"
+        "resourceVersion": "54506",
+        "uid": "8ebee37a-2108-4487-8cc9-fdc593963736"
       },
       "reason": "Submit",
       "reportingComponent": "",
@@ -35,23 +35,23 @@
       "apiVersion": "v1",
       "count": 1,
       "eventTime": null,
-      "firstTimestamp": "2026-10-24T19:40:21Z",
+      "firstTimestamp": "2026-10-24T20:32:33Z",
       "involvedObject": {
         "apiVersion": "flink.apache.org/v1beta1",
         "kind": "FlinkDeployment",
         "name": "missing-secret",
         "namespace": "default",
-        "uid": "5ab88b08-41ea-46a7-8033-16cdb72719e2"
+        "uid": "1971cb08-092a-4d76-9e93-2bced42f04a9"
       },
       "kind": "Event",
-      "lastTimestamp": "2026-10-24T19:40:21Z",
+      "lastTimestamp": "2026-10-24T20:32:33Z",
       "message": "MountVolume.SetUp failed for volume \"creds\" : secret \"does-not-exist\" not found",
       "metadata": {
-        "creationTimestamp": "2026-10-24T19:40:21Z",
-        "name": "JobManagerDeployment.570589663",
+        "creationTimestamp": "2026-10-24T20:32:33Z",
+        "name": "JobManagerDeployment.958228315",
         "namespace": "default",
-        "resourceVersion": "48141",
-        "uid": "97e335f3-688e-4b0d-9ba1-99a8216645a1"
+        "resourceVersion": "54619",
+        "uid": "b672a6be-7242-4774-80bd-e00b6a192a15"
       },
       "reason": "FailedMount",
       "reportingComponent": "",
@@ -64,25 +64,25 @@
     {
       "action": "Binding",
       "apiVersion": "v1",
-      "eventTime": "2026-10-24T19:40:16.415408Z",
+      "eventTime": "2026-10-24T20:32:28.471811Z",
       "firstTimestamp": null,
       "involvedObject": {
         "apiVersion": "v1",
         "kind": "Pod",
-        "name": "missing-secret-574d597f6d-s8dfc",
+        "name": "missing-secret-574d597f6d-l2v8j",
         "namespace": "default",
-        "resourceVersion": "48036",
-        "uid": "a66c99de-7bea-406c-bc29-41a0f64d4bfc"
+        "resourceVersion": "54519",
+        "uid": "270f557a-7a59-4efc-8135-b25bd8519be7"
       },
       "kind": "Event",
       "lastTimestamp": null,
-      "message": "Successfully assigned default/missing-secret-574d597f6d-s8dfc to kubectl-flink-control-plane",
+      "message": "Successfully assigned default/missing-secret-574d597f6d-l2v8j to kubectl-flink-control-plane",
       "metadata": {
-        "creationTimestamp": "2026-10-24T19:40:16Z",
-        "name": "missing-secret-574d597f6d-s8dfc.18e18e822c9afca3",
+        "creationTimestamp": "2026-10-24T20:32:28Z",
+        "name": "missing-secret-574d597f6d-l2v8j.18e1915b69b6ecd5",
         "namespace": "default",
-        "resourceVersion": "48044",
-        "uid": "153c9b08-4df6-4a2b-a082-d8d5392af856"
+        "resourceVersion": "54528",
+        "uid": "f1b47bd8-83fb-4fc6-a3c5-eb7614a79bb6"
       },
       "reason": "Scheduled",
       "reportingComponent": "default-scheduler",
@@ -94,24 +94,24 @@
       "apiVersion": "v1",
       "count": 7,
       "eventTime": null,
-      "firstTimestamp": "2026-10-24T19:40:16Z",
+      "firstTimestamp": "2026-10-24T20:32:28Z",
       "involvedObject": {
         "apiVersion": "v1",
         "kind": "Pod",
-        "name": "missing-secret-574d597f6d-s8dfc",
+        "name": "missing-secret-574d597f6d-l2v8j",
         "namespace": "default",
-        "resourceVersion": "48041",
-        "uid": "a66c99de-7bea-406c-bc29-41a0f64d4bfc"
+        "resourceVersion": "54524",
+        "uid": "270f557a-7a59-4efc-8135-b25bd8519be7"
       },
       "kind": "Event",
-      "lastTimestamp": "2026-10-24T19:40:48Z",
+      "lastTimestamp": "2026-10-24T20:33:00Z",
       "message": "MountVolume.SetUp failed for volume \"creds\" : secret \"does-not-exist\" not found",
       "metadata": {
-        "creationTimestamp": "2026-10-24T19:40:16Z",
-        "name": "missing-secret-574d597f6d-s8dfc.18e18e8238f155bf",
+        "creationTimestamp": "2026-10-24T20:32:28Z",
+        "name": "missing-secret-574d597f6d-l2v8j.18e1915b71de1967",
         "namespace": "default",
-        "resourceVersion": "48264",
-        "uid": "6eef19eb-ae05-4552-a2a9-2ad4ba68662f"
+        "resourceVersion": "54743",
+        "uid": "85b41ebe-6945-4941-8f6f-2ea82aad12b1"
       },
       "reason": "FailedMount",
       "reportingComponent": "kubelet",

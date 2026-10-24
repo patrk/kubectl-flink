@@ -115,7 +115,7 @@ const (
 
 // performanceSignals reports only what is notable: backpressure, the busy vertex behind it, and a sink that
 // receives nothing while the sources emit.
-func performanceSignals(job *flink.Job, vms []VertexMetrics, add func(kind string, layer Layer, text string)) {
+func performanceSignals(job *flink.Job, vms []VertexMetrics, add adder) {
 	byID := map[string]*VertexMetrics{}
 	sourceRate := 0.0
 	for i := range vms {

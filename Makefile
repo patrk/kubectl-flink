@@ -7,10 +7,12 @@ LDFLAGS := -s -w -X github.com/patrk/kubectl-flink/internal/version.Version=$(VE
            -X github.com/patrk/kubectl-flink/internal/version.Commit=$(shell git rev-parse --short HEAD 2>/dev/null || echo none) \
            -X github.com/patrk/kubectl-flink/internal/version.Date=$(shell date -u +%FT%TZ)
 
-.PHONY: build test bench perf lint snapshot kind-up kind-deps kind-down e2e e2e-go fixtures scenarios crds
+.PHONY: build test test-committed bench perf lint snapshot kind-up kind-deps kind-down e2e e2e-go fixtures scenarios crds
 
 build: ; CGO_ENABLED=0 go build -ldflags "$(LDFLAGS)" -o bin/kubectl-flink ./cmd/kubectl-flink
 test:  ; go test -race ./...
+# The tests on exactly what a commit would contain, as CI sees it.
+test-committed: ; hack/test-committed.sh
 bench: ; go test -run '^$$' -bench . -benchmem ./...
 perf:  ; go test -tags perf -run Budget -v ./internal/fleet/
 lint:  ; golangci-lint run ./...

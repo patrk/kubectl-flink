@@ -5,7 +5,7 @@
       "apiVersion": "v1",
       "kind": "ConfigMap",
       "metadata": {
-        "creationTimestamp": "2026-10-24T19:35:15Z",
+        "creationTimestamp": "2026-10-24T20:38:12Z",
         "labels": {
           "app": "ha",
           "component": "autoscaler"
@@ -19,11 +19,11 @@
             "controller": false,
             "kind": "FlinkDeployment",
             "name": "ha",
-            "uid": "342fe583-2e27-4f15-a1c6-d6f6e3e71dc6"
+            "uid": "d43d51c9-1da4-4968-aeb0-6c38661081f8"
           }
         ],
-        "resourceVersion": "46237",
-        "uid": "9b6385fb-70f1-46cd-829a-73a4697a06ee"
+        "resourceVersion": "57437",
+        "uid": "757059b6-280e-44bc-b974-c111aa2d3118"
       },
       "data": null
     },
@@ -35,7 +35,7 @@
       },
       "kind": "ConfigMap",
       "metadata": {
-        "creationTimestamp": "2026-10-24T19:35:15Z",
+        "creationTimestamp": "2026-10-24T20:38:11Z",
         "labels": {
           "app": "ha",
           "type": "flink-native-kubernetes"
@@ -49,28 +49,48 @@
             "controller": true,
             "kind": "Deployment",
             "name": "ha",
-            "uid": "184db1ec-84a8-4b57-baa6-6975dfe93142"
+            "uid": "bcb6ae6b-6763-4dc1-97ee-9d2c1abf6cb6"
           }
         ],
-        "resourceVersion": "46232",
-        "uid": "b08905a3-56a4-4168-a401-b71d21197880"
+        "resourceVersion": "57431",
+        "uid": "965c57bc-7eb3-4ae8-8af3-4446f80ada26"
       }
     },
     {
       "apiVersion": "v1",
       "data": {
-        "jobGraph-fa7ad71c0a97ba46a4bf2e501a09e693": "",
+        "checkpointID-0000000000000000087": "",
+        "counter": ""
+      },
+      "kind": "ConfigMap",
+      "metadata": {
+        "creationTimestamp": "2026-10-24T20:38:23Z",
+        "labels": {
+          "app": "ha",
+          "configmap-type": "high-availability",
+          "type": "flink-native-kubernetes"
+        },
+        "name": "ha-4c80c53f540b7b3d4d4091ef960a9053-config-map",
+        "namespace": "default",
+        "resourceVersion": "58628",
+        "uid": "1d0415d8-4005-4a44-ab76-51b875c7a909"
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "data": {
+        "jobGraph-4c80c53f540b7b3d4d4091ef960a9053": "",
         "org.apache.flink.k8s.leader.dispatcher": "",
-        "org.apache.flink.k8s.leader.job-fa7ad71c0a97ba46a4bf2e501a09e693": "",
+        "org.apache.flink.k8s.leader.job-4c80c53f540b7b3d4d4091ef960a9053": "",
         "org.apache.flink.k8s.leader.resourcemanager": "",
         "org.apache.flink.k8s.leader.restserver": ""
       },
       "kind": "ConfigMap",
       "metadata": {
         "annotations": {
-          "control-plane.alpha.kubernetes.io/leader": "{\"holderIdentity\":\"599022c6-d1a0-4709-a6ea-1c861406d2de\",\"leaseDuration\":15.000000000,\"acquireTime\":\"2026-10-24T19:35:24.454737Z\",\"renewTime\":\"2026-10-24T19:38:19.643562Z\",\"leaderTransitions\":0}"
+          "control-plane.alpha.kubernetes.io/leader": "{\"holderIdentity\":\"a3db910f-3394-402b-ba28-c6e587ff5592\",\"leaseDuration\":15.000000000,\"acquireTime\":\"2026-10-24T20:38:20.921485Z\",\"renewTime\":\"2026-10-24T20:41:31.110211Z\",\"leaderTransitions\":0}"
         },
-        "creationTimestamp": "2026-10-24T19:35:24Z",
+        "creationTimestamp": "2026-10-24T20:38:21Z",
         "labels": {
           "app": "ha",
           "configmap-type": "high-availability",
@@ -78,28 +98,8 @@
         },
         "name": "ha-cluster-config-map",
         "namespace": "default",
-        "resourceVersion": "47344",
-        "uid": "79cc2ab8-1a81-4fe7-b8b8-02fe7bb9f7ce"
-      }
-    },
-    {
-      "apiVersion": "v1",
-      "data": {
-        "checkpointID-0000000000000000079": "",
-        "counter": ""
-      },
-      "kind": "ConfigMap",
-      "metadata": {
-        "creationTimestamp": "2026-10-24T19:35:26Z",
-        "labels": {
-          "app": "ha",
-          "configmap-type": "high-availability",
-          "type": "flink-native-kubernetes"
-        },
-        "name": "ha-fa7ad71c0a97ba46a4bf2e501a09e693-config-map",
-        "namespace": "default",
-        "resourceVersion": "47352",
-        "uid": "f73e01aa-997f-4594-9b5a-b27b82254ed2"
+        "resourceVersion": "58615",
+        "uid": "1f3486e3-8d26-40dd-94ee-d82138443531"
       }
     }
   ],

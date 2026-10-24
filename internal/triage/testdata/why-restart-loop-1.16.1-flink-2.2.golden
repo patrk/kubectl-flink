@@ -1,29 +1,29 @@
-FlinkDeployment default/restart-loop in context kind, job d915d9d31c66e3ff99fec030b128aeff · OK
+FlinkDeployment default/restart-loop in context kind, job 5154f1014122890d10002827a2f109f1 · OK
 
-Verdict
-  1. FAILED: The job cannot reach an external system: java.net.UnknownHostException: nowhere.invalid (runtime)
+Matched patterns
+  1. FAILED: The job cannot reach an external system: java.net.UnknownHostException: nowhere.invalid (runtime, newest evidence 0s ago)
     A source, sink or lookup connects to a host that does not resolve or does not answer, so its task fails. Usually the address in the job's configuration is
     wrong, the system is down, or a network policy or firewall blocks the connection.
     Next: Check the address in the job configuration, then reach it from the pod: kubectl exec into the TaskManager.
     · event: JobException: java.net.UnknownHostException: nowhere.invalid at java.base/sun.nio.ch.NioSocketImpl.connect(Unknown Source) at java.base/java.net.S…
     · exception: java.net.UnknownHostException: nowhere.invalid
-  2. FAILED: The job keeps restarting: 4 failures in the last 15m (runtime)
+  2. FAILED: The job keeps restarting: 5 failures in the last 15m (runtime)
     The restart strategy restarts the job after every failure, but the failure comes back, so the job never runs for long.
     Next: kubectl flink exceptions default/restart-loop
-    · job.restarts: 4 failures in the last 15m
+    · job.restarts: 5 failures in the last 15m
 
 Operator
   lifecycle STABLE, JobManager READY, job RUNNING, reconciled 89s ago, generation 1 (observed 1)
   spec written by kubectl-client-side-apply, last 90s ago
 
 Kubernetes
-  pod restart-loop-959bb7bc5-pwg5r (jobmanager): Running, ready
+  pod restart-loop-959bb7bc5-8hm7p (jobmanager): Running, ready
   pod restart-loop-taskmanager-1-1 (taskmanager): Running, ready
   warning events, newest first:
     7s ago JobException ×4 on FlinkDeployment: java.net.UnknownHostException: nowhere.invalid at java.base/sun.nio.ch.NioSocketImpl.connect(Unknown Source) at …
-    82s ago Unhealthy ×7 on Pod: Startup probe failed: Get "http://10.244.0.79:8081/config": dial tcp 10.244.0.79:8081: connect: connection refused
+    83s ago Unhealthy ×7 on Pod: Startup probe failed: Get "http://10.244.0.98:8081/config": dial tcp 10.244.0.98:8081: connect: connection refused
   JobManager log, error lines:
-    2026-10-24 19:41:46,623 ERROR org.apache.flink.runtime.rest.handler.taskmanager.TaskManagersHandler [] - Exception occurred in REST handler: Cannot connect…
+    2026-10-24 20:33:58,292 ERROR org.apache.flink.runtime.rest.handler.taskmanager.TaskManagersHandler [] - Exception occurred in REST handler: Cannot connect…
     java.net.UnknownHostException: nowhere.invalid
     java.net.UnknownHostException: nowhere.invalid
     java.net.UnknownHostException: nowhere.invalid
@@ -31,13 +31,11 @@ Kubernetes
     java.net.UnknownHostException: nowhere.invalid
 
 Runtime
-  job RUNNING, Flink 2.2.1, 1 job(s) on the cluster
-  4 failure(s), newest 19s ago: java.net.UnknownHostException: nowhere.invalid
+  job RESTARTING, Flink 2.2.1, 1 job(s) on the cluster
+  5 failure(s), newest 0s ago: java.net.UnknownHostException: nowhere.invalid
   checkpoints: none completed, periodic checkpoints off, 0 completed, 0 failed
 
 Performance
-  TumblingProcessingTimeWindows -> Sink: Print to Std. Out (sink): in 0/s, out 0/s; busy 0, backpressured 0, idle 1000 ms/s
-  not collected: vertex metrics: Source: Socket Stream -> Flat Map: JobManager /jobs/d915d9d31c66e3ff99fec030b128aeff/vertices/cbc357ccb763df2852fee8c4fc7d55f2…
 
 HA
   HA not configured

@@ -5,7 +5,7 @@
         "annotations": {
             "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"flink.apache.org/v1beta1\",\"kind\":\"FlinkDeployment\",\"metadata\":{\"annotations\":{},\"name\":\"restart-loop\",\"namespace\":\"default\"},\"spec\":{\"flinkConfiguration\":{\"restart-strategy.fixed-delay.attempts\":\"2147483647\",\"restart-strategy.fixed-delay.delay\":\"5 s\",\"restart-strategy.type\":\"fixed-delay\",\"taskmanager.numberOfTaskSlots\":\"1\"},\"flinkVersion\":\"v2_2\",\"image\":\"flink:2.2\",\"job\":{\"args\":[\"--hostname\",\"nowhere.invalid\",\"--port\",\"9999\"],\"jarURI\":\"local:///opt/flink/examples/streaming/SocketWindowWordCount.jar\",\"parallelism\":1,\"upgradeMode\":\"stateless\"},\"jobManager\":{\"resource\":{\"cpu\":0.5,\"memory\":\"1024m\"}},\"serviceAccount\":\"flink\",\"taskManager\":{\"resource\":{\"cpu\":0.5,\"memory\":\"1024m\"}}}}\n"
         },
-        "creationTimestamp": "2026-10-24T19:41:08Z",
+        "creationTimestamp": "2026-10-24T20:33:20Z",
         "finalizers": [
             "flinkdeployments.flink.apache.org/finalizer"
         ],
@@ -24,7 +24,7 @@
                 },
                 "manager": "fabric8-kubernetes-client",
                 "operation": "Update",
-                "time": "2026-10-24T19:41:08Z"
+                "time": "2026-10-24T20:33:20Z"
             },
             {
                 "apiVersion": "flink.apache.org/v1beta1",
@@ -75,7 +75,7 @@
                 },
                 "manager": "kubectl-client-side-apply",
                 "operation": "Update",
-                "time": "2026-10-24T19:41:08Z"
+                "time": "2026-10-24T20:33:20Z"
             },
             {
                 "apiVersion": "flink.apache.org/v1beta1",
@@ -128,13 +128,13 @@
                 "manager": "fabric8-kubernetes-client",
                 "operation": "Update",
                 "subresource": "status",
-                "time": "2026-10-24T19:42:31Z"
+                "time": "2026-10-24T20:34:43Z"
             }
         ],
         "name": "restart-loop",
         "namespace": "default",
-        "resourceVersion": "49121",
-        "uid": "9582abaf-36a7-4e32-98b2-a219e80f8711"
+        "resourceVersion": "55600",
+        "uid": "ed3a64b6-0039-4710-aa35-43e3aed3803a"
     },
     "spec": {
         "flinkConfiguration": {
@@ -179,7 +179,7 @@
         },
         "conditions": [
             {
-                "lastTransitionTime": "2026-10-24T19:42:31.818385633Z",
+                "lastTransitionTime": "2026-10-24T20:34:43.466810847Z",
                 "message": "Job status RUNNING",
                 "reason": "Running",
                 "status": "True",
@@ -191,22 +191,22 @@
             "checkpointInfo": {
                 "lastPeriodicCheckpointTimestamp": 0
             },
-            "jobId": "d915d9d31c66e3ff99fec030b128aeff",
+            "jobId": "5154f1014122890d10002827a2f109f1",
             "jobName": "Socket Window WordCount",
             "savepointInfo": {
                 "lastPeriodicSavepointTimestamp": 0,
                 "savepointHistory": []
             },
-            "startTime": "1792870877222",
+            "startTime": "1792874008583",
             "state": "RUNNING",
-            "updateTime": "1792870951787"
+            "updateTime": "1792874083439"
         },
         "lifecycleState": "STABLE",
         "observedGeneration": 1,
         "reconciliationStatus": {
             "lastReconciledSpec": "{\"spec\":{\"job\":{\"jarURI\":\"local:///opt/flink/examples/streaming/SocketWindowWordCount.jar\",\"parallelism\":1,\"entryClass\":null,\"args\":[\"--hostname\",\"nowhere.invalid\",\"--port\",\"9999\"],\"state\":\"running\",\"savepointTriggerNonce\":null,\"initialSavepointPath\":null,\"checkpointTriggerNonce\":null,\"upgradeMode\":\"stateless\",\"allowNonRestoredState\":null,\"savepointRedeployNonce\":null,\"autoscalerResetNonce\":null},\"restartNonce\":null,\"flinkConfiguration\":{\"restart-strategy.fixed-delay.attempts\":\"2147483647\",\"restart-strategy.fixed-delay.delay\":\"5 s\",\"restart-strategy.type\":\"fixed-delay\",\"taskmanager.numberOfTaskSlots\":\"1\"},\"image\":\"flink:2.2\",\"imagePullPolicy\":null,\"serviceAccount\":\"flink\",\"flinkVersion\":\"v2_2\",\"ingress\":null,\"podTemplate\":null,\"jobManager\":{\"resource\":{\"cpu\":0.5,\"memory\":\"1024m\",\"ephemeralStorage\":null},\"resources\":null,\"replicas\":1,\"podTemplate\":null},\"taskManager\":{\"resource\":{\"cpu\":0.5,\"memory\":\"1024m\",\"ephemeralStorage\":null},\"resources\":null,\"replicas\":null,\"podTemplate\":null},\"logConfiguration\":null,\"mode\":null},\"resource_metadata\":{\"apiVersion\":\"flink.apache.org/v1beta1\",\"firstDeployment\":true}}",
             "lastStableSpec": "{\"spec\":{\"job\":{\"jarURI\":\"local:///opt/flink/examples/streaming/SocketWindowWordCount.jar\",\"parallelism\":1,\"entryClass\":null,\"args\":[\"--hostname\",\"nowhere.invalid\",\"--port\",\"9999\"],\"state\":\"running\",\"savepointTriggerNonce\":null,\"initialSavepointPath\":null,\"checkpointTriggerNonce\":null,\"upgradeMode\":\"stateless\",\"allowNonRestoredState\":null,\"savepointRedeployNonce\":null,\"autoscalerResetNonce\":null},\"restartNonce\":null,\"flinkConfiguration\":{\"restart-strategy.fixed-delay.attempts\":\"2147483647\",\"restart-strategy.fixed-delay.delay\":\"5 s\",\"restart-strategy.type\":\"fixed-delay\",\"taskmanager.numberOfTaskSlots\":\"1\"},\"image\":\"flink:2.2\",\"imagePullPolicy\":null,\"serviceAccount\":\"flink\",\"flinkVersion\":\"v2_2\",\"ingress\":null,\"podTemplate\":null,\"jobManager\":{\"resource\":{\"cpu\":0.5,\"memory\":\"1024m\",\"ephemeralStorage\":null},\"resources\":null,\"replicas\":1,\"podTemplate\":null},\"taskManager\":{\"resource\":{\"cpu\":0.5,\"memory\":\"1024m\",\"ephemeralStorage\":null},\"resources\":null,\"replicas\":null,\"podTemplate\":null},\"logConfiguration\":null,\"mode\":null},\"resource_metadata\":{\"apiVersion\":\"flink.apache.org/v1beta1\",\"firstDeployment\":true}}",
-            "reconciliationTimestamp": 1792870869042,
+            "reconciliationTimestamp": 1792874000410,
             "state": "DEPLOYED"
         },
         "taskManager": {

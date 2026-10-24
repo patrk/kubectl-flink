@@ -5,7 +5,7 @@
       "apiVersion": "v1",
       "kind": "ConfigMap",
       "metadata": {
-        "creationTimestamp": "2026-10-24T19:35:15Z",
+        "creationTimestamp": "2026-10-24T20:38:11Z",
         "labels": {
           "app": "restart-bot",
           "component": "autoscaler"
@@ -19,11 +19,11 @@
             "controller": false,
             "kind": "FlinkDeployment",
             "name": "restart-bot",
-            "uid": "8f0a9c0d-c6f3-428c-b689-65528e87a884"
+            "uid": "fc60a399-99b8-4748-a382-26c2852865eb"
           }
         ],
-        "resourceVersion": "46234",
-        "uid": "1011efe9-35a6-4fdb-964c-073388b0218e"
+        "resourceVersion": "57430",
+        "uid": "563993b9-284a-45e5-a4c0-3dced28f0b59"
       },
       "data": null
     },
@@ -35,7 +35,7 @@
       },
       "kind": "ConfigMap",
       "metadata": {
-        "creationTimestamp": "2026-10-24T19:37:28Z",
+        "creationTimestamp": "2026-10-24T20:40:28Z",
         "labels": {
           "app": "restart-bot",
           "type": "flink-native-kubernetes"
@@ -49,11 +49,11 @@
             "controller": true,
             "kind": "Deployment",
             "name": "restart-bot",
-            "uid": "2ad42ccd-24ea-4d5b-a7f9-fb98a22c8474"
+            "uid": "b9f91cc1-c5bf-49e1-941a-9b4f124a5578"
           }
         ],
-        "resourceVersion": "47097",
-        "uid": "4be5c23a-2559-4f03-a4c0-958e2b8a1f2e"
+        "resourceVersion": "58312",
+        "uid": "8f463668-5a42-47cc-b80e-479f0a535e5d"
       }
     }
   ],

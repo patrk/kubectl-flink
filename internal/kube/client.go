@@ -192,6 +192,17 @@ func rawBody(res rest.Result) ([]byte, error) {
 	return raw, nil
 }
 
+// GetRaw reads one object of r as the API server sends it, every field included.
+func (c *Client) GetRaw(ctx context.Context, r Resource, namespace, name string) ([]byte, error) {
+	return rawBody(c.rest(r).Get().Namespace(namespace).Resource(r.GVR.Resource).Name(name).Do(ctx))
+}
+
+// ListRaw lists r as the API server sends it, in one request; for the few objects of one job.
+func (c *Client) ListRaw(ctx context.Context, r Resource, namespace, labelSelector, fieldSelector string) ([]byte, error) {
+	opts := metav1.ListOptions{LabelSelector: labelSelector, FieldSelector: fieldSelector}
+	return rawBody(c.get(r, namespace, &opts).Do(ctx))
+}
+
 // Get reads one object of r. A missing object is an apierrors NotFound.
 func (c *Client) Get(ctx context.Context, r Resource, namespace, name string) (runtime.Object, error) {
 	raw, err := rawBody(c.rest(r).Get().Namespace(namespace).Resource(r.GVR.Resource).Name(name).Do(ctx))

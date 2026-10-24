@@ -27,7 +27,7 @@ func badImageCluster(t *testing.T) *cluster {
 func TestWhy(t *testing.T) {
 	c := badImageCluster(t)
 	code, out, errOut := c.run("why", "bad-image", "--exit-code")
-	if code != ExitUnhealthy || !strings.Contains(out, "1. FAILED: The image flink:does-not-exist cannot be pulled (kubernetes)") ||
+	if code != ExitUnhealthy || !strings.Contains(out, "1. FAILED: The image flink:does-not-exist cannot be pulled (kubernetes, newest evidence") ||
 		!strings.Contains(out, "not collected: JobManager REST API: not asked: the JobManager is ERROR") {
 		t.Errorf("%d %s\n%s", code, errOut, out)
 	}

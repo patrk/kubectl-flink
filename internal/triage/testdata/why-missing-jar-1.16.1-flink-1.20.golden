@@ -1,8 +1,8 @@
-FlinkDeployment default/missing-jar in context kind, job 1888fc813e48c7d43b7e98d1acd686c5 · PROGRESSING
-  JobManager deployment ERROR: CrashLoopBackOff: [flink-main-container] back-off 20s restarting failed container=flink-main-container pod=missing-jar-…
+FlinkDeployment default/missing-jar in context kind, job d3cee92b60fdc5d18c050602624ebd0a · PROGRESSING
+  JobManager deployment ERROR: CrashLoopBackOff: [flink-main-container] back-off 10s restarting failed container=flink-main-container pod=missing-jar-…
   job RECONCILING
 
-Verdict
+Matched patterns
   1. FAILED: The job jar /opt/flink/does-not-exist.jar does not exist (runtime)
     The JobManager exits at startup because spec.job.jarURI points at a file that is not in the image or was not downloaded. Kubernetes restarts it, so the pod
     is in CrashLoopBackOff.
@@ -11,19 +11,18 @@ Verdict
     · log.jobmanager: Caused by: org.apache.flink.client.program.ProgramInvocationException: JAR file does not exist '/opt/flink/does-not-exist.jar'
 
 Operator
-  lifecycle DEPLOYED, JobManager ERROR, job RECONCILING, reconciled 94s ago, generation 1 (observed 1)
-  error: CrashLoopBackOff: [flink-main-container] back-off 20s restarting failed container=flink-main-container pod=missing-jar-597b458676-z6cwz_default(cb071e…
-  spec written by kubectl-client-side-apply, last 95s ago
+  lifecycle DEPLOYED, JobManager ERROR, job RECONCILING, reconciled 88s ago, generation 1 (observed 1)
+  error: CrashLoopBackOff: [flink-main-container] back-off 10s restarting failed container=flink-main-container pod=missing-jar-597b458676-ql9tx_default(286bc8…
+  spec written by kubectl-client-side-apply, last 89s ago
 
 Kubernetes
-  pod missing-jar-597b458676-z6cwz (jobmanager): Running, waiting CrashLoopBackOff, 2 restarts, last Error exit 1 66s ago
+  pod missing-jar-597b458676-ql9tx (jobmanager): Running, waiting CrashLoopBackOff, 2 restarts, last Error exit 1 61s ago
   warning events, newest first:
-    60s ago CrashLoopBackOff on FlinkDeployment: [flink-main-container] back-off 20s restarting failed container=flink-main-container pod=missing-jar-597b45867…
-    64s ago BackOff ×4 on Pod: Back-off restarting failed container flink-main-container in pod missing-jar-597b458676-z6cwz_default(cb071eb9-f5a8-4eb4-a1c8-a3…
-    66s ago Unhealthy ×15 on Pod: Startup probe failed: Get "http://10.244.0.55:8081/config": dial tcp 10.244.0.55:8081: connect: connection refused
-    80s ago CrashLoopBackOff on FlinkDeployment: [flink-main-container] back-off 10s restarting failed container=flink-main-container pod=missing-jar-597b45867…
+    60s ago BackOff ×4 on Pod: Back-off restarting failed container flink-main-container in pod missing-jar-597b458676-ql9tx_default(286bc8f3-da0a-4e3f-8581-71…
+    62s ago Unhealthy ×15 on Pod: Startup probe failed: Get "http://10.244.0.112:8081/config": dial tcp 10.244.0.112:8081: connect: connection refused
+    74s ago CrashLoopBackOff on FlinkDeployment: [flink-main-container] back-off 10s restarting failed container=flink-main-container pod=missing-jar-597b45867…
   JobManager log, error lines:
-    2026-10-24 19:34:57,823 ERROR org.apache.flink.runtime.entrypoint.ClusterEntrypoint [] - Could not create application program.
+    2026-10-24 20:37:46,196 ERROR org.apache.flink.runtime.entrypoint.ClusterEntrypoint [] - Could not create application program.
     org.apache.flink.util.FlinkException: Could not load the provided entrypoint class.
     Caused by: org.apache.flink.client.program.ProgramInvocationException: JAR file does not exist '/opt/flink/does-not-exist.jar'
     Caused by: java.io.IOException: JAR file does not exist '/opt/flink/does-not-exist.jar'

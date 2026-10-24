@@ -1,0 +1,28 @@
+FlinkDeployment default/restart-bot in context dev, job 7637d9c57479e876cc2bdeb09d5f22e2
+
+TIME (UTC)           AGO        SOURCE                 WHAT
+2026-10-24 20:36:00  59s ago    status                 job state RUNNING
+2026-10-24 20:36:00  60s ago    event flinkdeployment  JobStatusChanged: Job status changed from RECONCILING to RUNNING (×3 since 20:33:58)
+2026-10-24 20:35:41  79s ago    event pod              Started: Container started
+2026-10-24 20:35:40  79s ago    event pod              Scheduled: Successfully assigned default/restart-bot-taskmanager-1-1 to kubectl-flink-control-plane
+2026-10-24 20:35:40  80s ago    event pod              Pulled: Container image "flink:2.2" already present on machine and can be accessed by the pod
+2026-10-24 20:35:40  80s ago    event pod              Created: Container created
+2026-10-24 20:35:40  80s ago    pod                    taskmanager pod restart-bot-taskmanager-1-1 created
+2026-10-24 20:35:38  81s ago    status                 job started
+2026-10-24 20:35:36  84s ago    event pod              Unhealthy: Startup probe failed: Get "http://10.244.0.108:8081/config": dial tcp 10.244.0.108:8081: connect: …
+2026-10-24 20:35:29  90s ago    status                 operator reconciled generation 3: lifecycle STABLE
+2026-10-24 20:35:29  90s ago    event pod              Scheduled: Successfully assigned default/restart-bot-f76bb5d7f-c55qn to kubectl-flink-control-plane
+2026-10-24 20:35:29  91s ago    event flinkdeployment  Submit: Starting deployment (×3 since 20:33:20)
+2026-10-24 20:35:29  91s ago    event pod              Pulled: Container image "flink:2.2" already present on machine and can be accessed by the pod
+2026-10-24 20:35:29  91s ago    event pod              Created: Container created
+2026-10-24 20:35:29  91s ago    event pod              Started: Container started
+2026-10-24 20:35:29  91s ago    pod                    jobmanager pod restart-bot-f76bb5d7f-c55qn created
+2026-10-24 20:35:26  94s ago    managedFields          restart-bot last wrote the resource; it owns spec restartNonce
+2026-10-24 20:35:26  94s ago    event flinkdeployment  SpecChanged: UPGRADE change(s) detected (Diff: FlinkDeploymentSpec[restartNonce : 1 -> 2]), starting reconcil…
+2026-10-24 20:35:26  94s ago    event flinkdeployment  Suspended: Suspending existing deployment. (×2 since 20:34:50)
+2026-10-24 20:34:50  2m10s ago  event flinkdeployment  SpecChanged: UPGRADE change(s) detected (Diff: FlinkDeploymentSpec[restartNonce : null -> 1]), starting recon…
+2026-10-24 20:33:20  3m40s ago  resource               created, generation 1
+2026-10-24 20:33:20  3m40s ago  managedFields          kubectl-client-side-apply last wrote the resource; it owns spec flinkConfiguration, flinkVersion, image, job,…
+
+Events are kept for about an hour. Older changes show only as the last write of each field manager (which moves with any field it writes), status timestamps and
+the JobManager's failure history.

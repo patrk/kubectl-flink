@@ -60,6 +60,13 @@ func FirstLine(s string) string {
 	return line
 }
 
+// GetRaw reads a REST path as the JobManager sends it.
+func (c *Client) GetRaw(ctx context.Context, path string) ([]byte, error) {
+	var raw json.RawMessage
+	err := c.get(ctx, path, &raw)
+	return raw, err
+}
+
 func (c *Client) get(ctx context.Context, path string, v any) error {
 	req, err := http.NewRequestWithContext(ctx, http.MethodGet, c.base+path, http.NoBody)
 	if err != nil {

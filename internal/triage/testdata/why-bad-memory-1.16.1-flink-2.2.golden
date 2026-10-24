@@ -1,14 +1,17 @@
-FlinkDeployment default/bad-memory in context kind, job eebb3aefb5a6ab6907701bac337496bb · PROGRESSING
+FlinkDeployment default/bad-memory in context kind, job a79f40e4b6ca49d38ee29f70491a77cf · PROGRESSING
   lifecycle UPGRADING
   JobManager deployment MISSING
 
-Verdict
-  1. FAILED: The TaskManager memory is too small for its configured memory pools (operator)
+Matched patterns
+  1. FAILED: The TaskManager memory is too small for its configured memory pools (operator, newest evidence 60s ago)
     Flink derives its memory pools from spec.taskManager.resource.memory and rejects a total smaller than its fixed parts, so the operator does not deploy the
     change. The sizes are in the error below.
     Next: Raise the memory of the TaskManager, or lower the fixed pools (metaspace, overhead, framework memory) in flinkConfiguration.
     · event: Error: TaskManager memory configuration failed: Sum of configured JVM Metaspace (256.000mb (268435456 bytes)) and JVM Overhead (192.000mb (2013265…
     · operator.error: org.apache.flink.configuration.IllegalConfigurationException: TaskManager memory configuration failed: Sum of configured JVM Metaspace (2…
+
+Also seen, not explained by the above
+  · operator.error: Sum of configured JVM Metaspace (256.000mb (268435456 bytes)) and JVM Overhead (192.000mb (201326592 bytes)) exceed configured Total Proces…
 
 Operator
   lifecycle UPGRADING, JobManager MISSING, job -, reconciled 60s ago, generation 1 (observed 1)

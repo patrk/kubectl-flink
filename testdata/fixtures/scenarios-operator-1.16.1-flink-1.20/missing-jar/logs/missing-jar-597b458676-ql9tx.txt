@@ -1,0 +1,173 @@
+/opt/flink/bin/config-parser-utils.sh: line 45: /opt/flink/conf/flink-conf.yaml: Read-only file system
+Starting kubernetes-application as a console application on host missing-jar-597b458676-ql9tx.
+2026-10-24 20:37:45,790 INFO  org.apache.flink.runtime.entrypoint.ClusterEntrypoint        [] - --------------------------------------------------------------------------------
+2026-10-24 20:37:45,791 INFO  org.apache.flink.runtime.entrypoint.ClusterEntrypoint        [] -  Preconfiguration: 
+2026-10-24 20:37:45,791 INFO  org.apache.flink.runtime.entrypoint.ClusterEntrypoint        [] - 
+
+
+RESOURCE_PARAMS extraction logs:
+jvm_params: -Xmx469762048 -Xms469762048 -XX:MaxMetaspaceSize=268435456
+dynamic_configs: -D jobmanager.memory.off-heap.size=134217728b -D jobmanager.memory.jvm-overhead.min=201326592b -D jobmanager.memory.jvm-metaspace.size=268435456b -D jobmanager.memory.heap.size=469762048b -D jobmanager.memory.jvm-overhead.max=201326592b
+logs: INFO  [] - Using legacy YAML parser to load flink configuration file from /opt/flink/conf/flink-conf.yaml.
+WARN  [] - Error while trying to split key and value in configuration file /opt/flink/conf/flink-conf.yaml:9: Line is not a key-value pair (missing space after ':'?)
+INFO  [] - Loading configuration property: blob.server.port, 6124
+INFO  [] - Loading configuration property: kubernetes.jobmanager.annotations, flinkdeployment.flink.apache.org/generation:1
+INFO  [] - Loading configuration property: kubernetes.jobmanager.replicas, 1
+INFO  [] - Loading configuration property: execution.submit-failed-job-on-application-error, true
+INFO  [] - Loading configuration property: jobmanager.rpc.address, missing-jar.default
+INFO  [] - Loading configuration property: kubernetes.service-account, flink
+INFO  [] - Loading configuration property: kubernetes.cluster-id, missing-jar
+INFO  [] - Loading configuration property: kubernetes.taskmanager.cpu.amount, 0.5
+INFO  [] - Loading configuration property: parallelism.default, 1
+INFO  [] - Loading configuration property: kubernetes.namespace, default
+INFO  [] - Loading configuration property: taskmanager.numberOfTaskSlots, 1
+INFO  [] - Loading configuration property: kubernetes.rest-service.exposed.type, ClusterIP
+INFO  [] - Loading configuration property: kubernetes.jobmanager.owner.reference, kind:FlinkDeployment,apiVersion:flink.apache.org/v1beta1,blockOwnerDeletion:true,controller:false,name:missing-jar,uid:8d2347fb-cccc-44ae-9d7b-4fe84fab58ad
+INFO  [] - Loading configuration property: kubernetes.container.image.ref, flink:1.20
+INFO  [] - Loading configuration property: taskmanager.memory.process.size, 1 gb
+INFO  [] - Loading configuration property: kubernetes.internal.jobmanager.entrypoint.class, org.apache.flink.kubernetes.entrypoint.KubernetesApplicationClusterEntrypoint
+INFO  [] - Loading configuration property: pipeline.name, missing-jar
+INFO  [] - Loading configuration property: web.cancel.enable, false
+INFO  [] - Loading configuration property: execution.target, kubernetes-application
+INFO  [] - Loading configuration property: jobmanager.memory.process.size, 1 gb
+INFO  [] - Loading configuration property: execution.shutdown-on-application-finish, false
+INFO  [] - Loading configuration property: taskmanager.rpc.port, 6122
+INFO  [] - Loading configuration property: kubernetes.jobmanager.cpu.amount, 0.5
+INFO  [] - Loading configuration property: internal.cluster.execution-mode, NORMAL
+INFO  [] - Loading configuration property: env.java.default-opts.all, --add-exports=java.base/sun.net.util=ALL-UNNAMED --add-exports=java.rmi/sun.rmi.registry=ALL-UNNAMED --add-exports=java.security.jgss/sun.security.krb5=ALL-UNNAMED --add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.net=ALL-UNNAMED --add-opens=java.base/java.io=ALL-UNNAMED --add-opens=java.base/java.nio=ALL-UNNAMED --add-opens=java.base/sun.nio.ch=ALL-UNNAMED --add-opens=java.base/java.lang.reflect=ALL-UNNAMED --add-opens=java.base/java.text=ALL-UNNAMED --add-opens=java.base/java.time=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.base/java.util.concurrent=ALL-UNNAMED --add-opens=java.base/java.util.concurrent.atomic=ALL-UNNAMED --add-opens=java.base/java.util.concurrent.locks=ALL-UNNAMED
+INFO  [] - Loading configuration property: $internal.pipeline.job-id, d3cee92b60fdc5d18c050602624ebd0a
+INFO  [] - Loading configuration property: pipeline.jars, local:///opt/flink/does-not-exist.jar
+INFO  [] - Loading configuration property: execution.checkpointing.externalized-checkpoint-retention, RETAIN_ON_CANCELLATION
+INFO  [] - Loading configuration property: $internal.flink.version, v1_20
+INFO  [] - Loading configuration property: kubernetes.pod-template-file.jobmanager, /tmp/flink_op_generated_podTemplate_8262737782134672788.yaml
+INFO  [] - The derived from fraction jvm overhead memory (102.400mb (107374184 bytes)) is less than its min value 192.000mb (201326592 bytes), min value will be used instead
+INFO  [] - Final Master Memory configuration:
+INFO  [] -   Total Process Memory: 1024.000mb (1073741824 bytes)
+INFO  [] -     Total Flink Memory: 576.000mb (603979776 bytes)
+INFO  [] -       JVM Heap:         448.000mb (469762048 bytes)
+INFO  [] -       Off-heap:         128.000mb (134217728 bytes)
+INFO  [] -     JVM Metaspace:      256.000mb (268435456 bytes)
+INFO  [] -     JVM Overhead:       192.000mb (201326592 bytes)
+
+2026-10-24 20:37:45,792 INFO  org.apache.flink.runtime.entrypoint.ClusterEntrypoint        [] - --------------------------------------------------------------------------------
+2026-10-24 20:37:45,792 INFO  org.apache.flink.runtime.entrypoint.ClusterEntrypoint        [] -  Starting KubernetesApplicationClusterEntrypoint (Version: 1.20.5, Scala: 2.12, Rev:0980485, Date:2026-06-08T09:21:06+02:00)
+2026-10-24 20:37:45,792 INFO  org.apache.flink.runtime.entrypoint.ClusterEntrypoint        [] -  OS current user: flink
+2026-10-24 20:37:45,792 INFO  org.apache.flink.runtime.entrypoint.ClusterEntrypoint        [] -  Current Hadoop/Kerberos user: <no hadoop dependency found>
+2026-10-24 20:37:45,792 INFO  org.apache.flink.runtime.entrypoint.ClusterEntrypoint        [] -  JVM: OpenJDK 64-Bit Server VM - Eclipse Adoptium - 11/11.0.32.1+1
+2026-10-24 20:37:45,792 INFO  org.apache.flink.runtime.entrypoint.ClusterEntrypoint        [] -  Arch: aarch64
+2026-10-24 20:37:45,792 INFO  org.apache.flink.runtime.entrypoint.ClusterEntrypoint        [] -  Maximum heap size: 433 MiBytes
+2026-10-24 20:37:45,792 INFO  org.apache.flink.runtime.entrypoint.ClusterEntrypoint        [] -  JAVA_HOME: /opt/java/openjdk
+2026-10-24 20:37:45,792 INFO  org.apache.flink.runtime.entrypoint.ClusterEntrypoint        [] -  No Hadoop Dependency available
+2026-10-24 20:37:45,792 INFO  org.apache.flink.runtime.entrypoint.ClusterEntrypoint        [] -  JVM Options:
+2026-10-24 20:37:45,793 INFO  org.apache.flink.runtime.entrypoint.ClusterEntrypoint        [] -     -Xmx469762048
+2026-10-24 20:37:45,793 INFO  org.apache.flink.runtime.entrypoint.ClusterEntrypoint        [] -     -Xms469762048
+2026-10-24 20:37:45,793 INFO  org.apache.flink.runtime.entrypoint.ClusterEntrypoint        [] -     -XX:MaxMetaspaceSize=268435456
+2026-10-24 20:37:45,793 INFO  org.apache.flink.runtime.entrypoint.ClusterEntrypoint        [] -     -XX:+IgnoreUnrecognizedVMOptions
+2026-10-24 20:37:45,793 INFO  org.apache.flink.runtime.entrypoint.ClusterEntrypoint        [] -     --add-exports=java.base/sun.net.util=ALL-UNNAMED
+2026-10-24 20:37:45,793 INFO  org.apache.flink.runtime.entrypoint.ClusterEntrypoint        [] -     --add-exports=java.rmi/sun.rmi.registry=ALL-UNNAMED
+2026-10-24 20:37:45,793 INFO  org.apache.flink.runtime.entrypoint.ClusterEntrypoint        [] -     --add-exports=java.security.jgss/sun.security.krb5=ALL-UNNAMED
+2026-10-24 20:37:45,793 INFO  org.apache.flink.runtime.entrypoint.ClusterEntrypoint        [] -     --add-opens=java.base/java.lang=ALL-UNNAMED
+2026-10-24 20:37:45,793 INFO  org.apache.flink.runtime.entrypoint.ClusterEntrypoint        [] -     --add-opens=java.base/java.net=ALL-UNNAMED
+2026-10-24 20:37:45,793 INFO  org.apache.flink.runtime.entrypoint.ClusterEntrypoint        [] -     --add-opens=java.base/java.io=ALL-UNNAMED
+2026-10-24 20:37:45,793 INFO  org.apache.flink.runtime.entrypoint.ClusterEntrypoint        [] -     --add-opens=java.base/java.nio=ALL-UNNAMED
+2026-10-24 20:37:45,793 INFO  org.apache.flink.runtime.entrypoint.ClusterEntrypoint        [] -     --add-opens=java.base/sun.nio.ch=ALL-UNNAMED
+2026-10-24 20:37:45,793 INFO  org.apache.flink.runtime.entrypoint.ClusterEntrypoint        [] -     --add-opens=java.base/java.lang.reflect=ALL-UNNAMED
+2026-10-24 20:37:45,794 INFO  org.apache.flink.runtime.entrypoint.ClusterEntrypoint        [] -     --add-opens=java.base/java.text=ALL-UNNAMED
+2026-10-24 20:37:45,794 INFO  org.apache.flink.runtime.entrypoint.ClusterEntrypoint        [] -     --add-opens=java.base/java.time=ALL-UNNAMED
+2026-10-24 20:37:45,794 INFO  org.apache.flink.runtime.entrypoint.ClusterEntrypoint        [] -     --add-opens=java.base/java.util=ALL-UNNAMED
+2026-10-24 20:37:45,794 INFO  org.apache.flink.runtime.entrypoint.ClusterEntrypoint        [] -     --add-opens=java.base/java.util.concurrent=ALL-UNNAMED
+2026-10-24 20:37:45,794 INFO  org.apache.flink.runtime.entrypoint.ClusterEntrypoint        [] -     --add-opens=java.base/java.util.concurrent.atomic=ALL-UNNAMED
+2026-10-24 20:37:45,794 INFO  org.apache.flink.runtime.entrypoint.ClusterEntrypoint        [] -     --add-opens=java.base/java.util.concurrent.locks=ALL-UNNAMED
+2026-10-24 20:37:45,794 INFO  org.apache.flink.runtime.entrypoint.ClusterEntrypoint        [] -     -Dlog.file=/opt/flink/log/flink--kubernetes-application-0-missing-jar-597b458676-ql9tx.log
+2026-10-24 20:37:45,794 INFO  org.apache.flink.runtime.entrypoint.ClusterEntrypoint        [] -     -Dlog4j.configuration=file:/opt/flink/conf/log4j-console.properties
+2026-10-24 20:37:45,794 INFO  org.apache.flink.runtime.entrypoint.ClusterEntrypoint        [] -     -Dlog4j.configurationFile=file:/opt/flink/conf/log4j-console.properties
+2026-10-24 20:37:45,794 INFO  org.apache.flink.runtime.entrypoint.ClusterEntrypoint        [] -     -Dlogback.configurationFile=file:/opt/flink/conf/logback-console.xml
+2026-10-24 20:37:45,794 INFO  org.apache.flink.runtime.entrypoint.ClusterEntrypoint        [] -  Program Arguments:
+2026-10-24 20:37:45,795 INFO  org.apache.flink.runtime.entrypoint.ClusterEntrypoint        [] -     -D
+2026-10-24 20:37:45,795 INFO  org.apache.flink.runtime.entrypoint.ClusterEntrypoint        [] -     jobmanager.memory.off-heap.size=134217728b
+2026-10-24 20:37:45,795 INFO  org.apache.flink.runtime.entrypoint.ClusterEntrypoint        [] -     -D
+2026-10-24 20:37:45,795 INFO  org.apache.flink.runtime.entrypoint.ClusterEntrypoint        [] -     jobmanager.memory.jvm-overhead.min=201326592b
+2026-10-24 20:37:45,795 INFO  org.apache.flink.runtime.entrypoint.ClusterEntrypoint        [] -     -D
+2026-10-24 20:37:45,795 INFO  org.apache.flink.runtime.entrypoint.ClusterEntrypoint        [] -     jobmanager.memory.jvm-metaspace.size=268435456b
+2026-10-24 20:37:45,795 INFO  org.apache.flink.runtime.entrypoint.ClusterEntrypoint        [] -     -D
+2026-10-24 20:37:45,796 INFO  org.apache.flink.runtime.entrypoint.ClusterEntrypoint        [] -     jobmanager.memory.heap.size=469762048b
+2026-10-24 20:37:45,796 INFO  org.apache.flink.runtime.entrypoint.ClusterEntrypoint        [] -     -D
+2026-10-24 20:37:45,796 INFO  org.apache.flink.runtime.entrypoint.ClusterEntrypoint        [] -     jobmanager.memory.jvm-overhead.max=201326592b
+2026-10-24 20:37:45,796 INFO  org.apache.flink.runtime.entrypoint.ClusterEntrypoint        [] -  Classpath: /opt/flink/lib/flink-cep-1.20.5.jar:/opt/flink/lib/flink-connector-files-1.20.5.jar:/opt/flink/lib/flink-csv-1.20.5.jar:/opt/flink/lib/flink-json-1.20.5.jar:/opt/flink/lib/flink-scala_2.12-1.20.5.jar:/opt/flink/lib/flink-table-api-java-uber-1.20.5.jar:/opt/flink/lib/flink-table-planner-loader-1.20.5.jar:/opt/flink/lib/flink-table-runtime-1.20.5.jar:/opt/flink/lib/log4j-1.2-api-2.24.3.jar:/opt/flink/lib/log4j-api-2.24.3.jar:/opt/flink/lib/log4j-core-2.24.3.jar:/opt/flink/lib/log4j-slf4j-impl-2.24.3.jar:/opt/flink/lib/flink-dist-1.20.5.jar::::
+2026-10-24 20:37:45,796 INFO  org.apache.flink.runtime.entrypoint.ClusterEntrypoint        [] - --------------------------------------------------------------------------------
+2026-10-24 20:37:45,797 INFO  org.apache.flink.runtime.entrypoint.ClusterEntrypoint        [] - Registered UNIX signal handlers for [TERM, HUP, INT]
+2026-10-24 20:37:45,876 INFO  org.apache.flink.configuration.GlobalConfiguration           [] - Using legacy YAML parser to load flink configuration file from /opt/flink/conf/flink-conf.yaml.
+2026-10-24 20:37:45,877 WARN  org.apache.flink.configuration.GlobalConfiguration           [] - Error while trying to split key and value in configuration file /opt/flink/conf/flink-conf.yaml:9: Line is not a key-value pair (missing space after ':'?)
+2026-10-24 20:37:45,877 INFO  org.apache.flink.configuration.GlobalConfiguration           [] - Loading configuration property: blob.server.port, 6124
+2026-10-24 20:37:45,877 INFO  org.apache.flink.configuration.GlobalConfiguration           [] - Loading configuration property: kubernetes.jobmanager.annotations, flinkdeployment.flink.apache.org/generation:1
+2026-10-24 20:37:45,877 INFO  org.apache.flink.configuration.GlobalConfiguration           [] - Loading configuration property: kubernetes.jobmanager.replicas, 1
+2026-10-24 20:37:45,877 INFO  org.apache.flink.configuration.GlobalConfiguration           [] - Loading configuration property: execution.submit-failed-job-on-application-error, true
+2026-10-24 20:37:45,877 INFO  org.apache.flink.configuration.GlobalConfiguration           [] - Loading configuration property: jobmanager.rpc.address, missing-jar.default
+2026-10-24 20:37:45,878 INFO  org.apache.flink.configuration.GlobalConfiguration           [] - Loading configuration property: kubernetes.service-account, flink
+2026-10-24 20:37:45,878 INFO  org.apache.flink.configuration.GlobalConfiguration           [] - Loading configuration property: kubernetes.cluster-id, missing-jar
+2026-10-24 20:37:45,878 INFO  org.apache.flink.configuration.GlobalConfiguration           [] - Loading configuration property: kubernetes.taskmanager.cpu.amount, 0.5
+2026-10-24 20:37:45,878 INFO  org.apache.flink.configuration.GlobalConfiguration           [] - Loading configuration property: parallelism.default, 1
+2026-10-24 20:37:45,878 INFO  org.apache.flink.configuration.GlobalConfiguration           [] - Loading configuration property: kubernetes.namespace, default
+2026-10-24 20:37:45,878 INFO  org.apache.flink.configuration.GlobalConfiguration           [] - Loading configuration property: taskmanager.numberOfTaskSlots, 1
+2026-10-24 20:37:45,878 INFO  org.apache.flink.configuration.GlobalConfiguration           [] - Loading configuration property: kubernetes.rest-service.exposed.type, ClusterIP
+2026-10-24 20:37:45,878 INFO  org.apache.flink.configuration.GlobalConfiguration           [] - Loading configuration property: kubernetes.jobmanager.owner.reference, kind:FlinkDeployment,apiVersion:flink.apache.org/v1beta1,blockOwnerDeletion:true,controller:false,name:missing-jar,uid:8d2347fb-cccc-44ae-9d7b-4fe84fab58ad
+2026-10-24 20:37:45,878 INFO  org.apache.flink.configuration.GlobalConfiguration           [] - Loading configuration property: kubernetes.container.image.ref, flink:1.20
+2026-10-24 20:37:45,878 INFO  org.apache.flink.configuration.GlobalConfiguration           [] - Loading configuration property: taskmanager.memory.process.size, 1 gb
+2026-10-24 20:37:45,878 INFO  org.apache.flink.configuration.GlobalConfiguration           [] - Loading configuration property: kubernetes.internal.jobmanager.entrypoint.class, org.apache.flink.kubernetes.entrypoint.KubernetesApplicationClusterEntrypoint
+2026-10-24 20:37:45,878 INFO  org.apache.flink.configuration.GlobalConfiguration           [] - Loading configuration property: pipeline.name, missing-jar
+2026-10-24 20:37:45,878 INFO  org.apache.flink.configuration.GlobalConfiguration           [] - Loading configuration property: web.cancel.enable, false
+2026-10-24 20:37:45,878 INFO  org.apache.flink.configuration.GlobalConfiguration           [] - Loading configuration property: execution.target, kubernetes-application
+2026-10-24 20:37:45,878 INFO  org.apache.flink.configuration.GlobalConfiguration           [] - Loading configuration property: jobmanager.memory.process.size, 1 gb
+2026-10-24 20:37:45,878 INFO  org.apache.flink.configuration.GlobalConfiguration           [] - Loading configuration property: execution.shutdown-on-application-finish, false
+2026-10-24 20:37:45,878 INFO  org.apache.flink.configuration.GlobalConfiguration           [] - Loading configuration property: taskmanager.rpc.port, 6122
+2026-10-24 20:37:45,878 INFO  org.apache.flink.configuration.GlobalConfiguration           [] - Loading configuration property: kubernetes.jobmanager.cpu.amount, 0.5
+2026-10-24 20:37:45,879 INFO  org.apache.flink.configuration.GlobalConfiguration           [] - Loading configuration property: internal.cluster.execution-mode, NORMAL
+2026-10-24 20:37:45,879 INFO  org.apache.flink.configuration.GlobalConfiguration           [] - Loading configuration property: env.java.default-opts.all, --add-exports=java.base/sun.net.util=ALL-UNNAMED --add-exports=java.rmi/sun.rmi.registry=ALL-UNNAMED --add-exports=java.security.jgss/sun.security.krb5=ALL-UNNAMED --add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.net=ALL-UNNAMED --add-opens=java.base/java.io=ALL-UNNAMED --add-opens=java.base/java.nio=ALL-UNNAMED --add-opens=java.base/sun.nio.ch=ALL-UNNAMED --add-opens=java.base/java.lang.reflect=ALL-UNNAMED --add-opens=java.base/java.text=ALL-UNNAMED --add-opens=java.base/java.time=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.base/java.util.concurrent=ALL-UNNAMED --add-opens=java.base/java.util.concurrent.atomic=ALL-UNNAMED --add-opens=java.base/java.util.concurrent.locks=ALL-UNNAMED
+2026-10-24 20:37:45,879 INFO  org.apache.flink.configuration.GlobalConfiguration           [] - Loading configuration property: $internal.pipeline.job-id, d3cee92b60fdc5d18c050602624ebd0a
+2026-10-24 20:37:45,879 INFO  org.apache.flink.configuration.GlobalConfiguration           [] - Loading configuration property: pipeline.jars, local:///opt/flink/does-not-exist.jar
+2026-10-24 20:37:45,879 INFO  org.apache.flink.configuration.GlobalConfiguration           [] - Loading configuration property: execution.checkpointing.externalized-checkpoint-retention, RETAIN_ON_CANCELLATION
+2026-10-24 20:37:45,879 INFO  org.apache.flink.configuration.GlobalConfiguration           [] - Loading configuration property: $internal.flink.version, v1_20
+2026-10-24 20:37:45,879 INFO  org.apache.flink.configuration.GlobalConfiguration           [] - Loading configuration property: kubernetes.pod-template-file.jobmanager, /tmp/flink_op_generated_podTemplate_8262737782134672788.yaml
+2026-10-24 20:37:45,879 INFO  org.apache.flink.configuration.GlobalConfiguration           [] - Loading dynamic configuration property: jobmanager.memory.off-heap.size, 134217728b
+2026-10-24 20:37:45,879 INFO  org.apache.flink.configuration.GlobalConfiguration           [] - Loading dynamic configuration property: jobmanager.memory.jvm-overhead.min, 201326592b
+2026-10-24 20:37:45,879 INFO  org.apache.flink.configuration.GlobalConfiguration           [] - Loading dynamic configuration property: jobmanager.memory.jvm-metaspace.size, 268435456b
+2026-10-24 20:37:45,879 INFO  org.apache.flink.configuration.GlobalConfiguration           [] - Loading dynamic configuration property: jobmanager.memory.heap.size, 469762048b
+2026-10-24 20:37:45,879 INFO  org.apache.flink.configuration.GlobalConfiguration           [] - Loading dynamic configuration property: jobmanager.memory.jvm-overhead.max, 201326592b
+2026-10-24 20:37:46,077 INFO  org.apache.flink.runtime.entrypoint.ClusterEntrypoint        [] - Install default filesystem for fetching user artifacts in Kubernetes Application Mode.
+2026-10-24 20:37:46,078 INFO  org.apache.flink.core.fs.FileSystem                          [] - Hadoop is not in the classpath/dependencies. The extended set of supported File Systems via Hadoop is not available.
+2026-10-24 20:37:46,091 INFO  org.apache.flink.core.plugin.DefaultPluginManager            [] - Plugin loader with ID not found, creating it: metrics-jmx
+2026-10-24 20:37:46,093 INFO  org.apache.flink.core.plugin.DefaultPluginManager            [] - Plugin loader with ID not found, creating it: metrics-prometheus
+2026-10-24 20:37:46,093 INFO  org.apache.flink.core.plugin.DefaultPluginManager            [] - Plugin loader with ID not found, creating it: external-resource-gpu
+2026-10-24 20:37:46,093 INFO  org.apache.flink.core.plugin.DefaultPluginManager            [] - Plugin loader with ID not found, creating it: metrics-statsd
+2026-10-24 20:37:46,093 INFO  org.apache.flink.core.plugin.DefaultPluginManager            [] - Plugin loader with ID not found, creating it: metrics-slf4j
+2026-10-24 20:37:46,093 INFO  org.apache.flink.core.plugin.DefaultPluginManager            [] - Plugin loader with ID not found, creating it: metrics-influx
+2026-10-24 20:37:46,094 INFO  org.apache.flink.core.plugin.DefaultPluginManager            [] - Plugin loader with ID not found, creating it: metrics-graphite
+2026-10-24 20:37:46,094 INFO  org.apache.flink.core.plugin.DefaultPluginManager            [] - Plugin loader with ID not found, creating it: metrics-datadog
+2026-10-24 20:37:46,177 INFO  org.apache.flink.runtime.entrypoint.ClusterEntrypoint        [] - Install security context.
+2026-10-24 20:37:46,181 INFO  org.apache.flink.runtime.security.modules.HadoopModuleFactory [] - Cannot create Hadoop Security Module because Hadoop cannot be found in the Classpath.
+2026-10-24 20:37:46,186 INFO  org.apache.flink.runtime.security.modules.JaasModule         [] - Jaas file will be created as /tmp/jaas-7326326493805937875.conf.
+2026-10-24 20:37:46,189 INFO  org.apache.flink.runtime.security.contexts.HadoopSecurityContextFactory [] - Cannot install HadoopSecurityContext because Hadoop cannot be found in the Classpath.
+2026-10-24 20:37:46,196 ERROR org.apache.flink.runtime.entrypoint.ClusterEntrypoint        [] - Could not create application program.
+org.apache.flink.util.FlinkException: Could not load the provided entrypoint class.
+	at org.apache.flink.client.program.DefaultPackagedProgramRetriever.getPackagedProgram(DefaultPackagedProgramRetriever.java:231) ~[flink-dist-1.20.5.jar:1.20.5]
+	at org.apache.flink.kubernetes.entrypoint.KubernetesApplicationClusterEntrypoint.getPackagedProgram(KubernetesApplicationClusterEntrypoint.java:115) ~[flink-dist-1.20.5.jar:1.20.5]
+	at org.apache.flink.kubernetes.entrypoint.KubernetesApplicationClusterEntrypoint.lambda$main$0(KubernetesApplicationClusterEntrypoint.java:85) ~[flink-dist-1.20.5.jar:1.20.5]
+	at org.apache.flink.runtime.security.contexts.NoOpSecurityContext.runSecured(NoOpSecurityContext.java:28) ~[flink-dist-1.20.5.jar:1.20.5]
+	at org.apache.flink.kubernetes.entrypoint.KubernetesApplicationClusterEntrypoint.main(KubernetesApplicationClusterEntrypoint.java:85) [flink-dist-1.20.5.jar:1.20.5]
+Caused by: org.apache.flink.client.program.ProgramInvocationException: JAR file does not exist '/opt/flink/does-not-exist.jar'
+	at org.apache.flink.client.program.PackagedProgram.checkJarFile(PackagedProgram.java:618) ~[flink-dist-1.20.5.jar:1.20.5]
+	at org.apache.flink.client.program.PackagedProgram.loadJarFile(PackagedProgram.java:466) ~[flink-dist-1.20.5.jar:1.20.5]
+	at org.apache.flink.client.program.PackagedProgram.<init>(PackagedProgram.java:136) ~[flink-dist-1.20.5.jar:1.20.5]
+	at org.apache.flink.client.program.PackagedProgram.<init>(PackagedProgram.java:66) ~[flink-dist-1.20.5.jar:1.20.5]
+	at org.apache.flink.client.program.PackagedProgram$Builder.build(PackagedProgram.java:697) ~[flink-dist-1.20.5.jar:1.20.5]
+	at org.apache.flink.client.program.DefaultPackagedProgramRetriever.getPackagedProgram(DefaultPackagedProgramRetriever.java:229) ~[flink-dist-1.20.5.jar:1.20.5]
+	... 4 more
+Caused by: java.io.IOException: JAR file does not exist '/opt/flink/does-not-exist.jar'
+	at org.apache.flink.util.JarUtils.checkJarFile(JarUtils.java:46) ~[flink-dist-1.20.5.jar:1.20.5]
+	at org.apache.flink.client.program.PackagedProgram.checkJarFile(PackagedProgram.java:616) ~[flink-dist-1.20.5.jar:1.20.5]
+	at org.apache.flink.client.program.PackagedProgram.loadJarFile(PackagedProgram.java:466) ~[flink-dist-1.20.5.jar:1.20.5]
+	at org.apache.flink.client.program.PackagedProgram.<init>(PackagedProgram.java:136) ~[flink-dist-1.20.5.jar:1.20.5]
+	at org.apache.flink.client.program.PackagedProgram.<init>(PackagedProgram.java:66) ~[flink-dist-1.20.5.jar:1.20.5]
+	at org.apache.flink.client.program.PackagedProgram$Builder.build(PackagedProgram.java:697) ~[flink-dist-1.20.5.jar:1.20.5]
+	at org.apache.flink.client.program.DefaultPackagedProgramRetriever.getPackagedProgram(DefaultPackagedProgramRetriever.java:229) ~[flink-dist-1.20.5.jar:1.20.5]
+	... 4 more
