@@ -1,0 +1,32 @@
+version: 2
+project_name: kubectl-flink
+
+builds:
+  - main: ./cmd/kubectl-flink
+    binary: kubectl-flink
+    env: [CGO_ENABLED=0]
+    goos: [linux, darwin, windows]
+    goarch: [amd64, arm64]
+    flags: [-trimpath]
+    ldflags:
+      - -s -w
+      - -X github.com/patrk/kubectl-flink/internal/version.Version={{ .Version }}
+      - -X github.com/patrk/kubectl-flink/internal/version.Commit={{ .ShortCommit }}
+      - -X github.com/patrk/kubectl-flink/internal/version.Date={{ .Date }}
+
+archives:
+  - formats: [tar.gz]
+    format_overrides:
+      - goos: windows
+        formats: [zip]
+    files: [LICENSE, README.md]
+
+checksum:
+  name_template: checksums.txt
+
+changelog:
+  use: github
+  groups:
+    - { title: Features, regexp: '^feat', order: 0 }
+    - { title: Fixes, regexp: '^fix', order: 1 }
+    - { title: Other, order: 2 }

@@ -1,0 +1,3 @@
+- [ ] Tests added or updated for the change
+- [ ] Performance budgets unaffected, or the change says why
+- [ ] Docs and ADRs updated where a decision changed
