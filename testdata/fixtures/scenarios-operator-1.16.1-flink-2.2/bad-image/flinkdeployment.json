@@ -5,7 +5,7 @@
         "annotations": {
             "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"flink.apache.org/v1beta1\",\"kind\":\"FlinkDeployment\",\"metadata\":{\"annotations\":{},\"name\":\"bad-image\",\"namespace\":\"default\"},\"spec\":{\"flinkConfiguration\":{\"taskmanager.numberOfTaskSlots\":\"1\"},\"flinkVersion\":\"v2_2\",\"image\":\"flink:does-not-exist\",\"job\":{\"jarURI\":\"local:///opt/flink/examples/streaming/StateMachineExample.jar\",\"parallelism\":1,\"upgradeMode\":\"stateless\"},\"jobManager\":{\"resource\":{\"cpu\":0.5,\"memory\":\"1024m\"}},\"serviceAccount\":\"flink\",\"taskManager\":{\"resource\":{\"cpu\":0.5,\"memory\":\"1024m\"}}}}\n"
         },
-        "creationTimestamp": "2026-10-24T18:05:35Z",
+        "creationTimestamp": "2026-10-24T18:38:44Z",
         "finalizers": [
             "flinkdeployments.flink.apache.org/finalizer"
         ],
@@ -24,7 +24,7 @@
                 },
                 "manager": "fabric8-kubernetes-client",
                 "operation": "Update",
-                "time": "2026-10-24T18:05:35Z"
+                "time": "2026-10-24T18:38:44Z"
             },
             {
                 "apiVersion": "flink.apache.org/v1beta1",
@@ -71,7 +71,7 @@
                 },
                 "manager": "kubectl-client-side-apply",
                 "operation": "Update",
-                "time": "2026-10-24T18:05:35Z"
+                "time": "2026-10-24T18:38:44Z"
             },
             {
                 "apiVersion": "flink.apache.org/v1beta1",
@@ -115,13 +115,13 @@
                 "manager": "fabric8-kubernetes-client",
                 "operation": "Update",
                 "subresource": "status",
-                "time": "2026-10-24T18:05:40Z"
+                "time": "2026-10-24T18:38:49Z"
             }
         ],
         "name": "bad-image",
         "namespace": "default",
-        "resourceVersion": "31587",
-        "uid": "67eda0e0-e34d-4f18-90f8-141c6f6ca36c"
+        "resourceVersion": "37386",
+        "uid": "71f5415f-170c-401d-af1f-9b4000311deb"
     },
     "spec": {
         "flinkConfiguration": {
@@ -152,7 +152,7 @@
         "clusterInfo": {},
         "conditions": [
             {
-                "lastTransitionTime": "2026-10-24T18:05:35.272286379Z",
+                "lastTransitionTime": "2026-10-24T18:38:44.332814541Z",
                 "message": "Job status RECONCILING",
                 "reason": "Reconciling",
                 "status": "False",
@@ -165,7 +165,7 @@
             "checkpointInfo": {
                 "lastPeriodicCheckpointTimestamp": 0
             },
-            "jobId": "80ad2d7c6d766bb08ebf6e71c0d4a8ee",
+            "jobId": "5b1c6a1517a7f5e98a6235325db3bf95",
             "savepointInfo": {
                 "lastPeriodicSavepointTimestamp": 0,
                 "savepointHistory": []
@@ -176,7 +176,7 @@
         "observedGeneration": 1,
         "reconciliationStatus": {
             "lastReconciledSpec": "{\"spec\":{\"job\":{\"jarURI\":\"local:///opt/flink/examples/streaming/StateMachineExample.jar\",\"parallelism\":1,\"entryClass\":null,\"args\":[],\"state\":\"running\",\"savepointTriggerNonce\":null,\"initialSavepointPath\":null,\"checkpointTriggerNonce\":null,\"upgradeMode\":\"stateless\",\"allowNonRestoredState\":null,\"savepointRedeployNonce\":null,\"autoscalerResetNonce\":null},\"restartNonce\":null,\"flinkConfiguration\":{\"taskmanager.numberOfTaskSlots\":\"1\"},\"image\":\"flink:does-not-exist\",\"imagePullPolicy\":null,\"serviceAccount\":\"flink\",\"flinkVersion\":\"v2_2\",\"ingress\":null,\"podTemplate\":null,\"jobManager\":{\"resource\":{\"cpu\":0.5,\"memory\":\"1024m\",\"ephemeralStorage\":null},\"resources\":null,\"replicas\":1,\"podTemplate\":null},\"taskManager\":{\"resource\":{\"cpu\":0.5,\"memory\":\"1024m\",\"ephemeralStorage\":null},\"resources\":null,\"replicas\":null,\"podTemplate\":null},\"logConfiguration\":null,\"mode\":null},\"resource_metadata\":{\"apiVersion\":\"flink.apache.org/v1beta1\",\"firstDeployment\":true}}",
-            "reconciliationTimestamp": 1792865135272,
+            "reconciliationTimestamp": 1792867124332,
             "state": "DEPLOYED"
         },
         "taskManager": {

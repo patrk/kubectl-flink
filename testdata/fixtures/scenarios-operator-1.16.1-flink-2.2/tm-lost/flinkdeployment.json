@@ -5,7 +5,7 @@
         "annotations": {
             "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"flink.apache.org/v1beta1\",\"kind\":\"FlinkDeployment\",\"metadata\":{\"annotations\":{},\"name\":\"tm-lost\",\"namespace\":\"default\"},\"spec\":{\"flinkConfiguration\":{\"execution.checkpointing.interval\":\"10s\",\"taskmanager.numberOfTaskSlots\":\"1\"},\"flinkVersion\":\"v2_2\",\"image\":\"flink:2.2\",\"job\":{\"jarURI\":\"local:///opt/flink/examples/streaming/StateMachineExample.jar\",\"parallelism\":1,\"upgradeMode\":\"stateless\"},\"jobManager\":{\"resource\":{\"cpu\":0.5,\"memory\":\"1024m\"}},\"serviceAccount\":\"flink\",\"taskManager\":{\"resource\":{\"cpu\":0.5,\"memory\":\"1024m\"}}}}\n"
         },
-        "creationTimestamp": "2026-10-24T18:06:39Z",
+        "creationTimestamp": "2026-10-24T18:39:37Z",
         "finalizers": [
             "flinkdeployments.flink.apache.org/finalizer"
         ],
@@ -24,7 +24,7 @@
                 },
                 "manager": "fabric8-kubernetes-client",
                 "operation": "Update",
-                "time": "2026-10-24T18:06:39Z"
+                "time": "2026-10-24T18:39:37Z"
             },
             {
                 "apiVersion": "flink.apache.org/v1beta1",
@@ -72,7 +72,7 @@
                 },
                 "manager": "kubectl-client-side-apply",
                 "operation": "Update",
-                "time": "2026-10-24T18:06:39Z"
+                "time": "2026-10-24T18:39:37Z"
             },
             {
                 "apiVersion": "flink.apache.org/v1beta1",
@@ -126,13 +126,13 @@
                 "manager": "fabric8-kubernetes-client",
                 "operation": "Update",
                 "subresource": "status",
-                "time": "2026-10-24T18:08:25Z"
+                "time": "2026-10-24T18:41:02Z"
             }
         ],
         "name": "tm-lost",
         "namespace": "default",
-        "resourceVersion": "32139",
-        "uid": "2c65d830-39d8-4ef4-b506-f70f051dd5ba"
+        "resourceVersion": "37976",
+        "uid": "f93333b2-2cd8-4347-8072-02603216a2d0"
     },
     "spec": {
         "flinkConfiguration": {
@@ -164,13 +164,13 @@
         "clusterInfo": {
             "flink-revision": "450c63e @ 2026-05-03T10:10:44+02:00",
             "flink-version": "2.2.1",
-            "state-size": "14867",
+            "state-size": "14993",
             "total-cpu": "1.0",
             "total-memory": "2147483648"
         },
         "conditions": [
             {
-                "lastTransitionTime": "2026-10-24T18:08:25.474112555Z",
+                "lastTransitionTime": "2026-10-24T18:41:02.425493758Z",
                 "message": "Job status RUNNING",
                 "reason": "Running",
                 "status": "True",
@@ -182,22 +182,22 @@
             "checkpointInfo": {
                 "lastPeriodicCheckpointTimestamp": 0
             },
-            "jobId": "bc5db269189cb8e2aa77a258ae0ae178",
+            "jobId": "3fc2028c0d29dac1dc455831283e741c",
             "jobName": "State machine job",
             "savepointInfo": {
                 "lastPeriodicSavepointTimestamp": 0,
                 "savepointHistory": []
             },
-            "startTime": "1792865209128",
+            "startTime": "1792867185436",
             "state": "RUNNING",
-            "updateTime": "1792865305417"
+            "updateTime": "1792867262398"
         },
         "lifecycleState": "STABLE",
         "observedGeneration": 1,
         "reconciliationStatus": {
             "lastReconciledSpec": "{\"spec\":{\"job\":{\"jarURI\":\"local:///opt/flink/examples/streaming/StateMachineExample.jar\",\"parallelism\":1,\"entryClass\":null,\"args\":[],\"state\":\"running\",\"savepointTriggerNonce\":null,\"initialSavepointPath\":null,\"checkpointTriggerNonce\":null,\"upgradeMode\":\"stateless\",\"allowNonRestoredState\":null,\"savepointRedeployNonce\":null,\"autoscalerResetNonce\":null},\"restartNonce\":null,\"flinkConfiguration\":{\"execution.checkpointing.interval\":\"10s\",\"taskmanager.numberOfTaskSlots\":\"1\"},\"image\":\"flink:2.2\",\"imagePullPolicy\":null,\"serviceAccount\":\"flink\",\"flinkVersion\":\"v2_2\",\"ingress\":null,\"podTemplate\":null,\"jobManager\":{\"resource\":{\"cpu\":0.5,\"memory\":\"1024m\",\"ephemeralStorage\":null},\"resources\":null,\"replicas\":1,\"podTemplate\":null},\"taskManager\":{\"resource\":{\"cpu\":0.5,\"memory\":\"1024m\",\"ephemeralStorage\":null},\"resources\":null,\"replicas\":null,\"podTemplate\":null},\"logConfiguration\":null,\"mode\":null},\"resource_metadata\":{\"apiVersion\":\"flink.apache.org/v1beta1\",\"firstDeployment\":true}}",
             "lastStableSpec": "{\"spec\":{\"job\":{\"jarURI\":\"local:///opt/flink/examples/streaming/StateMachineExample.jar\",\"parallelism\":1,\"entryClass\":null,\"args\":[],\"state\":\"running\",\"savepointTriggerNonce\":null,\"initialSavepointPath\":null,\"checkpointTriggerNonce\":null,\"upgradeMode\":\"stateless\",\"allowNonRestoredState\":null,\"savepointRedeployNonce\":null,\"autoscalerResetNonce\":null},\"restartNonce\":null,\"flinkConfiguration\":{\"execution.checkpointing.interval\":\"10s\",\"taskmanager.numberOfTaskSlots\":\"1\"},\"image\":\"flink:2.2\",\"imagePullPolicy\":null,\"serviceAccount\":\"flink\",\"flinkVersion\":\"v2_2\",\"ingress\":null,\"podTemplate\":null,\"jobManager\":{\"resource\":{\"cpu\":0.5,\"memory\":\"1024m\",\"ephemeralStorage\":null},\"resources\":null,\"replicas\":1,\"podTemplate\":null},\"taskManager\":{\"resource\":{\"cpu\":0.5,\"memory\":\"1024m\",\"ephemeralStorage\":null},\"resources\":null,\"replicas\":null,\"podTemplate\":null},\"logConfiguration\":null,\"mode\":null},\"resource_metadata\":{\"apiVersion\":\"flink.apache.org/v1beta1\",\"firstDeployment\":true}}",
-            "reconciliationTimestamp": 1792865199451,
+            "reconciliationTimestamp": 1792867177214,
             "state": "DEPLOYED"
         },
         "taskManager": {

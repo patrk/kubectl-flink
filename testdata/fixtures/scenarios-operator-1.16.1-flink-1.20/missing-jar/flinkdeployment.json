@@ -5,7 +5,7 @@
         "annotations": {
             "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"flink.apache.org/v1beta1\",\"kind\":\"FlinkDeployment\",\"metadata\":{\"annotations\":{},\"name\":\"missing-jar\",\"namespace\":\"default\"},\"spec\":{\"flinkConfiguration\":{\"taskmanager.numberOfTaskSlots\":\"1\"},\"flinkVersion\":\"v1_20\",\"image\":\"flink:1.20\",\"job\":{\"jarURI\":\"local:///opt/flink/does-not-exist.jar\",\"parallelism\":1,\"upgradeMode\":\"stateless\"},\"jobManager\":{\"resource\":{\"cpu\":0.5,\"memory\":\"1024m\"}},\"serviceAccount\":\"flink\",\"taskManager\":{\"resource\":{\"cpu\":0.5,\"memory\":\"1024m\"}}}}\n"
         },
-        "creationTimestamp": "2026-10-24T18:08:28Z",
+        "creationTimestamp": "2026-10-24T18:31:22Z",
         "finalizers": [
             "flinkdeployments.flink.apache.org/finalizer"
         ],
@@ -24,7 +24,7 @@
                 },
                 "manager": "fabric8-kubernetes-client",
                 "operation": "Update",
-                "time": "2026-10-24T18:08:28Z"
+                "time": "2026-10-24T18:31:22Z"
             },
             {
                 "apiVersion": "flink.apache.org/v1beta1",
@@ -71,7 +71,7 @@
                 },
                 "manager": "kubectl-client-side-apply",
                 "operation": "Update",
-                "time": "2026-10-24T18:08:28Z"
+                "time": "2026-10-24T18:31:22Z"
             },
             {
                 "apiVersion": "flink.apache.org/v1beta1",
@@ -115,13 +115,13 @@
                 "manager": "fabric8-kubernetes-client",
                 "operation": "Update",
                 "subresource": "status",
-                "time": "2026-10-24T18:09:28Z"
+                "time": "2026-10-24T18:31:58Z"
             }
         ],
         "name": "missing-jar",
         "namespace": "default",
-        "resourceVersion": "32479",
-        "uid": "083cc91c-3d1a-4e27-8323-32276861888b"
+        "resourceVersion": "36241",
+        "uid": "cf41c67f-04cd-48bd-8d22-4f6ee17d8a17"
     },
     "spec": {
         "flinkConfiguration": {
@@ -152,20 +152,20 @@
         "clusterInfo": {},
         "conditions": [
             {
-                "lastTransitionTime": "2026-10-24T18:08:28.793553625Z",
+                "lastTransitionTime": "2026-10-24T18:31:23.135567379Z",
                 "message": "Job status RECONCILING",
                 "reason": "Reconciling",
                 "status": "False",
                 "type": "Running"
             }
         ],
-        "error": "{\"type\":\"org.apache.flink.kubernetes.operator.exception.DeploymentFailedException\",\"message\":\"[flink-main-container] back-off 20s restarting failed container=flink-main-container pod=missing-jar-597b458676-jxzgb_default(197c73ba-c88e-4b85-b5f2-5f62dc071545)\",\"additionalMetadata\":{\"reason\":\"CrashLoopBackOff\"},\"throwableList\":[]}",
+        "error": "{\"type\":\"org.apache.flink.kubernetes.operator.exception.DeploymentFailedException\",\"message\":\"[flink-main-container] back-off 20s restarting failed container=flink-main-container pod=missing-jar-597b458676-zlxb6_default(63706e4b-86d7-407f-93f1-1af20c58e405)\",\"additionalMetadata\":{\"reason\":\"CrashLoopBackOff\"},\"throwableList\":[]}",
         "jobManagerDeploymentStatus": "ERROR",
         "jobStatus": {
             "checkpointInfo": {
                 "lastPeriodicCheckpointTimestamp": 0
             },
-            "jobId": "bab15ce08e59811f41e5df490b336420",
+            "jobId": "89fd75ad3345a34b036fd09efa7442b0",
             "savepointInfo": {
                 "lastPeriodicSavepointTimestamp": 0,
                 "savepointHistory": []
@@ -176,7 +176,7 @@
         "observedGeneration": 1,
         "reconciliationStatus": {
             "lastReconciledSpec": "{\"spec\":{\"job\":{\"jarURI\":\"local:///opt/flink/does-not-exist.jar\",\"parallelism\":1,\"entryClass\":null,\"args\":[],\"state\":\"running\",\"savepointTriggerNonce\":null,\"initialSavepointPath\":null,\"checkpointTriggerNonce\":null,\"upgradeMode\":\"stateless\",\"allowNonRestoredState\":null,\"savepointRedeployNonce\":null,\"autoscalerResetNonce\":null},\"restartNonce\":null,\"flinkConfiguration\":{\"taskmanager.numberOfTaskSlots\":\"1\"},\"image\":\"flink:1.20\",\"imagePullPolicy\":null,\"serviceAccount\":\"flink\",\"flinkVersion\":\"v1_20\",\"ingress\":null,\"podTemplate\":null,\"jobManager\":{\"resource\":{\"cpu\":0.5,\"memory\":\"1024m\",\"ephemeralStorage\":null},\"resources\":null,\"replicas\":1,\"podTemplate\":null},\"taskManager\":{\"resource\":{\"cpu\":0.5,\"memory\":\"1024m\",\"ephemeralStorage\":null},\"resources\":null,\"replicas\":null,\"podTemplate\":null},\"logConfiguration\":null,\"mode\":null},\"resource_metadata\":{\"apiVersion\":\"flink.apache.org/v1beta1\",\"firstDeployment\":true}}",
-            "reconciliationTimestamp": 1792865308793,
+            "reconciliationTimestamp": 1792866683135,
             "state": "DEPLOYED"
         },
         "taskManager": {

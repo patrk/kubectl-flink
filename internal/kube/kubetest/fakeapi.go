@@ -27,11 +27,13 @@ var listKinds = map[string][2]string{
 	"flinkdeployments": {"FlinkDeploymentList", "flink.apache.org/v1beta1"},
 	"flinksessionjobs": {"FlinkSessionJobList", "flink.apache.org/v1beta1"},
 	"pods":             {"PodList", "v1"},
+	"events":           {"EventList", "v1"},
 }
 
 type item struct {
 	ns, name string
 	labels   map[string]string
+	fields   map[string]string // field selector values: involvedObject.uid for events
 	raw      []byte
 }
 
@@ -61,7 +63,8 @@ type API struct {
 	BrokenInformers bool
 	// Latency delays every response, to model the round trip to a real API server.
 	Latency time.Duration
-	// Logs holds container logs by "namespace/pod", served by the pods/log subresource.
+	// Logs holds container logs by "namespace/pod", and of the previous container by "namespace/pod:previous",
+	// served by the pods/log subresource.
 	Logs map[string]string
 }
 
@@ -128,6 +131,24 @@ func (f *API) Add(resource, fixture, ns, prefix string, n int, edit func(i int, 
 	}
 }
 
+// PutAll stores every item of a captured list, such as events.json, keeping names and namespaces.
+func (f *API) PutAll(resource, fixture string) {
+	f.t.Helper()
+	b, err := os.ReadFile(fixture) // #nosec G304 -- test fixtures
+	if err != nil {
+		f.t.Fatal(err)
+	}
+	var l struct {
+		Items []map[string]any `json:"items"`
+	}
+	if err := json.Unmarshal(b, &l); err != nil {
+		f.t.Fatal(err)
+	}
+	for _, o := range l.Items {
+		f.Put(resource, o)
+	}
+}
+
 // Put stores obj, replacing an object of the same namespace and name, and sends it to open watches as ADDED or
 // MODIFIED.
 func (f *API) Put(resource string, obj map[string]any) {
@@ -141,6 +162,9 @@ func (f *API) Put(resource string, obj map[string]any) {
 		for k, v := range l {
 			it.labels[k], _ = v.(string)
 		}
+	}
+	if ref, ok := obj["involvedObject"].(map[string]any); ok {
+		it.fields = map[string]string{"involvedObject.uid": fmt.Sprint(ref["uid"])}
 	}
 	var err error
 	if it.raw, err = json.Marshal(obj); err != nil {
@@ -193,6 +217,20 @@ func matches(set map[string]string, selector string) bool {
 	return err == nil && sel.Matches(labels.Set(set))
 }
 
+// matchesFields supports the key=value field selectors the tool sends.
+func matchesFields(fields map[string]string, selector string) bool {
+	if selector == "" {
+		return true
+	}
+	for _, term := range strings.Split(selector, ",") {
+		k, v, _ := strings.Cut(term, "=")
+		if fields[k] != v {
+			return false
+		}
+	}
+	return true
+}
+
 // ServeHTTP implements http.Handler.
 func (f *API) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	q := r.URL.Query()
@@ -210,7 +248,7 @@ func (f *API) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	broken := f.BrokenInformers && q.Get("limit") != "1"
 	var items []*item
 	for _, it := range f.items[resource] {
-		if (ns == "" || it.ns == ns) && matches(it.labels, q.Get("labelSelector")) {
+		if (ns == "" || it.ns == ns) && matches(it.labels, q.Get("labelSelector")) && matchesFields(it.fields, q.Get("fieldSelector")) {
 			items = append(items, it)
 		}
 	}
@@ -240,7 +278,11 @@ func (f *API) object(w http.ResponseWriter, q url.Values, resource, ns, name, su
 	f.mu.Lock()
 	defer f.mu.Unlock()
 	if sub == "log" {
-		text, ok := f.Logs[ns+"/"+name]
+		key := ns + "/" + name
+		if q.Get("previous") == "true" {
+			key += ":previous"
+		}
+		text, ok := f.Logs[key]
 		if !ok {
 			f.status(w, http.StatusNotFound, "NotFound", fmt.Sprintf("pods %q not found", name))
 			return

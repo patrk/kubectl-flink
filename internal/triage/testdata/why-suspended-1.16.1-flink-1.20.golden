@@ -1,0 +1,15 @@
+FlinkDeployment default/suspended in context kind, job 3ce6fa83fe3d6617f95f55ea1237e838 · SUSPENDED
+  suspended
+
+Verdict
+  Nothing wrong found.
+
+Operator
+  lifecycle SUSPENDED, JobManager MISSING, job FINISHED, reconciled 60s ago, generation 2 (observed 2)
+  spec written by kubectl-client-side-apply, kubectl-patch, last 62s ago
+
+Kubernetes
+  no Flink pods
+
+Runtime
+  not collected: JobManager REST API: not asked: the JobManager is MISSING

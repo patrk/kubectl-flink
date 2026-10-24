@@ -224,6 +224,20 @@ func TestThresholdsFollowReconcileInterval(t *testing.T) {
 	}
 }
 
+func TestHealthTextRoundTrip(t *testing.T) {
+	for h := OK; h <= Failed; h++ {
+		b, _ := h.MarshalText()
+		var back Health
+		if err := back.UnmarshalText(b); err != nil || back != h {
+			t.Errorf("%s: %s %v", h, back, err)
+		}
+	}
+	var h Health
+	if err := h.UnmarshalText([]byte("SAD")); err == nil {
+		t.Error("want error")
+	}
+}
+
 func TestParseHealth(t *testing.T) {
 	for h := OK; h <= Failed; h++ {
 		if got, err := ParseHealth(strings.ToLower(h.String())); err != nil || got != h {

@@ -16,6 +16,7 @@ import (
 
 	"github.com/patrk/kubectl-flink/internal/kube"
 	"github.com/patrk/kubectl-flink/internal/model"
+	"github.com/patrk/kubectl-flink/internal/triage"
 )
 
 // APIVersion is the profile file format this build reads.
@@ -41,6 +42,10 @@ type Profile struct {
 	// IDLabels are the label keys, on the resource or its pod template, whose values identify a job, such as a
 	// business or use-case ID. Job arguments and ls filters match their values exactly. Empty means every label.
 	IDLabels []string `json:"idLabels,omitempty"`
+	// Rules are added to the default verdict rules; a rule with the id of a default rule replaces it.
+	Rules []triage.RuleSpec `json:"rules,omitempty"`
+	// DisableRules lists default rule ids not to use.
+	DisableRules []string `json:"disableRules,omitempty"`
 	// ReconcileInterval is the operator's reconcile interval, from which health thresholds are derived.
 	ReconcileInterval metav1.Duration `json:"reconcileInterval,omitzero"`
 }
@@ -92,7 +97,8 @@ func (f *File) Validate() error {
 		return fmt.Errorf("apiVersion %q is not supported; want %q", f.APIVersion, APIVersion)
 	}
 	var errs []error
-	for i, p := range f.Profiles {
+	for i := range f.Profiles {
+		p := &f.Profiles[i]
 		where := fmt.Sprintf("profiles[%d] %q", i, p.Name)
 		if len(p.Match) == 0 {
 			errs = append(errs, fmt.Errorf("%s: match is empty", where))
@@ -104,6 +110,27 @@ func (f *File) Validate() error {
 			}
 			seen[s.Context] = true
 		}
+		own, err := triage.CompileRules(p.Rules)
+		if err != nil {
+			errs = append(errs, fmt.Errorf("%s: %w", where, err))
+		}
+		// A misspelt rule id would silently do nothing, so every id must name a default or own rule.
+		known := map[string]bool{}
+		for _, r := range append(triage.DefaultRules(), own...) {
+			known[r.ID] = true
+		}
+		for _, id := range p.DisableRules {
+			if !known[id] {
+				errs = append(errs, fmt.Errorf("%s: disableRules: no rule %q", where, id))
+			}
+		}
+		for j := range p.Rules {
+			for _, id := range p.Rules[j].Supersedes {
+				if !known[id] {
+					errs = append(errs, fmt.Errorf("%s: rule %q supersedes unknown rule %q", where, p.Rules[j].ID, id))
+				}
+			}
+		}
 		if p.ReconcileInterval.Duration < 0 {
 			errs = append(errs, fmt.Errorf("%s: reconcileInterval is negative", where))
 		}
@@ -113,7 +140,8 @@ func (f *File) Validate() error {
 
 // For returns the first profile matching context, or Default.
 func (f *File) For(context string) Profile {
-	for _, p := range f.Profiles {
+	for i := range f.Profiles {
+		p := f.Profiles[i]
 		for _, m := range p.Match {
 			if glob(m, context) {
 				if p.ReconcileInterval.Duration == 0 {
@@ -212,4 +240,21 @@ func mergeNamespaces(a, b []string) []string {
 		}
 	}
 	return out
+}
+
+// VerdictRules returns the verdict rules for the profile: defaults minus disabled ones, with the profile's own rules
+// replacing defaults of the same id and added after the rest.
+func (p *Profile) VerdictRules(defaults []*triage.Rule) ([]*triage.Rule, error) {
+	own, err := triage.CompileRules(p.Rules)
+	if err != nil {
+		return nil, fmt.Errorf("profile %s: %w", p.Name, err)
+	}
+	out := make([]*triage.Rule, 0, len(defaults)+len(own))
+	for _, r := range defaults {
+		replaced := slices.ContainsFunc(own, func(o *triage.Rule) bool { return o.ID == r.ID })
+		if !replaced && !slices.Contains(p.DisableRules, r.ID) {
+			out = append(out, r)
+		}
+	}
+	return append(out, own...), nil
 }

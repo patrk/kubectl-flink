@@ -1,0 +1,130 @@
+{
+  "apiVersion": "v1",
+  "items": [
+    {
+      "apiVersion": "v1",
+      "count": 1,
+      "eventTime": null,
+      "firstTimestamp": "2026-10-24T18:31:23Z",
+      "involvedObject": {
+        "apiVersion": "flink.apache.org/v1beta1",
+        "kind": "FlinkDeployment",
+        "name": "missing-secret",
+        "namespace": "default",
+        "uid": "2c8c0ac4-a22c-4e77-a2b8-6ea82fe17512"
+      },
+      "kind": "Event",
+      "lastTimestamp": "2026-10-24T18:31:23Z",
+      "message": "Starting deployment",
+      "metadata": {
+        "creationTimestamp": "2026-10-24T18:31:23Z",
+        "name": "JobManagerDeployment.1104301523",
+        "namespace": "default",
+        "resourceVersion": "35975",
+        "uid": "9db9d20c-59e1-4cc6-a71b-db7af6f1aefd"
+      },
+      "reason": "Submit",
+      "reportingComponent": "",
+      "reportingInstance": "",
+      "source": {
+        "component": "JobManagerDeployment"
+      },
+      "type": "Normal"
+    },
+    {
+      "apiVersion": "v1",
+      "count": 1,
+      "eventTime": null,
+      "firstTimestamp": "2026-10-24T18:31:28Z",
+      "involvedObject": {
+        "apiVersion": "flink.apache.org/v1beta1",
+        "kind": "FlinkDeployment",
+        "name": "missing-secret",
+        "namespace": "default",
+        "uid": "2c8c0ac4-a22c-4e77-a2b8-6ea82fe17512"
+      },
+      "kind": "Event",
+      "lastTimestamp": "2026-10-24T18:31:28Z",
+      "message": "MountVolume.SetUp failed for volume \"creds\" : secret \"does-not-exist\" not found",
+      "metadata": {
+        "creationTimestamp": "2026-10-24T18:31:28Z",
+        "name": "JobManagerDeployment.513020410",
+        "namespace": "default",
+        "resourceVersion": "36111",
+        "uid": "ce50497e-9b39-4daf-b65a-38c71b775534"
+      },
+      "reason": "FailedMount",
+      "reportingComponent": "",
+      "reportingInstance": "",
+      "source": {
+        "component": "JobManagerDeployment"
+      },
+      "type": "Warning"
+    },
+    {
+      "action": "Binding",
+      "apiVersion": "v1",
+      "eventTime": "2026-10-24T18:31:23.314469Z",
+      "firstTimestamp": null,
+      "involvedObject": {
+        "apiVersion": "v1",
+        "kind": "Pod",
+        "name": "missing-secret-5d8d9dbb9c-d4jwg",
+        "namespace": "default",
+        "resourceVersion": "35986",
+        "uid": "a85149e9-105c-4aa7-af33-37c50328ddc8"
+      },
+      "kind": "Event",
+      "lastTimestamp": null,
+      "message": "Successfully assigned default/missing-secret-5d8d9dbb9c-d4jwg to kubectl-flink-control-plane",
+      "metadata": {
+        "creationTimestamp": "2026-10-24T18:31:23Z",
+        "name": "missing-secret-5d8d9dbb9c-d4jwg.18e18abfdc978a9d",
+        "namespace": "default",
+        "resourceVersion": "35995",
+        "uid": "07cddf29-6283-431f-9ad1-a1f4dc6a7cd4"
+      },
+      "reason": "Scheduled",
+      "reportingComponent": "default-scheduler",
+      "reportingInstance": "default-scheduler-kubectl-flink-control-plane",
+      "source": {},
+      "type": "Normal"
+    },
+    {
+      "apiVersion": "v1",
+      "count": 7,
+      "eventTime": null,
+      "firstTimestamp": "2026-10-24T18:31:23Z",
+      "involvedObject": {
+        "apiVersion": "v1",
+        "kind": "Pod",
+        "name": "missing-secret-5d8d9dbb9c-d4jwg",
+        "namespace": "default",
+        "resourceVersion": "35989",
+        "uid": "a85149e9-105c-4aa7-af33-37c50328ddc8"
+      },
+      "kind": "Event",
+      "lastTimestamp": "2026-10-24T18:31:55Z",
+      "message": "MountVolume.SetUp failed for volume \"creds\" : secret \"does-not-exist\" not found",
+      "metadata": {
+        "creationTimestamp": "2026-10-24T18:31:23Z",
+        "name": "missing-secret-5d8d9dbb9c-d4jwg.18e18abfe5927cb9",
+        "namespace": "default",
+        "resourceVersion": "36236",
+        "uid": "9f1cb57d-0b42-412a-acbc-1b15341eed62"
+      },
+      "reason": "FailedMount",
+      "reportingComponent": "kubelet",
+      "reportingInstance": "kubectl-flink-control-plane",
+      "source": {
+        "component": "kubelet",
+        "host": "kubectl-flink-control-plane"
+      },
+      "type": "Warning"
+    }
+  ],
+  "kind": "List",
+  "metadata": {
+    "resourceVersion": ""
+  }
+}

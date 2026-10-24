@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"io"
-	"math"
 	"strconv"
 	"time"
 
@@ -14,6 +13,7 @@ import (
 
 	"github.com/patrk/kubectl-flink/internal/flink"
 	"github.com/patrk/kubectl-flink/internal/render"
+	"github.com/patrk/kubectl-flink/internal/triage"
 )
 
 type checkpointsOptions struct {
@@ -70,7 +70,9 @@ func (co *checkpointsOptions) run(ctx context.Context, t *target, c *flink.Clien
 	rep := CheckpointReport{Job: render.NewJobRef(t.job), Config: cfg, Summary: cps}
 	// Only a running job is expected to keep checkpointing; a finished or failed one has an old checkpoint.
 	if t.job.JobState == "RUNNING" {
-		rep.Stale = stale(cps, cfg, now)
+		if s := triage.StaleCheckpoint(cps, cfg, now); s != "" {
+			rep.Stale = s + ": transactional sinks commit nothing new"
+		}
 	}
 	switch co.output {
 	case "json":
@@ -81,41 +83,7 @@ func (co *checkpointsOptions) run(ctx context.Context, t *target, c *flink.Clien
 	return printCheckpoints(co.Out, &rep, now)
 }
 
-// periodicOff is the interval Flink reports when periodic checkpoints are disabled.
-const periodicOff = math.MaxInt64
-
-// staleIntervals is how many intervals the last completed checkpoint may lag before it is called stale.
-const staleIntervals = 5
-
-// stale explains when the last completed checkpoint is much older than the interval: nothing new is committed
-// by transactional sinks, and a restart would replay everything since.
-func stale(cps *flink.Checkpoints, cfg *flink.CheckpointConfig, now time.Time) string {
-	if cfg == nil || cfg.Interval <= 0 || cfg.Interval == periodicOff {
-		return ""
-	}
-	interval := time.Duration(cfg.Interval) * time.Millisecond
-	limit := max(staleIntervals*interval, time.Duration(cfg.Timeout)*time.Millisecond+interval)
-	last := cps.Latest.Completed
-	if last == nil {
-		if cps.Counts.Failed > 0 {
-			return fmt.Sprintf("no checkpoint has completed; %d failed (interval %s)", cps.Counts.Failed, short(interval))
-		}
-		return ""
-	}
-	age := now.Sub(last.LatestAck.Time())
-	if age <= limit {
-		return ""
-	}
-	return fmt.Sprintf("last completed checkpoint is %s old, interval %s: transactional sinks commit nothing new",
-		duration.HumanDuration(age), short(interval))
-}
-
-func short(d time.Duration) string {
-	if d < time.Second {
-		return d.String()
-	}
-	return duration.HumanDuration(d)
-}
+func short(d time.Duration) string { return triage.Short(d) }
 
 func ago(t, now time.Time) string {
 	if t.IsZero() {
@@ -141,7 +109,7 @@ func printCheckpoints(out io.Writer, rep *CheckpointReport, now time.Time) error
 	w := tabwriter.NewWriter(out, 0, 8, 2, ' ', 0)
 	p := func(format string, args ...any) { _, _ = fmt.Fprintf(w, format+"\n", args...) }
 	p("%s\t%s", "Job", rep.Job.String())
-	if cfg := rep.Config; cfg == nil || cfg.Interval == periodicOff {
+	if cfg := rep.Config; cfg == nil || cfg.Interval == triage.PeriodicOff {
 		p("Checkpointing\toff")
 	} else {
 		p("Checkpointing\tevery %s, timeout %s, %s, %s, %s", short(time.Duration(cfg.Interval)*time.Millisecond),

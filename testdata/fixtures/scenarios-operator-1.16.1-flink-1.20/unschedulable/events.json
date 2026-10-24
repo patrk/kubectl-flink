@@ -1,0 +1,101 @@
+{
+  "apiVersion": "v1",
+  "items": [
+    {
+      "apiVersion": "v1",
+      "count": 1,
+      "eventTime": null,
+      "firstTimestamp": "2026-10-24T18:31:23Z",
+      "involvedObject": {
+        "apiVersion": "flink.apache.org/v1beta1",
+        "kind": "FlinkDeployment",
+        "name": "unschedulable",
+        "namespace": "default",
+        "uid": "86f8829f-e8ec-4e0d-846a-a4167876c6d3"
+      },
+      "kind": "Event",
+      "lastTimestamp": "2026-10-24T18:31:23Z",
+      "message": "Starting deployment",
+      "metadata": {
+        "creationTimestamp": "2026-10-24T18:31:23Z",
+        "name": "JobManagerDeployment.1322229724",
+        "namespace": "default",
+        "resourceVersion": "35981",
+        "uid": "2e830cde-f10d-4ef7-a0a2-2e33f2ebffba"
+      },
+      "reason": "Submit",
+      "reportingComponent": "",
+      "reportingInstance": "",
+      "source": {
+        "component": "JobManagerDeployment"
+      },
+      "type": "Normal"
+    },
+    {
+      "action": "Scheduling",
+      "apiVersion": "v1",
+      "eventTime": "2026-10-24T18:31:23.373353Z",
+      "firstTimestamp": null,
+      "involvedObject": {
+        "apiVersion": "v1",
+        "kind": "Pod",
+        "name": "unschedulable-5bdd4b9576-94wcl",
+        "namespace": "default",
+        "resourceVersion": "36009",
+        "uid": "727da50b-e0b8-4b6e-9c62-4fe2999e6f59"
+      },
+      "kind": "Event",
+      "lastTimestamp": null,
+      "message": "0/1 nodes are available: 1 Insufficient cpu. preemption: 0/1 nodes are available: 1 Preemption is not helpful for scheduling.",
+      "metadata": {
+        "creationTimestamp": "2026-10-24T18:31:23Z",
+        "name": "unschedulable-5bdd4b9576-94wcl.18e18abfe01a055b",
+        "namespace": "default",
+        "resourceVersion": "36016",
+        "uid": "8487cfc2-82b5-49d0-bdf1-0668b4289767"
+      },
+      "reason": "FailedScheduling",
+      "reportingComponent": "default-scheduler",
+      "reportingInstance": "default-scheduler-kubectl-flink-control-plane",
+      "source": {},
+      "type": "Warning"
+    },
+    {
+      "action": "Scheduling",
+      "apiVersion": "v1",
+      "eventTime": "2026-10-24T18:31:24.366715Z",
+      "firstTimestamp": null,
+      "involvedObject": {
+        "apiVersion": "v1",
+        "kind": "Pod",
+        "name": "unschedulable-5bdd4b9576-94wcl",
+        "namespace": "default",
+        "resourceVersion": "36017",
+        "uid": "727da50b-e0b8-4b6e-9c62-4fe2999e6f59"
+      },
+      "kind": "Event",
+      "lastTimestamp": null,
+      "message": "0/1 nodes are available: 1 Insufficient cpu. preemption: 0/1 nodes are available: 1 Preemption is not helpful for scheduling.",
+      "metadata": {
+        "creationTimestamp": "2026-10-24T18:31:24Z",
+        "name": "unschedulable-5bdd4b9576-94wcl.18e18ac01b4f7f7c",
+        "namespace": "default",
+        "resourceVersion": "36283",
+        "uid": "826f5fe2-1610-4428-813d-7dfb2d25e7e6"
+      },
+      "reason": "FailedScheduling",
+      "reportingComponent": "default-scheduler",
+      "reportingInstance": "default-scheduler-kubectl-flink-control-plane",
+      "series": {
+        "count": 2,
+        "lastObservedTime": "2026-10-24T18:32:04.860700Z"
+      },
+      "source": {},
+      "type": "Warning"
+    }
+  ],
+  "kind": "List",
+  "metadata": {
+    "resourceVersion": ""
+  }
+}
