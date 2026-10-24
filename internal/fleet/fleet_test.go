@@ -110,24 +110,56 @@ func TestFilterAndSort(t *testing.T) {
 	}
 }
 
+func TestFindByID(t *testing.T) {
+	jobs := []*model.Job{
+		{Namespace: "a", Name: "orders", Labels: map[string]string{"use-case": "uc-1234", "env": "prod"}},
+		{Namespace: "a", Name: "payments", PodLabels: map[string]string{"use-case": "uc-5678", "env": "prod"}},
+		{Namespace: "b", Name: "uc-1234-shadow"},
+	}
+	// An exact ID wins over a name that merely contains it.
+	if j, err := fleet.Find(jobs, nil, "uc-1234"); err != nil || j.Name != "orders" {
+		t.Errorf("label id: %v %v", j, err)
+	}
+	if j, err := fleet.Find(jobs, []string{"use-case"}, "uc-5678"); err != nil || j.Name != "payments" {
+		t.Errorf("pod template id: %v %v", j, err)
+	}
+	// With idLabels, other labels are not IDs; without, every label is, and "prod" is ambiguous.
+	if _, err := fleet.Find(jobs, []string{"use-case"}, "prod"); !errors.Is(err, fleet.ErrNoMatch) {
+		t.Errorf("env is not an ID label: %v", err)
+	}
+	var amb *fleet.AmbiguousError
+	if _, err := fleet.Find(jobs, nil, "prod"); !errors.As(err, &amb) || len(amb.Candidates) != 2 {
+		t.Errorf("any label: %v", err)
+	}
+	// IDs are exact: a prefix is not an ID, and falls through to the name substring.
+	if j, err := fleet.Find(jobs, []string{"use-case"}, "uc-12"); err != nil || j.Name != "uc-1234-shadow" {
+		t.Errorf("prefix: %v %v", j, err)
+	}
+	rows := rowsOf(*jobs[0], *jobs[1], *jobs[2])
+	f := fleet.Filter{Text: "uc-5678", IDLabels: []string{"use-case"}}
+	if got := names(f.Apply(rows)); got != "payments" {
+		t.Errorf("filter by id: %s", got)
+	}
+}
+
 func TestFind(t *testing.T) {
 	jobs := []*model.Job{
 		{Namespace: "a", Name: "orders"}, {Namespace: "b", Name: "orders"}, {Namespace: "a", Name: "orders-replay"},
 		{Namespace: "a", Name: "payments"},
 	}
 	for arg, want := range map[string]string{"a/orders": "a/orders", "pay": "a/payments", "b/ord": "b/orders"} {
-		if j, err := fleet.Find(jobs, arg); err != nil || j.Key() != want {
+		if j, err := fleet.Find(jobs, nil, arg); err != nil || j.Key() != want {
 			t.Errorf("%s: %v %v", arg, j, err)
 		}
 	}
 	var amb *fleet.AmbiguousError
-	if _, err := fleet.Find(jobs, "orders"); !errors.As(err, &amb) || len(amb.Candidates) != 2 {
+	if _, err := fleet.Find(jobs, nil, "orders"); !errors.As(err, &amb) || len(amb.Candidates) != 2 {
 		t.Errorf("exact name in two namespaces: %v", err)
 	}
-	if _, err := fleet.Find(jobs, "ord"); !errors.As(err, &amb) || len(amb.Candidates) != 3 || !strings.Contains(err.Error(), "a/orders-replay") {
+	if _, err := fleet.Find(jobs, nil, "ord"); !errors.As(err, &amb) || len(amb.Candidates) != 3 || !strings.Contains(err.Error(), "a/orders-replay") {
 		t.Errorf("substring: %v", err)
 	}
-	if _, err := fleet.Find(jobs, "nothing"); !errors.Is(err, fleet.ErrNoMatch) {
+	if _, err := fleet.Find(jobs, nil, "nothing"); !errors.Is(err, fleet.ErrNoMatch) {
 		t.Errorf("none: %v", err)
 	}
 }

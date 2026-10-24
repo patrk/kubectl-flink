@@ -40,8 +40,10 @@ func Unhealthy(h model.Health) bool { return h >= model.Degraded }
 type Filter struct {
 	// Health keeps only these values; empty keeps all.
 	Health []model.Health
-	// Text keeps rows whose namespace/name contains it.
+	// Text keeps rows whose namespace/name contains it, or that carry it as an ID label value.
 	Text string
+	// IDLabels are the label keys whose values identify a job; empty means every label.
+	IDLabels []string
 }
 
 // Keep reports whether r passes the filter.
@@ -49,7 +51,21 @@ func (f *Filter) Keep(r *Row) bool {
 	if len(f.Health) > 0 && !slices.Contains(f.Health, r.Health) {
 		return false
 	}
-	return f.Text == "" || strings.Contains(r.Job.Key(), f.Text)
+	return f.Text == "" || strings.Contains(r.Job.Key(), f.Text) || HasID(r.Job, f.IDLabels, f.Text)
+}
+
+// HasID reports whether one of the job's ID labels, on the resource or its pod template, has the value id.
+// People name jobs by a business ID kept in a label more often than by the resource name. Values are compared
+// exactly, so that a short word does not match every job whose labels contain it.
+func HasID(j *model.Job, idLabels []string, id string) bool {
+	for _, labels := range []map[string]string{j.Labels, j.PodLabels} {
+		for k, v := range labels {
+			if v == id && (len(idLabels) == 0 || slices.Contains(idLabels, k)) {
+				return true
+			}
+		}
+	}
+	return false
 }
 
 // Apply returns the rows that pass.
@@ -113,16 +129,18 @@ func (e *AmbiguousError) Error() string {
 	return fmt.Sprintf("%q matches %d jobs:\n  %s", e.Arg, len(keys), strings.Join(keys, "\n  "))
 }
 
-// Find resolves a job argument: namespace/name or a name exactly, else a unique substring of namespace/name.
-// Several exact or substring matches are an AmbiguousError.
-func Find(jobs []*model.Job, arg string) (*model.Job, error) {
+// Find resolves a job argument, trying in turn: namespace/name or a name exactly, an ID label value exactly
+// (see HasID), and a unique substring of namespace/name. Several matches at one step are an AmbiguousError.
+func Find(jobs []*model.Job, idLabels []string, arg string) (*model.Job, error) {
 	exact := func(j *model.Job) bool {
 		if strings.Contains(arg, "/") {
 			return j.Key() == arg
 		}
 		return j.Name == arg
 	}
-	for _, pred := range []func(*model.Job) bool{exact, func(j *model.Job) bool { return strings.Contains(j.Key(), arg) }} {
+	byID := func(j *model.Job) bool { return HasID(j, idLabels, arg) }
+	substring := func(j *model.Job) bool { return strings.Contains(j.Key(), arg) }
+	for _, pred := range []func(*model.Job) bool{exact, byID, substring} {
 		var found []*model.Job
 		for _, j := range jobs {
 			if pred(j) {

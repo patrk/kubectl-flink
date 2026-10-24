@@ -88,3 +88,19 @@ type ContainerTerminated struct {
 	ExitCode   int32       `json:"exitCode"`
 	FinishedAt metav1.Time `json:"finishedAt"`
 }
+
+// Ready reports whether the pod is running and its Ready condition is true.
+func (p *Pod) Ready() bool {
+	if p.Status.Phase != "Running" || p.DeletionTimestamp != nil {
+		return false
+	}
+	for _, c := range p.Status.Conditions {
+		if c.Type == "Ready" {
+			return c.Status == "True"
+		}
+	}
+	return false
+}
+
+// MainContainer is the name of the Flink container in JobManager and TaskManager pods.
+const MainContainer = "flink-main-container"

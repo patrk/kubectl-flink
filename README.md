@@ -9,7 +9,7 @@ value per job and explains a failure layer by layer: Flink runtime (exceptions, 
 OOMKilled, events), performance (backpressure, checkpoints, source lag) and operator (lifecycle, reconciliation,
 rollbacks).
 
-> **Status: early development.** `ls` works; the other commands below are the working draft. Build with `make build`.
+> **Status: early development.** `ls`, `exceptions`, `checkpoints` and `logs` work; the other commands below are the working draft. Build with `make build`.
 
 ```
 kubectl flink ls [-A] [FILTER] [--unhealthy | --health failed,stuck] [-l selector] [--sort health|name|state-age]

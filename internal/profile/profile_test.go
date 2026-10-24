@@ -15,6 +15,7 @@ profiles:
   - name: prod-jumphost
     match: ["*-prd", "*-pre"]
     reconcileInterval: 30s
+    idLabels: [use-case]
     scopes:
       - context: cluster-pre
         namespaces: [team-a, team-b]
@@ -41,7 +42,7 @@ func TestLoadAndSelect(t *testing.T) {
 		t.Fatal(err)
 	}
 	p := f.For("cluster-prd")
-	if p.Name != "prod-jumphost" || p.ReconcileInterval.Duration != 30*time.Second {
+	if p.Name != "prod-jumphost" || p.ReconcileInterval.Duration != 30*time.Second || strings.Join(p.IDLabels, ",") != "use-case" {
 		t.Fatalf("got %+v", p)
 	}
 	if th := p.Thresholds(); th.Grace != time.Minute {

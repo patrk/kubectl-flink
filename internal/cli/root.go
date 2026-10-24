@@ -64,7 +64,7 @@ func newRootCommand(o *Options) *cobra.Command {
 	cmd.SetOut(streams.Out)
 	cmd.SetErr(streams.ErrOut)
 	o.ConfigFlags.AddFlags(cmd.PersistentFlags())
-	cmd.AddCommand(newVersionCommand(o), newLsCommand(o))
+	cmd.AddCommand(newVersionCommand(o), newLsCommand(o), newLogsCommand(o), newCheckpointsCommand(o), newExceptionsCommand(o))
 	markUsageErrors(cmd)
 	return cmd
 }

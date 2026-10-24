@@ -191,7 +191,13 @@ func TestResolve(t *testing.T) {
 		}
 	}
 
+	// The API server's message survives, not a generic "unknown".
 	f := kubetest.New(t)
+	f.Forbidden["flinkdeployments/team-x"] = true
+	if _, err := client(t, f).Get(ctx, kube.Deployments, "team-x", "orders"); !strings.Contains(err.Error(), "flinkdeployments is forbidden") {
+		t.Errorf("forbidden message: %v", err)
+	}
+	f = kubetest.New(t)
 	f.NotFound = true
 	if _, err := client(t, f).Resolve(ctx, scope, "default"); !errors.Is(err, kube.ErrNoOperator) {
 		t.Errorf("not found: %v", err)

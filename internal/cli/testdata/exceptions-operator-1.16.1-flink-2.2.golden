@@ -1,0 +1,6 @@
+Job: FlinkDeployment default/tm-lost in context dev, job bc5db269189cb8e2aa77a258ae0ae178
+1 failure, newest first
+
+32s ago  FlinkExpectedException: The TaskExecutor is shutting down.
+  task: Source: Events Generator Source (1/1) - execution #0
+  on: tm-lost-taskmanager-1-1

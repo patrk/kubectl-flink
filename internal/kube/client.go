@@ -4,6 +4,8 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"io"
+	"strconv"
 
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -49,6 +51,7 @@ var (
 
 // Client lists and watches the minimal types in one context.
 type Client struct {
+	cfg         *rest.Config
 	flink, core rest.Interface
 }
 
@@ -62,8 +65,11 @@ func NewClient(cfg *rest.Config) (*Client, error) {
 	if err != nil {
 		return nil, err
 	}
-	return &Client{flink: flink, core: core}, nil
+	return &Client{cfg: rest.CopyConfig(cfg), flink: flink, core: core}, nil
 }
+
+// Config is the context's REST config, for port-forwarding.
+func (c *Client) Config() *rest.Config { return rest.CopyConfig(c.cfg) }
 
 func restClient(cfg *rest.Config, gv schema.GroupVersion, apiPath string) (*rest.RESTClient, error) {
 	c := rest.CopyConfig(cfg)
@@ -101,7 +107,7 @@ func (c *Client) get(r Resource, namespace string, opts *metav1.ListOptions) *re
 // the whole body once more to find the kind, which doubles the decode time of a page (BenchmarkDecodeList).
 // API errors are still decoded into Status by the REST client.
 func (c *Client) listPage(ctx context.Context, r Resource, namespace string, opts metav1.ListOptions) (runtime.Object, error) {
-	raw, err := c.get(r, namespace, &opts).Do(ctx).Raw()
+	raw, err := rawBody(c.get(r, namespace, &opts).Do(ctx))
 	if err != nil {
 		return nil, err
 	}
@@ -170,6 +176,69 @@ func (c *Client) listAll(ctx context.Context, r Resource, namespace, labelSelect
 			return all, nil
 		}
 	}
+}
+
+// rawBody returns the response body undecoded. On failure it returns Result.Error, which decodes the API
+// server's Status and keeps its message ("User x cannot list ..."); Raw alone would give a generic "unknown".
+func rawBody(res rest.Result) ([]byte, error) {
+	raw, err := res.Raw()
+	if err != nil {
+		return nil, res.Error()
+	}
+	return raw, nil
+}
+
+// Get reads one object of r. A missing object is an apierrors NotFound.
+func (c *Client) Get(ctx context.Context, r Resource, namespace, name string) (runtime.Object, error) {
+	raw, err := rawBody(c.rest(r).Get().Namespace(namespace).Resource(r.GVR.Resource).Name(name).Do(ctx))
+	if err != nil {
+		return nil, err
+	}
+	obj := r.newObj()
+	if err := json.Unmarshal(raw, obj); err != nil {
+		return nil, fmt.Errorf("decode %s %s/%s: %w", r.GVR.Resource, namespace, name, err)
+	}
+	return obj, nil
+}
+
+// ComponentPods returns the pods of one component (ComponentJM or ComponentTM) of a Flink cluster.
+func (c *Client) ComponentPods(ctx context.Context, namespace, cluster, component string) ([]Pod, error) {
+	sel := FlinkPodSelector + "," + LabelApp + "=" + cluster + "," + LabelComponent + "=" + component
+	obj, err := c.List(ctx, Pods, namespace, sel)
+	if err != nil {
+		return nil, err
+	}
+	return obj.(*PodList).Items, nil
+}
+
+// LogOptions select a container log.
+type LogOptions struct {
+	Container    string
+	Follow       bool
+	Previous     bool
+	TailLines    int64
+	SinceSeconds int64
+}
+
+// Logs streams a container's log through the pods/log subresource.
+func (c *Client) Logs(ctx context.Context, namespace, pod string, o LogOptions) (io.ReadCloser, error) {
+	req := c.core.Get().Namespace(namespace).Resource("pods").Name(pod).SubResource("log")
+	if o.Container != "" {
+		req = req.Param("container", o.Container)
+	}
+	if o.Follow {
+		req = req.Param("follow", "true")
+	}
+	if o.Previous {
+		req = req.Param("previous", "true")
+	}
+	if o.TailLines > 0 {
+		req = req.Param("tailLines", strconv.FormatInt(o.TailLines, 10))
+	}
+	if o.SinceSeconds > 0 {
+		req = req.Param("sinceSeconds", strconv.FormatInt(o.SinceSeconds, 10))
+	}
+	return req.Stream(ctx)
 }
 
 // Probe lists at most one item, to learn whether r can be listed in namespace without transferring it.

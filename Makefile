@@ -33,8 +33,8 @@ kind-down: ; kind delete cluster --name $(KIND_CLUSTER)
 e2e: build
 	FLINK_VERSION=$(FLINK_VERSION) KUBE_CONTEXT=$(KUBE_CONTEXT) hack/e2e-smoke.sh
 
-# The kube layer against the real API server: cluster-scope probe, parallel load, WatchList informers.
-e2e-go: ; KUBE_CONTEXT=$(KUBE_CONTEXT) go test -tags e2e -run TestLive -v ./internal/kube/
+# Against the real API server: cluster-scope probe, parallel load, WatchList informers, port-forward to the JobManager.
+e2e-go: ; KUBE_CONTEXT=$(KUBE_CONTEXT) go test -tags e2e -run TestLive -v ./internal/kube/ ./internal/flink/
 
 # Raw CR and JobManager REST JSON for tests, from the running e2e job.
 fixtures:

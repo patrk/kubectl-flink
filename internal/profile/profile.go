@@ -38,6 +38,9 @@ type Profile struct {
 	Match []string `json:"match"`
 	// Scopes are read together; a scope without a context means the current one.
 	Scopes []kube.Scope `json:"scopes,omitempty"`
+	// IDLabels are the label keys, on the resource or its pod template, whose values identify a job, such as a
+	// business or use-case ID. Job arguments and ls filters match their values exactly. Empty means every label.
+	IDLabels []string `json:"idLabels,omitempty"`
 	// ReconcileInterval is the operator's reconcile interval, from which health thresholds are derived.
 	ReconcileInterval metav1.Duration `json:"reconcileInterval,omitzero"`
 }
