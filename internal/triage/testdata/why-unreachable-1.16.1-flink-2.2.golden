@@ -1,0 +1,53 @@
+FlinkDeployment default/unreachable in context kind, job a061f333927901a397620012f39c0395 · FAILED
+  lifecycle FAILED: java.net.UnknownHostException: nowhere.invalid
+  job FAILED
+
+Verdict
+  1. FAILED: The job cannot reach an external system: java.net.UnknownHostException: nowhere.invalid (runtime)
+    A source, sink or lookup connects to a host that does not resolve or does not answer, so its task fails. Usually the address in the job's configuration is
+    wrong, the system is down, or a network policy or firewall blocks the connection.
+    Next: Check the address in the job configuration, then reach it from the pod: kubectl exec into the TaskManager.
+    · exception.cause: java.net.UnknownHostException: nowhere.invalid
+    · operator.error: java.net.UnknownHostException: nowhere.invalid
+    · operator.error: org.apache.flink.util.SerializedThrowable: java.net.UnknownHostException: nowhere.invalid
+  2. DEGRADED: The job has no restart strategy, so its first failure is final (runtime)
+    Without a restart strategy, and without checkpointing, which enables one by default, Flink fails the job on the first task failure instead of restarting it.
+    Next: Enable checkpointing or set restart-strategy.type, for example exponential-delay, in flinkConfiguration.
+    · event: Error: Recovery is suppressed by NoRestartBackoffTimeStrategy -> nowhere.invalid
+    · event: JobException: org.apache.flink.runtime.JobException: Recovery is suppressed by NoRestartBackoffTimeStrategy at org.apache.flink.runtime.executiong…
+    · exception: org.apache.flink.runtime.JobException: Recovery is suppressed by NoRestartBackoffTimeStrategy
+
+Operator
+  lifecycle FAILED, JobManager READY, job FAILED, reconciled 57s ago, generation 1 (observed 1)
+  error: java.net.UnknownHostException: nowhere.invalid
+    caused by SerializedThrowable: java.net.UnknownHostException: nowhere.invalid
+  spec written by kubectl-client-side-apply, last 58s ago
+
+Kubernetes
+  pod unreachable-5b7dcf847c-rwlbx (jobmanager): Running, ready
+  pod unreachable-taskmanager-1-1 (taskmanager): Running, ready
+  warning events, newest first:
+    5s ago JobException on FlinkDeployment: org.apache.flink.runtime.JobException: Recovery is suppressed by NoRestartBackoffTimeStrategy at org.apache.flink.r…
+    5s ago Error on FlinkDeployment: Recovery is suppressed by NoRestartBackoffTimeStrategy -> nowhere.invalid
+    50s ago Unhealthy ×7 on Pod: Startup probe failed: Get "http://10.244.0.78:8081/config": dial tcp 10.244.0.78:8081: connect: connection refused
+  JobManager log, error lines:
+    2026-10-24 19:41:46,910 ERROR org.apache.flink.runtime.rest.handler.taskmanager.TaskManagersHandler [] - Exception occurred in REST handler: Cannot connect…
+    java.net.UnknownHostException: nowhere.invalid
+    org.apache.flink.runtime.JobException: Recovery is suppressed by NoRestartBackoffTimeStrategy
+    Caused by: java.net.UnknownHostException: nowhere.invalid
+    org.apache.flink.runtime.JobException: Recovery is suppressed by NoRestartBackoffTimeStrategy
+    Caused by: java.net.UnknownHostException: nowhere.invalid
+    org.apache.flink.runtime.JobException: Recovery is suppressed by NoRestartBackoffTimeStrategy
+    Caused by: java.net.UnknownHostException: nowhere.invalid
+    … 8 more: kubectl flink logs default/unreachable
+
+Runtime
+  job FAILED, Flink 2.2.1, 1 job(s) on the cluster
+  1 failure(s), newest 17s ago: org.apache.flink.runtime.JobException: Recovery is suppressed by NoRestartBackoffTimeStrategy
+    caused by java.net.UnknownHostException: nowhere.invalid
+  checkpoints: none completed, periodic checkpoints off, 0 completed, 0 failed
+
+Performance
+
+HA
+  HA not configured

@@ -26,13 +26,15 @@ type Layer string
 
 // Layers.
 const (
-	Operator   Layer = "operator"
-	Kubernetes Layer = "kubernetes"
-	Runtime    Layer = "runtime"
+	Operator    Layer = "operator"
+	Kubernetes  Layer = "kubernetes"
+	Runtime     Layer = "runtime"
+	Performance Layer = "performance"
+	HA          Layer = "ha"
 )
 
 // Layers in print order.
-var Layers = []Layer{Operator, Kubernetes, Runtime}
+var Layers = []Layer{Operator, Kubernetes, Runtime, Performance, HA}
 
 // Gap is evidence that could not be collected, and why; it is shown, never hidden.
 type Gap struct {
@@ -56,6 +58,7 @@ type REST struct {
 	Exceptions       []flink.Exception       `json:"exceptions,omitempty"`
 	Checkpoints      *flink.Checkpoints      `json:"checkpoints,omitempty"`
 	CheckpointConfig *flink.CheckpointConfig `json:"checkpointConfig,omitempty"`
+	metrics          []VertexMetrics
 }
 
 // Evidence is everything collected about one job.
@@ -66,8 +69,13 @@ type Evidence struct {
 	Events []kube.Event     `json:"-"`
 	Logs   []LogLine        `json:"logLines,omitempty"`
 	REST   *REST            `json:"rest,omitempty"`
-	Gaps   []Gap            `json:"notCollected,omitempty"`
-	Now    time.Time        `json:"-"`
+	// Metrics are the per-vertex metrics of a running job.
+	Metrics []VertexMetrics `json:"metrics,omitempty"`
+	// HA is nil when HA is not configured or could not be read.
+	HA           *HAState  `json:"ha,omitempty"`
+	HAConfigured bool      `json:"haConfigured"`
+	Gaps         []Gap     `json:"notCollected,omitempty"`
+	Now          time.Time `json:"-"`
 }
 
 // Timeout bounds the whole collection, so that why answers even when part of the cluster does not.
@@ -131,12 +139,38 @@ func Collect(ctx context.Context, src Source, job *model.Job, now time.Time, th 
 		}
 	})
 	wg.Go(func() {
-		r, err := collectREST(ctx, src.REST, src.ForceREST, job, cluster)
+		r, metricsErr, err := collectREST(ctx, src.REST, src.ForceREST, job, cluster)
 		if err != nil {
 			gap(Runtime, "JobManager REST API", err)
 		}
+		if metricsErr != nil {
+			gap(Performance, "vertex metrics", metricsErr)
+		}
 		ev.REST = r
+		if r != nil {
+			ev.Metrics = r.metrics
+		}
 	})
+	// A session job runs on its session cluster, whose configuration says whether HA is on.
+	haJob := job
+	if job.Kind == model.KindSessionJob {
+		if obj, err := src.Kube.Get(ctx, kube.Deployments, job.Namespace, cluster); err != nil {
+			gap(HA, "session cluster "+cluster, err)
+		} else {
+			fd := model.FromDeployment(job.Context, obj.(*kube.FlinkDeployment))
+			haJob = &fd
+		}
+	}
+	ev.HAConfigured = HAEnabled(haJob)
+	if ev.HAConfigured {
+		wg.Go(func() {
+			st, err := collectHA(ctx, src.Kube, job.Namespace, cluster)
+			if err != nil {
+				gap(HA, "HA ConfigMaps", err)
+			}
+			ev.HA = st
+		})
+	}
 	wg.Wait()
 
 	// Health with the pods just read, the same derivation as ls.
@@ -190,16 +224,18 @@ func collectLogs(ctx context.Context, kc *kube.Client, namespace string, pods []
 // errNotAsked explains why REST was not called; it is shown as a gap.
 var errNotAsked = errors.New("not asked")
 
-func collectREST(ctx context.Context, access flink.Access, force bool, job *model.Job, cluster string) (*REST, error) {
+// collectREST reads the JobManager; the second error is the performance layer's, which fails on its own.
+func collectREST(ctx context.Context, access flink.Access, force bool, job *model.Job, cluster string) (*REST, error, error) {
 	switch {
 	case access == nil:
-		return nil, fmt.Errorf("%w: no access to the JobManager", errNotAsked)
+		return nil, nil, fmt.Errorf("%w: no access to the JobManager", errNotAsked)
 	case !force && job.Kind == model.KindDeployment && job.JMStatus != "READY":
-		return nil, fmt.Errorf("%w: the JobManager is %s", errNotAsked, cmp.Or(job.JMStatus, "UNKNOWN"))
+		return nil, nil, fmt.Errorf("%w: the JobManager is %s", errNotAsked, cmp.Or(job.JMStatus, "UNKNOWN"))
 	case job.JobID == "":
-		return nil, fmt.Errorf("%w: the job has no ID in its status", errNotAsked)
+		return nil, nil, fmt.Errorf("%w: the job has no ID in its status", errNotAsked)
 	}
 	r := &REST{}
+	var metricsErr error
 	err := access.Do(ctx, job.Namespace, cluster, func(c *flink.Client) error {
 		cfg, err := c.Config(ctx)
 		if err != nil {
@@ -223,10 +259,11 @@ func collectREST(ctx context.Context, access flink.Access, force bool, job *mode
 		if r.CheckpointConfig, err = c.CheckpointConfig(ctx, job.JobID); flink.IsNotFound(err) {
 			r.CheckpointConfig, err = nil, nil
 		}
-		return err
+		if err != nil {
+			return err
+		}
+		r.metrics, metricsErr = collectMetrics(ctx, c, r.Job)
+		return nil
 	})
-	if err != nil {
-		return r, err
-	}
-	return r, nil
+	return r, metricsErr, err
 }

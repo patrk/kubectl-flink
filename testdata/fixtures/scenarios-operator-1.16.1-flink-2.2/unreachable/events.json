@@ -1,0 +1,451 @@
+{
+  "apiVersion": "v1",
+  "items": [
+    {
+      "apiVersion": "v1",
+      "count": 1,
+      "eventTime": null,
+      "firstTimestamp": "2026-10-24T19:42:01Z",
+      "involvedObject": {
+        "apiVersion": "flink.apache.org/v1beta1",
+        "kind": "FlinkDeployment",
+        "name": "unreachable",
+        "namespace": "default",
+        "uid": "8303f4b1-925a-4095-a569-7a5ad3577e33"
+      },
+      "kind": "Event",
+      "lastTimestamp": "2026-10-24T19:42:01Z",
+      "message": "org.apache.flink.runtime.JobException: Recovery is suppressed by NoRestartBackoffTimeStrategy\n\tat org.apache.flink.runtime.executiongraph.failover.ExecutionFailureHandler.handleFailure(ExecutionFailureHandler.java:213)\n\tat org.apache.flink.runtime.executiongraph.failover.ExecutionFailureHandler.handleFailureAndReport(ExecutionFailureHandler.java:163)\n\tat org.apache.flink.runtime.executiongraph.failover.ExecutionFailureHandler.getFailureHandlingResult(ExecutionFailureHandler.java:118)\n\tat org.apache.flink.runtime.scheduler.DefaultScheduler.recordTaskFailure(DefaultScheduler.java:294)\n... (45 more lines)",
+      "metadata": {
+        "annotations": {
+          "exception-timestamp": "2026-10-24T19:41:48.827Z"
+        },
+        "creationTimestamp": "2026-10-24T19:42:01Z",
+        "name": "Job.1112118683",
+        "namespace": "default",
+        "resourceVersion": "48992",
+        "uid": "f09090fe-df5e-44b2-b1b3-2d5f132decd8"
+      },
+      "reason": "JobException",
+      "reportingComponent": "",
+      "reportingInstance": "",
+      "source": {
+        "component": "Job"
+      },
+      "type": "Warning"
+    },
+    {
+      "apiVersion": "v1",
+      "count": 1,
+      "eventTime": null,
+      "firstTimestamp": "2026-10-24T19:42:01Z",
+      "involvedObject": {
+        "apiVersion": "flink.apache.org/v1beta1",
+        "kind": "FlinkDeployment",
+        "name": "unreachable",
+        "namespace": "default",
+        "uid": "8303f4b1-925a-4095-a569-7a5ad3577e33"
+      },
+      "kind": "Event",
+      "lastTimestamp": "2026-10-24T19:42:01Z",
+      "message": "Recovery is suppressed by NoRestartBackoffTimeStrategy -> nowhere.invalid",
+      "metadata": {
+        "creationTimestamp": "2026-10-24T19:42:01Z",
+        "name": "Job.1975141249",
+        "namespace": "default",
+        "resourceVersion": "48990",
+        "uid": "e7ecb613-a29e-4d43-9c2b-9290fce3a862"
+      },
+      "reason": "Error",
+      "reportingComponent": "",
+      "reportingInstance": "",
+      "source": {
+        "component": "Job"
+      },
+      "type": "Warning"
+    },
+    {
+      "apiVersion": "v1",
+      "count": 1,
+      "eventTime": null,
+      "firstTimestamp": "2026-10-24T19:42:01Z",
+      "involvedObject": {
+        "apiVersion": "flink.apache.org/v1beta1",
+        "kind": "FlinkDeployment",
+        "name": "unreachable",
+        "namespace": "default",
+        "uid": "8303f4b1-925a-4095-a569-7a5ad3577e33"
+      },
+      "kind": "Event",
+      "lastTimestamp": "2026-10-24T19:42:01Z",
+      "message": "Job status changed from RUNNING to FAILED",
+      "metadata": {
+        "creationTimestamp": "2026-10-24T19:42:01Z",
+        "name": "Job.2022976799",
+        "namespace": "default",
+        "resourceVersion": "48991",
+        "uid": "8a808c2e-abcd-40f8-b736-ccdbe668e8ca"
+      },
+      "reason": "JobStatusChanged",
+      "reportingComponent": "",
+      "reportingInstance": "",
+      "source": {
+        "component": "Job"
+      },
+      "type": "Normal"
+    },
+    {
+      "apiVersion": "v1",
+      "count": 1,
+      "eventTime": null,
+      "firstTimestamp": "2026-10-24T19:41:46Z",
+      "involvedObject": {
+        "apiVersion": "flink.apache.org/v1beta1",
+        "kind": "FlinkDeployment",
+        "name": "unreachable",
+        "namespace": "default",
+        "uid": "8303f4b1-925a-4095-a569-7a5ad3577e33"
+      },
+      "kind": "Event",
+      "lastTimestamp": "2026-10-24T19:41:46Z",
+      "message": "Job status changed from RECONCILING to RUNNING",
+      "metadata": {
+        "creationTimestamp": "2026-10-24T19:41:46Z",
+        "name": "Job.258298933",
+        "namespace": "default",
+        "resourceVersion": "48923",
+        "uid": "d90bf0af-710c-46cf-b895-351e58a9ff5a"
+      },
+      "reason": "JobStatusChanged",
+      "reportingComponent": "",
+      "reportingInstance": "",
+      "source": {
+        "component": "Job"
+      },
+      "type": "Normal"
+    },
+    {
+      "apiVersion": "v1",
+      "count": 1,
+      "eventTime": null,
+      "firstTimestamp": "2026-10-24T19:41:08Z",
+      "involvedObject": {
+        "apiVersion": "flink.apache.org/v1beta1",
+        "kind": "FlinkDeployment",
+        "name": "unreachable",
+        "namespace": "default",
+        "uid": "8303f4b1-925a-4095-a569-7a5ad3577e33"
+      },
+      "kind": "Event",
+      "lastTimestamp": "2026-10-24T19:41:08Z",
+      "message": "Starting deployment",
+      "metadata": {
+        "creationTimestamp": "2026-10-24T19:41:08Z",
+        "name": "JobManagerDeployment.503752879",
+        "namespace": "default",
+        "resourceVersion": "48522",
+        "uid": "73724adc-b864-49c6-b41f-43d47e5f0923"
+      },
+      "reason": "Submit",
+      "reportingComponent": "",
+      "reportingInstance": "",
+      "source": {
+        "component": "JobManagerDeployment"
+      },
+      "type": "Normal"
+    },
+    {
+      "action": "Binding",
+      "apiVersion": "v1",
+      "eventTime": "2026-10-24T19:41:08.925066Z",
+      "firstTimestamp": null,
+      "involvedObject": {
+        "apiVersion": "v1",
+        "kind": "Pod",
+        "name": "unreachable-5b7dcf847c-rwlbx",
+        "namespace": "default",
+        "resourceVersion": "48551",
+        "uid": "6fa7b307-b679-4af1-8b42-43a22fb545f4"
+      },
+      "kind": "Event",
+      "lastTimestamp": null,
+      "message": "Successfully assigned default/unreachable-5b7dcf847c-rwlbx to kubectl-flink-control-plane",
+      "metadata": {
+        "creationTimestamp": "2026-10-24T19:41:08Z",
+        "name": "unreachable-5b7dcf847c-rwlbx.18e18e8e666cb874",
+        "namespace": "default",
+        "resourceVersion": "48563",
+        "uid": "4aaa0fab-11d2-4f0e-9936-92d6d45daf70"
+      },
+      "reason": "Scheduled",
+      "reportingComponent": "default-scheduler",
+      "reportingInstance": "default-scheduler-kubectl-flink-control-plane",
+      "source": {},
+      "type": "Normal"
+    },
+    {
+      "apiVersion": "v1",
+      "count": 1,
+      "eventTime": null,
+      "firstTimestamp": "2026-10-24T19:41:09Z",
+      "involvedObject": {
+        "apiVersion": "v1",
+        "fieldPath": "spec.containers{flink-main-container}",
+        "kind": "Pod",
+        "name": "unreachable-5b7dcf847c-rwlbx",
+        "namespace": "default",
+        "resourceVersion": "48557",
+        "uid": "6fa7b307-b679-4af1-8b42-43a22fb545f4"
+      },
+      "kind": "Event",
+      "lastTimestamp": "2026-10-24T19:41:09Z",
+      "message": "Container image \"flink:2.2\" already present on machine and can be accessed by the pod",
+      "metadata": {
+        "creationTimestamp": "2026-10-24T19:41:09Z",
+        "name": "unreachable-5b7dcf847c-rwlbx.18e18e8e7b4a1208",
+        "namespace": "default",
+        "resourceVersion": "48660",
+        "uid": "e03d91a0-12b4-4929-8fe5-838198b0b789"
+      },
+      "reason": "Pulled",
+      "reportingComponent": "kubelet",
+      "reportingInstance": "kubectl-flink-control-plane",
+      "source": {
+        "component": "kubelet",
+        "host": "kubectl-flink-control-plane"
+      },
+      "type": "Normal"
+    },
+    {
+      "apiVersion": "v1",
+      "count": 1,
+      "eventTime": null,
+      "firstTimestamp": "2026-10-24T19:41:09Z",
+      "involvedObject": {
+        "apiVersion": "v1",
+        "fieldPath": "spec.containers{flink-main-container}",
+        "kind": "Pod",
+        "name": "unreachable-5b7dcf847c-rwlbx",
+        "namespace": "default",
+        "resourceVersion": "48557",
+        "uid": "6fa7b307-b679-4af1-8b42-43a22fb545f4"
+      },
+      "kind": "Event",
+      "lastTimestamp": "2026-10-24T19:41:09Z",
+      "message": "Container created",
+      "metadata": {
+        "creationTimestamp": "2026-10-24T19:41:09Z",
+        "name": "unreachable-5b7dcf847c-rwlbx.18e18e8e7bbb2811",
+        "namespace": "default",
+        "resourceVersion": "48662",
+        "uid": "95fa9751-a683-4e91-86cb-e801d4e1859d"
+      },
+      "reason": "Created",
+      "reportingComponent": "kubelet",
+      "reportingInstance": "kubectl-flink-control-plane",
+      "source": {
+        "component": "kubelet",
+        "host": "kubectl-flink-control-plane"
+      },
+      "type": "Normal"
+    },
+    {
+      "apiVersion": "v1",
+      "count": 1,
+      "eventTime": null,
+      "firstTimestamp": "2026-10-24T19:41:09Z",
+      "involvedObject": {
+        "apiVersion": "v1",
+        "fieldPath": "spec.containers{flink-main-container}",
+        "kind": "Pod",
+        "name": "unreachable-5b7dcf847c-rwlbx",
+        "namespace": "default",
+        "resourceVersion": "48557",
+        "uid": "6fa7b307-b679-4af1-8b42-43a22fb545f4"
+      },
+      "kind": "Event",
+      "lastTimestamp": "2026-10-24T19:41:09Z",
+      "message": "Container started",
+      "metadata": {
+        "creationTimestamp": "2026-10-24T19:41:09Z",
+        "name": "unreachable-5b7dcf847c-rwlbx.18e18e8e7d6cf520",
+        "namespace": "default",
+        "resourceVersion": "48663",
+        "uid": "8babbe3e-cb78-465c-8727-e3aad17a2c32"
+      },
+      "reason": "Started",
+      "reportingComponent": "kubelet",
+      "reportingInstance": "kubectl-flink-control-plane",
+      "source": {
+        "component": "kubelet",
+        "host": "kubectl-flink-control-plane"
+      },
+      "type": "Normal"
+    },
+    {
+      "apiVersion": "v1",
+      "count": 7,
+      "eventTime": null,
+      "firstTimestamp": "2026-10-24T19:41:10Z",
+      "involvedObject": {
+        "apiVersion": "v1",
+        "fieldPath": "spec.containers{flink-main-container}",
+        "kind": "Pod",
+        "name": "unreachable-5b7dcf847c-rwlbx",
+        "namespace": "default",
+        "resourceVersion": "48557",
+        "uid": "6fa7b307-b679-4af1-8b42-43a22fb545f4"
+      },
+      "kind": "Event",
+      "lastTimestamp": "2026-10-24T19:41:16Z",
+      "message": "Startup probe failed: Get \"http://10.244.0.78:8081/config\": dial tcp 10.244.0.78:8081: connect: connection refused",
+      "metadata": {
+        "creationTimestamp": "2026-10-24T19:41:10Z",
+        "name": "unreachable-5b7dcf847c-rwlbx.18e18e8eb45d5f86",
+        "namespace": "default",
+        "resourceVersion": "48741",
+        "uid": "979a719d-feb5-4e23-a0f9-63b7cffc4609"
+      },
+      "reason": "Unhealthy",
+      "reportingComponent": "kubelet",
+      "reportingInstance": "kubectl-flink-control-plane",
+      "source": {
+        "component": "kubelet",
+        "host": "kubectl-flink-control-plane"
+      },
+      "type": "Warning"
+    },
+    {
+      "action": "Binding",
+      "apiVersion": "v1",
+      "eventTime": "2026-10-24T19:41:20.029899Z",
+      "firstTimestamp": null,
+      "involvedObject": {
+        "apiVersion": "v1",
+        "kind": "Pod",
+        "name": "unreachable-taskmanager-1-1",
+        "namespace": "default",
+        "resourceVersion": "48802",
+        "uid": "a225f0b9-2d47-4503-bb15-2efbabae6c1c"
+      },
+      "kind": "Event",
+      "lastTimestamp": null,
+      "message": "Successfully assigned default/unreachable-taskmanager-1-1 to kubectl-flink-control-plane",
+      "metadata": {
+        "creationTimestamp": "2026-10-24T19:41:20Z",
+        "name": "unreachable-taskmanager-1-1.18e18e90fc530c82",
+        "namespace": "default",
+        "resourceVersion": "48806",
+        "uid": "41a898a9-b7c7-47fa-b257-f3be08e19145"
+      },
+      "reason": "Scheduled",
+      "reportingComponent": "default-scheduler",
+      "reportingInstance": "default-scheduler-kubectl-flink-control-plane",
+      "source": {},
+      "type": "Normal"
+    },
+    {
+      "apiVersion": "v1",
+      "count": 1,
+      "eventTime": null,
+      "firstTimestamp": "2026-10-24T19:41:20Z",
+      "involvedObject": {
+        "apiVersion": "v1",
+        "fieldPath": "spec.containers{flink-main-container}",
+        "kind": "Pod",
+        "name": "unreachable-taskmanager-1-1",
+        "namespace": "default",
+        "resourceVersion": "48803",
+        "uid": "a225f0b9-2d47-4503-bb15-2efbabae6c1c"
+      },
+      "kind": "Event",
+      "lastTimestamp": "2026-10-24T19:41:20Z",
+      "message": "Container image \"flink:2.2\" already present on machine and can be accessed by the pod",
+      "metadata": {
+        "creationTimestamp": "2026-10-24T19:41:20Z",
+        "name": "unreachable-taskmanager-1-1.18e18e911152ef8f",
+        "namespace": "default",
+        "resourceVersion": "48824",
+        "uid": "1f1fe336-d19e-4a8b-8397-188d88883c40"
+      },
+      "reason": "Pulled",
+      "reportingComponent": "kubelet",
+      "reportingInstance": "kubectl-flink-control-plane",
+      "source": {
+        "component": "kubelet",
+        "host": "kubectl-flink-control-plane"
+      },
+      "type": "Normal"
+    },
+    {
+      "apiVersion": "v1",
+      "count": 1,
+      "eventTime": null,
+      "firstTimestamp": "2026-10-24T19:41:20Z",
+      "involvedObject": {
+        "apiVersion": "v1",
+        "fieldPath": "spec.containers{flink-main-container}",
+        "kind": "Pod",
+        "name": "unreachable-taskmanager-1-1",
+        "namespace": "default",
+        "resourceVersion": "48803",
+        "uid": "a225f0b9-2d47-4503-bb15-2efbabae6c1c"
+      },
+      "kind": "Event",
+      "lastTimestamp": "2026-10-24T19:41:20Z",
+      "message": "Container created",
+      "metadata": {
+        "creationTimestamp": "2026-10-24T19:41:20Z",
+        "name": "unreachable-taskmanager-1-1.18e18e9111cbe8cc",
+        "namespace": "default",
+        "resourceVersion": "48826",
+        "uid": "4cdef3ff-a21a-4354-a806-f04add2d31da"
+      },
+      "reason": "Created",
+      "reportingComponent": "kubelet",
+      "reportingInstance": "kubectl-flink-control-plane",
+      "source": {
+        "component": "kubelet",
+        "host": "kubectl-flink-control-plane"
+      },
+      "type": "Normal"
+    },
+    {
+      "apiVersion": "v1",
+      "count": 1,
+      "eventTime": null,
+      "firstTimestamp": "2026-10-24T19:41:20Z",
+      "involvedObject": {
+        "apiVersion": "v1",
+        "fieldPath": "spec.containers{flink-main-container}",
+        "kind": "Pod",
+        "name": "unreachable-taskmanager-1-1",
+        "namespace": "default",
+        "resourceVersion": "48803",
+        "uid": "a225f0b9-2d47-4503-bb15-2efbabae6c1c"
+      },
+      "kind": "Event",
+      "lastTimestamp": "2026-10-24T19:41:20Z",
+      "message": "Container started",
+      "metadata": {
+        "creationTimestamp": "2026-10-24T19:41:20Z",
+        "name": "unreachable-taskmanager-1-1.18e18e9113f7c82f",
+        "namespace": "default",
+        "resourceVersion": "48828",
+        "uid": "08a4f1e4-3f22-494d-94bb-e00ae9adea6e"
+      },
+      "reason": "Started",
+      "reportingComponent": "kubelet",
+      "reportingInstance": "kubectl-flink-control-plane",
+      "source": {
+        "component": "kubelet",
+        "host": "kubectl-flink-control-plane"
+      },
+      "type": "Normal"
+    }
+  ],
+  "kind": "List",
+  "metadata": {
+    "resourceVersion": ""
+  }
+}

@@ -104,6 +104,22 @@ func TestFlinkConfigFlattens(t *testing.T) {
 	}
 }
 
+func TestConfigMapKeysOnly(t *testing.T) {
+	var cm ConfigMap
+	in := `{"metadata":{"name":"x-cluster-config-map"},"data":{"jobGraph-b3":"aGVsbG8=","counter":"12"}}`
+	if err := json.Unmarshal([]byte(in), &cm); err != nil {
+		t.Fatal(err)
+	}
+	if strings.Join(cm.Keys, ",") != "counter,jobGraph-b3" {
+		t.Errorf("keys %v", cm.Keys)
+	}
+	b, err := json.Marshal(&cm)
+	var back ConfigMap
+	if err != nil || json.Unmarshal(b, &back) != nil || strings.Join(back.Keys, ",") != "counter,jobGraph-b3" {
+		t.Errorf("round trip: %s %v", b, err)
+	}
+}
+
 func TestEpochMilli(t *testing.T) {
 	for in, want := range map[string]EpochMilli{`"1792847434122"`: 1792847434122, `1792847405384`: 1792847405384, `""`: 0, `null`: 0} {
 		var e EpochMilli

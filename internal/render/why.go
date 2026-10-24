@@ -75,7 +75,7 @@ func Why(out io.Writer, ev *triage.Evidence, v *triage.Verdict) error {
 	}
 	for _, layer := range triage.Layers {
 		w.blank()
-		w.line(0, "%s", strings.ToUpper(string(layer[:1]))+string(layer[1:]))
+		w.line(0, "%s", layerTitles[layer])
 		switch layer {
 		case triage.Operator:
 			operatorEvidence(w, ev)
@@ -83,6 +83,10 @@ func Why(out io.Writer, ev *triage.Evidence, v *triage.Verdict) error {
 			kubernetesEvidence(w, ev)
 		case triage.Runtime:
 			runtimeEvidence(w, ev)
+		case triage.Performance:
+			performanceEvidence(w, ev)
+		case triage.HA:
+			haEvidence(w, ev)
 		}
 		for _, g := range ev.Gaps {
 			if g.Layer == layer {
@@ -91,6 +95,11 @@ func Why(out io.Writer, ev *triage.Evidence, v *triage.Verdict) error {
 		}
 	}
 	return w.err
+}
+
+var layerTitles = map[triage.Layer]string{
+	triage.Operator: "Operator", triage.Kubernetes: "Kubernetes", triage.Runtime: "Runtime",
+	triage.Performance: "Performance", triage.HA: "HA",
 }
 
 func operatorEvidence(w *lineWriter, ev *triage.Evidence) {
@@ -187,6 +196,38 @@ func runtimeEvidence(w *lineWriter, ev *triage.Evidence) {
 		if rs := cps.Latest.Restored; rs != nil {
 			w.line(2, "restored from #%d %s", rs.ID, age(rs.RestoredAt.Time(), ev.Now))
 		}
+	}
+}
+
+func performanceEvidence(w *lineWriter, ev *triage.Evidence) {
+	for i := range ev.Metrics {
+		v := &ev.Metrics[i]
+		role := ""
+		switch {
+		case v.Source && v.Sink:
+			role = " (source and sink)"
+		case v.Source:
+			role = " (source)"
+		case v.Sink:
+			role = " (sink)"
+		}
+		m := v.Metrics
+		line := fmt.Sprintf("%s%s: in %.0f/s, out %.0f/s; busy %.0f, backpressured %.0f, idle %.0f ms/s", v.Name, role,
+			m[triage.MetricIn].Sum, m[triage.MetricOut].Sum, m[triage.MetricBusy].Max, m[triage.MetricBackPressed].Max, m[triage.MetricIdle].Max)
+		if p, ok := v.Pending(); ok {
+			line += fmt.Sprintf("; %.0f records pending", p)
+		}
+		w.line(1, "%s", line)
+	}
+}
+
+func haEvidence(w *lineWriter, ev *triage.Evidence) {
+	switch {
+	case !ev.HAConfigured:
+		w.line(1, "HA not configured")
+	case ev.HA != nil:
+		w.line(1, "ConfigMaps: %s", dash(strings.Join(ev.HA.ConfigMaps, ", ")))
+		w.line(1, "job plans: %s; checkpoint pointers: %s", dash(strings.Join(ev.HA.Plans, ", ")), dash(strings.Join(ev.HA.Checkpoints, ", ")))
 	}
 }
 

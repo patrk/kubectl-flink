@@ -1,4 +1,4 @@
-FlinkDeployment default/suspended in context kind, job 3ce6fa83fe3d6617f95f55ea1237e838 · SUSPENDED
+FlinkDeployment default/suspended in context kind, job 90f12f31c09691f5db4da24ffdfdd290 · SUSPENDED
   suspended
 
 Verdict
@@ -13,3 +13,8 @@ Kubernetes
 
 Runtime
   not collected: JobManager REST API: not asked: the JobManager is MISSING
+
+Performance
+
+HA
+  HA not configured

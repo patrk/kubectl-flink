@@ -204,3 +204,117 @@ rules:
       A TaskManager went away, for example its pod was deleted, evicted or its node drained, and Flink restarted
       the job{{if .restored}} from its last checkpoint{{end}}.
     remedy: 'If it happens often, look at node events and kubectl flink exceptions {{.job}}.'
+
+  - id: dependency-unreachable
+    layer: runtime
+    severity: FAILED
+    # The exception may be the cause or the failure itself; the operator also reports it as an event.
+    any:
+      - signal: exception.cause
+        match: '(?P<detail>(?:java\.net\.)?(?:UnknownHost|Connect|NoRouteToHost|SocketTimeout)Exception.*)'
+      - signal: exception
+        match: '(?P<detail>(?:java\.net\.)?(?:UnknownHost|Connect|NoRouteToHost|SocketTimeout)Exception.*)'
+      - signal: operator.error
+        match: '(?P<detail>(?:java\.net\.)?(?:UnknownHost|Connect|NoRouteToHost|SocketTimeout)Exception.*)'
+      - signal: event
+        match: '^JobException: (?P<detail>(?:java\.net\.)?(?:UnknownHost|Connect|NoRouteToHost|SocketTimeout)Exception[^\n]*)'
+    title: 'The job cannot reach an external system: {{.detail}}'
+    explain: >-
+      A source, sink or lookup connects to a host that does not resolve or does not answer, so its task fails.
+      Usually the address in the job's configuration is wrong, the system is down, or a network policy or
+      firewall blocks the connection.
+    remedy: 'Check the address in the job configuration, then reach it from the pod: kubectl exec into the TaskManager.'
+
+  - id: no-restart-strategy
+    layer: runtime
+    severity: DEGRADED
+    any:
+      - signal: exception
+        match: 'Recovery is suppressed by NoRestartBackoffTimeStrategy'
+      - signal: event
+        match: 'Recovery is suppressed by NoRestartBackoffTimeStrategy'
+    title: 'The job has no restart strategy, so its first failure is final'
+    explain: >-
+      Without a restart strategy, and without checkpointing, which enables one by default, Flink fails the job on
+      the first task failure instead of restarting it.
+    remedy: 'Enable checkpointing or set restart-strategy.type, for example exponential-delay, in flinkConfiguration.'
+
+  - id: restart-loop
+    layer: runtime
+    severity: FAILED
+    when:
+      - signal: job.restarts
+        match: '(?P<count>\d+) failures in the last (?P<window>\S+)'
+    optional:
+      - signal: exception.cause
+        match: '(?P<cause>.+)'
+    title: 'The job keeps restarting: {{.count}} failures in the last {{.window}}'
+    explain: >-
+      The restart strategy restarts the job after every failure, but the failure comes back, so the job never
+      runs for long. {{if .cause}}The newest cause: {{.cause}}{{end}}
+    remedy: 'kubectl flink exceptions {{.job}}'
+
+  - id: external-restart
+    layer: operator
+    severity: OK
+    when:
+      - signal: spec.change
+        match: '\brestartNonce : \S+ -> \S+.*\((?P<age>\S+) ago\)'
+      - signal: spec.writer
+        match: '^restartNonce by (?P<manager>\S+) \(generation (?P<generation>\d+)\)'
+    title: 'Restarted through spec.restartNonce {{.age}} ago; {{.manager}} writes the field'
+    explain: >-
+      Changing spec.restartNonce makes the operator restart the job, and {{.manager}} owns the field. The resource is
+      at generation {{.generation}}; if the restarts are not yours, they come from whatever runs as {{.manager}}.
+    remedy: 'kubectl get flinkdeployment {{.name}} -n {{.namespace}} --show-managed-fields -o yaml'
+
+  - id: backpressure
+    layer: performance
+    severity: DEGRADED
+    when:
+      - signal: performance.backpressure
+        match: '(?P<vertex>.+): backpressured (?P<ms>\d+) ms/s'
+    optional:
+      - signal: performance.bottleneck
+        match: '(?P<bottleneck>.+): busy (?P<busy>\d+) ms/s'
+    title: '{{.vertex}} is backpressured{{if .bottleneck}}; the bottleneck is {{.bottleneck}}{{end}}'
+    explain: >-
+      A subtask spends {{.ms}} ms of every second waiting to hand records downstream, so the job runs behind its
+      input. {{if .bottleneck}}{{.bottleneck}} is busy {{.busy}} ms/s and cannot keep up.{{end}}
+    remedy: 'Raise the parallelism of the slow vertex, or look at what it waits on, such as a slow sink or lookup.'
+
+  - id: sink-idle
+    layer: performance
+    severity: DEGRADED
+    when:
+      - signal: performance.sink-idle
+        match: '(?P<detail>.+)'
+    title: 'A sink receives no records'
+    explain: >-
+      {{.detail}}. Either an operator filters everything out, or records are held back, for example in windows
+      that never fire because the watermark does not advance.
+    remedy: 'Check the filters and the watermarks of the job.'
+
+  - id: ha-leftover
+    layer: ha
+    severity: DEGRADED
+    when:
+      - signal: ha.leftover
+        match: '(?P<detail>.+)'
+    title: 'HA state of an earlier job is left over'
+    explain: >-
+      The HA ConfigMaps hold {{.detail}}. When the JobManager restarts it recovers every stored job plan, so an old
+      job can come back next to, or instead of, the current one.
+    remedy: 'Remove the stale keys or ConfigMaps of the old job, with the JobManager stopped.'
+
+  - id: multiple-jobs
+    layer: ha
+    severity: DEGRADED
+    when:
+      - signal: jobs.multiple
+        match: '(?P<detail>.+)'
+    title: 'More than one job runs on an application cluster'
+    explain: >-
+      {{.detail}}. An application cluster runs one job; a second one usually comes from a job plan the JobManager
+      recovered from stale HA state.
+    remedy: 'Compare the job ids with status.jobStatus.jobId; kubectl flink exceptions {{.job}}'

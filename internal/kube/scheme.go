@@ -43,7 +43,7 @@ var Codecs = serializer.NewCodecFactory(Scheme).WithoutConversion()
 func newScheme() *runtime.Scheme {
 	s := runtime.NewScheme()
 	s.AddKnownTypes(FlinkGroupVersion, &FlinkDeployment{}, &FlinkDeploymentList{}, &FlinkSessionJob{}, &FlinkSessionJobList{})
-	s.AddKnownTypes(CoreGroupVersion, &Pod{}, &PodList{}, &Event{}, &EventList{})
+	s.AddKnownTypes(CoreGroupVersion, &Pod{}, &PodList{}, &Event{}, &EventList{}, &ConfigMap{}, &ConfigMapList{})
 	// WatchEvent, Status and the list options of each group version.
 	metav1.AddToGroupVersion(s, FlinkGroupVersion)
 	metav1.AddToGroupVersion(s, CoreGroupVersion)

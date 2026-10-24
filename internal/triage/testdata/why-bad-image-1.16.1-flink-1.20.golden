@@ -1,4 +1,4 @@
-FlinkDeployment default/bad-image in context kind, job 39fa9ca078e234b8a461b9f0ae4ea032 · PROGRESSING
+FlinkDeployment default/bad-image in context kind, job 420ba6363661118b973a856ed3b68b18 · PROGRESSING
   JobManager deployment ERROR: ErrImagePull: [flink-main-container] rpc error: code = NotFound desc = failed to pull and unpack image "docker.io/libra…
   job RECONCILING
 
@@ -12,17 +12,22 @@ Verdict
     · pod.waiting: ImagePullBackOff: Back-off pulling image "flink:does-not-exist": ErrImagePull: rpc error: code = NotFound desc = failed to pull and unpack i…
 
 Operator
-  lifecycle DEPLOYED, JobManager ERROR, job RECONCILING, reconciled 100s ago, generation 1 (observed 1)
+  lifecycle DEPLOYED, JobManager ERROR, job RECONCILING, reconciled 98s ago, generation 1 (observed 1)
   error: ErrImagePull: [flink-main-container] rpc error: code = NotFound desc = failed to pull and unpack image "docker.io/library/flink:does-not-exist": faile…
-  spec written by kubectl-client-side-apply, last 102s ago
+  spec written by kubectl-client-side-apply, last 99s ago
 
 Kubernetes
-  pod bad-image-5455c9479d-xpqg7 (jobmanager): Pending, waiting ImagePullBackOff
+  pod bad-image-5455c9479d-gbcm5 (jobmanager): Pending, waiting ImagePullBackOff
   warning events, newest first:
     60s ago Failed ×3 on Pod: Failed to pull image "flink:does-not-exist": rpc error: code = NotFound desc = failed to pull and unpack image "docker.io/library…
     60s ago Failed ×3 on Pod: Error: ErrImagePull
-    75s ago Failed ×2 on Pod: Error: ImagePullBackOff
-    96s ago ErrImagePull on FlinkDeployment: [flink-main-container] rpc error: code = NotFound desc = failed to pull and unpack image "docker.io/library/flink:…
+    74s ago Failed ×2 on Pod: Error: ImagePullBackOff
+    94s ago ErrImagePull on FlinkDeployment: [flink-main-container] rpc error: code = NotFound desc = failed to pull and unpack image "docker.io/library/flink:…
 
 Runtime
   not collected: JobManager REST API: not asked: the JobManager is ERROR
+
+Performance
+
+HA
+  HA not configured

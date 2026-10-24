@@ -26,6 +26,9 @@ func scenario(t *testing.T, dir string) *triage.Evidence {
 	f.Put("flinkdeployments", fd)
 	f.PutAll("pods", filepath.Join(dir, "pods.json"))
 	f.PutAll("events", filepath.Join(dir, "events.json"))
+	if _, err := os.Stat(filepath.Join(dir, "configmaps.json")); err == nil {
+		f.PutAll("configmaps", filepath.Join(dir, "configmaps.json"))
+	}
 	ns := fd["metadata"].(map[string]any)["namespace"].(string)
 	logs, _ := filepath.Glob(filepath.Join(dir, "logs", "*.log"))
 	f.Logs = map[string]string{}
@@ -127,6 +130,10 @@ func TestScenarioVerdicts(t *testing.T) {
 		"bad-memory":     {"memory-config", model.Progressing},
 		"tm-lost":        {"taskmanager-lost", model.OK},
 		"suspended":      {"", model.Suspended},
+		"unreachable":    {"dependency-unreachable", model.Failed},
+		"restart-loop":   {"dependency-unreachable", model.OK},
+		"restart-bot":    {"external-restart", model.OK},
+		"ha":             {"", model.OK},
 	}
 	dirs, _ := filepath.Glob("../../testdata/fixtures/scenarios-*/*")
 	if len(dirs) < 2*len(want) {

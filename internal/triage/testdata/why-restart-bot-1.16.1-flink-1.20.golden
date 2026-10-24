@@ -1,0 +1,30 @@
+FlinkDeployment default/restart-bot in context kind, job 6f3df34985d913ab2b0a3c6256892298 · OK
+
+Verdict
+  1. OK: Restarted through spec.restartNonce 88s ago; restart-bot writes the field (operator)
+    Changing spec.restartNonce makes the operator restart the job, and restart-bot owns the field. The resource is at generation 3; if the restarts are not
+    yours, they come from whatever runs as restart-bot.
+    Next: kubectl get flinkdeployment restart-bot -n default --show-managed-fields -o yaml
+    · spec.change: FlinkDeploymentSpec[restartNonce : 1 -> 2] (88s ago)
+    · spec.change: FlinkDeploymentSpec[restartNonce : null -> 1] (2m9s ago)
+    · spec.writer: restartNonce by restart-bot (generation 3)
+
+Operator
+  lifecycle STABLE, JobManager READY, job RUNNING, reconciled 85s ago, generation 3 (observed 3)
+  spec written by kubectl-client-side-apply, restart-bot, last 88s ago
+
+Kubernetes
+  pod restart-bot-7777df4994-m9bvq (jobmanager): Running, ready
+  pod restart-bot-taskmanager-1-1 (taskmanager): Running, ready
+  warning events, newest first:
+    79s ago Unhealthy ×7 on Pod: Startup probe failed: Get "http://10.244.0.70:8081/config": dial tcp 10.244.0.70:8081: connect: connection refused
+  JobManager log, error lines:
+    2026-10-24 19:37:54,895 ERROR org.apache.flink.runtime.rest.handler.taskmanager.TaskManagersHandler [] - Exception occurred in REST handler: Cannot connect…
+
+Runtime
+  not collected: JobManager REST API: Get "http://127.0.0.1:1/config": dial tcp 127.0.0.1:1: connect: connection refused
+
+Performance
+
+HA
+  HA not configured

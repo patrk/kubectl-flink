@@ -12,6 +12,7 @@ import (
 
 	"github.com/patrk/kubectl-flink/internal/flink"
 	"github.com/patrk/kubectl-flink/internal/kube"
+	"github.com/patrk/kubectl-flink/internal/model"
 )
 
 // Signal is one fact rules match against: a kind from a fixed vocabulary and its text.
@@ -38,12 +39,21 @@ const (
 	SigCheckpointStale  = "checkpoint.stale"    // computed: last completed checkpoint much older than the interval
 	SigCheckpointFail   = "checkpoint.failure"  // failure message of the latest failed checkpoint
 	SigRestored         = "checkpoint.restored" // "checkpoint #N" or "savepoint #N" the job restored from
+	SigRestarts         = "job.restarts"
+	SigJobsMultiple     = "jobs.multiple"
+	SigSpecChange       = "spec.change"
+	SigSpecWriter       = "spec.writer"
+	SigBackpressure     = "performance.backpressure"
+	SigBottleneck       = "performance.bottleneck"
+	SigSinkIdle         = "performance.sink-idle"
+	SigHALeftover       = "ha.leftover"
 )
 
 // Kinds is the vocabulary rules may use.
 var Kinds = []string{
 	SigLifecycle, SigJobManager, SigJobState, SigOperatorError, SigHealth, SigEvent, SigPodWaiting, SigPodTerminated,
 	SigPodUnschedulable, SigLog, SigException, SigExceptionCause, SigCheckpointStale, SigCheckpointFail, SigRestored,
+	SigRestarts, SigJobsMultiple, SigSpecChange, SigSpecWriter, SigBackpressure, SigBottleneck, SigSinkIdle, SigHALeftover,
 }
 
 // Signals reduces evidence to signals, deduplicated, in a stable order.
@@ -68,8 +78,23 @@ func Signals(ev *Evidence) []Signal {
 		add(SigHealth, Operator, f.Reason)
 	}
 	for i := range ev.Events {
-		if e := &ev.Events[i]; e.Type == "Warning" {
+		e := &ev.Events[i]
+		switch {
+		case e.Type == "Warning":
 			add(SigEvent, Kubernetes, e.Reason+": "+e.Message)
+		case e.Reason == "SpecChanged":
+			// "UPGRADE change(s) detected (Diff: FlinkDeploymentSpec[restartNonce : 1 -> 2]), starting ..."
+			if _, diff, ok := strings.Cut(e.Message, "Diff: "); ok {
+				diff, _, _ = strings.Cut(diff, "), ")
+				add(SigSpecChange, Operator, fmt.Sprintf("%s (%s ago)", diff, duration.HumanDuration(ev.Now.Sub(e.Last()))))
+			}
+		}
+	}
+	// Who owns restartNonce; when it last changed comes from the SpecChanged events, because a manager's time
+	// in managedFields moves with every field it writes.
+	for _, w := range j.SpecWriters {
+		if slices.Contains(w.Fields, "restartNonce") {
+			add(SigSpecWriter, Operator, fmt.Sprintf("restartNonce by %s (generation %d)", w.Manager, j.Generation))
 		}
 	}
 	for i := range ev.Pods {
@@ -79,10 +104,36 @@ func Signals(ev *Evidence) []Signal {
 		add(SigLog, Kubernetes, l.Text)
 	}
 	if r := ev.REST; r != nil {
+		recent := 0
 		for i := range r.Exceptions {
 			e := &r.Exceptions[i]
 			add(SigException, Runtime, e.Message())
 			add(SigExceptionCause, Runtime, e.Cause())
+			if ev.Now.Sub(e.Timestamp.Time()) <= restartWindow {
+				recent++
+			}
+		}
+		// Only a job that is still going keeps restarting; a failed one stopped for good.
+		state := j.JobState
+		if r.Job != nil {
+			state = r.Job.State
+		}
+		if recent >= restartLoop && !terminal(state) {
+			add(SigRestarts, Runtime, fmt.Sprintf("%d failures in the last %s", recent, duration.HumanDuration(restartWindow)))
+		}
+		if j.Kind == model.KindDeployment && !j.SessionCluster {
+			var active []string
+			for _, o := range r.Jobs {
+				if !terminal(o.State) {
+					active = append(active, o.JID)
+				}
+			}
+			if len(active) > 1 {
+				add(SigJobsMultiple, HA, fmt.Sprintf("%d jobs run on the application cluster: %s", len(active), strings.Join(active, ", ")))
+			}
+		}
+		if r.Job != nil {
+			performanceSignals(r.Job, ev.Metrics, add)
 		}
 		if cps := r.Checkpoints; cps != nil {
 			if j.JobState == "RUNNING" {
@@ -101,6 +152,9 @@ func Signals(ev *Evidence) []Signal {
 		}
 	}
 	// Grouped by kind, each kind in collection order (newest first for exceptions and events), each signal once.
+	if ev.HA != nil {
+		haSignals(ev.HA, j, add)
+	}
 	slices.SortStableFunc(out, func(a, b Signal) int { return strings.Compare(a.Kind, b.Kind) })
 	seen := map[Signal]bool{}
 	return slices.DeleteFunc(out, func(s Signal) bool {
@@ -130,6 +184,21 @@ func podSignals(p *kube.Pod, add func(kind string, layer Layer, text string)) {
 		}
 	}
 }
+
+// terminal reports whether a Flink job state is final.
+func terminal(state string) bool {
+	switch state {
+	case "FINISHED", "CANCELED", "FAILED", "SUSPENDED":
+		return true
+	}
+	return false
+}
+
+// A job with restartLoop or more failures within restartWindow is restarting in a loop.
+const (
+	restartLoop   = 3
+	restartWindow = 15 * time.Minute
+)
 
 // staleIntervals is how many intervals the last completed checkpoint may lag before it is called stale.
 const staleIntervals = 5

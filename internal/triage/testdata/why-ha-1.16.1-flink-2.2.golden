@@ -1,0 +1,28 @@
+FlinkDeployment default/ha in context kind, job ab0488cca283c7179b980be0634b6276 · OK
+
+Verdict
+  Nothing wrong found.
+
+Operator
+  lifecycle STABLE, JobManager READY, job RUNNING, reconciled 2m54s ago, generation 1 (observed 1)
+  spec written by kubectl-client-side-apply, last 2m54s ago
+
+Kubernetes
+  pod ha-6b6c4b76d9-qqbqv (jobmanager): Running, ready
+  pod ha-taskmanager-1-1 (taskmanager): Running, ready
+  warning events, newest first:
+    2m45s ago Unhealthy on Pod: Startup probe failed: HTTP probe failed with statuscode: 503
+    2m46s ago Unhealthy ×8 on Pod: Startup probe failed: Get "http://10.244.0.81:8081/config": dial tcp 10.244.0.81:8081: connect: connection refused
+
+Runtime
+  job RUNNING, Flink 2.2.1, 1 job(s) on the cluster
+  no failures since the job started
+  checkpoints: last completed #74 0s ago, interval 2s, 74 completed, 8 failed
+
+Performance
+  Source: Events Generator Source (source): in 0/s, out 1000/s; busy 25, backpressured 0, idle 975 ms/s
+  Flat Map -> Sink: Print to Std. Out (sink): in 1000/s, out 0/s; busy 2, backpressured 0, idle 998 ms/s
+
+HA
+  ConfigMaps: ha-ab0488cca283c7179b980be0634b6276-config-map, ha-cluster-config-map
+  job plans: ab0488cca283c7179b980be0634b6276; checkpoint pointers: ab0488cca283c7179b980be0634b6276

@@ -67,9 +67,18 @@ type Job struct {
 	SpecChangedAt time.Time
 	// SpecOwners are the managers that own spec fields, the operator excluded.
 	SpecOwners []string
+	// SpecWriters are those managers with the top-level spec fields they own and when they last wrote.
+	SpecWriters []SpecWriter
 
 	// Pods is nil when pods could not be read; the pod checks are then skipped.
 	Pods *ClusterPods
+}
+
+// SpecWriter is a field manager that owns spec fields.
+type SpecWriter struct {
+	Manager string
+	Fields  []string
+	Time    time.Time
 }
 
 // Key is namespace/name, unique within a context.
@@ -139,6 +148,7 @@ func fromMeta(kind Kind, context string, m *kube.Metadata) Job {
 		}
 		if mgr.Name != operatorManager {
 			j.SpecOwners = append(j.SpecOwners, mgr.Name)
+			j.SpecWriters = append(j.SpecWriters, SpecWriter{Manager: mgr.Name, Fields: mgr.SpecFields, Time: mgr.Time.Time})
 		}
 	}
 	return j

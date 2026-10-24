@@ -1,0 +1,110 @@
+{
+  "apiVersion": "v1",
+  "items": [
+    {
+      "apiVersion": "v1",
+      "kind": "ConfigMap",
+      "metadata": {
+        "creationTimestamp": "2026-10-24T19:35:15Z",
+        "labels": {
+          "app": "ha",
+          "component": "autoscaler"
+        },
+        "name": "autoscaler-ha",
+        "namespace": "default",
+        "ownerReferences": [
+          {
+            "apiVersion": "flink.apache.org/v1beta1",
+            "blockOwnerDeletion": false,
+            "controller": false,
+            "kind": "FlinkDeployment",
+            "name": "ha",
+            "uid": "342fe583-2e27-4f15-a1c6-d6f6e3e71dc6"
+          }
+        ],
+        "resourceVersion": "46237",
+        "uid": "9b6385fb-70f1-46cd-829a-73a4697a06ee"
+      },
+      "data": null
+    },
+    {
+      "apiVersion": "v1",
+      "data": {
+        "flink-conf.yaml": "",
+        "log4j-console.properties": ""
+      },
+      "kind": "ConfigMap",
+      "metadata": {
+        "creationTimestamp": "2026-10-24T19:35:15Z",
+        "labels": {
+          "app": "ha",
+          "type": "flink-native-kubernetes"
+        },
+        "name": "flink-config-ha",
+        "namespace": "default",
+        "ownerReferences": [
+          {
+            "apiVersion": "apps/v1",
+            "blockOwnerDeletion": true,
+            "controller": true,
+            "kind": "Deployment",
+            "name": "ha",
+            "uid": "184db1ec-84a8-4b57-baa6-6975dfe93142"
+          }
+        ],
+        "resourceVersion": "46232",
+        "uid": "b08905a3-56a4-4168-a401-b71d21197880"
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "data": {
+        "jobGraph-fa7ad71c0a97ba46a4bf2e501a09e693": "",
+        "org.apache.flink.k8s.leader.dispatcher": "",
+        "org.apache.flink.k8s.leader.job-fa7ad71c0a97ba46a4bf2e501a09e693": "",
+        "org.apache.flink.k8s.leader.resourcemanager": "",
+        "org.apache.flink.k8s.leader.restserver": ""
+      },
+      "kind": "ConfigMap",
+      "metadata": {
+        "annotations": {
+          "control-plane.alpha.kubernetes.io/leader": "{\"holderIdentity\":\"599022c6-d1a0-4709-a6ea-1c861406d2de\",\"leaseDuration\":15.000000000,\"acquireTime\":\"2026-10-24T19:35:24.454737Z\",\"renewTime\":\"2026-10-24T19:38:19.643562Z\",\"leaderTransitions\":0}"
+        },
+        "creationTimestamp": "2026-10-24T19:35:24Z",
+        "labels": {
+          "app": "ha",
+          "configmap-type": "high-availability",
+          "type": "flink-native-kubernetes"
+        },
+        "name": "ha-cluster-config-map",
+        "namespace": "default",
+        "resourceVersion": "47344",
+        "uid": "79cc2ab8-1a81-4fe7-b8b8-02fe7bb9f7ce"
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "data": {
+        "checkpointID-0000000000000000079": "",
+        "counter": ""
+      },
+      "kind": "ConfigMap",
+      "metadata": {
+        "creationTimestamp": "2026-10-24T19:35:26Z",
+        "labels": {
+          "app": "ha",
+          "configmap-type": "high-availability",
+          "type": "flink-native-kubernetes"
+        },
+        "name": "ha-fa7ad71c0a97ba46a4bf2e501a09e693-config-map",
+        "namespace": "default",
+        "resourceVersion": "47352",
+        "uid": "f73e01aa-997f-4594-9b5a-b27b82254ed2"
+      }
+    }
+  ],
+  "kind": "List",
+  "metadata": {
+    "resourceVersion": ""
+  }
+}

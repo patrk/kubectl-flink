@@ -1,4 +1,4 @@
-FlinkDeployment default/bad-memory in context kind, job 96cbb4db7101553b6af78f4d5aa25ffa · PROGRESSING
+FlinkDeployment default/bad-memory in context kind, job b19eec1bd5a35f58e60b5be177fccd94 · PROGRESSING
   lifecycle UPGRADING
   JobManager deployment MISSING
 
@@ -15,12 +15,17 @@ Operator
   error: Sum of configured JVM Metaspace (256.000mb (268435456 bytes)) and JVM Overhead (192.000mb (201326592 bytes)) exceed configured Total Process Memory (4…
     caused by IllegalConfigurationException: TaskManager memory configuration failed: Sum of configured JVM Metaspace (256.000mb (268435456 bytes)) and JVM Ove…
     caused by IllegalConfigurationException: Sum of configured JVM Metaspace (256.000mb (268435456 bytes)) and JVM Overhead (192.000mb (201326592 bytes)) excee…
-  spec written by kubectl-client-side-apply, last 106s ago
+  spec written by kubectl-client-side-apply, last 89s ago
 
 Kubernetes
   no Flink pods
   warning events, newest first:
-    60s ago Error ×6 on FlinkDeployment: TaskManager memory configuration failed: Sum of configured JVM Metaspace (256.000mb (268435456 bytes)) and JVM Overhea…
+    60s ago Error ×5 on FlinkDeployment: TaskManager memory configuration failed: Sum of configured JVM Metaspace (256.000mb (268435456 bytes)) and JVM Overhea…
 
 Runtime
   not collected: JobManager REST API: not asked: the JobManager is MISSING
+
+Performance
+
+HA
+  HA not configured
