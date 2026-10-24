@@ -1,0 +1,4 @@
+replay     FAILED     FAILED   FAILED    READY   3h   lifecycle FAILED: java.lang.OutOfMemoryError: Java heap spa…
+payments   DEGRADED   STABLE   RUNNING   READY   3h   1/2 TaskManagers ready for 20m
+enrich     OK         STABLE   RUNNING   -       3h   -
+orders     OK         STABLE   RUNNING   READY   3h   -

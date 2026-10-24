@@ -4,6 +4,7 @@ package cli
 import (
 	"errors"
 	"os"
+	"time"
 
 	"github.com/spf13/cobra"
 	"k8s.io/cli-runtime/pkg/genericclioptions"
@@ -32,14 +33,24 @@ func (e *exitError) Unwrap() error { return e.err }
 type Options struct {
 	ConfigFlags *genericclioptions.ConfigFlags
 	genericiooptions.IOStreams
+	// Now is the clock; tests fix it.
+	Now func() time.Time
+}
+
+func (o *Options) now() time.Time {
+	if o.Now != nil {
+		return o.Now()
+	}
+	return time.Now()
 }
 
 // NewRootCommand builds the command tree.
 func NewRootCommand(streams genericiooptions.IOStreams) *cobra.Command {
-	o := &Options{
-		ConfigFlags: genericclioptions.NewConfigFlags(true),
-		IOStreams:   streams,
-	}
+	return newRootCommand(&Options{ConfigFlags: genericclioptions.NewConfigFlags(true), IOStreams: streams})
+}
+
+func newRootCommand(o *Options) *cobra.Command {
+	streams := o.IOStreams
 	cmd := &cobra.Command{
 		Use:           "kubectl-flink",
 		Short:         "Triage and operate Apache Flink Kubernetes Operator jobs",
@@ -53,7 +64,7 @@ func NewRootCommand(streams genericiooptions.IOStreams) *cobra.Command {
 	cmd.SetOut(streams.Out)
 	cmd.SetErr(streams.ErrOut)
 	o.ConfigFlags.AddFlags(cmd.PersistentFlags())
-	cmd.AddCommand(newVersionCommand(o))
+	cmd.AddCommand(newVersionCommand(o), newLsCommand(o))
 	markUsageErrors(cmd)
 	return cmd
 }

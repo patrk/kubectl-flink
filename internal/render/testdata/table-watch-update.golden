@@ -1,0 +1,2 @@
+team-a      orders     PROGRESSING   STABLE      RESTARTING   READY   0s         job RESTARTING
+team-a      enrich     -             -           -            -       -          deleted

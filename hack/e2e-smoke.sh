@@ -33,3 +33,12 @@ while :; do
 done
 echo "basic is STABLE/RUNNING"
 bin/kubectl-flink version
+
+# ls against the real operator: basic must be OK with its TaskManager ready.
+bin/kubectl-flink --context "$KUBE_CONTEXT" ls -A -o wide
+item=$(bin/kubectl-flink --context "$KUBE_CONTEXT" ls -A -o json | jq -c '.items[] | select(.name == "basic")')
+jq -e '.health == "OK" and .taskManagers.ready == 1 and .taskManagers.desired == 1' <<<"$item" >/dev/null ||
+  { echo "ls: basic is not OK with 1/1 TaskManagers: $item" >&2; diagnose; }
+bin/kubectl-flink --context "$KUBE_CONTEXT" ls -A --exit-code --no-headers >/dev/null ||
+  { echo "ls --exit-code reports unhealthy jobs" >&2; diagnose; }
+echo "ls reports basic OK"

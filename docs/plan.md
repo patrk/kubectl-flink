@@ -51,7 +51,7 @@ One data path: kube and flink sources → `model.Job` → triage → render or T
 | Snapshots | Informer only when the profile is not stateless; index by `job-reference.name`, keep the newest completed per job |
 | Events, HA ConfigMaps, logs | Fetched per job on demand with field or label selectors; never cached fleet-wide |
 | JobManager REST | Never for lists. Detail data is lazy, one request set in flight, cancelled on cursor move, prefetched after 150 ms on the selected row. LRU of 4 open port-forwards |
-| Redraw | Informer deltas coalesced into a 250 ms tick; only changed jobs are re-derived; only visible rows are rendered |
+| Redraw | Informer deltas coalesced into a 250 ms tick; every job is re-derived from the caches (under 1 ms for 1,500 jobs); only visible rows are rendered |
 | Sort and filter | Precomputed keys per job, updated on change, so sorting 1,500 rows is a slice sort of small structs |
 
 ### Budgets
@@ -77,8 +77,11 @@ Measured in CI on synthetic data and checked against a kind cluster with the rea
   scopes in parallel, and show a failing scope as an error row instead of failing the command.
 - Forbidden at cluster scope falls back to the scopes' namespaces, then the context namespace, with one line saying
   why.
-- `ls` columns: NAME, HEALTH, LIFECYCLE, JOB, JM, ERROR (short), AGE OF STATE. `-o wide` adds TM (actual/expected),
-  JM RESTARTS, DRIFT, FLINK, IMAGE, OWNER, SNAPSHOT AGE. A summary line: jobs per health, pods, requested CPU and memory.
+- `ls` columns: NAME, HEALTH, LIFECYCLE, JOB, JM, IN STATE, REASON (the worst finding, which carries the operator
+  error when there is one). `-o wide` adds TM (ready/desired), JM RESTARTS, DRIFT, FLINK, IMAGE, OWNER, and SNAPSHOT
+  AGE once snapshots are read. A summary line on stderr: jobs per health, pods, requested CPU and memory. `-o name`
+  prints `namespace/name`, which every job argument accepts. `-w` prints changed rows only; `-o json -w` prints one
+  event per line.
 - Inside an SSH session nothing tries to open a browser; `ui` prints the tunnel command.
 - TUI keys follow k9s: `/` search, `f` cycle health filter, `s` sort, `n` namespace, `c` context, `Enter` detail,
   `Esc` back, `?` help, `:` commands, `q` quit. First failing job's verdict reachable with `f`, `Enter`.
