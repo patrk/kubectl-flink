@@ -54,7 +54,34 @@ func NewRootCommand(streams genericiooptions.IOStreams) *cobra.Command {
 	cmd.SetErr(streams.ErrOut)
 	o.ConfigFlags.AddFlags(cmd.PersistentFlags())
 	cmd.AddCommand(newVersionCommand(o))
+	markUsageErrors(cmd)
 	return cmd
+}
+
+// markUsageErrors makes flag and argument errors of every command exit with ExitUsage.
+// The root rejects arguments and is runnable, so that cobra validates them and an unknown command is an
+// argument error too; without arguments it prints help.
+func markUsageErrors(root *cobra.Command) {
+	root.Args = cobra.NoArgs
+	root.RunE = func(c *cobra.Command, _ []string) error { return c.Help() }
+	root.SetFlagErrorFunc(func(_ *cobra.Command, err error) error {
+		return &exitError{code: ExitUsage, err: err}
+	})
+	var walk func(*cobra.Command)
+	walk = func(c *cobra.Command) {
+		if args := c.Args; args != nil {
+			c.Args = func(c *cobra.Command, a []string) error {
+				if err := args(c, a); err != nil {
+					return &exitError{code: ExitUsage, err: err}
+				}
+				return nil
+			}
+		}
+		for _, sub := range c.Commands() {
+			walk(sub)
+		}
+	}
+	walk(root)
 }
 
 // Execute runs the root command against the process streams and returns the exit code.
@@ -72,9 +99,6 @@ func run(cmd *cobra.Command, streams genericiooptions.IOStreams) int {
 	var ee *exitError
 	if errors.As(err, &ee) {
 		return ee.code
-	}
-	if isUsageError(err) {
-		return ExitUsage
 	}
 	return ExitError
 }

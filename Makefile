@@ -4,7 +4,8 @@ KIND_CLUSTER ?= kubectl-flink
 KUBE_CONTEXT ?= kind-$(KIND_CLUSTER)
 VERSION ?= $(shell git describe --tags --always --dirty 2>/dev/null || echo dev)
 LDFLAGS := -s -w -X github.com/patrk/kubectl-flink/internal/version.Version=$(VERSION) \
-           -X github.com/patrk/kubectl-flink/internal/version.Commit=$(shell git rev-parse --short HEAD 2>/dev/null || echo none)
+           -X github.com/patrk/kubectl-flink/internal/version.Commit=$(shell git rev-parse --short HEAD 2>/dev/null || echo none) \
+           -X github.com/patrk/kubectl-flink/internal/version.Date=$(shell date -u +%FT%TZ)
 
 .PHONY: build test bench lint snapshot kind-up kind-deps kind-down e2e fixtures
 

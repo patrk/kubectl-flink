@@ -2,9 +2,11 @@ package cli
 
 import (
 	"encoding/json"
+	"errors"
 	"strings"
 	"testing"
 
+	"github.com/spf13/cobra"
 	"k8s.io/cli-runtime/pkg/genericiooptions"
 )
 
@@ -40,6 +42,7 @@ func TestExitCodes(t *testing.T) {
 		{[]string{"version", "--nope"}, ExitUsage},
 		{[]string{"version", "extra"}, ExitUsage},
 		{[]string{"version", "-o", "yaml"}, ExitUsage},
+		{[]string{"--context"}, ExitUsage},
 	}
 	for _, tt := range tests {
 		if code, _, errOut := execute(tt.args...); code != tt.want || !strings.HasPrefix(errOut, "error: ") {
@@ -54,5 +57,19 @@ func TestKubectlFlags(t *testing.T) {
 		if cmd.PersistentFlags().Lookup(f) == nil {
 			t.Errorf("missing --%s", f)
 		}
+	}
+}
+
+func TestRuntimeErrorIsNotUsage(t *testing.T) {
+	// A RunE error whose text resembles cobra's usage messages must still exit with ExitError.
+	streams, _, _, _ := genericiooptions.NewTestIOStreams()
+	cmd := NewRootCommand(streams)
+	cmd.AddCommand(&cobra.Command{Use: "fail", RunE: func(*cobra.Command, []string) error {
+		return errors.New("requires a reachable JobManager")
+	}})
+	markUsageErrors(cmd)
+	cmd.SetArgs([]string{"fail"})
+	if code := run(cmd, streams); code != ExitError {
+		t.Fatalf("code %d, want %d", code, ExitError)
 	}
 }

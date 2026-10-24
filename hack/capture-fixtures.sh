@@ -9,20 +9,30 @@ mkdir -p "$OUT/rest"
 
 k get flinkdeployment "$name" -o json > "$OUT/flinkdeployment.json"
 k get pods -l "app=$name" -o json > "$OUT/pods.json"
-k get events --field-selector "involvedObject.name=$name" -o json > "$OUT/events.json"
+# All namespace events: pod and deployment events carry other involvedObject names than the CR.
+k get events -o json > "$OUT/events.json"
 
-port=18081
-k port-forward "svc/$name-rest" "$port:8081" >/dev/null &
+# Port 0 lets kubectl pick a free local port, which it prints; a fixed port could hit a stale forward.
+pflog=$(mktemp)
+kubectl --context "$KUBE_CONTEXT" port-forward "svc/$name-rest" :8081 >"$pflog" 2>&1 &
 pf=$!
-trap 'kill $pf' EXIT
-for _ in $(seq 30); do curl -sf "localhost:$port/config" >/dev/null && break; sleep 1; done
+trap 'kill $pf 2>/dev/null || true; rm -f "$pflog"' EXIT
+port=
+for _ in $(seq 30); do
+  port=$(sed -nE 's/^Forwarding from 127\.0\.0\.1:([0-9]+) .*/\1/p' "$pflog" | head -1)
+  [[ -n $port ]] && curl -sf "localhost:$port/config" >/dev/null && break
+  kill -0 "$pf" 2>/dev/null || { cat "$pflog" >&2; exit 1; }
+  port=
+  sleep 1
+done
+[[ -n $port ]] || { echo "JobManager REST not reachable through port-forward after 30 s" >&2; cat "$pflog" >&2; exit 1; }
 
-get() { curl -sf "localhost:$port$1" > "$OUT/rest/$2.json"; }
+get() { curl -sf "localhost:$port$1" > "$OUT/rest/$2.json" || { echo "GET $1 failed" >&2; exit 1; }; }
 get /config config
 get /jobmanager/config jobmanager-config
 get /taskmanagers taskmanagers
 get /jobs/overview jobs-overview
-jid=$(jq -r '.jobs[0].jid' "$OUT/rest/jobs-overview.json")
+jid=$(jq -er '.jobs[0].jid' "$OUT/rest/jobs-overview.json") || { echo "no job in /jobs/overview" >&2; exit 1; }
 get "/jobs/$jid" job
 get "/jobs/$jid/exceptions?maxExceptions=20" exceptions
 get "/jobs/$jid/checkpoints" checkpoints
