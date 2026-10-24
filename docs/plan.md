@@ -46,7 +46,7 @@ One data path: kube and flink sources → `model.Job` → triage → render or T
 | Concern | Design |
 |---|---|
 | Large CRs (`lastReconciledSpec`, pod templates) | Minimal Go structs registered in a private scheme and decoded by a typed client. Unread fields are skipped by the decoder and never allocated. `managedFields` reduced to manager, operation and time |
-| Listing | Paginated LIST (`limit` 250) with namespaces fetched in parallel; WatchList used when the server offers it (client-go ≥ v0.35) |
+| Listing | Informers start with WatchList (client-go v0.37, on by default; servers 1.34+ have it on), falling back to paginated LIST. One-shot `ls` uses paginated LIST (`limit` 250) with namespaces fetched in parallel |
 | Watching | One informer per kind per scope. Pods only with the Flink component labels, reduced to phase, ready, restarts, last termination reason, node |
 | Snapshots | Informer only when the profile is not stateless; index by `job-reference.name`, keep the newest completed per job |
 | Events, HA ConfigMaps, logs | Fetched per job on demand with field or label selectors; never cached fleet-wide |
@@ -107,7 +107,7 @@ Each milestone is a set of PRs from feature branches, merged with green CI. Test
 
 | # | Scope | Done when |
 |---|---|---|
-| M0 | `go.mod`, Makefile, mise, lint, CI, PR template, goreleaser snapshot build, kind harness with operator 1.15.0 and 1.16.1 (charts from `archive.apache.org`, which keeps every patch release), fixture capture tool | CI green on an empty command; kind job reaches RUNNING in CI |
+| M0 | `go.mod` (client-go v0.37, Kubernetes 1.34+ supported), Makefile, mise, lint, CI, PR template, goreleaser snapshot build, kind harness with operator 1.15.0 and 1.16.1 (charts from `archive.apache.org`, which keeps every patch release), fixture capture tool | CI green on an empty command; kind job reaches RUNNING in CI |
 | M1 | Typed CRD structs and client, scopes and multi-context, RBAC fallback, `model.Job`, health derivation, profile loader, job matcher, `ls` with filters, sort, outputs, `-w`, summary line | Budgets for `ls` and memory met; health table tests cover every enum combination in the fixtures |
 | M2 | Port-forward pool, REST client for 1.20 and 2.x, `exceptions`, `checkpoints`, `logs`, rules engine with default rules, `why` with runtime, Kubernetes, performance, operator and HA layers, external restarter detection | Golden tests for each failure fixture; `why` on kind identifies induced failures |
 | M3 | `report` with redaction, `history` | Redaction tests with secrets in every known location; bundle golden test |
