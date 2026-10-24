@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"strings"
 	"sync"
+	"time"
 
 	"github.com/patrk/kubectl-flink/internal/flink"
 )
@@ -116,6 +117,9 @@ const (
 // performanceSignals reports only what is notable: backpressure, the busy vertex behind it, and a sink that
 // receives nothing while the sources emit.
 func performanceSignals(job *flink.Job, vms []VertexMetrics, add adder) {
+	if !Settled(job) {
+		return
+	}
 	byID := map[string]*VertexMetrics{}
 	sourceRate := 0.0
 	for i := range vms {
@@ -143,6 +147,17 @@ func performanceSignals(job *flink.Job, vms []VertexMetrics, add adder) {
 			add(SigSinkIdle, Performance, fmt.Sprintf("%s receives nothing while the sources emit %.0f records/s", v.Name, sourceRate))
 		}
 	}
+}
+
+// Warmup is how long a job must have been running before its rates are judged: Flink's rates are averages over
+// the last 60 seconds, so right after a start or restart a sink can show no input while the source already emits.
+const Warmup = 2 * time.Minute
+
+// Settled reports whether the job has been running long enough, by the JobManager's clock, for its rates to mean
+// something. Without the times it is not settled: unknown is not evidence.
+func Settled(job *flink.Job) bool {
+	running, now := job.Timestamps["RUNNING"].Time(), job.Now.Time()
+	return job.State == "RUNNING" && !running.IsZero() && !now.IsZero() && now.Sub(running) >= Warmup
 }
 
 // bottleneck is the nearest busy vertex downstream of a backpressured one, searching every branch breadth first.

@@ -213,6 +213,9 @@ func runtimeEvidence(w *lineWriter, ev *triage.Evidence) {
 }
 
 func performanceEvidence(w *lineWriter, ev *triage.Evidence) {
+	if len(ev.Metrics) > 0 && ev.REST != nil && ev.REST.Job != nil && !triage.Settled(ev.REST.Job) {
+		w.line(1, "rates average the last minute; not judged in the first %s after the job started", triage.Short(triage.Warmup))
+	}
 	for i := range ev.Metrics {
 		v := &ev.Metrics[i]
 		role := ""
