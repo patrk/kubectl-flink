@@ -1,15 +1,22 @@
 # Default verdict rules. Each names a known pattern in the evidence; why shows the evidence whether or not a rule
 # matches. A rule ships with the fixture that triggers it (see TestEveryRuleFires). Profiles add rules in the same
 # format. Signals are listed in signals.go.
+#
+# A rule about a pod's failure needs the pod in that state now: events stay for an hour, so an event alone may tell
+# of a startup hiccup that resolved itself, such as the operator's own config ConfigMap not being there yet in the
+# first seconds of a deployment. pod.mount carries a FailedMount event only for the pod it is about, while that pod
+# is still starting. Other events add detail. Failures where no pod exists, such as quota and admission denials,
+# can only be told by events.
 rules:
   - id: image-pull
     layer: kubernetes
     severity: FAILED
-    any:
+    when:
       - signal: pod.waiting
         match: '^(?:ImagePullBackOff|ErrImagePull)\b.*?image "(?P<image>[^"]+)"'
+    optional:
       - signal: event
-        match: '^(?:Failed|ErrImagePull|ImagePullBackOff): .*?(?:pull|pulling)(?: and unpack)? image "(?P<image>[^"]+)"'
+        match: '^(?:Failed|ErrImagePull|ImagePullBackOff): .*?(?:pull|pulling)(?: and unpack)? image "[^"]+"'
     supersedes: [jobmanager-crashloop]
     title: 'The image {{.image}} cannot be pulled'
     explain: >-
@@ -35,11 +42,12 @@ rules:
   - id: jobmanager-crashloop
     layer: kubernetes
     severity: FAILED
+    # The pod's state now, or the operator's status.error, which is current too; between restarts the container
+    # is running or terminated rather than waiting.
     any:
       - signal: pod.waiting
         match: '^CrashLoopBackOff\b.*\(jobmanager\)$'
-      # The operator reports the JobManager's container state on the resource.
-      - signal: event
+      - signal: operator.error
         match: '^CrashLoopBackOff:'
     optional:
       - signal: pod.terminated
@@ -68,10 +76,10 @@ rules:
     layer: kubernetes
     severity: FAILED
     any:
-      - signal: event
+      - signal: pod.mount
         match: '^FailedMount: MountVolume\.SetUp failed for volume "(?P<volume>[^"]+)" : (?P<kind>secret|configmap) "(?P<object>[^"]+)" not found'
-      - signal: event
-        match: '^FailedMount: (?P<detail>.+)'
+      - signal: pod.mount
+        match: '^FailedMount: (?P<detail>.+) \(\w+\)$'
     title: '{{if .object}}The {{.kind}} {{.object}} for volume {{.volume}} does not exist{{else}}A volume cannot be mounted{{end}}'
     explain: >-
       The pod cannot start until all its volumes are mounted, so it stays in ContainerCreating.
@@ -81,11 +89,12 @@ rules:
   - id: unschedulable
     layer: kubernetes
     severity: STUCK
-    any:
+    when:
       - signal: pod.unschedulable
         match: '(?P<detail>\d+/\d+ nodes are available: [^.]*)'
+    optional:
       - signal: event
-        match: '^FailedScheduling: (?P<detail>\d+/\d+ nodes are available: [^.]*)'
+        match: '^FailedScheduling: '
     title: 'No node can run the pod: {{.detail}}'
     explain: >-
       The scheduler finds no node with the requested resources, labels or tolerations, so the pod stays Pending.

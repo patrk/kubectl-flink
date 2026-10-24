@@ -144,15 +144,8 @@ func (p *Pod) DeepCopyInto(out *Pod) {
 		}
 	}
 	out.Status.Conditions = slices.Clone(p.Status.Conditions)
-	if p.Status.ContainerStatuses != nil {
-		out.Status.ContainerStatuses = make([]ContainerStatus, len(p.Status.ContainerStatuses))
-		for i := range p.Status.ContainerStatuses {
-			in, o := &p.Status.ContainerStatuses[i], &out.Status.ContainerStatuses[i]
-			*o = *in
-			in.State.deepCopyInto(&o.State)
-			in.LastState.deepCopyInto(&o.LastState)
-		}
-	}
+	out.Status.ContainerStatuses = copyStatuses(p.Status.ContainerStatuses)
+	out.Status.InitContainerStatuses = copyStatuses(p.Status.InitContainerStatuses)
 }
 
 // DeepCopyObject implements runtime.Object.
@@ -190,5 +183,18 @@ func (l *PodList) DeepCopyObject() runtime.Object {
 	out := &PodList{TypeMeta: l.TypeMeta}
 	l.DeepCopyInto(&out.ListMeta)
 	out.Items = copyItems(l.Items, (*Pod).DeepCopyInto)
+	return out
+}
+
+func copyStatuses(in []ContainerStatus) []ContainerStatus {
+	if in == nil {
+		return nil
+	}
+	out := make([]ContainerStatus, len(in))
+	for i := range in {
+		out[i] = in[i]
+		in[i].State.deepCopyInto(&out[i].State)
+		in[i].LastState.deepCopyInto(&out[i].LastState)
+	}
 	return out
 }

@@ -5,7 +5,11 @@ import (
 	"slices"
 	"strings"
 	"testing"
+	"time"
 
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+
+	"github.com/patrk/kubectl-flink/internal/kube"
 	"github.com/patrk/kubectl-flink/internal/model"
 	"github.com/patrk/kubectl-flink/internal/triage"
 )
@@ -202,5 +206,60 @@ func TestJudge(t *testing.T) {
 	}, triage.DefaultRules())
 	if kinds(v.Unexplained) != "exception.cause" {
 		t.Errorf("healthy with a note: %+v", v.Unexplained)
+	}
+}
+
+// A pod's failure needs the pod in that state now: an event of a startup hiccup that resolved itself, such as the
+// operator's config ConfigMap not being there yet, is not a finding. Seen in CI on operator 1.16.1.
+func TestEventsAloneAreNotCurrent(t *testing.T) {
+	sched := triage.Signal{Kind: triage.SigEvent, Text: "FailedScheduling: 0/1 nodes are available: 1 Insufficient cpu."}
+	pull := triage.Signal{Kind: triage.SigEvent, Text: `Failed: Failed to pull image "flink:2.2": rpc error: code = Unavailable`}
+	if got := fire(t, []triage.Signal{sched, pull}); len(got) != 0 {
+		t.Errorf("resolved hiccups fire %v", got)
+	}
+}
+
+func podEvidence(created time.Time, state kube.ContainerState, init *kube.ContainerState, events ...kube.Event) *triage.Evidence {
+	p := kube.Pod{}
+	p.Name, p.Namespace, p.CreationTimestamp = "jm-1", "team-a", metav1.NewTime(created)
+	p.Labels = map[string]string{kube.LabelComponent: kube.ComponentJM}
+	p.Status.Phase = "Running"
+	if state.Waiting != nil {
+		p.Status.Phase = "Pending"
+	}
+	p.Status.ContainerStatuses = []kube.ContainerStatus{{Name: kube.MainContainer, State: state}}
+	if init != nil {
+		p.Status.InitContainerStatuses = []kube.ContainerStatus{{Name: "fetch-jar", State: *init}}
+	}
+	return &triage.Evidence{Job: job, Pods: []kube.Pod{p}, Events: events, Now: created.Add(5 * time.Minute)}
+}
+
+func TestMountNeedsTheStuckPod(t *testing.T) {
+	created := time.Date(2026, 10, 24, 12, 0, 0, 0, time.UTC)
+	mount := func(pod string, at time.Time) kube.Event {
+		return kube.Event{Type: "Warning", Reason: "FailedMount", InvolvedObject: kube.ObjectReference{Kind: "Pod", Name: pod},
+			Message: `MountVolume.SetUp failed for volume "creds" : secret "creds" not found`, LastTimestamp: metav1.NewTime(at)}
+	}
+	creating := kube.ContainerState{Waiting: &kube.ContainerWaiting{Reason: "ContainerCreating"}}
+	initializing := kube.ContainerState{Waiting: &kube.ContainerWaiting{Reason: "PodInitializing"}}
+	running := kube.ContainerState{Running: &kube.ContainerRunning{}}
+	for name, tc := range map[string]struct {
+		ev   *triage.Evidence
+		want []string
+	}{
+		"stuck":                {podEvidence(created, creating, nil, mount("jm-1", created.Add(time.Minute))), []string{"mount-failed"}},
+		"stuck behind init":    {podEvidence(created, initializing, nil, mount("jm-1", created.Add(time.Minute))), []string{"mount-failed"}},
+		"running again":        {podEvidence(created, running, nil, mount("jm-1", created.Add(time.Minute))), nil},
+		"another pod's event":  {podEvidence(created, creating, nil, mount("jm-0", created.Add(time.Minute))), nil},
+		"before the pod began": {podEvidence(created, creating, nil, mount("jm-1", created.Add(-time.Minute))), nil},
+	} {
+		if got := fire(t, triage.Signals(tc.ev)); !slices.Equal(got, tc.want) {
+			t.Errorf("%s: %v, want %v", name, got, tc.want)
+		}
+	}
+	// An init container that cannot pull its image holds the pod back.
+	pullBackOff := kube.ContainerState{Waiting: &kube.ContainerWaiting{Reason: "ImagePullBackOff", Message: `Back-off pulling image "busybox:nope"`}}
+	if got := fire(t, triage.Signals(podEvidence(created, initializing, &pullBackOff))); !slices.Equal(got, []string{"image-pull"}) {
+		t.Errorf("init image pull: %v", got)
 	}
 }

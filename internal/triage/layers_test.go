@@ -15,8 +15,16 @@ import (
 	"github.com/patrk/kubectl-flink/internal/model"
 )
 
+// settled makes a job that has run long enough for its rates to be judged.
+func settled(j *flink.Job) *flink.Job {
+	start := time.Date(2026, 10, 24, 12, 0, 0, 0, time.UTC)
+	j.State, j.Now = "RUNNING", flink.Millis(start.Add(10*time.Minute).UnixMilli())
+	j.Timestamps = map[string]flink.Millis{"RUNNING": flink.Millis(start.UnixMilli())}
+	return j
+}
+
 func plan() *flink.Job {
-	j := &flink.Job{Vertices: []flink.Vertex{{ID: "src", Name: "Source"}, {ID: "map", Name: "Map"}, {ID: "sink", Name: "Sink"}}}
+	j := settled(&flink.Job{Vertices: []flink.Vertex{{ID: "src", Name: "Source"}, {ID: "map", Name: "Map"}, {ID: "sink", Name: "Sink"}}})
 	j.Plan.Nodes = []flink.PlanNode{{ID: "src"}, {ID: "map"}, {ID: "sink"}}
 	j.Plan.Nodes[1].Inputs = append(j.Plan.Nodes[1].Inputs, struct {
 		ID string `json:"id"`
@@ -64,6 +72,13 @@ func TestPerformanceSignals(t *testing.T) {
 	if got := collect(idle); got != "performance.sink-idle Sink receives nothing while the sources emit 200 records/s" {
 		t.Errorf("sink idle: %q", got)
 	}
+	// Right after a start, rates cover less than their window: nothing is judged. Seen in CI after a restart.
+	fresh := plan()
+	fresh.Timestamps["RUNNING"] = flink.Millis(fresh.Now.Time().Add(-30 * time.Second).UnixMilli())
+	performanceSignals(fresh, idle, func(kind string, _ Layer, text string, _ ...time.Time) { t.Errorf("just started: %s %s", kind, text) })
+	unknown := plan()
+	unknown.Timestamps = nil
+	performanceSignals(unknown, idle, func(kind string, _ Layer, text string, _ ...time.Time) { t.Errorf("no times: %s %s", kind, text) })
 	// A quiet source makes a quiet sink normal.
 	idle[0] = vm("src", "Source", true, false, 0, 0, 0, 0)
 	if got := collect(idle); got != "" {
@@ -116,7 +131,7 @@ func TestHA(t *testing.T) {
 }
 
 func TestBottleneckSearchesEveryBranch(t *testing.T) {
-	j := &flink.Job{Vertices: []flink.Vertex{{ID: "src"}, {ID: "a", Name: "A"}, {ID: "b", Name: "B"}}}
+	j := settled(&flink.Job{Vertices: []flink.Vertex{{ID: "src"}, {ID: "a", Name: "A"}, {ID: "b", Name: "B"}}})
 	in := func(id string) []struct {
 		ID string `json:"id"`
 	} {

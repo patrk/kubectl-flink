@@ -9,15 +9,33 @@ export FLINK_VERSION FLINK_VERSION_ENUM=${minor/./_}
 mkdir -p "$OUT"
 
 # deploy <name> <yq-style sed edits...>: renders the basic template under a new name with edits applied.
+# Scenario pods request little CPU so that a 4-CPU CI runner fits a batch next to basic and kube-system (about
+# 2 CPUs); the limit factor lets each still use about 0.9 CPU, since Flink sets the limit to the request by default.
+# Scenario edits run first, so unschedulable keeps its 100 CPUs.
+small='s|cpu: 0.5 }|cpu: 0.15 }|g; s|^    taskmanager.numberOfTaskSlots: "1"$|    taskmanager.numberOfTaskSlots: "1"\n    kubernetes.jobmanager.cpu.limit-factor: "6"\n    kubernetes.taskmanager.cpu.limit-factor: "6"|'
 deploy() {
   local name=$1; shift
-  envsubst < test/e2e/basic.yaml.tmpl | sed "s/name: basic/name: $name/" | sed "$@" | k apply -f -
+  local manifest
+  manifest=$(envsubst < test/e2e/basic.yaml.tmpl | sed "s/name: basic/name: $name/" | sed "$@" | sed "$small")
+  # Without the limit factor the pods would be throttled at 0.15 CPU; fail here rather than time out later.
+  grep -q 'kubernetes.taskmanager.cpu.limit-factor: "6"' <<<"$manifest" ||
+    { echo "$name: CPU limit factor not set; does a scenario edit change numberOfTaskSlots?" >&2; exit 1; }
+  k apply -f - <<<"$manifest"
+}
+# diagnose_scheduling: what a timeout needs to be understood in CI, where the cluster is gone afterwards.
+diagnose_scheduling() {
+  echo "--- pods" >&2
+  k get pods -o wide >&2 || true
+  echo "--- node resources" >&2
+  k describe node | sed -n '/Allocated resources/,/Events/p' >&2 || true
+  echo "--- warning events" >&2
+  k get events --field-selector type=Warning --sort-by=.lastTimestamp 2>/dev/null | tail -20 >&2 || true
 }
 # wait_for <name> <jsonpath> <regex> <seconds>
 wait_for() {
   local deadline=$((SECONDS + $4))
   until [[ "$(k get flinkdeployment "$1" -o jsonpath="$2")" =~ $3 ]]; do
-    (( SECONDS > deadline )) && { echo "$1: timeout waiting for $2 =~ $3" >&2; return 1; }
+    (( SECONDS > deadline )) && { echo "$1: timeout waiting for $2 =~ $3" >&2; diagnose_scheduling; return 1; }
     sleep 5
   done
 }
@@ -26,7 +44,7 @@ wait_for() {
 wait_pod() {
   local deadline=$((SECONDS + 300))
   until [[ "$(k get pods -l "app=$1,component=jobmanager" -o jsonpath='{.items[*].status.containerStatuses[*].state.waiting.reason}')" =~ $2 ]]; do
-    (( SECONDS > deadline )) && { echo "$1: timeout waiting for pod reason =~ $2" >&2; return 1; }
+    (( SECONDS > deadline )) && { echo "$1: timeout waiting for pod reason =~ $2" >&2; diagnose_scheduling; return 1; }
     sleep 5
   done
 }
@@ -34,7 +52,7 @@ wait_pod() {
 wait_pod_event() {
   local deadline=$((SECONDS + 300))
   until k get events --field-selector "reason=$2" -o jsonpath='{.items[*].involvedObject.name}' | grep -q "$1"; do
-    (( SECONDS > deadline )) && { echo "$1: timeout waiting for event $2" >&2; return 1; }
+    (( SECONDS > deadline )) && { echo "$1: timeout waiting for event $2" >&2; diagnose_scheduling; return 1; }
     sleep 5
   done
 }

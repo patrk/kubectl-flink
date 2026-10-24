@@ -36,6 +36,7 @@ Runtime
   checkpoints: none completed, periodic checkpoints off, 0 completed, 0 failed
 
 Performance
+  rates average the last minute; not judged in the first 2m after the job started
   TumblingProcessingTimeWindows -> Sink: Print to Std. Out (sink): in 0/s, out 0/s; busy 0, backpressured 0, idle 1000 ms/s
   not collected: vertex metrics: Source: Socket Stream -> Flat Map: JobManager /jobs/92a39a8b38aefc28a3368622b3e54249/vertices/cbc357ccb763df2852fee8c4fc7d55f2…
 

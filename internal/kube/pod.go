@@ -53,6 +53,9 @@ type PodStatus struct {
 	Reason            string            `json:"reason,omitempty"`
 	Conditions        []PodCondition    `json:"conditions,omitempty"`
 	ContainerStatuses []ContainerStatus `json:"containerStatuses,omitempty"`
+	// InitContainerStatuses are read too: an init container that cannot pull its image or mount a volume keeps
+	// the main containers in PodInitializing.
+	InitContainerStatuses []ContainerStatus `json:"initContainerStatuses,omitempty"`
 }
 
 // PodCondition keeps when a pod condition, such as Ready, last changed.

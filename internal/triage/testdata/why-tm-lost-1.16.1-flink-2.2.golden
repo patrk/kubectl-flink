@@ -27,6 +27,7 @@ Runtime
     restored from #95 20s ago
 
 Performance
+  rates average the last minute; not judged in the first 2m after the job started
   Source: Events Generator Source (source): in 0/s, out 127/s; busy 0, backpressured 0, idle 1000 ms/s
   Flat Map -> Sink: Print to Std. Out (sink): in 125/s, out 0/s; busy 0, backpressured 0, idle 1000 ms/s
 
