@@ -38,6 +38,7 @@ const (
 	SigPodWaiting       = "pod.waiting"         // "Reason: message (component)" of a waiting container
 	SigPodTerminated    = "pod.terminated"      // "Reason exit N: message (component)" of a last termination
 	SigPodUnschedulable = "pod.unschedulable"   // "message (component)" from the scheduler
+	SigPodCreating      = "pod.creating"        // "ContainerCreating (component)": a container that has not started yet
 	SigLog              = "log.jobmanager"      // a problem line of the JobManager's log, current or previous
 	SigException        = "exception"           // first line of an exception in the job's history
 	SigExceptionCause   = "exception.cause"     // deepest cause of that exception
@@ -56,7 +57,7 @@ const (
 
 // Kinds is the vocabulary rules may use.
 var Kinds = []string{
-	SigLifecycle, SigJobManager, SigJobState, SigOperatorError, SigHealth, SigEvent, SigPodWaiting, SigPodTerminated,
+	SigLifecycle, SigJobManager, SigJobState, SigOperatorError, SigHealth, SigEvent, SigPodWaiting, SigPodTerminated, SigPodCreating,
 	SigPodUnschedulable, SigLog, SigException, SigExceptionCause, SigCheckpointStale, SigCheckpointFail, SigRestored,
 	SigRestarts, SigJobsMultiple, SigSpecChange, SigSpecWriter, SigBackpressure, SigBottleneck, SigSinkIdle, SigHALeftover,
 }
@@ -185,6 +186,9 @@ func podSignals(p *kube.Pod, add adder) {
 		}
 	}
 	for _, cs := range p.Status.ContainerStatuses {
+		if w := cs.State.Waiting; w != nil && (w.Reason == "ContainerCreating" || w.Reason == "PodInitializing") {
+			add(SigPodCreating, Kubernetes, w.Reason+component)
+		}
 		if w := cs.State.Waiting; w != nil && w.Reason != "ContainerCreating" && w.Reason != "PodInitializing" {
 			add(SigPodWaiting, Kubernetes, strings.TrimSuffix(w.Reason+": "+w.Message, ": ")+component)
 		}

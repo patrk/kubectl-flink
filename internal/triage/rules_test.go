@@ -204,3 +204,19 @@ func TestJudge(t *testing.T) {
 		t.Errorf("healthy with a note: %+v", v.Unexplained)
 	}
 }
+
+// A pod's failure needs the pod in that state now: an event of a startup hiccup that resolved itself, such as the
+// operator's config ConfigMap not being there yet, is not a finding. Seen in CI on operator 1.16.1.
+func TestEventsAloneAreNotCurrent(t *testing.T) {
+	mount := triage.Signal{Kind: triage.SigEvent, Text: `FailedMount: MountVolume.SetUp failed for volume "flink-config-volume" : configmap "flink-config-x" not found`}
+	pull := triage.Signal{Kind: triage.SigEvent, Text: `Failed: Failed to pull image "flink:2.2": rpc error: code = Unavailable`}
+	sched := triage.Signal{Kind: triage.SigEvent, Text: "FailedScheduling: 0/1 nodes are available: 1 Insufficient cpu."}
+	crash := triage.Signal{Kind: triage.SigEvent, Text: "CrashLoopBackOff: [flink-main-container] back-off 10s restarting failed container"}
+	if got := fire(t, []triage.Signal{mount, pull, sched, crash}); len(got) != 0 {
+		t.Errorf("resolved hiccups fire %v", got)
+	}
+	creating := triage.Signal{Kind: triage.SigPodCreating, Text: "ContainerCreating (jobmanager)"}
+	if got := fire(t, []triage.Signal{mount, creating}); !slices.Equal(got, []string{"mount-failed"}) {
+		t.Errorf("stuck mount fires %v", got)
+	}
+}

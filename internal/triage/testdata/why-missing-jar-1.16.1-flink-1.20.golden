@@ -10,6 +10,9 @@ Matched patterns
     · log.jobmanager: Caused by: java.io.IOException: JAR file does not exist '/opt/flink/does-not-exist.jar'
     · log.jobmanager: Caused by: org.apache.flink.client.program.ProgramInvocationException: JAR file does not exist '/opt/flink/does-not-exist.jar'
 
+Also seen, not explained by the above
+  · operator.error: CrashLoopBackOff: [flink-main-container] back-off 10s restarting failed container=flink-main-container pod=missing-jar-597b458676-ql9tx_def…
+
 Operator
   lifecycle DEPLOYED, JobManager ERROR, job RECONCILING, reconciled 88s ago, generation 1 (observed 1)
   error: CrashLoopBackOff: [flink-main-container] back-off 10s restarting failed container=flink-main-container pod=missing-jar-597b458676-ql9tx_default(286bc8…
