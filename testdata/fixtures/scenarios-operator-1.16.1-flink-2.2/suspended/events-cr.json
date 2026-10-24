@@ -5,23 +5,23 @@
             "apiVersion": "v1",
             "count": 1,
             "eventTime": null,
-            "firstTimestamp": "2026-10-24T13:35:01Z",
+            "firstTimestamp": "2026-10-24T18:06:16Z",
             "involvedObject": {
                 "apiVersion": "flink.apache.org/v1beta1",
                 "kind": "FlinkDeployment",
                 "name": "suspended",
                 "namespace": "default",
-                "uid": "50525505-cfd4-4b72-b25e-3d5619854b78"
+                "uid": "c1394012-8f48-4b7d-8ba6-91ce4c36b2df"
             },
             "kind": "Event",
-            "lastTimestamp": "2026-10-24T13:35:01Z",
+            "lastTimestamp": "2026-10-24T18:06:16Z",
             "message": "Job status changed from CREATED to RUNNING",
             "metadata": {
-                "creationTimestamp": "2026-10-24T13:35:01Z",
-                "name": "Job.1039632844",
+                "creationTimestamp": "2026-10-24T18:06:16Z",
+                "name": "Job.1297000780",
                 "namespace": "default",
-                "resourceVersion": "6515",
-                "uid": "aa9c038f-018a-4859-b58d-09372e71cc4e"
+                "resourceVersion": "31709",
+                "uid": "5f2d56dd-9d05-453a-89f7-7bbb354954d9"
             },
             "reason": "JobStatusChanged",
             "reportingComponent": "",
@@ -35,23 +35,23 @@
             "apiVersion": "v1",
             "count": 1,
             "eventTime": null,
-            "firstTimestamp": "2026-10-24T13:34:46Z",
+            "firstTimestamp": "2026-10-24T17:55:40Z",
             "involvedObject": {
                 "apiVersion": "flink.apache.org/v1beta1",
                 "kind": "FlinkDeployment",
                 "name": "suspended",
                 "namespace": "default",
-                "uid": "50525505-cfd4-4b72-b25e-3d5619854b78"
+                "uid": "d9eeb75d-8099-4913-87ca-aea7794dcffe"
             },
             "kind": "Event",
-            "lastTimestamp": "2026-10-24T13:34:46Z",
+            "lastTimestamp": "2026-10-24T17:55:40Z",
             "message": "Job status changed from RECONCILING to CREATED",
             "metadata": {
-                "creationTimestamp": "2026-10-24T13:34:46Z",
-                "name": "Job.1377682930",
+                "creationTimestamp": "2026-10-24T17:55:40Z",
+                "name": "Job.1312312850",
                 "namespace": "default",
-                "resourceVersion": "6476",
-                "uid": "1cb05039-0f30-4fff-9b92-5ac1a2783742"
+                "resourceVersion": "29837",
+                "uid": "12eec0a2-0ae6-4792-bd9f-f611659fe9fd"
             },
             "reason": "JobStatusChanged",
             "reportingComponent": "",
@@ -65,53 +65,23 @@
             "apiVersion": "v1",
             "count": 1,
             "eventTime": null,
-            "firstTimestamp": "2026-10-24T13:24:05Z",
+            "firstTimestamp": "2026-10-24T18:06:01Z",
             "involvedObject": {
                 "apiVersion": "flink.apache.org/v1beta1",
                 "kind": "FlinkDeployment",
                 "name": "suspended",
                 "namespace": "default",
-                "uid": "4109d538-7e2e-4f0a-9520-726f752744b5"
+                "uid": "c1394012-8f48-4b7d-8ba6-91ce4c36b2df"
             },
             "kind": "Event",
-            "lastTimestamp": "2026-10-24T13:24:05Z",
-            "message": "Job status changed from CREATED to RUNNING",
-            "metadata": {
-                "creationTimestamp": "2026-10-24T13:24:05Z",
-                "name": "Job.1657299160",
-                "namespace": "default",
-                "resourceVersion": "4880",
-                "uid": "0d30feba-ca63-4bf9-9d70-00ce4afa79ea"
-            },
-            "reason": "JobStatusChanged",
-            "reportingComponent": "",
-            "reportingInstance": "",
-            "source": {
-                "component": "Job"
-            },
-            "type": "Normal"
-        },
-        {
-            "apiVersion": "v1",
-            "count": 1,
-            "eventTime": null,
-            "firstTimestamp": "2026-10-24T13:23:50Z",
-            "involvedObject": {
-                "apiVersion": "flink.apache.org/v1beta1",
-                "kind": "FlinkDeployment",
-                "name": "suspended",
-                "namespace": "default",
-                "uid": "4109d538-7e2e-4f0a-9520-726f752744b5"
-            },
-            "kind": "Event",
-            "lastTimestamp": "2026-10-24T13:23:50Z",
+            "lastTimestamp": "2026-10-24T18:06:01Z",
             "message": "Job status changed from RECONCILING to CREATED",
             "metadata": {
-                "creationTimestamp": "2026-10-24T13:23:50Z",
-                "name": "Job.1995349246",
+                "creationTimestamp": "2026-10-24T18:06:01Z",
+                "name": "Job.1635050866",
                 "namespace": "default",
-                "resourceVersion": "4842",
-                "uid": "a6717584-28f8-4e96-9e33-664c529cad99"
+                "resourceVersion": "31670",
+                "uid": "19658916-7f97-47de-9d01-25d6759b817e"
             },
             "reason": "JobStatusChanged",
             "reportingComponent": "",
@@ -125,23 +95,23 @@
             "apiVersion": "v1",
             "count": 1,
             "eventTime": null,
-            "firstTimestamp": "2026-10-24T13:33:24Z",
+            "firstTimestamp": "2026-10-24T18:01:31Z",
             "involvedObject": {
                 "apiVersion": "flink.apache.org/v1beta1",
                 "kind": "FlinkDeployment",
                 "name": "suspended",
                 "namespace": "default",
-                "uid": "0fc0f707-474f-43be-a19a-4e401ea35ca3"
+                "uid": "884241e1-17fa-4520-9230-5c091c23883f"
             },
             "kind": "Event",
-            "lastTimestamp": "2026-10-24T13:33:24Z",
-            "message": "Job status changed from CREATED to RUNNING",
+            "lastTimestamp": "2026-10-24T18:01:31Z",
+            "message": "Job status changed from RECONCILING to RUNNING",
             "metadata": {
-                "creationTimestamp": "2026-10-24T13:33:24Z",
-                "name": "Job.360974294",
+                "creationTimestamp": "2026-10-24T18:01:31Z",
+                "name": "Job.927895324",
                 "namespace": "default",
-                "resourceVersion": "6046",
-                "uid": "b0c0bbc1-f178-4a7a-b8c6-51fca358e8ea"
+                "resourceVersion": "30809",
+                "uid": "3d815b8e-7619-4184-9258-ed0879dac952"
             },
             "reason": "JobStatusChanged",
             "reportingComponent": "",
@@ -155,143 +125,23 @@
             "apiVersion": "v1",
             "count": 1,
             "eventTime": null,
-            "firstTimestamp": "2026-10-24T13:21:34Z",
+            "firstTimestamp": "2026-10-24T18:06:21Z",
             "involvedObject": {
                 "apiVersion": "flink.apache.org/v1beta1",
                 "kind": "FlinkDeployment",
                 "name": "suspended",
                 "namespace": "default",
-                "uid": "9ab4fb32-e5f9-435f-b4c2-7afc8329be21"
+                "uid": "c1394012-8f48-4b7d-8ba6-91ce4c36b2df"
             },
             "kind": "Event",
-            "lastTimestamp": "2026-10-24T13:21:34Z",
-            "message": "Job status changed from CREATED to RUNNING",
-            "metadata": {
-                "creationTimestamp": "2026-10-24T13:21:34Z",
-                "name": "Job.470544511",
-                "namespace": "default",
-                "resourceVersion": "4307",
-                "uid": "2c60908c-5e56-4e60-970a-e27fed283c6e"
-            },
-            "reason": "JobStatusChanged",
-            "reportingComponent": "",
-            "reportingInstance": "",
-            "source": {
-                "component": "Job"
-            },
-            "type": "Normal"
-        },
-        {
-            "apiVersion": "v1",
-            "count": 1,
-            "eventTime": null,
-            "firstTimestamp": "2026-10-24T13:33:09Z",
-            "involvedObject": {
-                "apiVersion": "flink.apache.org/v1beta1",
-                "kind": "FlinkDeployment",
-                "name": "suspended",
-                "namespace": "default",
-                "uid": "0fc0f707-474f-43be-a19a-4e401ea35ca3"
-            },
-            "kind": "Event",
-            "lastTimestamp": "2026-10-24T13:33:09Z",
-            "message": "Job status changed from RECONCILING to CREATED",
-            "metadata": {
-                "creationTimestamp": "2026-10-24T13:33:09Z",
-                "name": "Job.699024380",
-                "namespace": "default",
-                "resourceVersion": "6010",
-                "uid": "c23859e4-afe2-4ce0-9849-c2e9c5d8cb9d"
-            },
-            "reason": "JobStatusChanged",
-            "reportingComponent": "",
-            "reportingInstance": "",
-            "source": {
-                "component": "Job"
-            },
-            "type": "Normal"
-        },
-        {
-            "apiVersion": "v1",
-            "count": 1,
-            "eventTime": null,
-            "firstTimestamp": "2026-10-24T13:21:19Z",
-            "involvedObject": {
-                "apiVersion": "flink.apache.org/v1beta1",
-                "kind": "FlinkDeployment",
-                "name": "suspended",
-                "namespace": "default",
-                "uid": "9ab4fb32-e5f9-435f-b4c2-7afc8329be21"
-            },
-            "kind": "Event",
-            "lastTimestamp": "2026-10-24T13:21:19Z",
-            "message": "Job status changed from RECONCILING to CREATED",
-            "metadata": {
-                "creationTimestamp": "2026-10-24T13:21:19Z",
-                "name": "Job.808594597",
-                "namespace": "default",
-                "resourceVersion": "4267",
-                "uid": "78c95364-b6aa-4fd8-b28e-af1509b22a7c"
-            },
-            "reason": "JobStatusChanged",
-            "reportingComponent": "",
-            "reportingInstance": "",
-            "source": {
-                "component": "Job"
-            },
-            "type": "Normal"
-        },
-        {
-            "apiVersion": "v1",
-            "count": 1,
-            "eventTime": null,
-            "firstTimestamp": "2026-10-24T13:23:25Z",
-            "involvedObject": {
-                "apiVersion": "flink.apache.org/v1beta1",
-                "kind": "FlinkDeployment",
-                "name": "suspended",
-                "namespace": "default",
-                "uid": "4109d538-7e2e-4f0a-9520-726f752744b5"
-            },
-            "kind": "Event",
-            "lastTimestamp": "2026-10-24T13:23:25Z",
-            "message": "Starting deployment",
-            "metadata": {
-                "creationTimestamp": "2026-10-24T13:23:25Z",
-                "name": "JobManagerDeployment.1242615055",
-                "namespace": "default",
-                "resourceVersion": "4683",
-                "uid": "416c36b6-8728-491f-9f71-c635bab64020"
-            },
-            "reason": "Submit",
-            "reportingComponent": "",
-            "reportingInstance": "",
-            "source": {
-                "component": "JobManagerDeployment"
-            },
-            "type": "Normal"
-        },
-        {
-            "apiVersion": "v1",
-            "count": 1,
-            "eventTime": null,
-            "firstTimestamp": "2026-10-24T13:24:06Z",
-            "involvedObject": {
-                "apiVersion": "flink.apache.org/v1beta1",
-                "kind": "FlinkDeployment",
-                "name": "suspended",
-                "namespace": "default",
-                "uid": "4109d538-7e2e-4f0a-9520-726f752744b5"
-            },
-            "kind": "Event",
-            "lastTimestamp": "2026-10-24T13:24:06Z",
+            "lastTimestamp": "2026-10-24T18:06:21Z",
             "message": "UPGRADE change(s) detected (Diff: FlinkDeploymentSpec[job.state : running -\u003e suspended]), starting reconciliation.",
             "metadata": {
-                "creationTimestamp": "2026-10-24T13:24:06Z",
-                "name": "JobManagerDeployment.1488716746",
+                "creationTimestamp": "2026-10-24T18:06:21Z",
+                "name": "JobManagerDeployment.1128418366",
                 "namespace": "default",
-                "resourceVersion": "4884",
-                "uid": "1b49a980-5457-4467-99ce-87b869b3a577"
+                "resourceVersion": "31723",
+                "uid": "136ac779-494f-49b3-a098-51fa53c7b20c"
             },
             "reason": "SpecChanged",
             "reportingComponent": "",
@@ -305,143 +155,23 @@
             "apiVersion": "v1",
             "count": 1,
             "eventTime": null,
-            "firstTimestamp": "2026-10-24T13:33:24Z",
+            "firstTimestamp": "2026-10-24T18:00:59Z",
             "involvedObject": {
                 "apiVersion": "flink.apache.org/v1beta1",
                 "kind": "FlinkDeployment",
                 "name": "suspended",
                 "namespace": "default",
-                "uid": "0fc0f707-474f-43be-a19a-4e401ea35ca3"
+                "uid": "884241e1-17fa-4520-9230-5c091c23883f"
             },
             "kind": "Event",
-            "lastTimestamp": "2026-10-24T13:33:24Z",
-            "message": "Suspending existing deployment.",
-            "metadata": {
-                "creationTimestamp": "2026-10-24T13:33:24Z",
-                "name": "JobManagerDeployment.1663305395",
-                "namespace": "default",
-                "resourceVersion": "6051",
-                "uid": "d231060f-c0d1-4b40-ab65-3c6f3eab3b7a"
-            },
-            "reason": "Suspended",
-            "reportingComponent": "",
-            "reportingInstance": "",
-            "source": {
-                "component": "JobManagerDeployment"
-            },
-            "type": "Normal"
-        },
-        {
-            "apiVersion": "v1",
-            "count": 1,
-            "eventTime": null,
-            "firstTimestamp": "2026-10-24T13:21:35Z",
-            "involvedObject": {
-                "apiVersion": "flink.apache.org/v1beta1",
-                "kind": "FlinkDeployment",
-                "name": "suspended",
-                "namespace": "default",
-                "uid": "9ab4fb32-e5f9-435f-b4c2-7afc8329be21"
-            },
-            "kind": "Event",
-            "lastTimestamp": "2026-10-24T13:21:35Z",
-            "message": "Suspending existing deployment.",
-            "metadata": {
-                "creationTimestamp": "2026-10-24T13:21:35Z",
-                "name": "JobManagerDeployment.1772875612",
-                "namespace": "default",
-                "resourceVersion": "4312",
-                "uid": "92719c01-9d57-449d-af84-68468aa508f4"
-            },
-            "reason": "Suspended",
-            "reportingComponent": "",
-            "reportingInstance": "",
-            "source": {
-                "component": "JobManagerDeployment"
-            },
-            "type": "Normal"
-        },
-        {
-            "apiVersion": "v1",
-            "count": 1,
-            "eventTime": null,
-            "firstTimestamp": "2026-10-24T13:33:24Z",
-            "involvedObject": {
-                "apiVersion": "flink.apache.org/v1beta1",
-                "kind": "FlinkDeployment",
-                "name": "suspended",
-                "namespace": "default",
-                "uid": "0fc0f707-474f-43be-a19a-4e401ea35ca3"
-            },
-            "kind": "Event",
-            "lastTimestamp": "2026-10-24T13:33:24Z",
-            "message": "UPGRADE change(s) detected (Diff: FlinkDeploymentSpec[job.state : running -\u003e suspended]), starting reconciliation.",
-            "metadata": {
-                "creationTimestamp": "2026-10-24T13:33:24Z",
-                "name": "JobManagerDeployment.192391880",
-                "namespace": "default",
-                "resourceVersion": "6050",
-                "uid": "22960ac0-2646-46d9-8c9d-3a04555fb045"
-            },
-            "reason": "SpecChanged",
-            "reportingComponent": "",
-            "reportingInstance": "",
-            "source": {
-                "component": "JobManagerDeployment"
-            },
-            "type": "Normal"
-        },
-        {
-            "apiVersion": "v1",
-            "count": 1,
-            "eventTime": null,
-            "firstTimestamp": "2026-10-24T13:35:02Z",
-            "involvedObject": {
-                "apiVersion": "flink.apache.org/v1beta1",
-                "kind": "FlinkDeployment",
-                "name": "suspended",
-                "namespace": "default",
-                "uid": "50525505-cfd4-4b72-b25e-3d5619854b78"
-            },
-            "kind": "Event",
-            "lastTimestamp": "2026-10-24T13:35:02Z",
-            "message": "Suspending existing deployment.",
-            "metadata": {
-                "creationTimestamp": "2026-10-24T13:35:02Z",
-                "name": "JobManagerDeployment.194480297",
-                "namespace": "default",
-                "resourceVersion": "6524",
-                "uid": "bfcb4bb6-fc45-42a3-810f-3ab60031467a"
-            },
-            "reason": "Suspended",
-            "reportingComponent": "",
-            "reportingInstance": "",
-            "source": {
-                "component": "JobManagerDeployment"
-            },
-            "type": "Normal"
-        },
-        {
-            "apiVersion": "v1",
-            "count": 1,
-            "eventTime": null,
-            "firstTimestamp": "2026-10-24T13:32:43Z",
-            "involvedObject": {
-                "apiVersion": "flink.apache.org/v1beta1",
-                "kind": "FlinkDeployment",
-                "name": "suspended",
-                "namespace": "default",
-                "uid": "0fc0f707-474f-43be-a19a-4e401ea35ca3"
-            },
-            "kind": "Event",
-            "lastTimestamp": "2026-10-24T13:32:43Z",
+            "lastTimestamp": "2026-10-24T18:00:59Z",
             "message": "Starting deployment",
             "metadata": {
-                "creationTimestamp": "2026-10-24T13:32:43Z",
-                "name": "JobManagerDeployment.2093773837",
+                "creationTimestamp": "2026-10-24T18:00:59Z",
+                "name": "JobManagerDeployment.1162787350",
                 "namespace": "default",
-                "resourceVersion": "5842",
-                "uid": "b7f17026-5ffd-4f19-91ce-e0aae875be73"
+                "resourceVersion": "30637",
+                "uid": "53d393c4-8220-465f-ab91-3026aaecae26"
             },
             "reason": "Submit",
             "reportingComponent": "",
@@ -455,23 +185,23 @@
             "apiVersion": "v1",
             "count": 1,
             "eventTime": null,
-            "firstTimestamp": "2026-10-24T13:21:35Z",
+            "firstTimestamp": "2026-10-24T18:01:36Z",
             "involvedObject": {
                 "apiVersion": "flink.apache.org/v1beta1",
                 "kind": "FlinkDeployment",
                 "name": "suspended",
                 "namespace": "default",
-                "uid": "9ab4fb32-e5f9-435f-b4c2-7afc8329be21"
+                "uid": "884241e1-17fa-4520-9230-5c091c23883f"
             },
             "kind": "Event",
-            "lastTimestamp": "2026-10-24T13:21:35Z",
+            "lastTimestamp": "2026-10-24T18:01:36Z",
             "message": "UPGRADE change(s) detected (Diff: FlinkDeploymentSpec[job.state : running -\u003e suspended]), starting reconciliation.",
             "metadata": {
-                "creationTimestamp": "2026-10-24T13:21:35Z",
-                "name": "JobManagerDeployment.301962097",
+                "creationTimestamp": "2026-10-24T18:01:36Z",
+                "name": "JobManagerDeployment.1408889041",
                 "namespace": "default",
-                "resourceVersion": "4311",
-                "uid": "822cfe37-6142-4a40-b4c5-ba582f8f0f77"
+                "resourceVersion": "30829",
+                "uid": "84a69093-73d5-4e2e-9d39-9e62b6be7626"
             },
             "reason": "SpecChanged",
             "reportingComponent": "",
@@ -485,83 +215,23 @@
             "apiVersion": "v1",
             "count": 1,
             "eventTime": null,
-            "firstTimestamp": "2026-10-24T13:20:54Z",
+            "firstTimestamp": "2026-10-24T18:06:21Z",
             "involvedObject": {
                 "apiVersion": "flink.apache.org/v1beta1",
                 "kind": "FlinkDeployment",
                 "name": "suspended",
                 "namespace": "default",
-                "uid": "9ab4fb32-e5f9-435f-b4c2-7afc8329be21"
+                "uid": "c1394012-8f48-4b7d-8ba6-91ce4c36b2df"
             },
             "kind": "Event",
-            "lastTimestamp": "2026-10-24T13:20:54Z",
-            "message": "Starting deployment",
-            "metadata": {
-                "creationTimestamp": "2026-10-24T13:20:54Z",
-                "name": "JobManagerDeployment.55860406",
-                "namespace": "default",
-                "resourceVersion": "4097",
-                "uid": "a9920c50-603f-488b-a413-b4dac4e3282c"
-            },
-            "reason": "Submit",
-            "reportingComponent": "",
-            "reportingInstance": "",
-            "source": {
-                "component": "JobManagerDeployment"
-            },
-            "type": "Normal"
-        },
-        {
-            "apiVersion": "v1",
-            "count": 1,
-            "eventTime": null,
-            "firstTimestamp": "2026-10-24T13:34:21Z",
-            "involvedObject": {
-                "apiVersion": "flink.apache.org/v1beta1",
-                "kind": "FlinkDeployment",
-                "name": "suspended",
-                "namespace": "default",
-                "uid": "50525505-cfd4-4b72-b25e-3d5619854b78"
-            },
-            "kind": "Event",
-            "lastTimestamp": "2026-10-24T13:34:21Z",
-            "message": "Starting deployment",
-            "metadata": {
-                "creationTimestamp": "2026-10-24T13:34:21Z",
-                "name": "JobManagerDeployment.624948739",
-                "namespace": "default",
-                "resourceVersion": "6321",
-                "uid": "de866b8b-37b6-49f4-8c98-fbfb4c635a55"
-            },
-            "reason": "Submit",
-            "reportingComponent": "",
-            "reportingInstance": "",
-            "source": {
-                "component": "JobManagerDeployment"
-            },
-            "type": "Normal"
-        },
-        {
-            "apiVersion": "v1",
-            "count": 1,
-            "eventTime": null,
-            "firstTimestamp": "2026-10-24T13:24:06Z",
-            "involvedObject": {
-                "apiVersion": "flink.apache.org/v1beta1",
-                "kind": "FlinkDeployment",
-                "name": "suspended",
-                "namespace": "default",
-                "uid": "4109d538-7e2e-4f0a-9520-726f752744b5"
-            },
-            "kind": "Event",
-            "lastTimestamp": "2026-10-24T13:24:06Z",
+            "lastTimestamp": "2026-10-24T18:06:21Z",
             "message": "Suspending existing deployment.",
             "metadata": {
-                "creationTimestamp": "2026-10-24T13:24:06Z",
-                "name": "JobManagerDeployment.812146613",
+                "creationTimestamp": "2026-10-24T18:06:21Z",
+                "name": "JobManagerDeployment.451848233",
                 "namespace": "default",
-                "resourceVersion": "4885",
-                "uid": "d1d04f66-5823-4301-8129-656557038170"
+                "resourceVersion": "31724",
+                "uid": "2b66bc44-da8f-456b-87af-5c84bef86c8f"
             },
             "reason": "Suspended",
             "reportingComponent": "",
@@ -575,25 +245,25 @@
             "apiVersion": "v1",
             "count": 1,
             "eventTime": null,
-            "firstTimestamp": "2026-10-24T13:35:02Z",
+            "firstTimestamp": "2026-10-24T17:55:07Z",
             "involvedObject": {
                 "apiVersion": "flink.apache.org/v1beta1",
                 "kind": "FlinkDeployment",
                 "name": "suspended",
                 "namespace": "default",
-                "uid": "50525505-cfd4-4b72-b25e-3d5619854b78"
+                "uid": "d9eeb75d-8099-4913-87ca-aea7794dcffe"
             },
             "kind": "Event",
-            "lastTimestamp": "2026-10-24T13:35:02Z",
-            "message": "UPGRADE change(s) detected (Diff: FlinkDeploymentSpec[job.state : running -\u003e suspended]), starting reconciliation.",
+            "lastTimestamp": "2026-10-24T17:55:07Z",
+            "message": "Starting deployment",
             "metadata": {
-                "creationTimestamp": "2026-10-24T13:35:02Z",
-                "name": "JobManagerDeployment.871050430",
+                "creationTimestamp": "2026-10-24T17:55:07Z",
+                "name": "JobManagerDeployment.559578659",
                 "namespace": "default",
-                "resourceVersion": "6523",
-                "uid": "3d838d30-931f-4b6c-bc2f-8db25db72107"
+                "resourceVersion": "29555",
+                "uid": "58c36847-62a7-4a5b-9947-def0172d1840"
             },
-            "reason": "SpecChanged",
+            "reason": "Submit",
             "reportingComponent": "",
             "reportingInstance": "",
             "source": {
@@ -605,23 +275,83 @@
             "apiVersion": "v1",
             "count": 1,
             "eventTime": null,
-            "firstTimestamp": "2026-10-24T13:33:30Z",
+            "firstTimestamp": "2026-10-24T18:01:36Z",
             "involvedObject": {
                 "apiVersion": "flink.apache.org/v1beta1",
                 "kind": "FlinkDeployment",
                 "name": "suspended",
                 "namespace": "default",
-                "uid": "0fc0f707-474f-43be-a19a-4e401ea35ca3"
+                "uid": "884241e1-17fa-4520-9230-5c091c23883f"
             },
             "kind": "Event",
-            "lastTimestamp": "2026-10-24T13:33:30Z",
+            "lastTimestamp": "2026-10-24T18:01:36Z",
+            "message": "Suspending existing deployment.",
+            "metadata": {
+                "creationTimestamp": "2026-10-24T18:01:36Z",
+                "name": "JobManagerDeployment.732318908",
+                "namespace": "default",
+                "resourceVersion": "30830",
+                "uid": "0fb498a5-6a58-47eb-bca1-04d0ac9e57e4"
+            },
+            "reason": "Suspended",
+            "reportingComponent": "",
+            "reportingInstance": "",
+            "source": {
+                "component": "JobManagerDeployment"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-24T18:05:35Z",
+            "involvedObject": {
+                "apiVersion": "flink.apache.org/v1beta1",
+                "kind": "FlinkDeployment",
+                "name": "suspended",
+                "namespace": "default",
+                "uid": "c1394012-8f48-4b7d-8ba6-91ce4c36b2df"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-24T18:05:35Z",
+            "message": "Starting deployment",
+            "metadata": {
+                "creationTimestamp": "2026-10-24T18:05:35Z",
+                "name": "JobManagerDeployment.882316675",
+                "namespace": "default",
+                "resourceVersion": "31511",
+                "uid": "d8bfca1f-c0cd-4d02-8d49-4df1158ba20a"
+            },
+            "reason": "Submit",
+            "reportingComponent": "",
+            "reportingInstance": "",
+            "source": {
+                "component": "JobManagerDeployment"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-24T18:00:08Z",
+            "involvedObject": {
+                "apiVersion": "flink.apache.org/v1beta1",
+                "kind": "FlinkDeployment",
+                "name": "suspended",
+                "namespace": "default",
+                "uid": "d9eeb75d-8099-4913-87ca-aea7794dcffe"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-24T18:00:08Z",
             "message": "Cleaning up FlinkDeployment",
             "metadata": {
-                "creationTimestamp": "2026-10-24T13:33:30Z",
-                "name": "Operator.1226845507",
+                "creationTimestamp": "2026-10-24T18:00:08Z",
+                "name": "Operator.1840133977",
                 "namespace": "default",
-                "resourceVersion": "6113",
-                "uid": "72ca5acb-98fc-4244-8452-119e4c67eb1b"
+                "resourceVersion": "30326",
+                "uid": "cfe64140-2fa0-48d9-8092-205c3f860b07"
             },
             "reason": "Cleanup",
             "reportingComponent": "",
@@ -635,23 +365,23 @@
             "apiVersion": "v1",
             "count": 1,
             "eventTime": null,
-            "firstTimestamp": "2026-10-24T13:22:41Z",
+            "firstTimestamp": "2026-10-24T18:01:42Z",
             "involvedObject": {
                 "apiVersion": "flink.apache.org/v1beta1",
                 "kind": "FlinkDeployment",
                 "name": "suspended",
                 "namespace": "default",
-                "uid": "9ab4fb32-e5f9-435f-b4c2-7afc8329be21"
+                "uid": "884241e1-17fa-4520-9230-5c091c23883f"
             },
             "kind": "Event",
-            "lastTimestamp": "2026-10-24T13:22:41Z",
+            "lastTimestamp": "2026-10-24T18:01:42Z",
             "message": "Cleaning up FlinkDeployment",
             "metadata": {
-                "creationTimestamp": "2026-10-24T13:22:41Z",
-                "name": "Operator.1336415724",
+                "creationTimestamp": "2026-10-24T18:01:42Z",
+                "name": "Operator.295859020",
                 "namespace": "default",
-                "resourceVersion": "4485",
-                "uid": "206a070f-419a-4e84-b8e2-6099197641f1"
+                "resourceVersion": "30895",
+                "uid": "774c5e01-4aea-47bd-baf4-7909ca314c75"
             },
             "reason": "Cleanup",
             "reportingComponent": "",
@@ -665,84 +395,24 @@
             "apiVersion": "v1",
             "count": 1,
             "eventTime": null,
-            "firstTimestamp": "2026-10-24T13:25:11Z",
-            "involvedObject": {
-                "apiVersion": "flink.apache.org/v1beta1",
-                "kind": "FlinkDeployment",
-                "name": "suspended",
-                "namespace": "default",
-                "uid": "4109d538-7e2e-4f0a-9520-726f752744b5"
-            },
-            "kind": "Event",
-            "lastTimestamp": "2026-10-24T13:25:11Z",
-            "message": "Cleaning up FlinkDeployment",
-            "metadata": {
-                "creationTimestamp": "2026-10-24T13:25:11Z",
-                "name": "Operator.375686725",
-                "namespace": "default",
-                "resourceVersion": "5056",
-                "uid": "e7ea16c4-ff42-41e5-bf78-93edb466c81f"
-            },
-            "reason": "Cleanup",
-            "reportingComponent": "",
-            "reportingInstance": "",
-            "source": {
-                "component": "Operator"
-            },
-            "type": "Normal"
-        },
-        {
-            "apiVersion": "v1",
-            "count": 1,
-            "eventTime": null,
-            "firstTimestamp": "2026-10-24T13:20:21Z",
-            "involvedObject": {
-                "apiVersion": "flink.apache.org/v1beta1",
-                "kind": "FlinkDeployment",
-                "name": "suspended",
-                "namespace": "default",
-                "uid": "2a1fec05-9007-4726-845d-81f674d17440"
-            },
-            "kind": "Event",
-            "lastTimestamp": "2026-10-24T13:20:21Z",
-            "message": "Cleaning up FlinkDeployment",
-            "metadata": {
-                "creationTimestamp": "2026-10-24T13:20:21Z",
-                "name": "Operator.577365905",
-                "namespace": "default",
-                "resourceVersion": "3925",
-                "uid": "79dee33d-d468-4820-81e1-690cb423c5ba"
-            },
-            "reason": "Cleanup",
-            "reportingComponent": "",
-            "reportingInstance": "",
-            "source": {
-                "component": "Operator"
-            },
-            "type": "Normal"
-        },
-        {
-            "apiVersion": "v1",
-            "count": 1,
-            "eventTime": null,
-            "firstTimestamp": "2026-10-24T13:20:54Z",
+            "firstTimestamp": "2026-10-24T17:55:07Z",
             "involvedObject": {
                 "apiVersion": "apps/v1",
                 "kind": "Deployment",
                 "name": "suspended",
                 "namespace": "default",
-                "resourceVersion": "4115",
-                "uid": "7c01c0f8-518e-4949-8155-b5e8111b1653"
+                "resourceVersion": "29563",
+                "uid": "2215d95b-c7af-447b-8d48-e5398d322f4a"
             },
             "kind": "Event",
-            "lastTimestamp": "2026-10-24T13:20:54Z",
+            "lastTimestamp": "2026-10-24T17:55:07Z",
             "message": "Scaled up replica set suspended-77f9779669 from 0 to 1",
             "metadata": {
-                "creationTimestamp": "2026-10-24T13:20:54Z",
-                "name": "suspended.18e179ce733b4c9e",
+                "creationTimestamp": "2026-10-24T17:55:07Z",
+                "name": "suspended.18e188c53b5c5bc7",
                 "namespace": "default",
-                "resourceVersion": "4117",
-                "uid": "b2ec9573-3f46-47ce-a3a8-89ad34a9f369"
+                "resourceVersion": "29592",
+                "uid": "65321c9d-e221-49e5-b7d7-c8f67fbe5dcd"
             },
             "reason": "ScalingReplicaSet",
             "reportingComponent": "deployment-controller",
@@ -756,24 +426,24 @@
             "apiVersion": "v1",
             "count": 1,
             "eventTime": null,
-            "firstTimestamp": "2026-10-24T13:21:35Z",
+            "firstTimestamp": "2026-10-24T18:00:08Z",
             "involvedObject": {
                 "apiVersion": "apps/v1",
                 "kind": "Deployment",
                 "name": "suspended",
                 "namespace": "default",
-                "resourceVersion": "4313",
-                "uid": "7c01c0f8-518e-4949-8155-b5e8111b1653"
+                "resourceVersion": "30367",
+                "uid": "2215d95b-c7af-447b-8d48-e5398d322f4a"
             },
             "kind": "Event",
-            "lastTimestamp": "2026-10-24T13:21:35Z",
+            "lastTimestamp": "2026-10-24T18:00:08Z",
             "message": "Scaled down replica set suspended-77f9779669 from 1 to 0",
             "metadata": {
-                "creationTimestamp": "2026-10-24T13:21:35Z",
-                "name": "suspended.18e179d7f8e9f103",
+                "creationTimestamp": "2026-10-24T18:00:08Z",
+                "name": "suspended.18e1890b51755a7d",
                 "namespace": "default",
-                "resourceVersion": "4315",
-                "uid": "84a23a1c-1967-454c-bc3c-1f8c27697272"
+                "resourceVersion": "30371",
+                "uid": "c5ac5ccc-fb97-447d-82a1-71ae5a282aa6"
             },
             "reason": "ScalingReplicaSet",
             "reportingComponent": "deployment-controller",
@@ -787,24 +457,24 @@
             "apiVersion": "v1",
             "count": 1,
             "eventTime": null,
-            "firstTimestamp": "2026-10-24T13:23:25Z",
+            "firstTimestamp": "2026-10-24T18:00:59Z",
             "involvedObject": {
                 "apiVersion": "apps/v1",
                 "kind": "Deployment",
                 "name": "suspended",
                 "namespace": "default",
-                "resourceVersion": "4689",
-                "uid": "cca63db3-5ea2-4f52-805b-0ea4aed58595"
+                "resourceVersion": "30640",
+                "uid": "26eb490f-757b-43a2-9053-e3f3486eac3b"
             },
             "kind": "Event",
-            "lastTimestamp": "2026-10-24T13:23:25Z",
+            "lastTimestamp": "2026-10-24T18:00:59Z",
             "message": "Scaled up replica set suspended-77f9779669 from 0 to 1",
             "metadata": {
-                "creationTimestamp": "2026-10-24T13:23:25Z",
-                "name": "suspended.18e179f18fa48fdc",
+                "creationTimestamp": "2026-10-24T18:00:59Z",
+                "name": "suspended.18e189173c0c9643",
                 "namespace": "default",
-                "resourceVersion": "4692",
-                "uid": "38e9562a-6047-4700-b148-97e405ea9ed6"
+                "resourceVersion": "30642",
+                "uid": "53ba7c4f-64b0-46e4-a2fa-b637ee1aedec"
             },
             "reason": "ScalingReplicaSet",
             "reportingComponent": "deployment-controller",
@@ -818,24 +488,24 @@
             "apiVersion": "v1",
             "count": 1,
             "eventTime": null,
-            "firstTimestamp": "2026-10-24T13:24:06Z",
+            "firstTimestamp": "2026-10-24T18:01:36Z",
             "involvedObject": {
                 "apiVersion": "apps/v1",
                 "kind": "Deployment",
                 "name": "suspended",
                 "namespace": "default",
-                "resourceVersion": "4886",
-                "uid": "cca63db3-5ea2-4f52-805b-0ea4aed58595"
+                "resourceVersion": "30831",
+                "uid": "26eb490f-757b-43a2-9053-e3f3486eac3b"
             },
             "kind": "Event",
-            "lastTimestamp": "2026-10-24T13:24:06Z",
+            "lastTimestamp": "2026-10-24T18:01:36Z",
             "message": "Scaled down replica set suspended-77f9779669 from 1 to 0",
             "metadata": {
-                "creationTimestamp": "2026-10-24T13:24:06Z",
-                "name": "suspended.18e179fb19751946",
+                "creationTimestamp": "2026-10-24T18:01:36Z",
+                "name": "suspended.18e1891fcc636fc8",
                 "namespace": "default",
-                "resourceVersion": "4888",
-                "uid": "99044846-d148-4288-a39b-9ed1c990ecd1"
+                "resourceVersion": "30833",
+                "uid": "3f0d6582-d1da-418c-9d0e-c869af9d0fc8"
             },
             "reason": "ScalingReplicaSet",
             "reportingComponent": "deployment-controller",
@@ -849,24 +519,24 @@
             "apiVersion": "v1",
             "count": 1,
             "eventTime": null,
-            "firstTimestamp": "2026-10-24T13:32:43Z",
+            "firstTimestamp": "2026-10-24T18:05:35Z",
             "involvedObject": {
                 "apiVersion": "apps/v1",
                 "kind": "Deployment",
                 "name": "suspended",
                 "namespace": "default",
-                "resourceVersion": "5857",
-                "uid": "99b5bac3-5c58-439c-a078-a5f568423d16"
+                "resourceVersion": "31515",
+                "uid": "eadba596-c405-43a6-95d9-e02864e6ad3f"
             },
             "kind": "Event",
-            "lastTimestamp": "2026-10-24T13:32:43Z",
+            "lastTimestamp": "2026-10-24T18:05:35Z",
             "message": "Scaled up replica set suspended-77f9779669 from 0 to 1",
             "metadata": {
-                "creationTimestamp": "2026-10-24T13:32:43Z",
-                "name": "suspended.18e17a739f21d89b",
+                "creationTimestamp": "2026-10-24T18:05:35Z",
+                "name": "suspended.18e1895770a9b7fc",
                 "namespace": "default",
-                "resourceVersion": "5859",
-                "uid": "3c4bd751-1abb-4ed9-8f99-dd5433aec4d9"
+                "resourceVersion": "31517",
+                "uid": "e7881bd8-b256-40e2-b089-581c8af10146"
             },
             "reason": "ScalingReplicaSet",
             "reportingComponent": "deployment-controller",
@@ -880,86 +550,24 @@
             "apiVersion": "v1",
             "count": 1,
             "eventTime": null,
-            "firstTimestamp": "2026-10-24T13:33:24Z",
+            "firstTimestamp": "2026-10-24T18:06:21Z",
             "involvedObject": {
                 "apiVersion": "apps/v1",
                 "kind": "Deployment",
                 "name": "suspended",
                 "namespace": "default",
-                "resourceVersion": "6052",
-                "uid": "99b5bac3-5c58-439c-a078-a5f568423d16"
+                "resourceVersion": "31725",
+                "uid": "eadba596-c405-43a6-95d9-e02864e6ad3f"
             },
             "kind": "Event",
-            "lastTimestamp": "2026-10-24T13:33:24Z",
+            "lastTimestamp": "2026-10-24T18:06:21Z",
             "message": "Scaled down replica set suspended-77f9779669 from 1 to 0",
             "metadata": {
-                "creationTimestamp": "2026-10-24T13:33:24Z",
-                "name": "suspended.18e17a7d315a95d4",
+                "creationTimestamp": "2026-10-24T18:06:21Z",
+                "name": "suspended.18e18962287f2809",
                 "namespace": "default",
-                "resourceVersion": "6055",
-                "uid": "ecb4fff2-42c6-42db-8a81-e0d4cd9313bf"
-            },
-            "reason": "ScalingReplicaSet",
-            "reportingComponent": "deployment-controller",
-            "reportingInstance": "",
-            "source": {
-                "component": "deployment-controller"
-            },
-            "type": "Normal"
-        },
-        {
-            "apiVersion": "v1",
-            "count": 1,
-            "eventTime": null,
-            "firstTimestamp": "2026-10-24T13:34:21Z",
-            "involvedObject": {
-                "apiVersion": "apps/v1",
-                "kind": "Deployment",
-                "name": "suspended",
-                "namespace": "default",
-                "resourceVersion": "6327",
-                "uid": "53c26bad-f4c7-44f6-93e5-9dd541887748"
-            },
-            "kind": "Event",
-            "lastTimestamp": "2026-10-24T13:34:21Z",
-            "message": "Scaled up replica set suspended-77f9779669 from 0 to 1",
-            "metadata": {
-                "creationTimestamp": "2026-10-24T13:34:21Z",
-                "name": "suspended.18e17a8a6eea76f5",
-                "namespace": "default",
-                "resourceVersion": "6329",
-                "uid": "7e7fe5bf-3333-4d64-a446-dd5b11dfd280"
-            },
-            "reason": "ScalingReplicaSet",
-            "reportingComponent": "deployment-controller",
-            "reportingInstance": "",
-            "source": {
-                "component": "deployment-controller"
-            },
-            "type": "Normal"
-        },
-        {
-            "apiVersion": "v1",
-            "count": 1,
-            "eventTime": null,
-            "firstTimestamp": "2026-10-24T13:35:02Z",
-            "involvedObject": {
-                "apiVersion": "apps/v1",
-                "kind": "Deployment",
-                "name": "suspended",
-                "namespace": "default",
-                "resourceVersion": "6525",
-                "uid": "53c26bad-f4c7-44f6-93e5-9dd541887748"
-            },
-            "kind": "Event",
-            "lastTimestamp": "2026-10-24T13:35:02Z",
-            "message": "Scaled down replica set suspended-77f9779669 from 1 to 0",
-            "metadata": {
-                "creationTimestamp": "2026-10-24T13:35:02Z",
-                "name": "suspended.18e17a93ff02d1e0",
-                "namespace": "default",
-                "resourceVersion": "6528",
-                "uid": "d7fddfac-14b5-45cd-abea-27003d18a036"
+                "resourceVersion": "31727",
+                "uid": "b0535841-195d-44ec-a7c7-ceaaedef2caf"
             },
             "reason": "ScalingReplicaSet",
             "reportingComponent": "deployment-controller",

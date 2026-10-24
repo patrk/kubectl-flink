@@ -1,0 +1,736 @@
+{
+    "apiVersion": "v1",
+    "items": [
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-24T17:55:07Z",
+            "involvedObject": {
+                "apiVersion": "flink.apache.org/v1beta1",
+                "kind": "FlinkDeployment",
+                "name": "missing-jar",
+                "namespace": "default",
+                "uid": "d94104bd-3397-4095-8073-dd5a81778096"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-24T17:55:07Z",
+            "message": "Starting deployment",
+            "metadata": {
+                "creationTimestamp": "2026-10-24T17:55:07Z",
+                "name": "JobManagerDeployment.1065110171",
+                "namespace": "default",
+                "resourceVersion": "29550",
+                "uid": "e9025adb-9d9b-4abb-b0d3-1a9939545e45"
+            },
+            "reason": "Submit",
+            "reportingComponent": "",
+            "reportingInstance": "",
+            "source": {
+                "component": "JobManagerDeployment"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-24T18:09:08Z",
+            "involvedObject": {
+                "apiVersion": "flink.apache.org/v1beta1",
+                "kind": "FlinkDeployment",
+                "name": "missing-jar",
+                "namespace": "default",
+                "uid": "083cc91c-3d1a-4e27-8323-32276861888b"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-24T18:09:08Z",
+            "message": "[flink-main-container] back-off 10s restarting failed container=flink-main-container pod=missing-jar-597b458676-jxzgb_default(197c73ba-c88e-4b85-b5f2-5f62dc071545)",
+            "metadata": {
+                "creationTimestamp": "2026-10-24T18:09:08Z",
+                "name": "JobManagerDeployment.1158431961",
+                "namespace": "default",
+                "resourceVersion": "32420",
+                "uid": "11ed6067-c53f-4d35-91b9-5a3fe0daf839"
+            },
+            "reason": "CrashLoopBackOff",
+            "reportingComponent": "",
+            "reportingInstance": "",
+            "source": {
+                "component": "JobManagerDeployment"
+            },
+            "type": "Warning"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-24T18:09:28Z",
+            "involvedObject": {
+                "apiVersion": "flink.apache.org/v1beta1",
+                "kind": "FlinkDeployment",
+                "name": "missing-jar",
+                "namespace": "default",
+                "uid": "083cc91c-3d1a-4e27-8323-32276861888b"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-24T18:09:28Z",
+            "message": "[flink-main-container] back-off 20s restarting failed container=flink-main-container pod=missing-jar-597b458676-jxzgb_default(197c73ba-c88e-4b85-b5f2-5f62dc071545)",
+            "metadata": {
+                "creationTimestamp": "2026-10-24T18:09:28Z",
+                "name": "JobManagerDeployment.1265240504",
+                "namespace": "default",
+                "resourceVersion": "32478",
+                "uid": "1082f39e-bb8c-43fc-be04-9d3d47a2230a"
+            },
+            "reason": "CrashLoopBackOff",
+            "reportingComponent": "",
+            "reportingInstance": "",
+            "source": {
+                "component": "JobManagerDeployment"
+            },
+            "type": "Warning"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-24T17:55:27Z",
+            "involvedObject": {
+                "apiVersion": "flink.apache.org/v1beta1",
+                "kind": "FlinkDeployment",
+                "name": "missing-jar",
+                "namespace": "default",
+                "uid": "d94104bd-3397-4095-8073-dd5a81778096"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-24T17:55:27Z",
+            "message": "[flink-main-container] back-off 10s restarting failed container=flink-main-container pod=missing-jar-6dcbb6c8fc-wnmpk_default(1201fceb-0f0e-4543-a799-3d381a629fdc)",
+            "metadata": {
+                "creationTimestamp": "2026-10-24T17:55:27Z",
+                "name": "JobManagerDeployment.141455029",
+                "namespace": "default",
+                "resourceVersion": "29798",
+                "uid": "e94934ec-2210-4215-a775-fa9665b51ca5"
+            },
+            "reason": "CrashLoopBackOff",
+            "reportingComponent": "",
+            "reportingInstance": "",
+            "source": {
+                "component": "JobManagerDeployment"
+            },
+            "type": "Warning"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-24T18:00:59Z",
+            "involvedObject": {
+                "apiVersion": "flink.apache.org/v1beta1",
+                "kind": "FlinkDeployment",
+                "name": "missing-jar",
+                "namespace": "default",
+                "uid": "121e89bf-becf-46e1-8d58-e2cf88b74d77"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-24T18:00:59Z",
+            "message": "Starting deployment",
+            "metadata": {
+                "creationTimestamp": "2026-10-24T18:00:59Z",
+                "name": "JobManagerDeployment.1473773451",
+                "namespace": "default",
+                "resourceVersion": "30609",
+                "uid": "da4231a8-ce1a-4b31-96d8-7528c3c98393"
+            },
+            "reason": "Submit",
+            "reportingComponent": "",
+            "reportingInstance": "",
+            "source": {
+                "component": "JobManagerDeployment"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-24T17:57:12Z",
+            "involvedObject": {
+                "apiVersion": "flink.apache.org/v1beta1",
+                "kind": "FlinkDeployment",
+                "name": "missing-jar",
+                "namespace": "default",
+                "uid": "d94104bd-3397-4095-8073-dd5a81778096"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-24T17:57:12Z",
+            "message": "[flink-main-container] back-off 1m20s restarting failed container=flink-main-container pod=missing-jar-6dcbb6c8fc-wnmpk_default(1201fceb-0f0e-4543-a799-3d381a629fdc)",
+            "metadata": {
+                "creationTimestamp": "2026-10-24T17:57:12Z",
+                "name": "JobManagerDeployment.1738927856",
+                "namespace": "default",
+                "resourceVersion": "30027",
+                "uid": "b5ae72fc-6cdd-4205-b913-7b7130671c83"
+            },
+            "reason": "CrashLoopBackOff",
+            "reportingComponent": "",
+            "reportingInstance": "",
+            "source": {
+                "component": "JobManagerDeployment"
+            },
+            "type": "Warning"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-24T18:05:50Z",
+            "involvedObject": {
+                "apiVersion": "flink.apache.org/v1beta1",
+                "kind": "FlinkDeployment",
+                "name": "missing-jar",
+                "namespace": "default",
+                "uid": "aa2dbd06-a705-401f-929d-547e65bf8365"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-24T18:05:50Z",
+            "message": "[flink-main-container] back-off 10s restarting failed container=flink-main-container pod=missing-jar-6dcbb6c8fc-5s85h_default(269af4bd-05e9-4dda-8278-a5fcc1518d42)",
+            "metadata": {
+                "creationTimestamp": "2026-10-24T18:05:50Z",
+                "name": "JobManagerDeployment.189436008",
+                "namespace": "default",
+                "resourceVersion": "31644",
+                "uid": "5844b53f-34b9-4f45-a3f1-2ff3fb956ab9"
+            },
+            "reason": "CrashLoopBackOff",
+            "reportingComponent": "",
+            "reportingInstance": "",
+            "source": {
+                "component": "JobManagerDeployment"
+            },
+            "type": "Warning"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-24T18:08:28Z",
+            "involvedObject": {
+                "apiVersion": "flink.apache.org/v1beta1",
+                "kind": "FlinkDeployment",
+                "name": "missing-jar",
+                "namespace": "default",
+                "uid": "083cc91c-3d1a-4e27-8323-32276861888b"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-24T18:08:28Z",
+            "message": "Starting deployment",
+            "metadata": {
+                "creationTimestamp": "2026-10-24T18:08:28Z",
+                "name": "JobManagerDeployment.196085223",
+                "namespace": "default",
+                "resourceVersion": "32182",
+                "uid": "d9361e14-4e3b-4b99-b710-b17d1aa5b505"
+            },
+            "reason": "Submit",
+            "reportingComponent": "",
+            "reportingInstance": "",
+            "source": {
+                "component": "JobManagerDeployment"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-24T17:55:47Z",
+            "involvedObject": {
+                "apiVersion": "flink.apache.org/v1beta1",
+                "kind": "FlinkDeployment",
+                "name": "missing-jar",
+                "namespace": "default",
+                "uid": "d94104bd-3397-4095-8073-dd5a81778096"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-24T17:55:47Z",
+            "message": "[flink-main-container] back-off 20s restarting failed container=flink-main-container pod=missing-jar-6dcbb6c8fc-wnmpk_default(1201fceb-0f0e-4543-a799-3d381a629fdc)",
+            "metadata": {
+                "creationTimestamp": "2026-10-24T17:55:47Z",
+                "name": "JobManagerDeployment.248263572",
+                "namespace": "default",
+                "resourceVersion": "29855",
+                "uid": "e2ebd7ea-0c60-493e-b08e-537656fe4ba9"
+            },
+            "reason": "CrashLoopBackOff",
+            "reportingComponent": "",
+            "reportingInstance": "",
+            "source": {
+                "component": "JobManagerDeployment"
+            },
+            "type": "Warning"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-24T18:06:10Z",
+            "involvedObject": {
+                "apiVersion": "flink.apache.org/v1beta1",
+                "kind": "FlinkDeployment",
+                "name": "missing-jar",
+                "namespace": "default",
+                "uid": "aa2dbd06-a705-401f-929d-547e65bf8365"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-24T18:06:10Z",
+            "message": "[flink-main-container] back-off 20s restarting failed container=flink-main-container pod=missing-jar-6dcbb6c8fc-5s85h_default(269af4bd-05e9-4dda-8278-a5fcc1518d42)",
+            "metadata": {
+                "creationTimestamp": "2026-10-24T18:06:10Z",
+                "name": "JobManagerDeployment.296244551",
+                "namespace": "default",
+                "resourceVersion": "31698",
+                "uid": "00f10b6c-7fb9-4a0a-8305-d07d8958c204"
+            },
+            "reason": "CrashLoopBackOff",
+            "reportingComponent": "",
+            "reportingInstance": "",
+            "source": {
+                "component": "JobManagerDeployment"
+            },
+            "type": "Warning"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-24T18:05:35Z",
+            "involvedObject": {
+                "apiVersion": "flink.apache.org/v1beta1",
+                "kind": "FlinkDeployment",
+                "name": "missing-jar",
+                "namespace": "default",
+                "uid": "aa2dbd06-a705-401f-929d-547e65bf8365"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-24T18:05:35Z",
+            "message": "Starting deployment",
+            "metadata": {
+                "creationTimestamp": "2026-10-24T18:05:35Z",
+                "name": "JobManagerDeployment.302942553",
+                "namespace": "default",
+                "resourceVersion": "31464",
+                "uid": "4500a62e-18a3-462d-a949-8a310a837269"
+            },
+            "reason": "Submit",
+            "reportingComponent": "",
+            "reportingInstance": "",
+            "source": {
+                "component": "JobManagerDeployment"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-24T17:56:22Z",
+            "involvedObject": {
+                "apiVersion": "flink.apache.org/v1beta1",
+                "kind": "FlinkDeployment",
+                "name": "missing-jar",
+                "namespace": "default",
+                "uid": "d94104bd-3397-4095-8073-dd5a81778096"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-24T17:56:22Z",
+            "message": "[flink-main-container] back-off 40s restarting failed container=flink-main-container pod=missing-jar-6dcbb6c8fc-wnmpk_default(1201fceb-0f0e-4543-a799-3d381a629fdc)",
+            "metadata": {
+                "creationTimestamp": "2026-10-24T17:56:22Z",
+                "name": "JobManagerDeployment.461880658",
+                "namespace": "default",
+                "resourceVersion": "29932",
+                "uid": "cf9ec5f9-239a-407f-86df-efa352931012"
+            },
+            "reason": "CrashLoopBackOff",
+            "reportingComponent": "",
+            "reportingInstance": "",
+            "source": {
+                "component": "JobManagerDeployment"
+            },
+            "type": "Warning"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-24T18:01:19Z",
+            "involvedObject": {
+                "apiVersion": "flink.apache.org/v1beta1",
+                "kind": "FlinkDeployment",
+                "name": "missing-jar",
+                "namespace": "default",
+                "uid": "121e89bf-becf-46e1-8d58-e2cf88b74d77"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-24T18:01:19Z",
+            "message": "[flink-main-container] back-off 10s restarting failed container=flink-main-container pod=missing-jar-6dcbb6c8fc-n7lqw_default(da078dd9-6515-441a-b522-bec505aba3df)",
+            "metadata": {
+                "creationTimestamp": "2026-10-24T18:01:19Z",
+                "name": "JobManagerDeployment.517012978",
+                "namespace": "default",
+                "resourceVersion": "30777",
+                "uid": "58e676d3-7ab8-4574-849d-69d42271a262"
+            },
+            "reason": "CrashLoopBackOff",
+            "reportingComponent": "",
+            "reportingInstance": "",
+            "source": {
+                "component": "JobManagerDeployment"
+            },
+            "type": "Warning"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-24T18:01:39Z",
+            "involvedObject": {
+                "apiVersion": "flink.apache.org/v1beta1",
+                "kind": "FlinkDeployment",
+                "name": "missing-jar",
+                "namespace": "default",
+                "uid": "121e89bf-becf-46e1-8d58-e2cf88b74d77"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-24T18:01:39Z",
+            "message": "[flink-main-container] back-off 20s restarting failed container=flink-main-container pod=missing-jar-6dcbb6c8fc-n7lqw_default(da078dd9-6515-441a-b522-bec505aba3df)",
+            "metadata": {
+                "creationTimestamp": "2026-10-24T18:01:39Z",
+                "name": "JobManagerDeployment.623821521",
+                "namespace": "default",
+                "resourceVersion": "30884",
+                "uid": "c922923c-ff4e-4bfc-aa44-c7058216d52a"
+            },
+            "reason": "CrashLoopBackOff",
+            "reportingComponent": "",
+            "reportingInstance": "",
+            "source": {
+                "component": "JobManagerDeployment"
+            },
+            "type": "Warning"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-24T18:00:08Z",
+            "involvedObject": {
+                "apiVersion": "flink.apache.org/v1beta1",
+                "kind": "FlinkDeployment",
+                "name": "missing-jar",
+                "namespace": "default",
+                "uid": "d94104bd-3397-4095-8073-dd5a81778096"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-24T18:00:08Z",
+            "message": "Cleaning up FlinkDeployment",
+            "metadata": {
+                "creationTimestamp": "2026-10-24T18:00:08Z",
+                "name": "Operator.1170640465",
+                "namespace": "default",
+                "resourceVersion": "30325",
+                "uid": "3c83eb08-09d3-4695-ba3c-e2443b4d179c"
+            },
+            "reason": "Cleanup",
+            "reportingComponent": "",
+            "reportingInstance": "",
+            "source": {
+                "component": "Operator"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-24T18:01:42Z",
+            "involvedObject": {
+                "apiVersion": "flink.apache.org/v1beta1",
+                "kind": "FlinkDeployment",
+                "name": "missing-jar",
+                "namespace": "default",
+                "uid": "121e89bf-becf-46e1-8d58-e2cf88b74d77"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-24T18:01:42Z",
+            "message": "Cleaning up FlinkDeployment",
+            "metadata": {
+                "creationTimestamp": "2026-10-24T18:01:42Z",
+                "name": "Operator.1579303745",
+                "namespace": "default",
+                "resourceVersion": "30893",
+                "uid": "20eb5c7a-4f09-4fab-9a0e-5511a4e5c81e"
+            },
+            "reason": "Cleanup",
+            "reportingComponent": "",
+            "reportingInstance": "",
+            "source": {
+                "component": "Operator"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-24T18:06:37Z",
+            "involvedObject": {
+                "apiVersion": "flink.apache.org/v1beta1",
+                "kind": "FlinkDeployment",
+                "name": "missing-jar",
+                "namespace": "default",
+                "uid": "aa2dbd06-a705-401f-929d-547e65bf8365"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-24T18:06:37Z",
+            "message": "Cleaning up FlinkDeployment",
+            "metadata": {
+                "creationTimestamp": "2026-10-24T18:06:37Z",
+                "name": "Operator.408472847",
+                "namespace": "default",
+                "resourceVersion": "31807",
+                "uid": "cb0a041b-0958-45d1-a55f-6a9051c55d0c"
+            },
+            "reason": "Cleanup",
+            "reportingComponent": "",
+            "reportingInstance": "",
+            "source": {
+                "component": "Operator"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-24T17:55:07Z",
+            "involvedObject": {
+                "apiVersion": "apps/v1",
+                "kind": "Deployment",
+                "name": "missing-jar",
+                "namespace": "default",
+                "resourceVersion": "29561",
+                "uid": "78c34866-fade-4281-9c3b-078ced542ca2"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-24T17:55:07Z",
+            "message": "Scaled up replica set missing-jar-6dcbb6c8fc from 0 to 1",
+            "metadata": {
+                "creationTimestamp": "2026-10-24T17:55:07Z",
+                "name": "missing-jar.18e188c53b2c5b0b",
+                "namespace": "default",
+                "resourceVersion": "29583",
+                "uid": "d99751d5-46aa-4aa8-8f99-47694d448f5b"
+            },
+            "reason": "ScalingReplicaSet",
+            "reportingComponent": "deployment-controller",
+            "reportingInstance": "",
+            "source": {
+                "component": "deployment-controller"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-24T18:00:08Z",
+            "involvedObject": {
+                "apiVersion": "apps/v1",
+                "kind": "Deployment",
+                "name": "missing-jar",
+                "namespace": "default",
+                "resourceVersion": "30328",
+                "uid": "78c34866-fade-4281-9c3b-078ced542ca2"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-24T18:00:08Z",
+            "message": "Scaled down replica set missing-jar-6dcbb6c8fc from 1 to 0",
+            "metadata": {
+                "creationTimestamp": "2026-10-24T18:00:08Z",
+                "name": "missing-jar.18e1890b48a940ba",
+                "namespace": "default",
+                "resourceVersion": "30348",
+                "uid": "f5d98083-f361-4b31-aa6f-6f7775ed6501"
+            },
+            "reason": "ScalingReplicaSet",
+            "reportingComponent": "deployment-controller",
+            "reportingInstance": "",
+            "source": {
+                "component": "deployment-controller"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-24T18:00:59Z",
+            "involvedObject": {
+                "apiVersion": "apps/v1",
+                "kind": "Deployment",
+                "name": "missing-jar",
+                "namespace": "default",
+                "resourceVersion": "30612",
+                "uid": "97172c6c-9121-4bc9-ba61-3d431bd21455"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-24T18:00:59Z",
+            "message": "Scaled up replica set missing-jar-6dcbb6c8fc from 0 to 1",
+            "metadata": {
+                "creationTimestamp": "2026-10-24T18:00:59Z",
+                "name": "missing-jar.18e1891733be2712",
+                "namespace": "default",
+                "resourceVersion": "30614",
+                "uid": "ea190528-7354-4c34-b490-fd42784f59b8"
+            },
+            "reason": "ScalingReplicaSet",
+            "reportingComponent": "deployment-controller",
+            "reportingInstance": "",
+            "source": {
+                "component": "deployment-controller"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-24T18:01:42Z",
+            "involvedObject": {
+                "apiVersion": "apps/v1",
+                "kind": "Deployment",
+                "name": "missing-jar",
+                "namespace": "default",
+                "resourceVersion": "30897",
+                "uid": "97172c6c-9121-4bc9-ba61-3d431bd21455"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-24T18:01:42Z",
+            "message": "Scaled down replica set missing-jar-6dcbb6c8fc from 1 to 0",
+            "metadata": {
+                "creationTimestamp": "2026-10-24T18:01:42Z",
+                "name": "missing-jar.18e189212a8c30ff",
+                "namespace": "default",
+                "resourceVersion": "30901",
+                "uid": "8b346bf8-df95-4303-baa4-31b09f12d15c"
+            },
+            "reason": "ScalingReplicaSet",
+            "reportingComponent": "deployment-controller",
+            "reportingInstance": "",
+            "source": {
+                "component": "deployment-controller"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-24T18:05:35Z",
+            "involvedObject": {
+                "apiVersion": "apps/v1",
+                "kind": "Deployment",
+                "name": "missing-jar",
+                "namespace": "default",
+                "resourceVersion": "31484",
+                "uid": "5dc316f3-015d-4bdd-b95e-f54a05caa987"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-24T18:05:35Z",
+            "message": "Scaled up replica set missing-jar-6dcbb6c8fc from 0 to 1",
+            "metadata": {
+                "creationTimestamp": "2026-10-24T18:05:35Z",
+                "name": "missing-jar.18e189576b59b921",
+                "namespace": "default",
+                "resourceVersion": "31492",
+                "uid": "01192d7a-6125-4da3-ad77-028cb783aa99"
+            },
+            "reason": "ScalingReplicaSet",
+            "reportingComponent": "deployment-controller",
+            "reportingInstance": "",
+            "source": {
+                "component": "deployment-controller"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-24T18:06:37Z",
+            "involvedObject": {
+                "apiVersion": "apps/v1",
+                "kind": "Deployment",
+                "name": "missing-jar",
+                "namespace": "default",
+                "resourceVersion": "31810",
+                "uid": "5dc316f3-015d-4bdd-b95e-f54a05caa987"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-24T18:06:37Z",
+            "message": "Scaled down replica set missing-jar-6dcbb6c8fc from 1 to 0",
+            "metadata": {
+                "creationTimestamp": "2026-10-24T18:06:37Z",
+                "name": "missing-jar.18e18965d9505c5f",
+                "namespace": "default",
+                "resourceVersion": "31817",
+                "uid": "2b5a1de0-4e84-46c1-96de-e2163aabc773"
+            },
+            "reason": "ScalingReplicaSet",
+            "reportingComponent": "deployment-controller",
+            "reportingInstance": "",
+            "source": {
+                "component": "deployment-controller"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-24T18:08:28Z",
+            "involvedObject": {
+                "apiVersion": "apps/v1",
+                "kind": "Deployment",
+                "name": "missing-jar",
+                "namespace": "default",
+                "resourceVersion": "32203",
+                "uid": "a67994db-7c57-4ff6-9d25-9a4288392b20"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-24T18:08:28Z",
+            "message": "Scaled up replica set missing-jar-597b458676 from 0 to 1",
+            "metadata": {
+                "creationTimestamp": "2026-10-24T18:08:28Z",
+                "name": "missing-jar.18e1897fd0c379e9",
+                "namespace": "default",
+                "resourceVersion": "32206",
+                "uid": "9f2b34f1-5a67-4a12-9cb5-44fba379d0ea"
+            },
+            "reason": "ScalingReplicaSet",
+            "reportingComponent": "deployment-controller",
+            "reportingInstance": "",
+            "source": {
+                "component": "deployment-controller"
+            },
+            "type": "Normal"
+        }
+    ],
+    "kind": "List",
+    "metadata": {
+        "resourceVersion": ""
+    }
+}

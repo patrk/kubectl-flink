@@ -100,38 +100,41 @@ func (lo *lsOptions) validate() error {
 	return nil
 }
 
-func (lo *lsOptions) sources() ([]fleet.Source, model.Thresholds, error) {
-	cs, err := kube.NewContexts(lo.ConfigFlags)
+// sources reads the kubeconfig and the profile and builds a client per scope.
+func (o *Options) sources(allNamespaces bool) ([]fleet.Source, *profile.Profile, error) {
+	cs, err := kube.NewContexts(o.ConfigFlags)
 	if err != nil {
-		return nil, model.Thresholds{}, err
+		return nil, nil, err
 	}
 	path, err := profile.Path()
 	if err != nil {
-		return nil, model.Thresholds{}, err
+		return nil, nil, err
 	}
 	file, err := profile.Load(path)
 	if err != nil {
-		return nil, model.Thresholds{}, err
+		return nil, nil, err
 	}
 	p := file.For(cs.Current())
-	fl := profile.Flags{AllNamespaces: lo.allNamespaces}
-	if c := lo.ConfigFlags.Context; c != nil {
+	fl := profile.Flags{AllNamespaces: allNamespaces}
+	if c := o.ConfigFlags.Context; c != nil {
 		fl.Context = *c
 	}
-	if n := lo.ConfigFlags.Namespace; n != nil {
+	if n := o.ConfigFlags.Namespace; n != nil {
 		fl.Namespace = *n
 	}
-	return fleet.Sources(cs, p.Resolve(cs.Current(), fl)), p.Thresholds(), nil
+	return fleet.Sources(cs, p.Resolve(cs.Current(), fl)), &p, nil
 }
 
 func (lo *lsOptions) run(ctx context.Context) error {
 	if ctx == nil {
 		ctx = context.Background()
 	}
-	srcs, th, err := lo.sources()
+	srcs, prof, err := lo.sources(lo.allNamespaces)
 	if err != nil {
 		return err
 	}
+	th := prof.Thresholds()
+	lo.filter.IDLabels = prof.IDLabels
 	if lo.watch {
 		return lo.runWatch(ctx, srcs, th)
 	}

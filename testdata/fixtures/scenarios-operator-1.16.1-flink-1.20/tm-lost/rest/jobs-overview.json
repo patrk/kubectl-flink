@@ -1,0 +1,1 @@
+{"jobs":[{"jid":"70b2e07e08d9d8ff1bf5f7f04f8f11c5","name":"State machine job","start-time":1792865407725,"end-time":-1,"duration":98720,"state":"RUNNING","last-modification":1792865489770,"tasks":{"running":2,"canceling":0,"canceled":0,"total":2,"created":0,"scheduled":0,"deploying":0,"reconciling":0,"finished":0,"initializing":0,"failed":0}}]}

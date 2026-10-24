@@ -37,7 +37,7 @@ save() {
   k get events --field-selector "involvedObject.name=$1" -o json > "$OUT/$1/events-cr.json"
 }
 
-trap 'k delete flinkdeployment bad-image missing-jar suspended --ignore-not-found --wait=false >/dev/null' EXIT
+trap 'k delete flinkdeployment bad-image missing-jar suspended tm-lost --ignore-not-found --wait=false >/dev/null' EXIT
 
 deploy bad-image -e "s|image: flink:.*|image: flink:does-not-exist|"
 deploy missing-jar -e "s|jarURI: .*|jarURI: local:///opt/flink/does-not-exist.jar|"
@@ -54,4 +54,15 @@ save bad-image
 wait_pod missing-jar 'CrashLoopBackOff'
 wait_for missing-jar '{.status.jobManagerDeploymentStatus}' '^ERROR$' 300
 save missing-jar
+# A lost TaskManager: the job restarts, and the exception history and checkpoints show it. It runs alone, after
+# the others are gone, because each cluster requests 2 GiB and a kind node has little more than 8.
+k delete flinkdeployment bad-image missing-jar suspended --wait=true --timeout=120s
+# Checkpoints every 10 s, so that the restart after the lost TaskManager restores from one.
+deploy tm-lost -e 's|    taskmanager.numberOfTaskSlots: "1"|    taskmanager.numberOfTaskSlots: "1"\n    execution.checkpointing.interval: 10s|'
+wait_for tm-lost '{.status.lifecycleState}/{.status.jobStatus.state}' '^STABLE/RUNNING$' 300
+sleep 30 # a few checkpoints first
+k delete pod -l app=tm-lost,component=taskmanager --wait=false
+wait_for tm-lost '{.status.jobStatus.state}' '^(RESTARTING|INITIALIZING|CREATED)$' 120 || true
+wait_for tm-lost '{.status.jobStatus.state}' '^RUNNING$' 300
+REQUIRE_EXCEPTIONS=1 KUBE_CONTEXT=$KUBE_CONTEXT OUT=$OUT/tm-lost hack/capture-fixtures.sh tm-lost
 echo "scenarios in $OUT"

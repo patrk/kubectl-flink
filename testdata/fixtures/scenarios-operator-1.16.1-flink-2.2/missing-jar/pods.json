@@ -8,7 +8,7 @@
                 "annotations": {
                     "flinkdeployment.flink.apache.org/generation": "1"
                 },
-                "creationTimestamp": "2026-10-24T13:34:21Z",
+                "creationTimestamp": "2026-10-24T18:05:35Z",
                 "generateName": "missing-jar-6dcbb6c8fc-",
                 "generation": 1,
                 "labels": {
@@ -17,7 +17,7 @@
                     "pod-template-hash": "6dcbb6c8fc",
                     "type": "flink-native-kubernetes"
                 },
-                "name": "missing-jar-6dcbb6c8fc-6hskd",
+                "name": "missing-jar-6dcbb6c8fc-5s85h",
                 "namespace": "default",
                 "ownerReferences": [
                     {
@@ -26,11 +26,11 @@
                         "controller": true,
                         "kind": "ReplicaSet",
                         "name": "missing-jar-6dcbb6c8fc",
-                        "uid": "be38dc45-3cfa-4c05-9fff-4714af77f35c"
+                        "uid": "297da9c1-362b-4832-b5a0-a1f3ceb857a5"
                     }
                 ],
-                "resourceVersion": "6500",
-                "uid": "7964d7a8-79ec-4dd7-853a-8d6f353e6241"
+                "resourceVersion": "31798",
+                "uid": "269af4bd-05e9-4dda-8278-a5fcc1518d42"
             },
             "spec": {
                 "containers": [
@@ -108,7 +108,7 @@
                             },
                             {
                                 "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
-                                "name": "kube-api-access-mwh2v",
+                                "name": "kube-api-access-fk4dn",
                                 "readOnly": true
                             }
                         ]
@@ -162,7 +162,7 @@
                         "name": "flink-config-volume"
                     },
                     {
-                        "name": "kube-api-access-mwh2v",
+                        "name": "kube-api-access-fk4dn",
                         "projected": {
                             "defaultMode": 420,
                             "sources": [
@@ -209,21 +209,21 @@
                 "conditions": [
                     {
                         "lastProbeTime": null,
-                        "lastTransitionTime": "2026-10-24T13:34:21Z",
+                        "lastTransitionTime": "2026-10-24T18:05:35Z",
                         "observedGeneration": 1,
                         "status": "True",
                         "type": "PodReadyToStartContainers"
                     },
                     {
                         "lastProbeTime": null,
-                        "lastTransitionTime": "2026-10-24T13:34:21Z",
+                        "lastTransitionTime": "2026-10-24T18:05:35Z",
                         "observedGeneration": 1,
                         "status": "True",
                         "type": "Initialized"
                     },
                     {
                         "lastProbeTime": null,
-                        "lastTransitionTime": "2026-10-24T13:34:21Z",
+                        "lastTransitionTime": "2026-10-24T18:05:35Z",
                         "message": "containers with unready status: [flink-main-container]",
                         "observedGeneration": 1,
                         "reason": "ContainersNotReady",
@@ -232,7 +232,7 @@
                     },
                     {
                         "lastProbeTime": null,
-                        "lastTransitionTime": "2026-10-24T13:34:21Z",
+                        "lastTransitionTime": "2026-10-24T18:05:35Z",
                         "message": "containers with unready status: [flink-main-container]",
                         "observedGeneration": 1,
                         "reason": "ContainersNotReady",
@@ -241,7 +241,7 @@
                     },
                     {
                         "lastProbeTime": null,
-                        "lastTransitionTime": "2026-10-24T13:34:21Z",
+                        "lastTransitionTime": "2026-10-24T18:05:35Z",
                         "observedGeneration": 1,
                         "status": "True",
                         "type": "PodScheduled"
@@ -253,16 +253,16 @@
                             "cpu": "500m",
                             "memory": "1Gi"
                         },
-                        "containerID": "containerd://11138f9a9e97506f778383aca721727c23c9fc2013f29e4909ead188f66d46a2",
+                        "containerID": "containerd://4daec5554b5f1ee4d29089078d092430fb96469cec3d241326ed4c40af5f4a14",
                         "image": "docker.io/library/flink:2.2",
                         "imageID": "docker.io/library/flink@sha256:c5124717afe3829cc2d7c9b538bfe0b9d66cae3107a174d8f0e0392abe6375b8",
                         "lastState": {
                             "terminated": {
-                                "containerID": "containerd://11138f9a9e97506f778383aca721727c23c9fc2013f29e4909ead188f66d46a2",
+                                "containerID": "containerd://4daec5554b5f1ee4d29089078d092430fb96469cec3d241326ed4c40af5f4a14",
                                 "exitCode": 1,
-                                "finishedAt": "2026-10-24T13:34:51Z",
+                                "finishedAt": "2026-10-24T18:06:31Z",
                                 "reason": "Error",
-                                "startedAt": "2026-10-24T13:34:46Z"
+                                "startedAt": "2026-10-24T18:06:26Z"
                             }
                         },
                         "name": "flink-main-container",
@@ -277,11 +277,11 @@
                                 "memory": "1Gi"
                             }
                         },
-                        "restartCount": 2,
+                        "restartCount": 3,
                         "started": false,
                         "state": {
                             "waiting": {
-                                "message": "back-off 20s restarting failed container=flink-main-container pod=missing-jar-6dcbb6c8fc-6hskd_default(7964d7a8-79ec-4dd7-853a-8d6f353e6241)",
+                                "message": "back-off 40s restarting failed container=flink-main-container pod=missing-jar-6dcbb6c8fc-5s85h_default(269af4bd-05e9-4dda-8278-a5fcc1518d42)",
                                 "reason": "CrashLoopBackOff"
                             }
                         },
@@ -305,7 +305,7 @@
                             },
                             {
                                 "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
-                                "name": "kube-api-access-mwh2v",
+                                "name": "kube-api-access-fk4dn",
                                 "readOnly": true,
                                 "recursiveReadOnly": "Disabled"
                             }
@@ -320,10 +320,10 @@
                 ],
                 "observedGeneration": 1,
                 "phase": "Running",
-                "podIP": "10.244.0.25",
+                "podIP": "10.244.0.42",
                 "podIPs": [
                     {
-                        "ip": "10.244.0.25"
+                        "ip": "10.244.0.42"
                     }
                 ],
                 "qosClass": "Guaranteed",
@@ -337,7 +337,7 @@
                         "memory": "1Gi"
                     }
                 },
-                "startTime": "2026-10-24T13:34:21Z"
+                "startTime": "2026-10-24T18:05:35Z"
             }
         }
     ],

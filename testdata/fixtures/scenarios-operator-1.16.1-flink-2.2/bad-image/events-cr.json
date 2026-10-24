@@ -5,83 +5,23 @@
             "apiVersion": "v1",
             "count": 1,
             "eventTime": null,
-            "firstTimestamp": "2026-10-24T13:34:26Z",
+            "firstTimestamp": "2026-10-24T18:00:59Z",
             "involvedObject": {
                 "apiVersion": "flink.apache.org/v1beta1",
                 "kind": "FlinkDeployment",
                 "name": "bad-image",
                 "namespace": "default",
-                "uid": "5f252dfa-254a-44bc-8eec-190d4c552f2a"
+                "uid": "b4f7a294-f593-4d80-9c32-452351f1a894"
             },
             "kind": "Event",
-            "lastTimestamp": "2026-10-24T13:34:26Z",
-            "message": "[flink-main-container] rpc error: code = NotFound desc = failed to pull and unpack image \"docker.io/library/flink:does-not-exist\": failed to resolve reference \"docker.io/library/flink:does-not-exist\": docker.io/library/flink:does-not-exist: not found",
-            "metadata": {
-                "creationTimestamp": "2026-10-24T13:34:26Z",
-                "name": "JobManagerDeployment.1261353319",
-                "namespace": "default",
-                "resourceVersion": "6398",
-                "uid": "6cde1175-b27f-46b1-92b1-b5004a0b0e18"
-            },
-            "reason": "ErrImagePull",
-            "reportingComponent": "",
-            "reportingInstance": "",
-            "source": {
-                "component": "JobManagerDeployment"
-            },
-            "type": "Warning"
-        },
-        {
-            "apiVersion": "v1",
-            "count": 1,
-            "eventTime": null,
-            "firstTimestamp": "2026-10-24T13:32:48Z",
-            "involvedObject": {
-                "apiVersion": "flink.apache.org/v1beta1",
-                "kind": "FlinkDeployment",
-                "name": "bad-image",
-                "namespace": "default",
-                "uid": "fc88e878-bf5a-43b9-af07-e4b762b40fe9"
-            },
-            "kind": "Event",
-            "lastTimestamp": "2026-10-24T13:32:48Z",
-            "message": "[flink-main-container] rpc error: code = NotFound desc = failed to pull and unpack image \"docker.io/library/flink:does-not-exist\": failed to resolve reference \"docker.io/library/flink:does-not-exist\": docker.io/library/flink:does-not-exist: not found",
-            "metadata": {
-                "creationTimestamp": "2026-10-24T13:32:48Z",
-                "name": "JobManagerDeployment.153366297",
-                "namespace": "default",
-                "resourceVersion": "5929",
-                "uid": "9b180aee-ab32-4db4-aca2-a3a9c37cce08"
-            },
-            "reason": "ErrImagePull",
-            "reportingComponent": "",
-            "reportingInstance": "",
-            "source": {
-                "component": "JobManagerDeployment"
-            },
-            "type": "Warning"
-        },
-        {
-            "apiVersion": "v1",
-            "count": 1,
-            "eventTime": null,
-            "firstTimestamp": "2026-10-24T13:32:43Z",
-            "involvedObject": {
-                "apiVersion": "flink.apache.org/v1beta1",
-                "kind": "FlinkDeployment",
-                "name": "bad-image",
-                "namespace": "default",
-                "uid": "fc88e878-bf5a-43b9-af07-e4b762b40fe9"
-            },
-            "kind": "Event",
-            "lastTimestamp": "2026-10-24T13:32:43Z",
+            "lastTimestamp": "2026-10-24T18:00:59Z",
             "message": "Starting deployment",
             "metadata": {
-                "creationTimestamp": "2026-10-24T13:32:43Z",
-                "name": "JobManagerDeployment.1979395209",
+                "creationTimestamp": "2026-10-24T18:00:59Z",
+                "name": "JobManagerDeployment.1272403810",
                 "namespace": "default",
-                "resourceVersion": "5801",
-                "uid": "26b226e9-4fe6-40bc-a55c-8958218f9ef6"
+                "resourceVersion": "30583",
+                "uid": "77106f2c-cb96-4f87-bcab-1131d217a32f"
             },
             "reason": "Submit",
             "reportingComponent": "",
@@ -95,23 +35,23 @@
             "apiVersion": "v1",
             "count": 1,
             "eventTime": null,
-            "firstTimestamp": "2026-10-24T13:20:54Z",
+            "firstTimestamp": "2026-10-24T18:05:35Z",
             "involvedObject": {
                 "apiVersion": "flink.apache.org/v1beta1",
                 "kind": "FlinkDeployment",
                 "name": "bad-image",
                 "namespace": "default",
-                "uid": "31a6c802-60f7-4186-bfbc-f25e8fa9f1c8"
+                "uid": "67eda0e0-e34d-4f18-90f8-141c6f6ca36c"
             },
             "kind": "Event",
-            "lastTimestamp": "2026-10-24T13:20:54Z",
+            "lastTimestamp": "2026-10-24T18:05:35Z",
             "message": "Starting deployment",
             "metadata": {
-                "creationTimestamp": "2026-10-24T13:20:54Z",
-                "name": "JobManagerDeployment.2064835609",
+                "creationTimestamp": "2026-10-24T18:05:35Z",
+                "name": "JobManagerDeployment.1277857151",
                 "namespace": "default",
-                "resourceVersion": "4057",
-                "uid": "155036a9-9101-4120-a668-4120582fce06"
+                "resourceVersion": "31459",
+                "uid": "82cd835d-e42f-4562-aa13-8180339f4e23"
             },
             "reason": "Submit",
             "reportingComponent": "",
@@ -125,23 +65,23 @@
             "apiVersion": "v1",
             "count": 1,
             "eventTime": null,
-            "firstTimestamp": "2026-10-24T13:23:24Z",
+            "firstTimestamp": "2026-10-24T17:55:07Z",
             "involvedObject": {
                 "apiVersion": "flink.apache.org/v1beta1",
                 "kind": "FlinkDeployment",
                 "name": "bad-image",
                 "namespace": "default",
-                "uid": "14b0defc-3859-4c83-a6f2-dad0df6a4992"
+                "uid": "2c250fb6-c38f-41ed-b488-dbb8fc143599"
             },
             "kind": "Event",
-            "lastTimestamp": "2026-10-24T13:23:24Z",
+            "lastTimestamp": "2026-10-24T17:55:07Z",
             "message": "Starting deployment",
             "metadata": {
-                "creationTimestamp": "2026-10-24T13:23:24Z",
-                "name": "JobManagerDeployment.2127581061",
+                "creationTimestamp": "2026-10-24T17:55:07Z",
+                "name": "JobManagerDeployment.1329817410",
                 "namespace": "default",
-                "resourceVersion": "4632",
-                "uid": "e8e7ba58-a0ed-4713-8b01-6accc568b6de"
+                "resourceVersion": "29545",
+                "uid": "852ca3ea-bb94-49fd-b970-4b9c1e860471"
             },
             "reason": "Submit",
             "reportingComponent": "",
@@ -155,23 +95,23 @@
             "apiVersion": "v1",
             "count": 1,
             "eventTime": null,
-            "firstTimestamp": "2026-10-24T13:20:59Z",
+            "firstTimestamp": "2026-10-24T18:01:04Z",
             "involvedObject": {
                 "apiVersion": "flink.apache.org/v1beta1",
                 "kind": "FlinkDeployment",
                 "name": "bad-image",
                 "namespace": "default",
-                "uid": "31a6c802-60f7-4186-bfbc-f25e8fa9f1c8"
+                "uid": "b4f7a294-f593-4d80-9c32-452351f1a894"
             },
             "kind": "Event",
-            "lastTimestamp": "2026-10-24T13:20:59Z",
+            "lastTimestamp": "2026-10-24T18:01:04Z",
             "message": "[flink-main-container] rpc error: code = NotFound desc = failed to pull and unpack image \"docker.io/library/flink:does-not-exist\": failed to resolve reference \"docker.io/library/flink:does-not-exist\": docker.io/library/flink:does-not-exist: not found",
             "metadata": {
-                "creationTimestamp": "2026-10-24T13:20:59Z",
-                "name": "JobManagerDeployment.238806697",
+                "creationTimestamp": "2026-10-24T18:01:04Z",
+                "name": "JobManagerDeployment.1593858546",
                 "namespace": "default",
-                "resourceVersion": "4187",
-                "uid": "2f6b4595-74c8-46c8-9170-192e35e39788"
+                "resourceVersion": "30709",
+                "uid": "4134a451-4fc7-4a7d-b581-6596e301181a"
             },
             "reason": "ErrImagePull",
             "reportingComponent": "",
@@ -185,23 +125,23 @@
             "apiVersion": "v1",
             "count": 1,
             "eventTime": null,
-            "firstTimestamp": "2026-10-24T13:23:30Z",
+            "firstTimestamp": "2026-10-24T18:05:40Z",
             "involvedObject": {
                 "apiVersion": "flink.apache.org/v1beta1",
                 "kind": "FlinkDeployment",
                 "name": "bad-image",
                 "namespace": "default",
-                "uid": "14b0defc-3859-4c83-a6f2-dad0df6a4992"
+                "uid": "67eda0e0-e34d-4f18-90f8-141c6f6ca36c"
             },
             "kind": "Event",
-            "lastTimestamp": "2026-10-24T13:23:30Z",
+            "lastTimestamp": "2026-10-24T18:05:40Z",
             "message": "[flink-main-container] rpc error: code = NotFound desc = failed to pull and unpack image \"docker.io/library/flink:does-not-exist\": failed to resolve reference \"docker.io/library/flink:does-not-exist\": docker.io/library/flink:does-not-exist: not found",
             "metadata": {
-                "creationTimestamp": "2026-10-24T13:23:30Z",
-                "name": "JobManagerDeployment.301552149",
+                "creationTimestamp": "2026-10-24T18:05:40Z",
+                "name": "JobManagerDeployment.1599311887",
                 "namespace": "default",
-                "resourceVersion": "4759",
-                "uid": "a973c97e-a8b7-4947-abdd-2f9c015d9820"
+                "resourceVersion": "31586",
+                "uid": "093ac3c9-ed39-457d-b4e7-111801377cd7"
             },
             "reason": "ErrImagePull",
             "reportingComponent": "",
@@ -215,83 +155,23 @@
             "apiVersion": "v1",
             "count": 1,
             "eventTime": null,
-            "firstTimestamp": "2026-10-24T13:14:20Z",
+            "firstTimestamp": "2026-10-24T17:55:12Z",
             "involvedObject": {
                 "apiVersion": "flink.apache.org/v1beta1",
                 "kind": "FlinkDeployment",
                 "name": "bad-image",
                 "namespace": "default",
-                "uid": "4ad51287-da7f-4db3-8650-ccec91f0df89"
+                "uid": "2c250fb6-c38f-41ed-b488-dbb8fc143599"
             },
             "kind": "Event",
-            "lastTimestamp": "2026-10-24T13:14:20Z",
-            "message": "Starting deployment",
-            "metadata": {
-                "creationTimestamp": "2026-10-24T13:14:20Z",
-                "name": "JobManagerDeployment.660743519",
-                "namespace": "default",
-                "resourceVersion": "3190",
-                "uid": "4a1acd1c-2021-4f7b-87e8-30a790390b20"
-            },
-            "reason": "Submit",
-            "reportingComponent": "",
-            "reportingInstance": "",
-            "source": {
-                "component": "JobManagerDeployment"
-            },
-            "type": "Normal"
-        },
-        {
-            "apiVersion": "v1",
-            "count": 1,
-            "eventTime": null,
-            "firstTimestamp": "2026-10-24T13:34:21Z",
-            "involvedObject": {
-                "apiVersion": "flink.apache.org/v1beta1",
-                "kind": "FlinkDeployment",
-                "name": "bad-image",
-                "namespace": "default",
-                "uid": "5f252dfa-254a-44bc-8eec-190d4c552f2a"
-            },
-            "kind": "Event",
-            "lastTimestamp": "2026-10-24T13:34:21Z",
-            "message": "Starting deployment",
-            "metadata": {
-                "creationTimestamp": "2026-10-24T13:34:21Z",
-                "name": "JobManagerDeployment.939898583",
-                "namespace": "default",
-                "resourceVersion": "6271",
-                "uid": "352c3614-6077-42d2-9431-74f55b792100"
-            },
-            "reason": "Submit",
-            "reportingComponent": "",
-            "reportingInstance": "",
-            "source": {
-                "component": "JobManagerDeployment"
-            },
-            "type": "Normal"
-        },
-        {
-            "apiVersion": "v1",
-            "count": 1,
-            "eventTime": null,
-            "firstTimestamp": "2026-10-24T13:14:25Z",
-            "involvedObject": {
-                "apiVersion": "flink.apache.org/v1beta1",
-                "kind": "FlinkDeployment",
-                "name": "bad-image",
-                "namespace": "default",
-                "uid": "4ad51287-da7f-4db3-8650-ccec91f0df89"
-            },
-            "kind": "Event",
-            "lastTimestamp": "2026-10-24T13:14:25Z",
+            "lastTimestamp": "2026-10-24T17:55:12Z",
             "message": "[flink-main-container] rpc error: code = NotFound desc = failed to pull and unpack image \"docker.io/library/flink:does-not-exist\": failed to resolve reference \"docker.io/library/flink:does-not-exist\": docker.io/library/flink:does-not-exist: not found",
             "metadata": {
-                "creationTimestamp": "2026-10-24T13:14:25Z",
-                "name": "JobManagerDeployment.982198255",
+                "creationTimestamp": "2026-10-24T17:55:12Z",
+                "name": "JobManagerDeployment.1651272146",
                 "namespace": "default",
-                "resourceVersion": "3276",
-                "uid": "04c90c9e-5bd6-4d2b-b8a0-a3532465344f"
+                "resourceVersion": "29713",
+                "uid": "dc2cb44c-4c7f-4692-92da-469bedc19386"
             },
             "reason": "ErrImagePull",
             "reportingComponent": "",
@@ -305,23 +185,23 @@
             "apiVersion": "v1",
             "count": 1,
             "eventTime": null,
-            "firstTimestamp": "2026-10-24T13:33:30Z",
+            "firstTimestamp": "2026-10-24T18:01:42Z",
             "involvedObject": {
                 "apiVersion": "flink.apache.org/v1beta1",
                 "kind": "FlinkDeployment",
                 "name": "bad-image",
                 "namespace": "default",
-                "uid": "fc88e878-bf5a-43b9-af07-e4b762b40fe9"
+                "uid": "b4f7a294-f593-4d80-9c32-452351f1a894"
             },
             "kind": "Event",
-            "lastTimestamp": "2026-10-24T13:33:30Z",
+            "lastTimestamp": "2026-10-24T18:01:42Z",
             "message": "Cleaning up FlinkDeployment",
             "metadata": {
-                "creationTimestamp": "2026-10-24T13:33:30Z",
-                "name": "Operator.1112466879",
+                "creationTimestamp": "2026-10-24T18:01:42Z",
+                "name": "Operator.405475480",
                 "namespace": "default",
-                "resourceVersion": "6110",
-                "uid": "cd0802d5-0fc6-4405-9b3f-384a941c450c"
+                "resourceVersion": "30894",
+                "uid": "952920fe-6291-4b7e-99fd-38876a473fa9"
             },
             "reason": "Cleanup",
             "reportingComponent": "",
@@ -335,23 +215,23 @@
             "apiVersion": "v1",
             "count": 1,
             "eventTime": null,
-            "firstTimestamp": "2026-10-24T13:22:41Z",
+            "firstTimestamp": "2026-10-24T18:00:08Z",
             "involvedObject": {
                 "apiVersion": "flink.apache.org/v1beta1",
                 "kind": "FlinkDeployment",
                 "name": "bad-image",
                 "namespace": "default",
-                "uid": "31a6c802-60f7-4186-bfbc-f25e8fa9f1c8"
+                "uid": "2c250fb6-c38f-41ed-b488-dbb8fc143599"
             },
             "kind": "Event",
-            "lastTimestamp": "2026-10-24T13:22:41Z",
+            "lastTimestamp": "2026-10-24T18:00:08Z",
             "message": "Cleaning up FlinkDeployment",
             "metadata": {
-                "creationTimestamp": "2026-10-24T13:22:41Z",
-                "name": "Operator.1197907279",
+                "creationTimestamp": "2026-10-24T18:00:08Z",
+                "name": "Operator.462889080",
                 "namespace": "default",
-                "resourceVersion": "4482",
-                "uid": "6ae17204-86e5-44be-81e9-25ae97971a90"
+                "resourceVersion": "30322",
+                "uid": "8f394ef7-71b0-431c-81e2-08edaafd23c3"
             },
             "reason": "Cleanup",
             "reportingComponent": "",
@@ -365,84 +245,24 @@
             "apiVersion": "v1",
             "count": 1,
             "eventTime": null,
-            "firstTimestamp": "2026-10-24T13:25:11Z",
-            "involvedObject": {
-                "apiVersion": "flink.apache.org/v1beta1",
-                "kind": "FlinkDeployment",
-                "name": "bad-image",
-                "namespace": "default",
-                "uid": "14b0defc-3859-4c83-a6f2-dad0df6a4992"
-            },
-            "kind": "Event",
-            "lastTimestamp": "2026-10-24T13:25:11Z",
-            "message": "Cleaning up FlinkDeployment",
-            "metadata": {
-                "creationTimestamp": "2026-10-24T13:25:11Z",
-                "name": "Operator.1260652731",
-                "namespace": "default",
-                "resourceVersion": "5052",
-                "uid": "6c5dd18a-d889-427a-880f-9405aa5cff96"
-            },
-            "reason": "Cleanup",
-            "reportingComponent": "",
-            "reportingInstance": "",
-            "source": {
-                "component": "Operator"
-            },
-            "type": "Normal"
-        },
-        {
-            "apiVersion": "v1",
-            "count": 1,
-            "eventTime": null,
-            "firstTimestamp": "2026-10-24T13:20:21Z",
-            "involvedObject": {
-                "apiVersion": "flink.apache.org/v1beta1",
-                "kind": "FlinkDeployment",
-                "name": "bad-image",
-                "namespace": "default",
-                "uid": "4ad51287-da7f-4db3-8650-ccec91f0df89"
-            },
-            "kind": "Event",
-            "lastTimestamp": "2026-10-24T13:20:21Z",
-            "message": "Cleaning up FlinkDeployment",
-            "metadata": {
-                "creationTimestamp": "2026-10-24T13:20:21Z",
-                "name": "Operator.1941298837",
-                "namespace": "default",
-                "resourceVersion": "3922",
-                "uid": "3ef63ca7-5fc0-40f0-9191-499bee703d2c"
-            },
-            "reason": "Cleanup",
-            "reportingComponent": "",
-            "reportingInstance": "",
-            "source": {
-                "component": "Operator"
-            },
-            "type": "Normal"
-        },
-        {
-            "apiVersion": "v1",
-            "count": 1,
-            "eventTime": null,
-            "firstTimestamp": "2026-10-24T13:14:20Z",
+            "firstTimestamp": "2026-10-24T17:55:07Z",
             "involvedObject": {
                 "apiVersion": "apps/v1",
                 "kind": "Deployment",
                 "name": "bad-image",
                 "namespace": "default",
-                "resourceVersion": "3194",
-                "uid": "9b5d8902-d043-4154-b832-6c99a92da854"
+                "resourceVersion": "29560",
+                "uid": "165b5da1-a36b-4338-9db2-3c28c2297d15"
             },
             "kind": "Event",
-            "lastTimestamp": "2026-10-24T13:14:20Z",
+            "lastTimestamp": "2026-10-24T17:55:07Z",
             "message": "Scaled up replica set bad-image-67b999879b from 0 to 1",
             "metadata": {
-                "creationTimestamp": "2026-10-24T13:14:20Z",
-                "name": "bad-image.18e17972ae8cab21",
+                "creationTimestamp": "2026-10-24T17:55:07Z",
+                "name": "bad-image.18e188c53b26b1fc",
                 "namespace": "default",
-                "resourceVersion": "3198",
-                "uid": "835e5265-5331-4b52-a008-21b7be5b0e54"
+                "resourceVersion": "29575",
+                "uid": "9981a217-6675-492e-9309-b0ad8906fb87"
             },
             "reason": "ScalingReplicaSet",
             "reportingComponent": "deployment-controller",
@@ -456,24 +276,24 @@
             "apiVersion": "v1",
             "count": 1,
             "eventTime": null,
-            "firstTimestamp": "2026-10-24T13:20:21Z",
+            "firstTimestamp": "2026-10-24T18:00:08Z",
             "involvedObject": {
                 "apiVersion": "apps/v1",
                 "kind": "Deployment",
                 "name": "bad-image",
                 "namespace": "default",
-                "resourceVersion": "3926",
-                "uid": "9b5d8902-d043-4154-b832-6c99a92da854"
+                "resourceVersion": "30329",
+                "uid": "165b5da1-a36b-4338-9db2-3c28c2297d15"
             },
             "kind": "Event",
-            "lastTimestamp": "2026-10-24T13:20:21Z",
+            "lastTimestamp": "2026-10-24T18:00:08Z",
             "message": "Scaled down replica set bad-image-67b999879b from 1 to 0",
             "metadata": {
-                "creationTimestamp": "2026-10-24T13:20:21Z",
-                "name": "bad-image.18e179c6e39203de",
+                "creationTimestamp": "2026-10-24T18:00:08Z",
+                "name": "bad-image.18e1890b48a9b062",
                 "namespace": "default",
-                "resourceVersion": "3931",
-                "uid": "bf90b403-948e-40d9-adc3-d360ffd9209e"
+                "resourceVersion": "30335",
+                "uid": "87877143-6c48-44a4-a475-141054832407"
             },
             "reason": "ScalingReplicaSet",
             "reportingComponent": "deployment-controller",
@@ -487,24 +307,24 @@
             "apiVersion": "v1",
             "count": 1,
             "eventTime": null,
-            "firstTimestamp": "2026-10-24T13:20:54Z",
+            "firstTimestamp": "2026-10-24T18:00:59Z",
             "involvedObject": {
                 "apiVersion": "apps/v1",
                 "kind": "Deployment",
                 "name": "bad-image",
                 "namespace": "default",
-                "resourceVersion": "4063",
-                "uid": "64971872-5bb0-4311-a7ad-34d3c22d1bb6"
+                "resourceVersion": "30585",
+                "uid": "7c206819-edee-4b31-940a-0a44bc72c243"
             },
             "kind": "Event",
-            "lastTimestamp": "2026-10-24T13:20:54Z",
+            "lastTimestamp": "2026-10-24T18:00:59Z",
             "message": "Scaled up replica set bad-image-67b999879b from 0 to 1",
             "metadata": {
-                "creationTimestamp": "2026-10-24T13:20:54Z",
-                "name": "bad-image.18e179ce6b7e7978",
+                "creationTimestamp": "2026-10-24T18:00:59Z",
+                "name": "bad-image.18e189172c9708f5",
                 "namespace": "default",
-                "resourceVersion": "4065",
-                "uid": "6b7b77d5-e4ac-4cee-8d04-810fca4afa75"
+                "resourceVersion": "30590",
+                "uid": "f5692fc9-e017-41d7-abf6-aed1d54e11a2"
             },
             "reason": "ScalingReplicaSet",
             "reportingComponent": "deployment-controller",
@@ -518,24 +338,24 @@
             "apiVersion": "v1",
             "count": 1,
             "eventTime": null,
-            "firstTimestamp": "2026-10-24T13:22:41Z",
+            "firstTimestamp": "2026-10-24T18:01:42Z",
             "involvedObject": {
                 "apiVersion": "apps/v1",
                 "kind": "Deployment",
                 "name": "bad-image",
                 "namespace": "default",
-                "resourceVersion": "4486",
-                "uid": "64971872-5bb0-4311-a7ad-34d3c22d1bb6"
+                "resourceVersion": "30896",
+                "uid": "7c206819-edee-4b31-940a-0a44bc72c243"
             },
             "kind": "Event",
-            "lastTimestamp": "2026-10-24T13:22:41Z",
+            "lastTimestamp": "2026-10-24T18:01:42Z",
             "message": "Scaled down replica set bad-image-67b999879b from 1 to 0",
             "metadata": {
-                "creationTimestamp": "2026-10-24T13:22:41Z",
-                "name": "bad-image.18e179e751c66b48",
+                "creationTimestamp": "2026-10-24T18:01:42Z",
+                "name": "bad-image.18e189212a959cf1",
                 "namespace": "default",
-                "resourceVersion": "4491",
-                "uid": "d59a2add-b8d0-4e82-adb8-9334dacb2dfe"
+                "resourceVersion": "30907",
+                "uid": "6c4b8f4d-998a-46b1-b405-f663d7db4090"
             },
             "reason": "ScalingReplicaSet",
             "reportingComponent": "deployment-controller",
@@ -549,148 +369,24 @@
             "apiVersion": "v1",
             "count": 1,
             "eventTime": null,
-            "firstTimestamp": "2026-10-24T13:23:24Z",
+            "firstTimestamp": "2026-10-24T18:05:35Z",
             "involvedObject": {
                 "apiVersion": "apps/v1",
                 "kind": "Deployment",
                 "name": "bad-image",
                 "namespace": "default",
-                "resourceVersion": "4638",
-                "uid": "bf7eb532-b6d9-4b90-a512-4f871fb2a503"
+                "resourceVersion": "31465",
+                "uid": "e3145b73-4dd9-47a5-b6a7-bac5fd12c3e0"
             },
             "kind": "Event",
-            "lastTimestamp": "2026-10-24T13:23:24Z",
+            "lastTimestamp": "2026-10-24T18:05:35Z",
             "message": "Scaled up replica set bad-image-67b999879b from 0 to 1",
             "metadata": {
-                "creationTimestamp": "2026-10-24T13:23:24Z",
-                "name": "bad-image.18e179f187b89420",
+                "creationTimestamp": "2026-10-24T18:05:35Z",
+                "name": "bad-image.18e18957678484fa",
                 "namespace": "default",
-                "resourceVersion": "4640",
-                "uid": "08a24fc1-8c70-4df3-9ad4-d8e7e5ef7948"
-            },
-            "reason": "ScalingReplicaSet",
-            "reportingComponent": "deployment-controller",
-            "reportingInstance": "",
-            "source": {
-                "component": "deployment-controller"
-            },
-            "type": "Normal"
-        },
-        {
-            "apiVersion": "v1",
-            "count": 1,
-            "eventTime": null,
-            "firstTimestamp": "2026-10-24T13:25:11Z",
-            "involvedObject": {
-                "apiVersion": "apps/v1",
-                "kind": "Deployment",
-                "name": "bad-image",
-                "namespace": "default",
-                "resourceVersion": "5055",
-                "uid": "bf7eb532-b6d9-4b90-a512-4f871fb2a503"
-            },
-            "kind": "Event",
-            "lastTimestamp": "2026-10-24T13:25:11Z",
-            "message": "Scaled down replica set bad-image-67b999879b from 1 to 0",
-            "metadata": {
-                "creationTimestamp": "2026-10-24T13:25:11Z",
-                "name": "bad-image.18e17a0a63cb5738",
-                "namespace": "default",
-                "resourceVersion": "5058",
-                "uid": "c00933f2-e198-4de2-a1b3-41b255815ffd"
-            },
-            "reason": "ScalingReplicaSet",
-            "reportingComponent": "deployment-controller",
-            "reportingInstance": "",
-            "source": {
-                "component": "deployment-controller"
-            },
-            "type": "Normal"
-        },
-        {
-            "apiVersion": "v1",
-            "count": 1,
-            "eventTime": null,
-            "firstTimestamp": "2026-10-24T13:32:43Z",
-            "involvedObject": {
-                "apiVersion": "apps/v1",
-                "kind": "Deployment",
-                "name": "bad-image",
-                "namespace": "default",
-                "resourceVersion": "5807",
-                "uid": "23e214d5-286f-4a9f-a320-8823f4e5839b"
-            },
-            "kind": "Event",
-            "lastTimestamp": "2026-10-24T13:32:43Z",
-            "message": "Scaled up replica set bad-image-67b999879b from 0 to 1",
-            "metadata": {
-                "creationTimestamp": "2026-10-24T13:32:43Z",
-                "name": "bad-image.18e17a73971201ab",
-                "namespace": "default",
-                "resourceVersion": "5810",
-                "uid": "4fae6f86-56d2-4eb0-b3d9-40aa88a04521"
-            },
-            "reason": "ScalingReplicaSet",
-            "reportingComponent": "deployment-controller",
-            "reportingInstance": "",
-            "source": {
-                "component": "deployment-controller"
-            },
-            "type": "Normal"
-        },
-        {
-            "apiVersion": "v1",
-            "count": 1,
-            "eventTime": null,
-            "firstTimestamp": "2026-10-24T13:33:30Z",
-            "involvedObject": {
-                "apiVersion": "apps/v1",
-                "kind": "Deployment",
-                "name": "bad-image",
-                "namespace": "default",
-                "resourceVersion": "6114",
-                "uid": "23e214d5-286f-4a9f-a320-8823f4e5839b"
-            },
-            "kind": "Event",
-            "lastTimestamp": "2026-10-24T13:33:30Z",
-            "message": "Scaled down replica set bad-image-67b999879b from 1 to 0",
-            "metadata": {
-                "creationTimestamp": "2026-10-24T13:33:30Z",
-                "name": "bad-image.18e17a7e82f38752",
-                "namespace": "default",
-                "resourceVersion": "6116",
-                "uid": "aff73e76-d912-446f-95c9-b187a0c34b8a"
-            },
-            "reason": "ScalingReplicaSet",
-            "reportingComponent": "deployment-controller",
-            "reportingInstance": "",
-            "source": {
-                "component": "deployment-controller"
-            },
-            "type": "Normal"
-        },
-        {
-            "apiVersion": "v1",
-            "count": 1,
-            "eventTime": null,
-            "firstTimestamp": "2026-10-24T13:34:21Z",
-            "involvedObject": {
-                "apiVersion": "apps/v1",
-                "kind": "Deployment",
-                "name": "bad-image",
-                "namespace": "default",
-                "resourceVersion": "6277",
-                "uid": "1da18762-2d28-480b-915d-857157c63c58"
-            },
-            "kind": "Event",
-            "lastTimestamp": "2026-10-24T13:34:21Z",
-            "message": "Scaled up replica set bad-image-67b999879b from 0 to 1",
-            "metadata": {
-                "creationTimestamp": "2026-10-24T13:34:21Z",
-                "name": "bad-image.18e17a8a67403efe",
-                "namespace": "default",
-                "resourceVersion": "6281",
-                "uid": "3e046694-ac64-4c2c-9efb-b5b7c8254d38"
+                "resourceVersion": "31468",
+                "uid": "0e63cec8-90f8-4a69-83c7-d97b3c5d6d23"
             },
             "reason": "ScalingReplicaSet",
             "reportingComponent": "deployment-controller",

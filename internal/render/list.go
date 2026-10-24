@@ -188,3 +188,28 @@ func Notes(scopes []fleet.Scope) []string {
 
 // flinkVersion is the version the cluster reports, else the one the spec asks for.
 func flinkVersion(j *model.Job) string { return cmp.Or(j.FlinkRuntime, j.FlinkVersion) }
+
+// JobRef names a job in the output of single-job commands.
+type JobRef struct {
+	Context   string `json:"context,omitempty"`
+	Namespace string `json:"namespace"`
+	Name      string `json:"name"`
+	Kind      string `json:"kind"`
+	JobID     string `json:"jobId,omitempty"`
+}
+
+// NewJobRef names j.
+func NewJobRef(j *model.Job) JobRef {
+	return JobRef{Context: j.Context, Namespace: j.Namespace, Name: j.Name, Kind: string(j.Kind), JobID: j.JobID}
+}
+
+func (r JobRef) String() string {
+	s := fmt.Sprintf("%s %s/%s", r.Kind, r.Namespace, r.Name)
+	if r.Context != "" {
+		s += " in context " + r.Context
+	}
+	if r.JobID != "" {
+		s += ", job " + r.JobID
+	}
+	return s
+}

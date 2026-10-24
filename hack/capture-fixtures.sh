@@ -28,12 +28,15 @@ done
 [[ -n $port ]] || { echo "JobManager REST not reachable through port-forward after 30 s" >&2; cat "$pflog" >&2; exit 1; }
 
 # Some endpoints, such as backpressure, fail until the JobManager has sampled the job once; retry for 60 s.
+# get <path> <name> [jq condition]: with a condition, also retry until the response satisfies it, for data that
+# arrives later, such as metrics after the first report or the exception history after a failure.
 get() {
+  local cond=${3:-true}
   for _ in $(seq 30); do
-    curl -sf "localhost:$port$1" > "$OUT/rest/$2.json" && return
+    curl -sf "localhost:$port$1" > "$OUT/rest/$2.json" && jq -e "$cond" "$OUT/rest/$2.json" >/dev/null && return
     sleep 2
   done
-  echo "GET $1 failed for 60 s: $(curl -s "localhost:$port$1" | head -c 300)" >&2
+  echo "GET $1 did not satisfy '$cond' for 60 s: $(curl -s "localhost:$port$1" | head -c 300)" >&2
   exit 1
 }
 get /config config
@@ -42,12 +45,17 @@ get /taskmanagers taskmanagers
 get /jobs/overview jobs-overview
 jid=$(jq -er '.jobs[0].jid' "$OUT/rest/jobs-overview.json") || { echo "no job in /jobs/overview" >&2; exit 1; }
 get "/jobs/$jid" job
-get "/jobs/$jid/exceptions?maxExceptions=20" exceptions
+# REQUIRE_EXCEPTIONS=1 waits for the failure a scenario induced to reach the exception history.
+if [[ ${REQUIRE_EXCEPTIONS:-} == 1 ]]; then
+  get "/jobs/$jid/exceptions?maxExceptions=20" exceptions '.exceptionHistory.entries | length > 0'
+else
+  get "/jobs/$jid/exceptions?maxExceptions=20" exceptions
+fi
 get "/jobs/$jid/checkpoints" checkpoints
 get "/jobs/$jid/checkpoints/config" checkpoints-config
 get "/jobs/$jid/config" job-config
 for vid in $(jq -r '.vertices[].id' "$OUT/rest/job.json"); do
   get "/jobs/$jid/vertices/$vid/backpressure" "backpressure-$vid"
-  get "/jobs/$jid/vertices/$vid/subtasks/metrics?get=busyTimeMsPerSecond,backPressuredTimeMsPerSecond,idleTimeMsPerSecond,numRecordsInPerSecond,numRecordsOutPerSecond,pendingRecords&agg=sum,max,avg" "metrics-$vid"
+  get "/jobs/$jid/vertices/$vid/subtasks/metrics?get=busyTimeMsPerSecond,backPressuredTimeMsPerSecond,idleTimeMsPerSecond,numRecordsInPerSecond,numRecordsOutPerSecond&agg=sum,max,avg" "metrics-$vid" 'length > 0'
 done
 echo "fixtures in $OUT"

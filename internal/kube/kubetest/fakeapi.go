@@ -6,6 +6,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"io"
 	"net/http"
 	"net/http/httptest"
 	"net/url"
@@ -60,6 +61,8 @@ type API struct {
 	BrokenInformers bool
 	// Latency delays every response, to model the round trip to a real API server.
 	Latency time.Duration
+	// Logs holds container logs by "namespace/pod", served by the pods/log subresource.
+	Logs map[string]string
 }
 
 // Request is one request the fake received.
@@ -198,7 +201,8 @@ func (f *API) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	if nsPath, ok := strings.CutPrefix(path, "namespaces/"); ok {
 		ns, path, _ = strings.Cut(nsPath, "/")
 	}
-	resource := path
+	resource, name, _ := strings.Cut(path, "/")
+	name, sub, _ := strings.Cut(name, "/")
 
 	f.mu.Lock()
 	f.queries = append(f.queries, Request{Path: r.URL.Path, Query: q})
@@ -218,6 +222,8 @@ func (f *API) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	switch {
 	case notFound:
 		f.status(w, http.StatusNotFound, "NotFound", "the server could not find the requested resource")
+	case name != "" && !forbidden:
+		f.object(w, q, resource, ns, name, sub)
 	case forbidden:
 		f.status(w, http.StatusForbidden, "Forbidden", resource+" is forbidden")
 	case broken:
@@ -227,6 +233,37 @@ func (f *API) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	default:
 		f.list(w, q, items, rv, resource)
 	}
+}
+
+// object serves GET of one object and the pods/log subresource.
+func (f *API) object(w http.ResponseWriter, q url.Values, resource, ns, name, sub string) {
+	f.mu.Lock()
+	defer f.mu.Unlock()
+	if sub == "log" {
+		text, ok := f.Logs[ns+"/"+name]
+		if !ok {
+			f.status(w, http.StatusNotFound, "NotFound", fmt.Sprintf("pods %q not found", name))
+			return
+		}
+		lines := strings.SplitAfter(strings.TrimSuffix(text, "\n"), "\n")
+		if text != "" {
+			lines[len(lines)-1] += "\n"
+		}
+		if n, err := strconv.Atoi(q.Get("tailLines")); err == nil && n < len(lines) {
+			lines = lines[len(lines)-n:]
+		}
+		w.Header().Set("Content-Type", "text/plain")
+		_, _ = io.WriteString(w, strings.Join(lines, ""))
+		return
+	}
+	for _, it := range f.items[resource] {
+		if it.ns == ns && it.name == name {
+			w.Header().Set("Content-Type", "application/json")
+			_, _ = w.Write(it.raw)
+			return
+		}
+	}
+	f.status(w, http.StatusNotFound, "NotFound", fmt.Sprintf("%s %q not found", resource, name))
 }
 
 func (f *API) list(w http.ResponseWriter, q url.Values, items []*item, rv, resource string) {
