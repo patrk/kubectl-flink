@@ -1,4 +1,4 @@
-FlinkDeployment default/bad-image in context kind, job 5b1c6a1517a7f5e98a6235325db3bf95 · PROGRESSING
+FlinkDeployment default/bad-image in context kind, job 6417a0bd4d99266346f320a3c3d2e137 · PROGRESSING
   JobManager deployment ERROR: ErrImagePull: [flink-main-container] rpc error: code = NotFound desc = failed to pull and unpack image "docker.io/libra…
   job RECONCILING
 
@@ -14,15 +14,20 @@ Verdict
 Operator
   lifecycle DEPLOYED, JobManager ERROR, job RECONCILING, reconciled 100s ago, generation 1 (observed 1)
   error: ErrImagePull: [flink-main-container] rpc error: code = NotFound desc = failed to pull and unpack image "docker.io/library/flink:does-not-exist": faile…
-  spec written by kubectl-client-side-apply, last 101s ago
+  spec written by kubectl-client-side-apply, last 102s ago
 
 Kubernetes
-  pod bad-image-67b999879b-z2mhv (jobmanager): Pending, waiting ImagePullBackOff
+  pod bad-image-67b999879b-v7fl9 (jobmanager): Pending, waiting ImagePullBackOff
   warning events, newest first:
     60s ago Failed ×3 on Pod: Failed to pull image "flink:does-not-exist": rpc error: code = NotFound desc = failed to pull and unpack image "docker.io/library…
     60s ago Failed ×3 on Pod: Error: ErrImagePull
-    73s ago Failed ×2 on Pod: Error: ImagePullBackOff
+    71s ago Failed ×2 on Pod: Error: ImagePullBackOff
     96s ago ErrImagePull on FlinkDeployment: [flink-main-container] rpc error: code = NotFound desc = failed to pull and unpack image "docker.io/library/flink:…
 
 Runtime
   not collected: JobManager REST API: not asked: the JobManager is ERROR
+
+Performance
+
+HA
+  HA not configured

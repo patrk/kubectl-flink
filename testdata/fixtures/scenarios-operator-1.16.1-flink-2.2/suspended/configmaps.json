@@ -1,0 +1,35 @@
+{
+  "apiVersion": "v1",
+  "items": [
+    {
+      "apiVersion": "v1",
+      "kind": "ConfigMap",
+      "metadata": {
+        "creationTimestamp": "2026-10-24T19:40:16Z",
+        "labels": {
+          "app": "suspended",
+          "component": "autoscaler"
+        },
+        "name": "autoscaler-suspended",
+        "namespace": "default",
+        "ownerReferences": [
+          {
+            "apiVersion": "flink.apache.org/v1beta1",
+            "blockOwnerDeletion": false,
+            "controller": false,
+            "kind": "FlinkDeployment",
+            "name": "suspended",
+            "uid": "14ea1d42-907e-455c-8061-4bed23756b85"
+          }
+        ],
+        "resourceVersion": "48023",
+        "uid": "f8895bb4-2516-4109-8778-f676b96707dd"
+      },
+      "data": null
+    }
+  ],
+  "kind": "List",
+  "metadata": {
+    "resourceVersion": ""
+  }
+}

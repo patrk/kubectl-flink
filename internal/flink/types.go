@@ -4,6 +4,7 @@ import (
 	"context"
 	"net/url"
 	"strconv"
+	"strings"
 	"time"
 )
 
@@ -55,6 +56,68 @@ type Job struct {
 	Now        Millis            `json:"now"`
 	Timestamps map[string]Millis `json:"timestamps"`
 	Vertices   []Vertex          `json:"vertices"`
+	Plan       struct {
+		Nodes []PlanNode `json:"nodes"`
+	} `json:"plan"`
+}
+
+// PlanNode is a vertex in the job plan, with the vertices it reads from.
+type PlanNode struct {
+	ID     string `json:"id"`
+	Inputs []struct {
+		ID string `json:"id"`
+	} `json:"inputs"`
+}
+
+// Sources are the vertices that read from nothing in the plan.
+func (j *Job) Sources() []string {
+	var out []string
+	for _, n := range j.Plan.Nodes {
+		if len(n.Inputs) == 0 {
+			out = append(out, n.ID)
+		}
+	}
+	return out
+}
+
+// Sinks are the vertices no other vertex reads from.
+func (j *Job) Sinks() []string {
+	read := map[string]bool{}
+	for _, n := range j.Plan.Nodes {
+		for _, in := range n.Inputs {
+			read[in.ID] = true
+		}
+	}
+	var out []string
+	for _, n := range j.Plan.Nodes {
+		if !read[n.ID] {
+			out = append(out, n.ID)
+		}
+	}
+	return out
+}
+
+// Downstream are the vertices that read from id.
+func (j *Job) Downstream(id string) []string {
+	var out []string
+	for _, n := range j.Plan.Nodes {
+		for _, in := range n.Inputs {
+			if in.ID == id {
+				out = append(out, n.ID)
+			}
+		}
+	}
+	return out
+}
+
+// Vertex returns the vertex with id, nil when there is none.
+func (j *Job) Vertex(id string) *Vertex {
+	for i := range j.Vertices {
+		if j.Vertices[i].ID == id {
+			return &j.Vertices[i]
+		}
+	}
+	return nil
 }
 
 // Vertex is one operator chain of a job.
@@ -143,6 +206,43 @@ type CheckpointConfig struct {
 func (c *Client) CheckpointConfig(ctx context.Context, jid string) (*CheckpointConfig, error) {
 	var v CheckpointConfig
 	return &v, c.get(ctx, "/jobs/"+url.PathEscape(jid)+"/checkpoints/config", &v)
+}
+
+// Metric is a subtask metric aggregated over a vertex's subtasks.
+type Metric struct {
+	ID  string  `json:"id"`
+	Min float64 `json:"min"`
+	Max float64 `json:"max"`
+	Avg float64 `json:"avg"`
+	Sum float64 `json:"sum"`
+}
+
+// MetricNames lists the subtask metrics a vertex has.
+func (c *Client) MetricNames(ctx context.Context, jid, vid string) ([]string, error) {
+	var v []Metric
+	if err := c.get(ctx, "/jobs/"+url.PathEscape(jid)+"/vertices/"+url.PathEscape(vid)+"/subtasks/metrics", &v); err != nil {
+		return nil, err
+	}
+	out := make([]string, len(v))
+	for i := range v {
+		out[i] = v[i].ID
+	}
+	return out, nil
+}
+
+// Metrics reads subtask metrics of a vertex aggregated over its subtasks. Every name must exist on the vertex:
+// one that does not empties the whole answer, so optional metrics are asked for only after MetricNames.
+func (c *Client) Metrics(ctx context.Context, jid, vid string, names ...string) (map[string]Metric, error) {
+	var v []Metric
+	q := "?get=" + url.QueryEscape(strings.Join(names, ",")) + "&agg=min,max,avg,sum"
+	if err := c.get(ctx, "/jobs/"+url.PathEscape(jid)+"/vertices/"+url.PathEscape(vid)+"/subtasks/metrics"+q, &v); err != nil {
+		return nil, err
+	}
+	out := make(map[string]Metric, len(v))
+	for _, m := range v {
+		out[m.ID] = m
+	}
+	return out, nil
 }
 
 // Exceptions reads /jobs/:jid/exceptions with at most max history entries.

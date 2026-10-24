@@ -1,4 +1,4 @@
-FlinkDeployment default/unschedulable in context kind, job 1f6000ad73e9db7125f8e606f5be215b · PROGRESSING
+FlinkDeployment default/unschedulable in context kind, job dbf38a0359fd129f69dda7cbc108e450 · PROGRESSING
   JobManager DEPLOYING
   job RECONCILING
 
@@ -10,14 +10,19 @@ Verdict
     · pod.unschedulable: 0/1 nodes are available: 1 Insufficient cpu. preemption: 0/1 nodes are available: 1 Preemption is not helpful for scheduling. (jobmana…
 
 Operator
-  lifecycle DEPLOYED, JobManager DEPLOYING, job RECONCILING, reconciled 101s ago, generation 1 (observed 1)
-  spec written by kubectl-client-side-apply, last 101s ago
+  lifecycle DEPLOYED, JobManager DEPLOYING, job RECONCILING, reconciled 61s ago, generation 1 (observed 1)
+  spec written by kubectl-client-side-apply, last 62s ago
 
 Kubernetes
-  pod unschedulable-5bdd4b9576-94wcl (jobmanager): Pending, unschedulable
+  pod unschedulable-5bdd4b9576-vttsz (jobmanager): Pending, unschedulable
   warning events, newest first:
     60s ago FailedScheduling ×2 on Pod: 0/1 nodes are available: 1 Insufficient cpu. preemption: 0/1 nodes are available: 1 Preemption is not helpful for sched…
-    101s ago FailedScheduling on Pod: 0/1 nodes are available: 1 Insufficient cpu. preemption: 0/1 nodes are available: 1 Preemption is not helpful for schedul…
+    61s ago FailedScheduling on Pod: 0/1 nodes are available: 1 Insufficient cpu. preemption: 0/1 nodes are available: 1 Preemption is not helpful for scheduli…
 
 Runtime
   not collected: JobManager REST API: not asked: the JobManager is DEPLOYING
+
+Performance
+
+HA
+  HA not configured

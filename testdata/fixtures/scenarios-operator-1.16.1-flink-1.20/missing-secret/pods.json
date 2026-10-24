@@ -8,7 +8,7 @@
                 "annotations": {
                     "flinkdeployment.flink.apache.org/generation": "1"
                 },
-                "creationTimestamp": "2026-10-24T18:31:23Z",
+                "creationTimestamp": "2026-10-24T19:34:28Z",
                 "generateName": "missing-secret-5d8d9dbb9c-",
                 "generation": 1,
                 "labels": {
@@ -17,7 +17,7 @@
                     "pod-template-hash": "5d8d9dbb9c",
                     "type": "flink-native-kubernetes"
                 },
-                "name": "missing-secret-5d8d9dbb9c-d4jwg",
+                "name": "missing-secret-5d8d9dbb9c-5vcjf",
                 "namespace": "default",
                 "ownerReferences": [
                     {
@@ -26,11 +26,11 @@
                         "controller": true,
                         "kind": "ReplicaSet",
                         "name": "missing-secret-5d8d9dbb9c",
-                        "uid": "c7b4fa8c-dd4c-4b5d-a2d3-ea8466ebd264"
+                        "uid": "da77c339-8fc0-452d-93f0-13d65d1017fb"
                     }
                 ],
-                "resourceVersion": "36001",
-                "uid": "a85149e9-105c-4aa7-af33-37c50328ddc8"
+                "resourceVersion": "45559",
+                "uid": "5f330aa4-5fd3-4159-a46e-3ba1887437a0"
             },
             "spec": {
                 "containers": [
@@ -116,7 +116,7 @@
                             },
                             {
                                 "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
-                                "name": "kube-api-access-m5n29",
+                                "name": "kube-api-access-4vlh2",
                                 "readOnly": true
                             }
                         ]
@@ -190,7 +190,7 @@
                         "name": "pod-template-volume"
                     },
                     {
-                        "name": "kube-api-access-m5n29",
+                        "name": "kube-api-access-4vlh2",
                         "projected": {
                             "defaultMode": 420,
                             "sources": [
@@ -237,7 +237,7 @@
                 "conditions": [
                     {
                         "lastProbeTime": null,
-                        "lastTransitionTime": "2026-10-24T18:31:23Z",
+                        "lastTransitionTime": "2026-10-24T19:34:28Z",
                         "message": "no pod sandbox exists",
                         "observedGeneration": 1,
                         "reason": "PodSandboxNotReady",
@@ -246,14 +246,14 @@
                     },
                     {
                         "lastProbeTime": null,
-                        "lastTransitionTime": "2026-10-24T18:31:23Z",
+                        "lastTransitionTime": "2026-10-24T19:34:28Z",
                         "observedGeneration": 1,
                         "status": "True",
                         "type": "Initialized"
                     },
                     {
                         "lastProbeTime": null,
-                        "lastTransitionTime": "2026-10-24T18:31:23Z",
+                        "lastTransitionTime": "2026-10-24T19:34:28Z",
                         "message": "containers with unready status: [flink-main-container]",
                         "observedGeneration": 1,
                         "reason": "ContainersNotReady",
@@ -262,7 +262,7 @@
                     },
                     {
                         "lastProbeTime": null,
-                        "lastTransitionTime": "2026-10-24T18:31:23Z",
+                        "lastTransitionTime": "2026-10-24T19:34:28Z",
                         "message": "containers with unready status: [flink-main-container]",
                         "observedGeneration": 1,
                         "reason": "ContainersNotReady",
@@ -271,7 +271,7 @@
                     },
                     {
                         "lastProbeTime": null,
-                        "lastTransitionTime": "2026-10-24T18:31:23Z",
+                        "lastTransitionTime": "2026-10-24T19:34:28Z",
                         "observedGeneration": 1,
                         "status": "True",
                         "type": "PodScheduled"
@@ -310,7 +310,7 @@
                             },
                             {
                                 "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
-                                "name": "kube-api-access-m5n29",
+                                "name": "kube-api-access-4vlh2",
                                 "readOnly": true,
                                 "recursiveReadOnly": "Disabled"
                             }
@@ -336,7 +336,7 @@
                         "memory": "1Gi"
                     }
                 },
-                "startTime": "2026-10-24T18:31:23Z"
+                "startTime": "2026-10-24T19:34:28Z"
             }
         }
     ],

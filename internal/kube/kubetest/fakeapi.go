@@ -28,6 +28,7 @@ var listKinds = map[string][2]string{
 	"flinksessionjobs": {"FlinkSessionJobList", "flink.apache.org/v1beta1"},
 	"pods":             {"PodList", "v1"},
 	"events":           {"EventList", "v1"},
+	"configmaps":       {"ConfigMapList", "v1"},
 }
 
 type item struct {

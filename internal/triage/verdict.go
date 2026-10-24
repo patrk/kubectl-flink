@@ -17,8 +17,8 @@ type Verdict struct {
 }
 
 // rankLayers orders findings of equal severity: a Kubernetes cause usually explains an operator state, which
-// usually explains what the runtime reports.
-var rankLayers = []Layer{Kubernetes, Operator, Runtime}
+// usually explains what the runtime reports; stale HA state explains a runtime surprise; performance comes last.
+var rankLayers = []Layer{Kubernetes, Operator, HA, Runtime, Performance}
 
 // leadKinds are the generic signals that best point at a cause, in order of preference.
 // The health findings come last: they always exist for an unhealthy job, so there is always a lead.

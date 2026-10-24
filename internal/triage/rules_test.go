@@ -25,6 +25,13 @@ var synthetic = map[string][]triage.Signal{
 	"validation-error":          {{Kind: triage.SigEvent, Text: "ValidationError: Job parallelism must be larger than 0"}},
 	"unsupported-flink-version": {{Kind: triage.SigEvent, Text: "UnsupportedFlinkVersion: Flink version v1_15 is not supported by this operator"}},
 	"taskmanagers-short":        {{Kind: triage.SigHealth, Text: "1/3 TaskManagers ready"}},
+	"backpressure": {
+		{Kind: triage.SigBackpressure, Text: "Source: orders: backpressured 870 ms/s"},
+		{Kind: triage.SigBottleneck, Text: "Enrich -> Sink: payments: busy 990 ms/s"},
+	},
+	"sink-idle":     {{Kind: triage.SigSinkIdle, Text: "Sink: payments receives nothing while the sources emit 213 records/s"}},
+	"ha-leftover":   {{Kind: triage.SigHALeftover, Text: "job plan of 0000, not the current job 1111"}},
+	"multiple-jobs": {{Kind: triage.SigJobsMultiple, Text: "2 jobs run on the application cluster: 0000, 1111"}},
 	"checkpoints-stale": {
 		{Kind: triage.SigCheckpointStale, Text: "last completed checkpoint is 45m old, interval 60s"},
 		{Kind: triage.SigCheckpointFail, Text: "Checkpoint expired before completing."},
@@ -150,7 +157,7 @@ func TestJudge(t *testing.T) {
 	signals = make([]triage.Signal, 0, 5)
 	signals = append(signals, []triage.Signal{
 		{Kind: triage.SigEvent, Text: "Unhealthy: Readiness probe failed"},
-		{Kind: triage.SigExceptionCause, Text: "java.net.ConnectException: Connection refused"},
+		{Kind: triage.SigExceptionCause, Text: "java.lang.IllegalStateException: Unexpected record"},
 		{Kind: triage.SigLog, Text: "ERROR something"},
 	}...)
 	v, _ = triage.Judge(ev, signals, triage.DefaultRules())

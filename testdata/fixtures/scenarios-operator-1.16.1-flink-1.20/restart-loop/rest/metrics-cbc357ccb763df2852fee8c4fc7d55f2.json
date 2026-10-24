@@ -1,0 +1,1 @@
+[{"id":"busyTimeMsPerSecond","max":"NaN","avg":"NaN","sum":"NaN"},{"id":"backPressuredTimeMsPerSecond","max":0.0,"avg":0.0,"sum":0.0},{"id":"idleTimeMsPerSecond","max":0.0,"avg":0.0,"sum":0.0},{"id":"numRecordsInPerSecond","max":0.0,"avg":0.0,"sum":0.0},{"id":"numRecordsOutPerSecond","max":0.0,"avg":0.0,"sum":0.0}]

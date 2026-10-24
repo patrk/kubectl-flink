@@ -8,7 +8,7 @@
                 "annotations": {
                     "flinkdeployment.flink.apache.org/generation": "1"
                 },
-                "creationTimestamp": "2026-10-24T18:31:23Z",
+                "creationTimestamp": "2026-10-24T19:34:28Z",
                 "generateName": "bad-image-5455c9479d-",
                 "generation": 1,
                 "labels": {
@@ -17,7 +17,7 @@
                     "pod-template-hash": "5455c9479d",
                     "type": "flink-native-kubernetes"
                 },
-                "name": "bad-image-5455c9479d-xpqg7",
+                "name": "bad-image-5455c9479d-gbcm5",
                 "namespace": "default",
                 "ownerReferences": [
                     {
@@ -26,11 +26,11 @@
                         "controller": true,
                         "kind": "ReplicaSet",
                         "name": "bad-image-5455c9479d",
-                        "uid": "b8ab91ab-8147-4a8f-9ec3-20ccf12dfa24"
+                        "uid": "f2f04036-bb9d-4472-954f-95ec0071b88b"
                     }
                 ],
-                "resourceVersion": "36257",
-                "uid": "5123e909-c3eb-41ce-aaf8-a4b15c704a04"
+                "resourceVersion": "45931",
+                "uid": "97942620-4d4f-428a-8aa4-6ac1882ef94d"
             },
             "spec": {
                 "containers": [
@@ -108,7 +108,7 @@
                             },
                             {
                                 "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
-                                "name": "kube-api-access-28tlb",
+                                "name": "kube-api-access-tsrfw",
                                 "readOnly": true
                             }
                         ]
@@ -162,7 +162,7 @@
                         "name": "flink-config-volume"
                     },
                     {
-                        "name": "kube-api-access-28tlb",
+                        "name": "kube-api-access-tsrfw",
                         "projected": {
                             "defaultMode": 420,
                             "sources": [
@@ -209,21 +209,21 @@
                 "conditions": [
                     {
                         "lastProbeTime": null,
-                        "lastTransitionTime": "2026-10-24T18:31:23Z",
+                        "lastTransitionTime": "2026-10-24T19:34:28Z",
                         "observedGeneration": 1,
                         "status": "True",
                         "type": "PodReadyToStartContainers"
                     },
                     {
                         "lastProbeTime": null,
-                        "lastTransitionTime": "2026-10-24T18:31:23Z",
+                        "lastTransitionTime": "2026-10-24T19:34:28Z",
                         "observedGeneration": 1,
                         "status": "True",
                         "type": "Initialized"
                     },
                     {
                         "lastProbeTime": null,
-                        "lastTransitionTime": "2026-10-24T18:31:23Z",
+                        "lastTransitionTime": "2026-10-24T19:34:28Z",
                         "message": "containers with unready status: [flink-main-container]",
                         "observedGeneration": 1,
                         "reason": "ContainersNotReady",
@@ -232,7 +232,7 @@
                     },
                     {
                         "lastProbeTime": null,
-                        "lastTransitionTime": "2026-10-24T18:31:23Z",
+                        "lastTransitionTime": "2026-10-24T19:34:28Z",
                         "message": "containers with unready status: [flink-main-container]",
                         "observedGeneration": 1,
                         "reason": "ContainersNotReady",
@@ -241,7 +241,7 @@
                     },
                     {
                         "lastProbeTime": null,
-                        "lastTransitionTime": "2026-10-24T18:31:23Z",
+                        "lastTransitionTime": "2026-10-24T19:34:28Z",
                         "observedGeneration": 1,
                         "status": "True",
                         "type": "PodScheduled"
@@ -273,7 +273,7 @@
                             },
                             {
                                 "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
-                                "name": "kube-api-access-28tlb",
+                                "name": "kube-api-access-tsrfw",
                                 "readOnly": true,
                                 "recursiveReadOnly": "Disabled"
                             }
@@ -288,10 +288,10 @@
                 ],
                 "observedGeneration": 1,
                 "phase": "Pending",
-                "podIP": "10.244.0.15",
+                "podIP": "10.244.0.54",
                 "podIPs": [
                     {
-                        "ip": "10.244.0.15"
+                        "ip": "10.244.0.54"
                     }
                 ],
                 "qosClass": "Guaranteed",
@@ -305,7 +305,7 @@
                         "memory": "1Gi"
                     }
                 },
-                "startTime": "2026-10-24T18:31:23Z"
+                "startTime": "2026-10-24T19:34:28Z"
             }
         }
     ],

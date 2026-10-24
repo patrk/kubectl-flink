@@ -1,0 +1,1 @@
+{"jid":"fa7ad71c0a97ba46a4bf2e501a09e693","name":"State machine job","execution-config":{"execution-mode":"PIPELINED","restart-strategy":"Cluster level default restart strategy","job-parallelism":1,"object-reuse-mode":false,"user-config":{}}}

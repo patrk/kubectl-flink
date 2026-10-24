@@ -1,4 +1,4 @@
-FlinkDeployment default/bad-memory in context kind, job f35359fdcab6c8e789758b889bdac743 · PROGRESSING
+FlinkDeployment default/bad-memory in context kind, job eebb3aefb5a6ab6907701bac337496bb · PROGRESSING
   lifecycle UPGRADING
   JobManager deployment MISSING
 
@@ -24,3 +24,8 @@ Kubernetes
 
 Runtime
   not collected: JobManager REST API: not asked: the JobManager is MISSING
+
+Performance
+
+HA
+  HA not configured

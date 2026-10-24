@@ -1,0 +1,1 @@
+{"jid":"9259bb306be45338e6dd56ac25958484","name":"Socket Window WordCount","execution-config":{"execution-mode":"PIPELINED","restart-strategy":"Cluster level default restart strategy","job-parallelism":1,"object-reuse-mode":false,"user-config":{}}}

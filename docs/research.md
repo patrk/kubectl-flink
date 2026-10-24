@@ -108,12 +108,28 @@ assume a ClusterIP. The operator itself connects to `http://<name>-rest.<ns>:808
 | `/jobs/:jid/checkpoints/config` | `interval, timeout, mode, externalization, checkpoint_storage, tolerable_failed_checkpoints` | same |
 | `/jobs/:jid/plan` | `nodes[]{id, description, parallelism}` | typed in 2.2, raw JSON in 1.20; same shape |
 | `/jobs/:jid/vertices/:vid/backpressure` | `backpressureLevel` (`ok`, `low`, `high`), `subtasks[]{ratio, busyRatio, idleRatio}` | same; legacy `backpressure-level` key still emitted |
-| `/jobs/:jid/vertices/:vid/subtasks/metrics?get=…&agg=…` | `[{id, min, max, avg, sum, skew}]` | same |
+| `/jobs/:jid/vertices/:vid/subtasks/metrics?get=…&agg=…` | `[{id, min, max, avg, sum, skew}]`; one unknown name empties the whole answer | same |
+| `/jobs/:jid` | `plan.nodes[]{id, inputs[]{id}}`: sources have no inputs, sinks feed no node | same |
 
 `/jobs/:jid/vertices/:vid/metrics` is deprecated but still present in 2.2.
 
+A sink task emits nothing downstream, so its `numRecordsOutPerSecond` is 0 on a healthy job; what reaches a sink is
+its `numRecordsInPerSecond`. A job without checkpointing and without `restart-strategy.type` has no restart strategy:
+the first task failure fails the job ("Recovery is suppressed by NoRestartBackoffTimeStrategy").
+
 FLIP-33: `pendingRecords` exists only when the connector registers it. The Kafka source does, lazily after the first
 fetch per partition, and does not register `currentFetchEventTimeLag`. Treat both as optional.
+
+### Kubernetes HA ConfigMaps
+
+Checked on kind with Flink 1.20 and 2.2. `<name>-cluster-config-map` holds the leader entries
+(`org.apache.flink.k8s.leader.*`) and one job plan per job: `executionPlan-<jid>` on 2.x, `jobGraph-<jid>` on 1.x.
+`<name>-<jid>-config-map` holds the job's checkpoint pointers (`checkpointID-…`, `counter`). Both carry
+`app=<name>` and `type=flink-native-kubernetes`; only 1.20 also sets `configmap-type: high-availability`. The job
+result store lives in `high-availability.storageDir`, outside Kubernetes.
+
+The operator records spec changes as Normal `SpecChanged` events with the diff, such as
+`Diff: FlinkDeploymentSpec[job.state : running -> suspended]`; managedFields name who wrote each top-level spec field.
 
 ### Kubernetes client
 

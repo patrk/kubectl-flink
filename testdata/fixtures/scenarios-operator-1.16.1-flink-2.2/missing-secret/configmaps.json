@@ -1,0 +1,92 @@
+{
+  "apiVersion": "v1",
+  "items": [
+    {
+      "apiVersion": "v1",
+      "kind": "ConfigMap",
+      "metadata": {
+        "creationTimestamp": "2026-10-24T19:40:16Z",
+        "labels": {
+          "app": "missing-secret",
+          "component": "autoscaler"
+        },
+        "name": "autoscaler-missing-secret",
+        "namespace": "default",
+        "ownerReferences": [
+          {
+            "apiVersion": "flink.apache.org/v1beta1",
+            "blockOwnerDeletion": false,
+            "controller": false,
+            "kind": "FlinkDeployment",
+            "name": "missing-secret",
+            "uid": "5ab88b08-41ea-46a7-8033-16cdb72719e2"
+          }
+        ],
+        "resourceVersion": "48063",
+        "uid": "40dc8652-8f93-4113-b412-d402bf965f96"
+      },
+      "data": null
+    },
+    {
+      "apiVersion": "v1",
+      "data": {
+        "config.yaml": "",
+        "log4j-console.properties": ""
+      },
+      "kind": "ConfigMap",
+      "metadata": {
+        "creationTimestamp": "2026-10-24T19:40:16Z",
+        "labels": {
+          "app": "missing-secret",
+          "type": "flink-native-kubernetes"
+        },
+        "name": "flink-config-missing-secret",
+        "namespace": "default",
+        "ownerReferences": [
+          {
+            "apiVersion": "apps/v1",
+            "blockOwnerDeletion": true,
+            "controller": true,
+            "kind": "Deployment",
+            "name": "missing-secret",
+            "uid": "e1a12d1e-5542-4e82-aa64-296041804f34"
+          }
+        ],
+        "resourceVersion": "48050",
+        "uid": "db3f888a-c37f-4f38-be36-b898d77bb6aa"
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "data": {
+        "taskmanager-pod-template.yaml": ""
+      },
+      "kind": "ConfigMap",
+      "metadata": {
+        "creationTimestamp": "2026-10-24T19:40:16Z",
+        "labels": {
+          "app": "missing-secret",
+          "type": "flink-native-kubernetes"
+        },
+        "name": "pod-template-missing-secret",
+        "namespace": "default",
+        "ownerReferences": [
+          {
+            "apiVersion": "apps/v1",
+            "blockOwnerDeletion": true,
+            "controller": true,
+            "kind": "Deployment",
+            "name": "missing-secret",
+            "uid": "e1a12d1e-5542-4e82-aa64-296041804f34"
+          }
+        ],
+        "resourceVersion": "48053",
+        "uid": "073eed6b-bd10-4c43-bccb-731b6f09029d"
+      }
+    }
+  ],
+  "kind": "List",
+  "metadata": {
+    "resourceVersion": ""
+  }
+}

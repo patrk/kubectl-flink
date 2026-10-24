@@ -39,6 +39,13 @@ get() {
   echo "GET $1 did not satisfy '$cond' for 60 s: $(curl -s "localhost:$port$1" | head -c 300)" >&2
   exit 1
 }
+# optional <path> <name>: one request; an endpoint a job cannot serve (one without checkpointing has no
+# checkpoint config) only skips the file, with the answer on stderr.
+optional() {
+  local code
+  code=$(curl -s -o "$OUT/rest/$2.json" -w '%{http_code}' "localhost:$port$1") || code=000
+  [[ $code == 200 ]] || { echo "skipped $1: HTTP $code $(head -c 200 "$OUT/rest/$2.json" 2>/dev/null)" >&2; rm -f "$OUT/rest/$2.json"; }
+}
 get /config config
 get /jobmanager/config jobmanager-config
 get /taskmanagers taskmanagers
@@ -52,10 +59,15 @@ else
   get "/jobs/$jid/exceptions?maxExceptions=20" exceptions
 fi
 get "/jobs/$jid/checkpoints" checkpoints
-get "/jobs/$jid/checkpoints/config" checkpoints-config
+optional "/jobs/$jid/checkpoints/config" checkpoints-config
 get "/jobs/$jid/config" job-config
-for vid in $(jq -r '.vertices[].id' "$OUT/rest/job.json"); do
-  get "/jobs/$jid/vertices/$vid/backpressure" "backpressure-$vid"
-  get "/jobs/$jid/vertices/$vid/subtasks/metrics?get=busyTimeMsPerSecond,backPressuredTimeMsPerSecond,idleTimeMsPerSecond,numRecordsInPerSecond,numRecordsOutPerSecond&agg=sum,max,avg" "metrics-$vid" 'length > 0'
-done
+# Metrics only of a running job. The names list shows which optional metrics, such as a source's
+# <operator>.pendingRecords, a vertex has.
+if [[ $(jq -r .state "$OUT/rest/job.json") == RUNNING ]]; then
+  for vid in $(jq -r '.vertices[].id' "$OUT/rest/job.json"); do
+    optional "/jobs/$jid/vertices/$vid/backpressure" "backpressure-$vid"
+    get "/jobs/$jid/vertices/$vid/subtasks/metrics" "metric-names-$vid" 'length > 0'
+    get "/jobs/$jid/vertices/$vid/subtasks/metrics?get=busyTimeMsPerSecond,backPressuredTimeMsPerSecond,idleTimeMsPerSecond,numRecordsInPerSecond,numRecordsOutPerSecond&agg=sum,max,avg" "metrics-$vid" 'length > 0'
+  done
+fi
 echo "fixtures in $OUT"

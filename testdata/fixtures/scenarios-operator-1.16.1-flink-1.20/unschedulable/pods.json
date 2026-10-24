@@ -8,7 +8,7 @@
                 "annotations": {
                     "flinkdeployment.flink.apache.org/generation": "1"
                 },
-                "creationTimestamp": "2026-10-24T18:31:23Z",
+                "creationTimestamp": "2026-10-24T19:34:28Z",
                 "generateName": "unschedulable-5bdd4b9576-",
                 "generation": 1,
                 "labels": {
@@ -17,7 +17,7 @@
                     "pod-template-hash": "5bdd4b9576",
                     "type": "flink-native-kubernetes"
                 },
-                "name": "unschedulable-5bdd4b9576-94wcl",
+                "name": "unschedulable-5bdd4b9576-vttsz",
                 "namespace": "default",
                 "ownerReferences": [
                     {
@@ -26,11 +26,11 @@
                         "controller": true,
                         "kind": "ReplicaSet",
                         "name": "unschedulable-5bdd4b9576",
-                        "uid": "f4e6885a-e22e-4ba2-aab6-5aec25c423d2"
+                        "uid": "f52d0661-a1ff-4ccc-8576-688b50eb6da0"
                     }
                 ],
-                "resourceVersion": "36017",
-                "uid": "727da50b-e0b8-4b6e-9c62-4fe2999e6f59"
+                "resourceVersion": "45584",
+                "uid": "0fc05af6-9cea-487a-93dd-52ad33bbe770"
             },
             "spec": {
                 "containers": [
@@ -108,7 +108,7 @@
                             },
                             {
                                 "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
-                                "name": "kube-api-access-rfsdr",
+                                "name": "kube-api-access-tpgtz",
                                 "readOnly": true
                             }
                         ]
@@ -161,7 +161,7 @@
                         "name": "flink-config-volume"
                     },
                     {
-                        "name": "kube-api-access-rfsdr",
+                        "name": "kube-api-access-tpgtz",
                         "projected": {
                             "defaultMode": 420,
                             "sources": [
@@ -204,7 +204,7 @@
                 "conditions": [
                     {
                         "lastProbeTime": null,
-                        "lastTransitionTime": "2026-10-24T18:31:23Z",
+                        "lastTransitionTime": "2026-10-24T19:34:28Z",
                         "message": "0/1 nodes are available: 1 Insufficient cpu. preemption: 0/1 nodes are available: 1 Preemption is not helpful for scheduling.",
                         "observedGeneration": 1,
                         "reason": "Unschedulable",

@@ -4,13 +4,17 @@
 knows. It collects, in parallel and within 20 s, the operator status, the pods, the Warning events of the resource
 and its pods (selected by uid, because events of an earlier resource with the same name linger), the error lines of
 the JobManager log and of its previous container after a crash, and, when the JobManager is ready, its REST API:
-exception history, checkpoints and their configuration. What cannot be collected is listed with the reason.
+exception history, checkpoints and their configuration, and for a running job the metrics of each vertex. With HA
+configured it reads the keys of the HA ConfigMaps. What cannot be collected is listed with the reason.
+
+Computed signals, such as backpressure, a sink that receives nothing, a restart loop or HA state of another job, are
+emitted only when they cross a threshold kept in code; rules match their presence, not numbers in text.
 
 The evidence is reduced to signals: a fixed vocabulary of kinds (`event`, `pod.waiting`, `log.jobmanager`,
 `exception.cause`, `checkpoint.stale` and others) with their text. Rules in YAML match signals with regular
 expressions, take named captures into a title, an explanation and a next step, and may supersede the rules for the
 symptoms of their cause, as an image that cannot be pulled supersedes the JobManager crash loop. The verdict lists
-the matching rules by severity, then by layer: Kubernetes, operator, runtime. A job no rule explains gets the
+the matching rules by severity, then by layer: Kubernetes, operator, HA, runtime, performance. A job no rule explains gets the
 strongest generic signals instead, such as the deepest exception cause. Health stays what `ls` shows and runs on
 timers; a rule's severity says how bad the pattern is, even within the grace period.
 

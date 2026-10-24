@@ -7,6 +7,7 @@ import (
 	"net/http/httptest"
 	"os"
 	"path/filepath"
+	"strings"
 	"testing"
 )
 
@@ -35,8 +36,19 @@ func Server(t testing.TB, dir string) (srv *httptest.Server, jid string) {
 		"/jobs/" + jid + "/exceptions": "exceptions", "/jobs/" + jid + "/checkpoints": "checkpoints",
 		"/jobs/" + jid + "/checkpoints/config": "checkpoints-config",
 	}
+	// Vertex metrics: the names list without get, the captured aggregates with it.
+	files, _ := filepath.Glob(filepath.Join(dir, "rest", "metric-names-*.json"))
+	for _, f := range files {
+		vid := strings.TrimSuffix(strings.TrimPrefix(filepath.Base(f), "metric-names-"), ".json")
+		routes["/jobs/"+jid+"/vertices/"+vid+"/subtasks/metrics"] = "metric-names-" + vid
+		routes["/jobs/"+jid+"/vertices/"+vid+"/subtasks/metrics?get"] = "metrics-" + vid
+	}
 	srv = httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		name, ok := routes[r.URL.Path]
+		key := r.URL.Path
+		if r.URL.Query().Has("get") {
+			key += "?get"
+		}
+		name, ok := routes[key]
 		if !ok {
 			w.WriteHeader(http.StatusNotFound)
 			_ = json.NewEncoder(w).Encode(map[string][]string{"errors": {"Not found: " + r.URL.Path}})

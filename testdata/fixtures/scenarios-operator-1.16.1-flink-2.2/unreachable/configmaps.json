@@ -1,0 +1,64 @@
+{
+  "apiVersion": "v1",
+  "items": [
+    {
+      "apiVersion": "v1",
+      "kind": "ConfigMap",
+      "metadata": {
+        "creationTimestamp": "2026-10-24T19:41:09Z",
+        "labels": {
+          "app": "unreachable",
+          "component": "autoscaler"
+        },
+        "name": "autoscaler-unreachable",
+        "namespace": "default",
+        "ownerReferences": [
+          {
+            "apiVersion": "flink.apache.org/v1beta1",
+            "blockOwnerDeletion": false,
+            "controller": false,
+            "kind": "FlinkDeployment",
+            "name": "unreachable",
+            "uid": "8303f4b1-925a-4095-a569-7a5ad3577e33"
+          }
+        ],
+        "resourceVersion": "48599",
+        "uid": "79bca182-f586-477b-a0ef-bbdf6bfb96a6"
+      },
+      "data": null
+    },
+    {
+      "apiVersion": "v1",
+      "data": {
+        "config.yaml": "",
+        "log4j-console.properties": ""
+      },
+      "kind": "ConfigMap",
+      "metadata": {
+        "creationTimestamp": "2026-10-24T19:41:08Z",
+        "labels": {
+          "app": "unreachable",
+          "type": "flink-native-kubernetes"
+        },
+        "name": "flink-config-unreachable",
+        "namespace": "default",
+        "ownerReferences": [
+          {
+            "apiVersion": "apps/v1",
+            "blockOwnerDeletion": true,
+            "controller": true,
+            "kind": "Deployment",
+            "name": "unreachable",
+            "uid": "d7208463-225f-4d6a-906a-4ffad77aac0d"
+          }
+        ],
+        "resourceVersion": "48568",
+        "uid": "07ef670e-3944-40ca-8475-f378892c5c8a"
+      }
+    }
+  ],
+  "kind": "List",
+  "metadata": {
+    "resourceVersion": ""
+  }
+}

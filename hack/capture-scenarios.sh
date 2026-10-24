@@ -61,9 +61,11 @@ save() {
     k logs "$pod" -c flink-main-container --tail 300 --previous > "$OUT/$1/logs/${pod#pod/}.previous.log" 2>/dev/null || true
   done
   find "$OUT/$1/logs" -empty -delete
+  # ConfigMaps of the cluster (HA leader, job plans, checkpoint pointers) by key; values are blobs and dropped.
+  k get configmaps -l "app=$1" -o json | jq '.items |= map(.data |= (if . then with_entries(.value = "") else . end) | del(.binaryData))' > "$OUT/$1/configmaps.json"
   rm -f "$OUT/$1/events-cr.json"
 }
-SCENARIOS='bad-image missing-jar suspended bad-memory missing-secret unschedulable tm-lost'
+SCENARIOS='bad-image missing-jar suspended bad-memory missing-secret unschedulable tm-lost unreachable restart-loop restart-bot ha'
 trap 'k delete flinkdeployment $SCENARIOS --ignore-not-found --wait=false >/dev/null' EXIT
 
 deploy bad-image -e "s|image: flink:.*|image: flink:does-not-exist|"
@@ -98,11 +100,47 @@ check_why missing-secret mount-failed
 wait_pod_event unschedulable 'FailedScheduling'
 save unschedulable
 check_why unschedulable unschedulable
-# A lost TaskManager: the job restarts, and the exception history and checkpoints show it. It runs alone, after
-# the others are gone, because each cluster requests 2 GiB and a kind node has little more than 8.
+# The first batch is deleted before the second starts, which runs five jobs to RUNNING at 2 GiB each.
 k delete flinkdeployment bad-image missing-jar suspended bad-memory missing-secret unschedulable --wait=true --timeout=120s
+checkpointing='s|    taskmanager.numberOfTaskSlots: "1"|    taskmanager.numberOfTaskSlots: "1"\n    execution.checkpointing.interval: 10s|'
+unreachable_job='s|jarURI: .*|jarURI: local:///opt/flink/examples/streaming/SocketWindowWordCount.jar\n    args: ["--hostname", "nowhere.invalid", "--port", "9999"]|'
 # Checkpoints every 10 s, so that the restart after the lost TaskManager restores from one.
-deploy tm-lost -e 's|    taskmanager.numberOfTaskSlots: "1"|    taskmanager.numberOfTaskSlots: "1"\n    execution.checkpointing.interval: 10s|'
+deploy tm-lost -e "$checkpointing"
+# A source that cannot reach its host, without a restart strategy: the first failure is final.
+deploy unreachable -e "$unreachable_job"
+# The same with a restart strategy that never gives up: the job keeps restarting.
+deploy restart-loop -e "$unreachable_job" -e 's|    taskmanager.numberOfTaskSlots: "1"|    taskmanager.numberOfTaskSlots: "1"\n    restart-strategy.type: fixed-delay\n    restart-strategy.fixed-delay.attempts: "2147483647"\n    restart-strategy.fixed-delay.delay: 5 s|'
+# Restarted twice through spec.restartNonce by another field manager, as an external controller would.
+deploy restart-bot -e ""
+# Kubernetes HA: the HA ConfigMaps hold the job plan and checkpoint pointers.
+deploy ha -e 's|    taskmanager.numberOfTaskSlots: "1"|    taskmanager.numberOfTaskSlots: "1"\n    high-availability.type: kubernetes\n    high-availability.storageDir: file:///tmp/flink-ha|' -e "$checkpointing"
+
+wait_for unreachable '{.status.jobStatus.state}' '^FAILED$' 300
+KUBE_CONTEXT=$KUBE_CONTEXT OUT=$OUT/unreachable hack/capture-fixtures.sh unreachable
+save unreachable
+check_why unreachable dependency-unreachable
+
+wait_for restart-loop '{.status.jobStatus.state}' '^(RESTARTING|RUNNING|CREATED)$' 300
+sleep 30 # several restarts
+REQUIRE_EXCEPTIONS=1 KUBE_CONTEXT=$KUBE_CONTEXT OUT=$OUT/restart-loop hack/capture-fixtures.sh restart-loop
+save restart-loop
+check_why restart-loop dependency-unreachable
+
+wait_for restart-bot '{.status.lifecycleState}/{.status.jobStatus.state}' '^STABLE/RUNNING$' 300
+for nonce in 1 2; do
+  k patch flinkdeployment restart-bot --type merge --field-manager restart-bot -p "{\"spec\":{\"restartNonce\":$nonce}}"
+  wait_for restart-bot '{.status.observedGeneration}' "^$((nonce + 1))$" 300
+  wait_for restart-bot '{.status.lifecycleState}/{.status.jobStatus.state}' '^STABLE/RUNNING$' 300
+done
+save restart-bot
+check_why restart-bot external-restart
+
+wait_for ha '{.status.lifecycleState}/{.status.jobStatus.state}' '^STABLE/RUNNING$' 300
+sleep 20 # a checkpoint pointer in the HA ConfigMap
+KUBE_CONTEXT=$KUBE_CONTEXT OUT=$OUT/ha hack/capture-fixtures.sh ha
+save ha
+
+# A lost TaskManager: the job restarts, and the exception history and checkpoints show it.
 wait_for tm-lost '{.status.lifecycleState}/{.status.jobStatus.state}' '^STABLE/RUNNING$' 300
 sleep 30 # a few checkpoints first
 k delete pod -l app=tm-lost,component=taskmanager --wait=false

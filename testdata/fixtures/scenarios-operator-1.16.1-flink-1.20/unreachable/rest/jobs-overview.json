@@ -1,0 +1,1 @@
+{"jobs":[{"jid":"9259bb306be45338e6dd56ac25958484","name":"Socket Window WordCount","start-time":1792870524041,"end-time":1792870555524,"duration":31483,"state":"FAILED","last-modification":1792870555524,"tasks":{"running":0,"canceling":0,"canceled":1,"total":2,"created":0,"scheduled":0,"deploying":0,"reconciling":0,"finished":0,"initializing":0,"failed":1}}]}

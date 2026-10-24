@@ -5,53 +5,23 @@
       "apiVersion": "v1",
       "count": 6,
       "eventTime": null,
-      "firstTimestamp": "2026-10-24T18:38:44Z",
+      "firstTimestamp": "2026-10-24T19:40:16Z",
       "involvedObject": {
         "apiVersion": "flink.apache.org/v1beta1",
         "kind": "FlinkDeployment",
         "name": "bad-memory",
         "namespace": "default",
-        "uid": "78350141-999c-47dc-9606-0fab08347399"
+        "uid": "45dedb30-ab12-462a-82c9-b1cb00346216"
       },
       "kind": "Event",
-      "lastTimestamp": "2026-10-24T18:39:30Z",
-      "message": "TaskManager memory configuration failed: Sum of configured JVM Metaspace (256.000mb (268435456 bytes)) and JVM Overhead (192.000mb (201326592 bytes)) exceed configured Total Process Memory (400.000mb (419430400 bytes)). -> Sum of configured JVM Metaspace (256.000mb (268435456 bytes)) and JVM Overhead (192.000mb (201326592 bytes)) exceed configured Total Process Memory (400.000mb (419430400 bytes)).",
-      "metadata": {
-        "creationTimestamp": "2026-10-24T18:38:44Z",
-        "name": "JobManagerDeployment.1605516133",
-        "namespace": "default",
-        "resourceVersion": "37596",
-        "uid": "1a5bb570-bcd6-468d-a9cb-a4da29310636"
-      },
-      "reason": "Error",
-      "reportingComponent": "",
-      "reportingInstance": "",
-      "source": {
-        "component": "JobManagerDeployment"
-      },
-      "type": "Warning"
-    },
-    {
-      "apiVersion": "v1",
-      "count": 6,
-      "eventTime": null,
-      "firstTimestamp": "2026-10-24T18:38:44Z",
-      "involvedObject": {
-        "apiVersion": "flink.apache.org/v1beta1",
-        "kind": "FlinkDeployment",
-        "name": "bad-memory",
-        "namespace": "default",
-        "uid": "78350141-999c-47dc-9606-0fab08347399"
-      },
-      "kind": "Event",
-      "lastTimestamp": "2026-10-24T18:39:30Z",
+      "lastTimestamp": "2026-10-24T19:41:02Z",
       "message": "Starting deployment",
       "metadata": {
-        "creationTimestamp": "2026-10-24T18:38:44Z",
-        "name": "JobManagerDeployment.1821051628",
+        "creationTimestamp": "2026-10-24T19:40:16Z",
+        "name": "JobManagerDeployment.1214401574",
         "namespace": "default",
-        "resourceVersion": "37595",
-        "uid": "9dfc7312-9a80-403c-b3f6-2f6660a882f1"
+        "resourceVersion": "48348",
+        "uid": "84101d89-b443-4a4d-a8be-99ba7f87c771"
       },
       "reason": "Submit",
       "reportingComponent": "",
@@ -60,6 +30,36 @@
         "component": "JobManagerDeployment"
       },
       "type": "Normal"
+    },
+    {
+      "apiVersion": "v1",
+      "count": 6,
+      "eventTime": null,
+      "firstTimestamp": "2026-10-24T19:40:16Z",
+      "involvedObject": {
+        "apiVersion": "flink.apache.org/v1beta1",
+        "kind": "FlinkDeployment",
+        "name": "bad-memory",
+        "namespace": "default",
+        "uid": "45dedb30-ab12-462a-82c9-b1cb00346216"
+      },
+      "kind": "Event",
+      "lastTimestamp": "2026-10-24T19:41:02Z",
+      "message": "TaskManager memory configuration failed: Sum of configured JVM Metaspace (256.000mb (268435456 bytes)) and JVM Overhead (192.000mb (201326592 bytes)) exceed configured Total Process Memory (400.000mb (419430400 bytes)). -> Sum of configured JVM Metaspace (256.000mb (268435456 bytes)) and JVM Overhead (192.000mb (201326592 bytes)) exceed configured Total Process Memory (400.000mb (419430400 bytes)).",
+      "metadata": {
+        "creationTimestamp": "2026-10-24T19:40:16Z",
+        "name": "JobManagerDeployment.998866079",
+        "namespace": "default",
+        "resourceVersion": "48349",
+        "uid": "81c243c3-2813-4cea-8827-2620c70877b3"
+      },
+      "reason": "Error",
+      "reportingComponent": "",
+      "reportingInstance": "",
+      "source": {
+        "component": "JobManagerDeployment"
+      },
+      "type": "Warning"
     }
   ],
   "kind": "List",
