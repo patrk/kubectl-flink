@@ -12,10 +12,15 @@ mkdir -p "$OUT"
 # Scenario pods request little CPU so that a 4-CPU CI runner fits a batch next to basic and kube-system (about
 # 2 CPUs); the limit factor lets each still use about 0.9 CPU, since Flink sets the limit to the request by default.
 # Scenario edits run first, so unschedulable keeps its 100 CPUs.
-small='s|cpu: 0.5|cpu: 0.15|g; s|    taskmanager.numberOfTaskSlots: "1"|    taskmanager.numberOfTaskSlots: "1"\n    kubernetes.jobmanager.cpu.limit-factor: "6"\n    kubernetes.taskmanager.cpu.limit-factor: "6"|'
+small='s|cpu: 0.5 }|cpu: 0.15 }|g; s|^    taskmanager.numberOfTaskSlots: "1"$|    taskmanager.numberOfTaskSlots: "1"\n    kubernetes.jobmanager.cpu.limit-factor: "6"\n    kubernetes.taskmanager.cpu.limit-factor: "6"|'
 deploy() {
   local name=$1; shift
-  envsubst < test/e2e/basic.yaml.tmpl | sed "s/name: basic/name: $name/" | sed "$@" | sed "$small" | k apply -f -
+  local manifest
+  manifest=$(envsubst < test/e2e/basic.yaml.tmpl | sed "s/name: basic/name: $name/" | sed "$@" | sed "$small")
+  # Without the limit factor the pods would be throttled at 0.15 CPU; fail here rather than time out later.
+  grep -q 'kubernetes.taskmanager.cpu.limit-factor: "6"' <<<"$manifest" ||
+    { echo "$name: CPU limit factor not set; does a scenario edit change numberOfTaskSlots?" >&2; exit 1; }
+  k apply -f - <<<"$manifest"
 }
 # diagnose_scheduling: what a timeout needs to be understood in CI, where the cluster is gone afterwards.
 diagnose_scheduling() {

@@ -38,7 +38,7 @@ const (
 	SigPodWaiting       = "pod.waiting"         // "Reason: message (component)" of a waiting container
 	SigPodTerminated    = "pod.terminated"      // "Reason exit N: message (component)" of a last termination
 	SigPodUnschedulable = "pod.unschedulable"   // "message (component)" from the scheduler
-	SigPodCreating      = "pod.creating"        // "ContainerCreating (component)": a container that has not started yet
+	SigPodMount         = "pod.mount"           // "FailedMount: message (component)" of a pod that is still starting
 	SigLog              = "log.jobmanager"      // a problem line of the JobManager's log, current or previous
 	SigException        = "exception"           // first line of an exception in the job's history
 	SigExceptionCause   = "exception.cause"     // deepest cause of that exception
@@ -57,7 +57,7 @@ const (
 
 // Kinds is the vocabulary rules may use.
 var Kinds = []string{
-	SigLifecycle, SigJobManager, SigJobState, SigOperatorError, SigHealth, SigEvent, SigPodWaiting, SigPodTerminated, SigPodCreating,
+	SigLifecycle, SigJobManager, SigJobState, SigOperatorError, SigHealth, SigEvent, SigPodWaiting, SigPodTerminated, SigPodMount,
 	SigPodUnschedulable, SigLog, SigException, SigExceptionCause, SigCheckpointStale, SigCheckpointFail, SigRestored,
 	SigRestarts, SigJobsMultiple, SigSpecChange, SigSpecWriter, SigBackpressure, SigBottleneck, SigSinkIdle, SigHALeftover,
 }
@@ -108,7 +108,7 @@ func Signals(ev *Evidence) []Signal {
 		}
 	}
 	for i := range ev.Pods {
-		podSignals(&ev.Pods[i], add)
+		podSignals(&ev.Pods[i], ev.Events, add)
 	}
 	for _, l := range ev.Logs {
 		add(SigLog, Kubernetes, l.Text)
@@ -177,25 +177,39 @@ func Signals(ev *Evidence) []Signal {
 }
 
 // podSignals ends every pod signal with the pod's component, such as "(taskmanager)", so that a rule can tell a
-// crashing JobManager from a crashing TaskManager.
-func podSignals(p *kube.Pod, add adder) {
+// crashing JobManager from a crashing TaskManager. Init containers count: they hold the main containers back.
+func podSignals(p *kube.Pod, events []kube.Event, add adder) {
 	component := " (" + cmp.Or(p.Labels[kube.LabelComponent], "pod") + ")"
 	for _, c := range p.Status.Conditions {
 		if c.Type == "PodScheduled" && c.Status == "False" {
-			add(SigPodUnschedulable, Kubernetes, c.Message+component)
+			add(SigPodUnschedulable, Kubernetes, c.Message+component, c.LastTransitionTime.Time)
 		}
 	}
-	for _, cs := range p.Status.ContainerStatuses {
-		if w := cs.State.Waiting; w != nil && (w.Reason == "ContainerCreating" || w.Reason == "PodInitializing") {
-			add(SigPodCreating, Kubernetes, w.Reason+component)
-		}
-		if w := cs.State.Waiting; w != nil && w.Reason != "ContainerCreating" && w.Reason != "PodInitializing" {
-			add(SigPodWaiting, Kubernetes, strings.TrimSuffix(w.Reason+": "+w.Message, ": ")+component)
+	starting := p.Status.Phase == "Pending"
+	for _, cs := range append(slices.Clone(p.Status.InitContainerStatuses), p.Status.ContainerStatuses...) {
+		if w := cs.State.Waiting; w != nil {
+			if w.Reason == "ContainerCreating" || w.Reason == "PodInitializing" {
+				starting = true
+			} else {
+				add(SigPodWaiting, Kubernetes, strings.TrimSuffix(w.Reason+": "+w.Message, ": ")+component)
+			}
 		}
 		for _, t := range []*kube.ContainerTerminated{cs.State.Terminated, cs.LastState.Terminated} {
 			if t != nil && (t.Reason != "Completed" || t.ExitCode != 0) {
 				add(SigPodTerminated, Kubernetes, strings.TrimSuffix(fmt.Sprintf("%s exit %d: %s", t.Reason, t.ExitCode, t.Message), ": ")+component, t.FinishedAt.Time)
 			}
+		}
+	}
+	// A volume that cannot be mounted shows only as events. They count for a pod still starting, and only those
+	// about this pod since it was created: the operator's own config ConfigMap is briefly missing on every new
+	// deployment, and that event outlives the hiccup by an hour.
+	if !starting {
+		return
+	}
+	for i := range events {
+		e := &events[i]
+		if e.Reason == "FailedMount" && e.InvolvedObject.Kind == "Pod" && e.InvolvedObject.Name == p.Name && !e.Last().Before(p.CreationTimestamp.Time) {
+			add(SigPodMount, Kubernetes, "FailedMount: "+e.Message+component, e.Last())
 		}
 	}
 }

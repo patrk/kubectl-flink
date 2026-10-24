@@ -4,8 +4,9 @@
 #
 # A rule about a pod's failure needs the pod in that state now: events stay for an hour, so an event alone may tell
 # of a startup hiccup that resolved itself, such as the operator's own config ConfigMap not being there yet in the
-# first seconds of a deployment. Events add the detail. Failures where no pod exists, such as quota and admission
-# denials, can only be told by events.
+# first seconds of a deployment. pod.mount carries a FailedMount event only for the pod it is about, while that pod
+# is still starting. Other events add detail. Failures where no pod exists, such as quota and admission denials,
+# can only be told by events.
 rules:
   - id: image-pull
     layer: kubernetes
@@ -41,9 +42,13 @@ rules:
   - id: jobmanager-crashloop
     layer: kubernetes
     severity: FAILED
-    when:
+    # The pod's state now, or the operator's status.error, which is current too; between restarts the container
+    # is running or terminated rather than waiting.
+    any:
       - signal: pod.waiting
         match: '^CrashLoopBackOff\b.*\(jobmanager\)$'
+      - signal: operator.error
+        match: '^CrashLoopBackOff:'
     optional:
       - signal: pod.terminated
         match: '^(?P<termination>\w+ exit \d+).*\(jobmanager\)$'
@@ -70,14 +75,11 @@ rules:
   - id: mount-failed
     layer: kubernetes
     severity: FAILED
-    when:
-      - signal: pod.creating
-        match: 'ContainerCreating'
     any:
-      - signal: event
+      - signal: pod.mount
         match: '^FailedMount: MountVolume\.SetUp failed for volume "(?P<volume>[^"]+)" : (?P<kind>secret|configmap) "(?P<object>[^"]+)" not found'
-      - signal: event
-        match: '^FailedMount: (?P<detail>.+)'
+      - signal: pod.mount
+        match: '^FailedMount: (?P<detail>.+) \(\w+\)$'
     title: '{{if .object}}The {{.kind}} {{.object}} for volume {{.volume}} does not exist{{else}}A volume cannot be mounted{{end}}'
     explain: >-
       The pod cannot start until all its volumes are mounted, so it stays in ContainerCreating.
@@ -90,6 +92,9 @@ rules:
     when:
       - signal: pod.unschedulable
         match: '(?P<detail>\d+/\d+ nodes are available: [^.]*)'
+    optional:
+      - signal: event
+        match: '^FailedScheduling: '
     title: 'No node can run the pod: {{.detail}}'
     explain: >-
       The scheduler finds no node with the requested resources, labels or tolerations, so the pod stays Pending.

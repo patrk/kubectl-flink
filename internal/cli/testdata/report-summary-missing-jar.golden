@@ -13,9 +13,6 @@ Flink job `30a0a7cb56f88acb5253438bf2a48e1d`.
    The JobManager exits at startup because spec.job.jarURI points at a file that is not in the image or was not downloaded. Kubernetes restarts it, so the pod is in CrashLoopBackOff.
    Next: Fix spec.job.jarURI, or build the jar into the image at that path.
 
-Also seen, not explained by the above:
-- operator.error: CrashLoopBackOff: [flink-main-container] back-off 20s restarting failed container=flink-main-container pod=missing-jar-6dcbb6c8fc-jdxmc_default(6a46a5a3-2395-4124-ab3e-6c4174bdd176)
-
 ## Timeline, newest first
 
 | UTC | Source | What |
