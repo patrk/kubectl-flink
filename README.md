@@ -14,7 +14,7 @@ rollbacks).
 ```
 kubectl flink ls [-A] [--health failed,stuck,degraded | --not-ok] [--sort health|restarts|age] [-o wide|json|yaml] [-w]
 kubectl flink why <job>            # one-screen verdict, then the raw evidence
-kubectl flink report <job>         # markdown + tarball for a ticket, secrets redacted
+kubectl flink report <job>         # handover bundle: every fact needed to debug the job, secrets redacted
 kubectl flink exceptions | checkpoints | snapshots | logs | history <job>
 kubectl flink ui <job>             # port-forward to the JobManager and open the Flink web UI
 kubectl flink savepoint | restart | suspend | resume <job> [--dry-run] [--wait]
