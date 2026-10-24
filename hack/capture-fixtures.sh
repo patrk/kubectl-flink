@@ -7,7 +7,7 @@ name=${1:?name}
 k() { kubectl --context "$KUBE_CONTEXT" "$@"; }
 mkdir -p "$OUT/rest"
 
-k get flinkdeployment "$name" -o json > "$OUT/flinkdeployment.json"
+k get flinkdeployment "$name" -o json --show-managed-fields > "$OUT/flinkdeployment.json"
 k get pods -l "app=$name" -o json > "$OUT/pods.json"
 # All namespace events: pod and deployment events carry other involvedObject names than the CR.
 k get events -o json > "$OUT/events.json"
