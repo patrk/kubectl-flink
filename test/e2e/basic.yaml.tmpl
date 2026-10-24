@@ -1,0 +1,18 @@
+apiVersion: flink.apache.org/v1beta1
+kind: FlinkDeployment
+metadata:
+  name: basic
+spec:
+  image: flink:${FLINK_VERSION}
+  flinkVersion: v${FLINK_VERSION_ENUM}
+  flinkConfiguration:
+    taskmanager.numberOfTaskSlots: "1"
+  serviceAccount: flink
+  jobManager:
+    resource: { memory: 1024m, cpu: 0.5 }
+  taskManager:
+    resource: { memory: 1024m, cpu: 0.5 }
+  job:
+    jarURI: local:///opt/flink/examples/streaming/StateMachineExample.jar
+    parallelism: 1
+    upgradeMode: stateless
