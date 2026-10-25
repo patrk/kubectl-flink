@@ -1,7 +1,8 @@
 Output docs/demo/ls.gif
 Require kubectl
 Set Height 900
-Source docs/demo/setup.tape
+Source docs/demo/look.tape
+Source docs/demo/env.tape
 
 Sleep 600ms
 Type "# every Flink job in the cluster, one health value each" Sleep 700ms Enter

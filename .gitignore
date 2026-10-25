@@ -4,3 +4,5 @@ dist/
 coverage.out
 # Bundles that kubectl flink report and top's R write into the current directory.
 kubectl-flink-report-*.tar.gz
+# The light variants of the demo tapes, written while recording.
+docs/demo/.work/
