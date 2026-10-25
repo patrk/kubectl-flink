@@ -5,23 +5,23 @@
             "apiVersion": "v1",
             "count": 1,
             "eventTime": null,
-            "firstTimestamp": "2026-10-24T13:11:03Z",
+            "firstTimestamp": "2026-10-24T21:16:59Z",
             "involvedObject": {
                 "apiVersion": "flink.apache.org/v1beta1",
                 "kind": "FlinkDeployment",
                 "name": "basic",
                 "namespace": "default",
-                "uid": "54e68d67-b2b2-498b-a951-5bbd3db76960"
+                "uid": "967adea7-dc2a-4649-90ce-cd3cf6b1044e"
             },
             "kind": "Event",
-            "lastTimestamp": "2026-10-24T13:11:03Z",
+            "lastTimestamp": "2026-10-24T21:16:59Z",
             "message": "Job status changed from CREATED to RUNNING",
             "metadata": {
-                "creationTimestamp": "2026-10-24T13:11:03Z",
-                "name": "Job.155439600",
+                "creationTimestamp": "2026-10-24T21:16:59Z",
+                "name": "Job.1232173993",
                 "namespace": "default",
-                "resourceVersion": "795",
-                "uid": "179b01d7-cfbd-4171-a8fe-0f0fb6c9b0da"
+                "resourceVersion": "797",
+                "uid": "e29785bd-dc76-4112-9d4c-2468026b4dd3"
             },
             "reason": "JobStatusChanged",
             "reportingComponent": "",
@@ -35,23 +35,23 @@
             "apiVersion": "v1",
             "count": 1,
             "eventTime": null,
-            "firstTimestamp": "2026-10-24T13:10:48Z",
+            "firstTimestamp": "2026-10-24T21:16:28Z",
             "involvedObject": {
                 "apiVersion": "flink.apache.org/v1beta1",
                 "kind": "FlinkDeployment",
                 "name": "basic",
                 "namespace": "default",
-                "uid": "54e68d67-b2b2-498b-a951-5bbd3db76960"
+                "uid": "967adea7-dc2a-4649-90ce-cd3cf6b1044e"
             },
             "kind": "Event",
-            "lastTimestamp": "2026-10-24T13:10:48Z",
+            "lastTimestamp": "2026-10-24T21:16:28Z",
             "message": "Job status changed from RECONCILING to CREATED",
             "metadata": {
-                "creationTimestamp": "2026-10-24T13:10:48Z",
-                "name": "Job.915018006",
+                "creationTimestamp": "2026-10-24T21:16:28Z",
+                "name": "Job.1991752399",
                 "namespace": "default",
-                "resourceVersion": "772",
-                "uid": "79a458cb-662a-4dc6-8920-f936ec5c1ca3"
+                "resourceVersion": "750",
+                "uid": "36818e18-dbbd-4c25-b93b-6e2169625897"
             },
             "reason": "JobStatusChanged",
             "reportingComponent": "",
@@ -65,23 +65,23 @@
             "apiVersion": "v1",
             "count": 1,
             "eventTime": null,
-            "firstTimestamp": "2026-10-24T13:10:09Z",
+            "firstTimestamp": "2026-10-24T21:15:51Z",
             "involvedObject": {
                 "apiVersion": "flink.apache.org/v1beta1",
                 "kind": "FlinkDeployment",
                 "name": "basic",
                 "namespace": "default",
-                "uid": "54e68d67-b2b2-498b-a951-5bbd3db76960"
+                "uid": "967adea7-dc2a-4649-90ce-cd3cf6b1044e"
             },
             "kind": "Event",
-            "lastTimestamp": "2026-10-24T13:10:09Z",
+            "lastTimestamp": "2026-10-24T21:15:51Z",
             "message": "Starting deployment",
             "metadata": {
-                "creationTimestamp": "2026-10-24T13:10:09Z",
-                "name": "JobManagerDeployment.1746989479",
+                "creationTimestamp": "2026-10-24T21:15:51Z",
+                "name": "JobManagerDeployment.676240224",
                 "namespace": "default",
-                "resourceVersion": "645",
-                "uid": "786e1196-4845-4d98-8015-81a73e4a9d63"
+                "resourceVersion": "624",
+                "uid": "b9779ba4-a666-4831-9f03-802d6210a3d3"
             },
             "reason": "Submit",
             "reportingComponent": "",
@@ -95,24 +95,24 @@
             "apiVersion": "v1",
             "count": 1,
             "eventTime": null,
-            "firstTimestamp": "2026-10-24T13:10:10Z",
+            "firstTimestamp": "2026-10-24T21:15:52Z",
             "involvedObject": {
                 "apiVersion": "v1",
                 "kind": "Pod",
-                "name": "basic-57d97fcb56-mwz9f",
+                "name": "basic-57d97fcb56-bjxh4",
                 "namespace": "default",
-                "resourceVersion": "650",
-                "uid": "54c6628c-573e-4ef7-9b81-8965b5f40112"
+                "resourceVersion": "628",
+                "uid": "4d91de3a-479f-44c2-b5c5-261cacfc11ca"
             },
             "kind": "Event",
-            "lastTimestamp": "2026-10-24T13:10:10Z",
-            "message": "Successfully assigned default/basic-57d97fcb56-mwz9f to kubectl-flink-control-plane",
+            "lastTimestamp": "2026-10-24T21:15:52Z",
+            "message": "Successfully assigned default/basic-57d97fcb56-bjxh4 to kubectl-flink-control-plane",
             "metadata": {
-                "creationTimestamp": "2026-10-24T13:10:10Z",
-                "name": "basic-57d97fcb56-mwz9f.18e179389d0120e8",
+                "creationTimestamp": "2026-10-24T21:15:52Z",
+                "name": "basic-57d97fcb56-bjxh4.18e193b9ca3e92fd",
                 "namespace": "default",
-                "resourceVersion": "656",
-                "uid": "3e2382c8-baaa-405a-95e8-2d0ca339883a"
+                "resourceVersion": "635",
+                "uid": "d037f9d9-34e8-484c-8837-0f3b92d63d4b"
             },
             "reason": "Scheduled",
             "reportingComponent": "default-scheduler",
@@ -126,25 +126,25 @@
             "apiVersion": "v1",
             "count": 1,
             "eventTime": null,
-            "firstTimestamp": "2026-10-24T13:10:11Z",
+            "firstTimestamp": "2026-10-24T21:15:53Z",
             "involvedObject": {
                 "apiVersion": "v1",
                 "fieldPath": "spec.containers{flink-main-container}",
                 "kind": "Pod",
-                "name": "basic-57d97fcb56-mwz9f",
+                "name": "basic-57d97fcb56-bjxh4",
                 "namespace": "default",
-                "resourceVersion": "654",
-                "uid": "54c6628c-573e-4ef7-9b81-8965b5f40112"
+                "resourceVersion": "632",
+                "uid": "4d91de3a-479f-44c2-b5c5-261cacfc11ca"
             },
             "kind": "Event",
-            "lastTimestamp": "2026-10-24T13:10:11Z",
+            "lastTimestamp": "2026-10-24T21:15:53Z",
             "message": "Pulling image \"flink:1.20\"",
             "metadata": {
-                "creationTimestamp": "2026-10-24T13:10:11Z",
-                "name": "basic-57d97fcb56-mwz9f.18e17938b703abcb",
+                "creationTimestamp": "2026-10-24T21:15:53Z",
+                "name": "basic-57d97fcb56-bjxh4.18e193b9e5462cba",
                 "namespace": "default",
-                "resourceVersion": "670",
-                "uid": "36d5bf24-4257-420c-9a9d-ff16dc6ff415"
+                "resourceVersion": "650",
+                "uid": "2b1e3458-0964-4d79-8baf-b13df2386c75"
             },
             "reason": "Pulling",
             "reportingComponent": "kubelet",
@@ -159,25 +159,25 @@
             "apiVersion": "v1",
             "count": 1,
             "eventTime": null,
-            "firstTimestamp": "2026-10-24T13:10:18Z",
+            "firstTimestamp": "2026-10-24T21:15:58Z",
             "involvedObject": {
                 "apiVersion": "v1",
                 "fieldPath": "spec.containers{flink-main-container}",
                 "kind": "Pod",
-                "name": "basic-57d97fcb56-mwz9f",
+                "name": "basic-57d97fcb56-bjxh4",
                 "namespace": "default",
-                "resourceVersion": "654",
-                "uid": "54c6628c-573e-4ef7-9b81-8965b5f40112"
+                "resourceVersion": "632",
+                "uid": "4d91de3a-479f-44c2-b5c5-261cacfc11ca"
             },
             "kind": "Event",
-            "lastTimestamp": "2026-10-24T13:10:18Z",
-            "message": "Successfully pulled image \"flink:1.20\" in 7.562s (7.562s including waiting). Image size: 584913230 bytes.",
+            "lastTimestamp": "2026-10-24T21:15:58Z",
+            "message": "Successfully pulled image \"flink:1.20\" in 5.576s (5.576s including waiting). Image size: 584913230 bytes.",
             "metadata": {
-                "creationTimestamp": "2026-10-24T13:10:18Z",
-                "name": "basic-57d97fcb56-mwz9f.18e1793a79c61c3d",
+                "creationTimestamp": "2026-10-24T21:15:58Z",
+                "name": "basic-57d97fcb56-bjxh4.18e193bb31aa6e8a",
                 "namespace": "default",
-                "resourceVersion": "683",
-                "uid": "0b58f0e9-ea15-43a3-8ff4-4298fc66dde6"
+                "resourceVersion": "662",
+                "uid": "2496348e-f813-4a7b-82de-32e555d98885"
             },
             "reason": "Pulled",
             "reportingComponent": "kubelet",
@@ -192,25 +192,25 @@
             "apiVersion": "v1",
             "count": 1,
             "eventTime": null,
-            "firstTimestamp": "2026-10-24T13:10:18Z",
+            "firstTimestamp": "2026-10-24T21:15:58Z",
             "involvedObject": {
                 "apiVersion": "v1",
                 "fieldPath": "spec.containers{flink-main-container}",
                 "kind": "Pod",
-                "name": "basic-57d97fcb56-mwz9f",
+                "name": "basic-57d97fcb56-bjxh4",
                 "namespace": "default",
-                "resourceVersion": "654",
-                "uid": "54c6628c-573e-4ef7-9b81-8965b5f40112"
+                "resourceVersion": "632",
+                "uid": "4d91de3a-479f-44c2-b5c5-261cacfc11ca"
             },
             "kind": "Event",
-            "lastTimestamp": "2026-10-24T13:10:18Z",
+            "lastTimestamp": "2026-10-24T21:15:58Z",
             "message": "Container created",
             "metadata": {
-                "creationTimestamp": "2026-10-24T13:10:18Z",
-                "name": "basic-57d97fcb56-mwz9f.18e1793a7a6e20b0",
+                "creationTimestamp": "2026-10-24T21:15:58Z",
+                "name": "basic-57d97fcb56-bjxh4.18e193bb321ff3ee",
                 "namespace": "default",
-                "resourceVersion": "684",
-                "uid": "89a02f2a-8f25-4b0b-8122-163666556426"
+                "resourceVersion": "663",
+                "uid": "aa453b03-d68c-4e12-bb6f-977ba1f53bde"
             },
             "reason": "Created",
             "reportingComponent": "kubelet",
@@ -225,25 +225,25 @@
             "apiVersion": "v1",
             "count": 1,
             "eventTime": null,
-            "firstTimestamp": "2026-10-24T13:10:18Z",
+            "firstTimestamp": "2026-10-24T21:15:58Z",
             "involvedObject": {
                 "apiVersion": "v1",
                 "fieldPath": "spec.containers{flink-main-container}",
                 "kind": "Pod",
-                "name": "basic-57d97fcb56-mwz9f",
+                "name": "basic-57d97fcb56-bjxh4",
                 "namespace": "default",
-                "resourceVersion": "654",
-                "uid": "54c6628c-573e-4ef7-9b81-8965b5f40112"
+                "resourceVersion": "632",
+                "uid": "4d91de3a-479f-44c2-b5c5-261cacfc11ca"
             },
             "kind": "Event",
-            "lastTimestamp": "2026-10-24T13:10:18Z",
+            "lastTimestamp": "2026-10-24T21:15:58Z",
             "message": "Container started",
             "metadata": {
-                "creationTimestamp": "2026-10-24T13:10:18Z",
-                "name": "basic-57d97fcb56-mwz9f.18e1793a7df8c690",
+                "creationTimestamp": "2026-10-24T21:15:58Z",
+                "name": "basic-57d97fcb56-bjxh4.18e193bb35402231",
                 "namespace": "default",
-                "resourceVersion": "685",
-                "uid": "b4e02fcd-98b5-4cfd-a559-0e0620e13b44"
+                "resourceVersion": "664",
+                "uid": "6265b905-f020-4e84-ae35-7a367ecda0bc"
             },
             "reason": "Started",
             "reportingComponent": "kubelet",
@@ -258,25 +258,25 @@
             "apiVersion": "v1",
             "count": 18,
             "eventTime": null,
-            "firstTimestamp": "2026-10-24T13:10:19Z",
+            "firstTimestamp": "2026-10-24T21:15:59Z",
             "involvedObject": {
                 "apiVersion": "v1",
                 "fieldPath": "spec.containers{flink-main-container}",
                 "kind": "Pod",
-                "name": "basic-57d97fcb56-mwz9f",
+                "name": "basic-57d97fcb56-bjxh4",
                 "namespace": "default",
-                "resourceVersion": "654",
-                "uid": "54c6628c-573e-4ef7-9b81-8965b5f40112"
+                "resourceVersion": "632",
+                "uid": "4d91de3a-479f-44c2-b5c5-261cacfc11ca"
             },
             "kind": "Event",
-            "lastTimestamp": "2026-10-24T13:10:36Z",
+            "lastTimestamp": "2026-10-24T21:16:16Z",
             "message": "Startup probe failed: Get \"http://10.244.0.6:8081/config\": dial tcp 10.244.0.6:8081: connect: connection refused",
             "metadata": {
-                "creationTimestamp": "2026-10-24T13:10:19Z",
-                "name": "basic-57d97fcb56-mwz9f.18e1793a8c807a41",
+                "creationTimestamp": "2026-10-24T21:15:59Z",
+                "name": "basic-57d97fcb56-bjxh4.18e193bb42fac590",
                 "namespace": "default",
-                "resourceVersion": "733",
-                "uid": "178fadea-a63d-4644-8c92-1133fd102e87"
+                "resourceVersion": "712",
+                "uid": "4db7a370-dcbc-4744-8068-f31af4c56df7"
             },
             "reason": "Unhealthy",
             "reportingComponent": "kubelet",
@@ -291,25 +291,25 @@
             "apiVersion": "v1",
             "count": 1,
             "eventTime": null,
-            "firstTimestamp": "2026-10-24T13:10:38Z",
+            "firstTimestamp": "2026-10-24T21:16:18Z",
             "involvedObject": {
                 "apiVersion": "v1",
                 "fieldPath": "spec.containers{flink-main-container}",
                 "kind": "Pod",
-                "name": "basic-57d97fcb56-mwz9f",
+                "name": "basic-57d97fcb56-bjxh4",
                 "namespace": "default",
-                "resourceVersion": "654",
-                "uid": "54c6628c-573e-4ef7-9b81-8965b5f40112"
+                "resourceVersion": "632",
+                "uid": "4d91de3a-479f-44c2-b5c5-261cacfc11ca"
             },
             "kind": "Event",
-            "lastTimestamp": "2026-10-24T13:10:38Z",
+            "lastTimestamp": "2026-10-24T21:16:18Z",
             "message": "Startup probe failed: Get \"http://10.244.0.6:8081/config\": context deadline exceeded (Client.Timeout exceeded while awaiting headers)",
             "metadata": {
-                "creationTimestamp": "2026-10-24T13:10:38Z",
-                "name": "basic-57d97fcb56-mwz9f.18e1793efb623fa7",
+                "creationTimestamp": "2026-10-24T21:16:18Z",
+                "name": "basic-57d97fcb56-bjxh4.18e193bfb1ea985b",
                 "namespace": "default",
-                "resourceVersion": "738",
-                "uid": "e7a969c4-2b2a-4129-9f17-114b3f93d41a"
+                "resourceVersion": "716",
+                "uid": "ba8e68ad-bbeb-46ad-8e83-d507e4e543bf"
             },
             "reason": "Unhealthy",
             "reportingComponent": "kubelet",
@@ -324,24 +324,24 @@
             "apiVersion": "v1",
             "count": 1,
             "eventTime": null,
-            "firstTimestamp": "2026-10-24T13:10:10Z",
+            "firstTimestamp": "2026-10-24T21:15:52Z",
             "involvedObject": {
                 "apiVersion": "apps/v1",
                 "kind": "ReplicaSet",
                 "name": "basic-57d97fcb56",
                 "namespace": "default",
-                "resourceVersion": "647",
-                "uid": "43255ecd-8fc2-4fdf-9db7-e174acf707af"
+                "resourceVersion": "626",
+                "uid": "dedad4af-8363-4174-93c0-91362a759355"
             },
             "kind": "Event",
-            "lastTimestamp": "2026-10-24T13:10:10Z",
-            "message": "Created pod: basic-57d97fcb56-mwz9f",
+            "lastTimestamp": "2026-10-24T21:15:52Z",
+            "message": "Created pod: basic-57d97fcb56-bjxh4",
             "metadata": {
-                "creationTimestamp": "2026-10-24T13:10:10Z",
-                "name": "basic-57d97fcb56.18e179389c274cb5",
+                "creationTimestamp": "2026-10-24T21:15:52Z",
+                "name": "basic-57d97fcb56.18e193b9c90a600d",
                 "namespace": "default",
-                "resourceVersion": "651",
-                "uid": "83ec9636-c551-469c-9303-57969d4e20aa"
+                "resourceVersion": "630",
+                "uid": "13373563-2cba-48c2-9534-1f4145985c30"
             },
             "reason": "SuccessfulCreate",
             "reportingComponent": "replicaset-controller",
@@ -355,24 +355,24 @@
             "apiVersion": "v1",
             "count": 1,
             "eventTime": null,
-            "firstTimestamp": "2026-10-24T13:10:45Z",
+            "firstTimestamp": "2026-10-24T21:16:26Z",
             "involvedObject": {
                 "apiVersion": "v1",
                 "kind": "Pod",
                 "name": "basic-taskmanager-1-1",
                 "namespace": "default",
-                "resourceVersion": "755",
-                "uid": "e784a03d-d3c5-4e04-90fa-33869180b3b6"
+                "resourceVersion": "736",
+                "uid": "3d45385c-84e5-4af0-b06f-b409c0fd4507"
             },
             "kind": "Event",
-            "lastTimestamp": "2026-10-24T13:10:45Z",
+            "lastTimestamp": "2026-10-24T21:16:26Z",
             "message": "Successfully assigned default/basic-taskmanager-1-1 to kubectl-flink-control-plane",
             "metadata": {
-                "creationTimestamp": "2026-10-24T13:10:45Z",
-                "name": "basic-taskmanager-1-1.18e1794099d39411",
+                "creationTimestamp": "2026-10-24T21:16:26Z",
+                "name": "basic-taskmanager-1-1.18e193c18bed7d61",
                 "namespace": "default",
-                "resourceVersion": "757",
-                "uid": "9dfd850f-5fc4-4a8a-b92d-8c3eb952d821"
+                "resourceVersion": "738",
+                "uid": "9c937062-aca3-4ac1-ba3c-69467ee84f5f"
             },
             "reason": "Scheduled",
             "reportingComponent": "default-scheduler",
@@ -386,25 +386,25 @@
             "apiVersion": "v1",
             "count": 1,
             "eventTime": null,
-            "firstTimestamp": "2026-10-24T13:10:45Z",
+            "firstTimestamp": "2026-10-24T21:16:26Z",
             "involvedObject": {
                 "apiVersion": "v1",
                 "fieldPath": "spec.containers{flink-main-container}",
                 "kind": "Pod",
                 "name": "basic-taskmanager-1-1",
                 "namespace": "default",
-                "resourceVersion": "756",
-                "uid": "e784a03d-d3c5-4e04-90fa-33869180b3b6"
+                "resourceVersion": "737",
+                "uid": "3d45385c-84e5-4af0-b06f-b409c0fd4507"
             },
             "kind": "Event",
-            "lastTimestamp": "2026-10-24T13:10:45Z",
+            "lastTimestamp": "2026-10-24T21:16:26Z",
             "message": "Container image \"flink:1.20\" already present on machine and can be accessed by the pod",
             "metadata": {
-                "creationTimestamp": "2026-10-24T13:10:45Z",
-                "name": "basic-taskmanager-1-1.18e17940b1fef464",
+                "creationTimestamp": "2026-10-24T21:16:26Z",
+                "name": "basic-taskmanager-1-1.18e193c1a41c9158",
                 "namespace": "default",
-                "resourceVersion": "760",
-                "uid": "7d612cd7-3668-4ce0-8608-f7074bedb106"
+                "resourceVersion": "740",
+                "uid": "ffb7d36f-4888-4b2a-b958-c70ef83249ec"
             },
             "reason": "Pulled",
             "reportingComponent": "kubelet",
@@ -419,25 +419,25 @@
             "apiVersion": "v1",
             "count": 1,
             "eventTime": null,
-            "firstTimestamp": "2026-10-24T13:10:45Z",
+            "firstTimestamp": "2026-10-24T21:16:26Z",
             "involvedObject": {
                 "apiVersion": "v1",
                 "fieldPath": "spec.containers{flink-main-container}",
                 "kind": "Pod",
                 "name": "basic-taskmanager-1-1",
                 "namespace": "default",
-                "resourceVersion": "756",
-                "uid": "e784a03d-d3c5-4e04-90fa-33869180b3b6"
+                "resourceVersion": "737",
+                "uid": "3d45385c-84e5-4af0-b06f-b409c0fd4507"
             },
             "kind": "Event",
-            "lastTimestamp": "2026-10-24T13:10:45Z",
+            "lastTimestamp": "2026-10-24T21:16:26Z",
             "message": "Container created",
             "metadata": {
-                "creationTimestamp": "2026-10-24T13:10:45Z",
-                "name": "basic-taskmanager-1-1.18e17940b2eaf236",
+                "creationTimestamp": "2026-10-24T21:16:26Z",
+                "name": "basic-taskmanager-1-1.18e193c1a4cf6ebb",
                 "namespace": "default",
-                "resourceVersion": "762",
-                "uid": "1375027f-ced9-4a0e-be50-0fe269f7c409"
+                "resourceVersion": "742",
+                "uid": "bf608770-baa6-4838-b5c9-af1550194532"
             },
             "reason": "Created",
             "reportingComponent": "kubelet",
@@ -452,25 +452,25 @@
             "apiVersion": "v1",
             "count": 1,
             "eventTime": null,
-            "firstTimestamp": "2026-10-24T13:10:45Z",
+            "firstTimestamp": "2026-10-24T21:16:26Z",
             "involvedObject": {
                 "apiVersion": "v1",
                 "fieldPath": "spec.containers{flink-main-container}",
                 "kind": "Pod",
                 "name": "basic-taskmanager-1-1",
                 "namespace": "default",
-                "resourceVersion": "756",
-                "uid": "e784a03d-d3c5-4e04-90fa-33869180b3b6"
+                "resourceVersion": "737",
+                "uid": "3d45385c-84e5-4af0-b06f-b409c0fd4507"
             },
             "kind": "Event",
-            "lastTimestamp": "2026-10-24T13:10:45Z",
+            "lastTimestamp": "2026-10-24T21:16:26Z",
             "message": "Container started",
             "metadata": {
-                "creationTimestamp": "2026-10-24T13:10:45Z",
-                "name": "basic-taskmanager-1-1.18e17940b6868a9d",
+                "creationTimestamp": "2026-10-24T21:16:26Z",
+                "name": "basic-taskmanager-1-1.18e193c1a8d65644",
                 "namespace": "default",
-                "resourceVersion": "764",
-                "uid": "abe41b2c-6ea5-4b4d-a34e-8c38f6f0b8a8"
+                "resourceVersion": "743",
+                "uid": "ff54942b-1b4b-40e9-bdab-bc428211d2f9"
             },
             "reason": "Started",
             "reportingComponent": "kubelet",
@@ -485,24 +485,24 @@
             "apiVersion": "v1",
             "count": 1,
             "eventTime": null,
-            "firstTimestamp": "2026-10-24T13:10:10Z",
+            "firstTimestamp": "2026-10-24T21:15:52Z",
             "involvedObject": {
                 "apiVersion": "apps/v1",
                 "kind": "Deployment",
                 "name": "basic",
                 "namespace": "default",
-                "resourceVersion": "646",
-                "uid": "708110cd-171f-409b-80fc-4259c1af76c2"
+                "resourceVersion": "625",
+                "uid": "e002f953-18fc-4c0c-b2e8-473060b56606"
             },
             "kind": "Event",
-            "lastTimestamp": "2026-10-24T13:10:10Z",
+            "lastTimestamp": "2026-10-24T21:15:52Z",
             "message": "Scaled up replica set basic-57d97fcb56 from 0 to 1",
             "metadata": {
-                "creationTimestamp": "2026-10-24T13:10:10Z",
-                "name": "basic.18e179389ac2ad67",
+                "creationTimestamp": "2026-10-24T21:15:52Z",
+                "name": "basic.18e193b9c8804647",
                 "namespace": "default",
-                "resourceVersion": "648",
-                "uid": "8f10e04d-aa37-4b19-b5a1-7490e25bf612"
+                "resourceVersion": "627",
+                "uid": "f1f9e2bb-ee07-4bab-a099-02038e035eeb"
             },
             "reason": "ScalingReplicaSet",
             "reportingComponent": "deployment-controller",
@@ -516,24 +516,24 @@
             "apiVersion": "v1",
             "count": 1,
             "eventTime": null,
-            "firstTimestamp": "2026-10-24T13:09:32Z",
+            "firstTimestamp": "2026-10-24T21:15:12Z",
             "involvedObject": {
                 "apiVersion": "v1",
                 "kind": "Pod",
-                "name": "flink-kubernetes-operator-7445d7c567-q5sqt",
+                "name": "flink-kubernetes-operator-7445d7c567-lst2q",
                 "namespace": "default",
-                "resourceVersion": "567",
-                "uid": "71d16fe6-88ff-4b95-88a3-88554ec19f65"
+                "resourceVersion": "544",
+                "uid": "f7129702-e2c2-42e3-accd-5167e7ef795e"
             },
             "kind": "Event",
-            "lastTimestamp": "2026-10-24T13:09:32Z",
-            "message": "Successfully assigned default/flink-kubernetes-operator-7445d7c567-q5sqt to kubectl-flink-control-plane",
+            "lastTimestamp": "2026-10-24T21:15:12Z",
+            "message": "Successfully assigned default/flink-kubernetes-operator-7445d7c567-lst2q to kubectl-flink-control-plane",
             "metadata": {
-                "creationTimestamp": "2026-10-24T13:09:32Z",
-                "name": "flink-kubernetes-operator-7445d7c567-q5sqt.18e1792fa60085cb",
+                "creationTimestamp": "2026-10-24T21:15:12Z",
+                "name": "flink-kubernetes-operator-7445d7c567-lst2q.18e193b075c5f71b",
                 "namespace": "default",
-                "resourceVersion": "572",
-                "uid": "16ffeb80-fc21-428b-bc4a-0cc68c3c5e50"
+                "resourceVersion": "548",
+                "uid": "bb67b1d2-3456-4b17-8a30-d3069383b219"
             },
             "reason": "Scheduled",
             "reportingComponent": "default-scheduler",
@@ -547,25 +547,25 @@
             "apiVersion": "v1",
             "count": 1,
             "eventTime": null,
-            "firstTimestamp": "2026-10-24T13:09:32Z",
+            "firstTimestamp": "2026-10-24T21:15:13Z",
             "involvedObject": {
                 "apiVersion": "v1",
                 "fieldPath": "spec.containers{flink-kubernetes-operator}",
                 "kind": "Pod",
-                "name": "flink-kubernetes-operator-7445d7c567-q5sqt",
+                "name": "flink-kubernetes-operator-7445d7c567-lst2q",
                 "namespace": "default",
-                "resourceVersion": "568",
-                "uid": "71d16fe6-88ff-4b95-88a3-88554ec19f65"
+                "resourceVersion": "545",
+                "uid": "f7129702-e2c2-42e3-accd-5167e7ef795e"
             },
             "kind": "Event",
-            "lastTimestamp": "2026-10-24T13:09:32Z",
+            "lastTimestamp": "2026-10-24T21:15:13Z",
             "message": "Pulling image \"ghcr.io/apache/flink-kubernetes-operator:79d730b\"",
             "metadata": {
-                "creationTimestamp": "2026-10-24T13:09:32Z",
-                "name": "flink-kubernetes-operator-7445d7c567-q5sqt.18e1792fbe1ae138",
+                "creationTimestamp": "2026-10-24T21:15:13Z",
+                "name": "flink-kubernetes-operator-7445d7c567-lst2q.18e193b08e45009c",
                 "namespace": "default",
-                "resourceVersion": "576",
-                "uid": "1d227274-a25c-40ee-b96e-4ca4c6626d0c"
+                "resourceVersion": "554",
+                "uid": "8890cb22-0e92-4b79-8875-a39488b2273b"
             },
             "reason": "Pulling",
             "reportingComponent": "kubelet",
@@ -580,25 +580,25 @@
             "apiVersion": "v1",
             "count": 1,
             "eventTime": null,
-            "firstTimestamp": "2026-10-24T13:09:38Z",
+            "firstTimestamp": "2026-10-24T21:15:18Z",
             "involvedObject": {
                 "apiVersion": "v1",
                 "fieldPath": "spec.containers{flink-kubernetes-operator}",
                 "kind": "Pod",
-                "name": "flink-kubernetes-operator-7445d7c567-q5sqt",
+                "name": "flink-kubernetes-operator-7445d7c567-lst2q",
                 "namespace": "default",
-                "resourceVersion": "568",
-                "uid": "71d16fe6-88ff-4b95-88a3-88554ec19f65"
+                "resourceVersion": "545",
+                "uid": "f7129702-e2c2-42e3-accd-5167e7ef795e"
             },
             "kind": "Event",
-            "lastTimestamp": "2026-10-24T13:09:38Z",
-            "message": "Successfully pulled image \"ghcr.io/apache/flink-kubernetes-operator:79d730b\" in 5.56s (5.56s including waiting). Image size: 249428084 bytes.",
+            "lastTimestamp": "2026-10-24T21:15:18Z",
+            "message": "Successfully pulled image \"ghcr.io/apache/flink-kubernetes-operator:79d730b\" in 5.732s (5.732s including waiting). Image size: 249428084 bytes.",
             "metadata": {
-                "creationTimestamp": "2026-10-24T13:09:38Z",
-                "name": "flink-kubernetes-operator-7445d7c567-q5sqt.18e1793109855780",
+                "creationTimestamp": "2026-10-24T21:15:18Z",
+                "name": "flink-kubernetes-operator-7445d7c567-lst2q.18e193b1e3f7c9bb",
                 "namespace": "default",
-                "resourceVersion": "587",
-                "uid": "b8e60f7d-c85a-4a80-9cb7-4b109de1e1a1"
+                "resourceVersion": "566",
+                "uid": "4c9f8807-35e9-483d-9bb5-6b6f26518258"
             },
             "reason": "Pulled",
             "reportingComponent": "kubelet",
@@ -613,25 +613,25 @@
             "apiVersion": "v1",
             "count": 1,
             "eventTime": null,
-            "firstTimestamp": "2026-10-24T13:09:38Z",
+            "firstTimestamp": "2026-10-24T21:15:18Z",
             "involvedObject": {
                 "apiVersion": "v1",
                 "fieldPath": "spec.containers{flink-kubernetes-operator}",
                 "kind": "Pod",
-                "name": "flink-kubernetes-operator-7445d7c567-q5sqt",
+                "name": "flink-kubernetes-operator-7445d7c567-lst2q",
                 "namespace": "default",
-                "resourceVersion": "568",
-                "uid": "71d16fe6-88ff-4b95-88a3-88554ec19f65"
+                "resourceVersion": "545",
+                "uid": "f7129702-e2c2-42e3-accd-5167e7ef795e"
             },
             "kind": "Event",
-            "lastTimestamp": "2026-10-24T13:09:38Z",
+            "lastTimestamp": "2026-10-24T21:15:18Z",
             "message": "Container created",
             "metadata": {
-                "creationTimestamp": "2026-10-24T13:09:38Z",
-                "name": "flink-kubernetes-operator-7445d7c567-q5sqt.18e1793116b6c93a",
+                "creationTimestamp": "2026-10-24T21:15:18Z",
+                "name": "flink-kubernetes-operator-7445d7c567-lst2q.18e193b1e46c3d44",
                 "namespace": "default",
-                "resourceVersion": "589",
-                "uid": "65f677a2-16f7-42c2-a571-ae927cad580c"
+                "resourceVersion": "567",
+                "uid": "3b8b6443-8b8b-4c65-a095-54c1c28a4687"
             },
             "reason": "Created",
             "reportingComponent": "kubelet",
@@ -646,25 +646,25 @@
             "apiVersion": "v1",
             "count": 1,
             "eventTime": null,
-            "firstTimestamp": "2026-10-24T13:09:38Z",
+            "firstTimestamp": "2026-10-24T21:15:18Z",
             "involvedObject": {
                 "apiVersion": "v1",
                 "fieldPath": "spec.containers{flink-kubernetes-operator}",
                 "kind": "Pod",
-                "name": "flink-kubernetes-operator-7445d7c567-q5sqt",
+                "name": "flink-kubernetes-operator-7445d7c567-lst2q",
                 "namespace": "default",
-                "resourceVersion": "568",
-                "uid": "71d16fe6-88ff-4b95-88a3-88554ec19f65"
+                "resourceVersion": "545",
+                "uid": "f7129702-e2c2-42e3-accd-5167e7ef795e"
             },
             "kind": "Event",
-            "lastTimestamp": "2026-10-24T13:09:38Z",
+            "lastTimestamp": "2026-10-24T21:15:18Z",
             "message": "Container started",
             "metadata": {
-                "creationTimestamp": "2026-10-24T13:09:38Z",
-                "name": "flink-kubernetes-operator-7445d7c567-q5sqt.18e1793125be1516",
+                "creationTimestamp": "2026-10-24T21:15:18Z",
+                "name": "flink-kubernetes-operator-7445d7c567-lst2q.18e193b1e78e302c",
                 "namespace": "default",
-                "resourceVersion": "590",
-                "uid": "dd93cc50-e34f-43a6-b48a-798219d7fece"
+                "resourceVersion": "568",
+                "uid": "bc8e11b3-e2b3-4256-bc65-21bae6282cb9"
             },
             "reason": "Started",
             "reportingComponent": "kubelet",
@@ -679,24 +679,24 @@
             "apiVersion": "v1",
             "count": 1,
             "eventTime": null,
-            "firstTimestamp": "2026-10-24T13:09:32Z",
+            "firstTimestamp": "2026-10-24T21:15:12Z",
             "involvedObject": {
                 "apiVersion": "apps/v1",
                 "kind": "ReplicaSet",
                 "name": "flink-kubernetes-operator-7445d7c567",
                 "namespace": "default",
-                "resourceVersion": "564",
-                "uid": "a97127c5-52ca-4a47-b774-82137c735a76"
+                "resourceVersion": "541",
+                "uid": "502eea39-199b-40c2-a8f1-7a229a348640"
             },
             "kind": "Event",
-            "lastTimestamp": "2026-10-24T13:09:32Z",
-            "message": "Created pod: flink-kubernetes-operator-7445d7c567-q5sqt",
+            "lastTimestamp": "2026-10-24T21:15:12Z",
+            "message": "Created pod: flink-kubernetes-operator-7445d7c567-lst2q",
             "metadata": {
-                "creationTimestamp": "2026-10-24T13:09:32Z",
-                "name": "flink-kubernetes-operator-7445d7c567.18e1792fa593b390",
+                "creationTimestamp": "2026-10-24T21:15:12Z",
+                "name": "flink-kubernetes-operator-7445d7c567.18e193b07598d79e",
                 "namespace": "default",
-                "resourceVersion": "570",
-                "uid": "4b0ffc46-6142-4421-9259-cd5a73b9e44d"
+                "resourceVersion": "546",
+                "uid": "9fa0fa2d-2ab0-4e1c-9600-43d6d2e60b0c"
             },
             "reason": "SuccessfulCreate",
             "reportingComponent": "replicaset-controller",
@@ -710,24 +710,24 @@
             "apiVersion": "v1",
             "count": 1,
             "eventTime": null,
-            "firstTimestamp": "2026-10-24T13:09:32Z",
+            "firstTimestamp": "2026-10-24T21:15:12Z",
             "involvedObject": {
                 "apiVersion": "apps/v1",
                 "kind": "Deployment",
                 "name": "flink-kubernetes-operator",
                 "namespace": "default",
-                "resourceVersion": "563",
-                "uid": "493c1684-ce7b-4c94-96c8-3580c9e5d45c"
+                "resourceVersion": "540",
+                "uid": "59e50c49-3ce3-4a59-b5fd-46e95887cee9"
             },
             "kind": "Event",
-            "lastTimestamp": "2026-10-24T13:09:32Z",
+            "lastTimestamp": "2026-10-24T21:15:12Z",
             "message": "Scaled up replica set flink-kubernetes-operator-7445d7c567 from 0 to 1",
             "metadata": {
-                "creationTimestamp": "2026-10-24T13:09:32Z",
-                "name": "flink-kubernetes-operator.18e1792fa51a4887",
+                "creationTimestamp": "2026-10-24T21:15:12Z",
+                "name": "flink-kubernetes-operator.18e193b075353755",
                 "namespace": "default",
-                "resourceVersion": "565",
-                "uid": "1a757a7d-f0cb-4521-9cb0-1d0bbdcfb5dd"
+                "resourceVersion": "542",
+                "uid": "32dd6ed4-b7a8-4de0-b06e-948660ff2d84"
             },
             "reason": "ScalingReplicaSet",
             "reportingComponent": "deployment-controller",
@@ -741,166 +741,21 @@
             "apiVersion": "v1",
             "count": 1,
             "eventTime": null,
-            "firstTimestamp": "2026-10-24T13:09:00Z",
+            "firstTimestamp": "2026-10-24T21:14:36Z",
             "involvedObject": {
                 "apiVersion": "v1",
                 "kind": "Node",
                 "name": "kubectl-flink-control-plane"
             },
             "kind": "Event",
-            "lastTimestamp": "2026-10-24T13:09:00Z",
+            "lastTimestamp": "2026-10-24T21:14:36Z",
             "message": "Starting kubelet.",
             "metadata": {
-                "creationTimestamp": "2026-10-24T13:09:03Z",
-                "name": "kubectl-flink-control-plane.18e1792850fc21b4",
+                "creationTimestamp": "2026-10-24T21:14:36Z",
+                "name": "kubectl-flink-control-plane.18e193a80fa73947",
                 "namespace": "default",
-                "resourceVersion": "69",
-                "uid": "0154141f-c97d-4a98-8871-1ed8a23fc57d"
-            },
-            "reason": "Starting",
-            "reportingComponent": "kubelet",
-            "reportingInstance": "kubectl-flink-control-plane",
-            "source": {
-                "component": "kubelet",
-                "host": "kubectl-flink-control-plane"
-            },
-            "type": "Normal"
-        },
-        {
-            "apiVersion": "v1",
-            "count": 8,
-            "eventTime": null,
-            "firstTimestamp": "2026-10-24T13:09:00Z",
-            "involvedObject": {
-                "apiVersion": "v1",
-                "kind": "Node",
-                "name": "kubectl-flink-control-plane"
-            },
-            "kind": "Event",
-            "lastTimestamp": "2026-10-24T13:09:00Z",
-            "message": "Node kubectl-flink-control-plane status is now: NodeHasSufficientMemory",
-            "metadata": {
-                "creationTimestamp": "2026-10-24T13:09:03Z",
-                "name": "kubectl-flink-control-plane.18e17928517a2e96",
-                "namespace": "default",
-                "resourceVersion": "93",
-                "uid": "9554f736-7887-4ead-8fee-06fd267b3058"
-            },
-            "reason": "NodeHasSufficientMemory",
-            "reportingComponent": "kubelet",
-            "reportingInstance": "kubectl-flink-control-plane",
-            "source": {
-                "component": "kubelet",
-                "host": "kubectl-flink-control-plane"
-            },
-            "type": "Normal"
-        },
-        {
-            "apiVersion": "v1",
-            "count": 8,
-            "eventTime": null,
-            "firstTimestamp": "2026-10-24T13:09:00Z",
-            "involvedObject": {
-                "apiVersion": "v1",
-                "kind": "Node",
-                "name": "kubectl-flink-control-plane"
-            },
-            "kind": "Event",
-            "lastTimestamp": "2026-10-24T13:09:00Z",
-            "message": "Node kubectl-flink-control-plane status is now: NodeHasNoDiskPressure",
-            "metadata": {
-                "creationTimestamp": "2026-10-24T13:09:03Z",
-                "name": "kubectl-flink-control-plane.18e17928517a4907",
-                "namespace": "default",
-                "resourceVersion": "94",
-                "uid": "eef9307c-3026-4f37-a512-ba203cb39845"
-            },
-            "reason": "NodeHasNoDiskPressure",
-            "reportingComponent": "kubelet",
-            "reportingInstance": "kubectl-flink-control-plane",
-            "source": {
-                "component": "kubelet",
-                "host": "kubectl-flink-control-plane"
-            },
-            "type": "Normal"
-        },
-        {
-            "apiVersion": "v1",
-            "count": 7,
-            "eventTime": null,
-            "firstTimestamp": "2026-10-24T13:09:00Z",
-            "involvedObject": {
-                "apiVersion": "v1",
-                "kind": "Node",
-                "name": "kubectl-flink-control-plane"
-            },
-            "kind": "Event",
-            "lastTimestamp": "2026-10-24T13:09:00Z",
-            "message": "Node kubectl-flink-control-plane status is now: NodeHasSufficientPID",
-            "metadata": {
-                "creationTimestamp": "2026-10-24T13:09:03Z",
-                "name": "kubectl-flink-control-plane.18e17928517a5772",
-                "namespace": "default",
-                "resourceVersion": "92",
-                "uid": "d56d427f-ce50-4a4a-801f-68a8edce2d24"
-            },
-            "reason": "NodeHasSufficientPID",
-            "reportingComponent": "kubelet",
-            "reportingInstance": "kubectl-flink-control-plane",
-            "source": {
-                "component": "kubelet",
-                "host": "kubectl-flink-control-plane"
-            },
-            "type": "Normal"
-        },
-        {
-            "apiVersion": "v1",
-            "count": 1,
-            "eventTime": null,
-            "firstTimestamp": "2026-10-24T13:09:00Z",
-            "involvedObject": {
-                "apiVersion": "v1",
-                "kind": "Node",
-                "name": "kubectl-flink-control-plane"
-            },
-            "kind": "Event",
-            "lastTimestamp": "2026-10-24T13:09:00Z",
-            "message": "Updated Node Allocatable limit across pods",
-            "metadata": {
-                "creationTimestamp": "2026-10-24T13:09:03Z",
-                "name": "kubectl-flink-control-plane.18e1792854c09f74",
-                "namespace": "default",
-                "resourceVersion": "76",
-                "uid": "25b6d91b-b36a-4876-a252-90c6e9cba538"
-            },
-            "reason": "NodeAllocatableEnforced",
-            "reportingComponent": "kubelet",
-            "reportingInstance": "kubectl-flink-control-plane",
-            "source": {
-                "component": "kubelet",
-                "host": "kubectl-flink-control-plane"
-            },
-            "type": "Normal"
-        },
-        {
-            "apiVersion": "v1",
-            "count": 1,
-            "eventTime": null,
-            "firstTimestamp": "2026-10-24T13:09:06Z",
-            "involvedObject": {
-                "apiVersion": "v1",
-                "kind": "Node",
-                "name": "kubectl-flink-control-plane"
-            },
-            "kind": "Event",
-            "lastTimestamp": "2026-10-24T13:09:06Z",
-            "message": "Starting kubelet.",
-            "metadata": {
-                "creationTimestamp": "2026-10-24T13:09:06Z",
-                "name": "kubectl-flink-control-plane.18e179299eeb09c1",
-                "namespace": "default",
-                "resourceVersion": "288",
-                "uid": "cb016bc8-f79d-4bec-bdbd-6d84d99ed9c0"
+                "resourceVersion": "240",
+                "uid": "588efb6b-242c-4f75-a378-23277def70ca"
             },
             "reason": "Starting",
             "reportingComponent": "kubelet",
@@ -915,21 +770,21 @@
             "apiVersion": "v1",
             "count": 1,
             "eventTime": null,
-            "firstTimestamp": "2026-10-24T13:09:06Z",
+            "firstTimestamp": "2026-10-24T21:14:36Z",
             "involvedObject": {
                 "apiVersion": "v1",
                 "kind": "Node",
                 "name": "kubectl-flink-control-plane"
             },
             "kind": "Event",
-            "lastTimestamp": "2026-10-24T13:09:06Z",
+            "lastTimestamp": "2026-10-24T21:14:36Z",
             "message": "Updated Node Allocatable limit across pods",
             "metadata": {
-                "creationTimestamp": "2026-10-24T13:09:06Z",
-                "name": "kubectl-flink-control-plane.18e17929a2374f68",
+                "creationTimestamp": "2026-10-24T21:14:36Z",
+                "name": "kubectl-flink-control-plane.18e193a8136c7229",
                 "namespace": "default",
-                "resourceVersion": "290",
-                "uid": "a0aaa1f3-21fc-4274-8283-ebcdba05c3b3"
+                "resourceVersion": "242",
+                "uid": "3dbf0195-0dbe-4c51-953d-6c2e5afbcb6c"
             },
             "reason": "NodeAllocatableEnforced",
             "reportingComponent": "kubelet",
@@ -944,22 +799,22 @@
             "apiVersion": "v1",
             "count": 1,
             "eventTime": null,
-            "firstTimestamp": "2026-10-24T13:09:06Z",
+            "firstTimestamp": "2026-10-24T21:14:36Z",
             "involvedObject": {
                 "apiVersion": "v1",
                 "kind": "Node",
                 "name": "kubectl-flink-control-plane",
-                "uid": "c5354d3e-143c-4e1d-b1da-7ac545e78c34"
+                "uid": "42ba90b2-58b5-4834-902a-a1c68a4de39a"
             },
             "kind": "Event",
-            "lastTimestamp": "2026-10-24T13:09:06Z",
+            "lastTimestamp": "2026-10-24T21:14:36Z",
             "message": "Node kubectl-flink-control-plane status is now: NodeHasSufficientMemory",
             "metadata": {
-                "creationTimestamp": "2026-10-24T13:09:06Z",
-                "name": "kubectl-flink-control-plane.18e17929a8264dd2",
+                "creationTimestamp": "2026-10-24T21:14:36Z",
+                "name": "kubectl-flink-control-plane.18e193a81960ed2f",
                 "namespace": "default",
-                "resourceVersion": "295",
-                "uid": "cc0c5196-b99c-44c9-ab04-4a06f648ca55"
+                "resourceVersion": "245",
+                "uid": "7c962f92-ea5f-4699-a83c-7d0bd78a52d8"
             },
             "reason": "NodeHasSufficientMemory",
             "reportingComponent": "kubelet",
@@ -974,22 +829,22 @@
             "apiVersion": "v1",
             "count": 1,
             "eventTime": null,
-            "firstTimestamp": "2026-10-24T13:09:06Z",
+            "firstTimestamp": "2026-10-24T21:14:36Z",
             "involvedObject": {
                 "apiVersion": "v1",
                 "kind": "Node",
                 "name": "kubectl-flink-control-plane",
-                "uid": "c5354d3e-143c-4e1d-b1da-7ac545e78c34"
+                "uid": "42ba90b2-58b5-4834-902a-a1c68a4de39a"
             },
             "kind": "Event",
-            "lastTimestamp": "2026-10-24T13:09:06Z",
+            "lastTimestamp": "2026-10-24T21:14:36Z",
             "message": "Node kubectl-flink-control-plane status is now: NodeHasNoDiskPressure",
             "metadata": {
-                "creationTimestamp": "2026-10-24T13:09:06Z",
-                "name": "kubectl-flink-control-plane.18e17929a8268a6f",
+                "creationTimestamp": "2026-10-24T21:14:36Z",
+                "name": "kubectl-flink-control-plane.18e193a8196126e0",
                 "namespace": "default",
-                "resourceVersion": "296",
-                "uid": "c5a4b2af-fafa-4342-9c21-773da7b57cc6"
+                "resourceVersion": "247",
+                "uid": "e802d481-9c17-43a1-9acb-329f7c5e98b2"
             },
             "reason": "NodeHasNoDiskPressure",
             "reportingComponent": "kubelet",
@@ -1004,22 +859,22 @@
             "apiVersion": "v1",
             "count": 1,
             "eventTime": null,
-            "firstTimestamp": "2026-10-24T13:09:06Z",
+            "firstTimestamp": "2026-10-24T21:14:36Z",
             "involvedObject": {
                 "apiVersion": "v1",
                 "kind": "Node",
                 "name": "kubectl-flink-control-plane",
-                "uid": "c5354d3e-143c-4e1d-b1da-7ac545e78c34"
+                "uid": "42ba90b2-58b5-4834-902a-a1c68a4de39a"
             },
             "kind": "Event",
-            "lastTimestamp": "2026-10-24T13:09:06Z",
+            "lastTimestamp": "2026-10-24T21:14:36Z",
             "message": "Node kubectl-flink-control-plane status is now: NodeHasSufficientPID",
             "metadata": {
-                "creationTimestamp": "2026-10-24T13:09:06Z",
-                "name": "kubectl-flink-control-plane.18e17929a826c6a2",
+                "creationTimestamp": "2026-10-24T21:14:36Z",
+                "name": "kubectl-flink-control-plane.18e193a8196142fd",
                 "namespace": "default",
-                "resourceVersion": "298",
-                "uid": "a48af41a-b13e-4102-a689-be93ecd2e9c4"
+                "resourceVersion": "249",
+                "uid": "ea83166a-ad56-47f3-b4d6-b891a2e46873"
             },
             "reason": "NodeHasSufficientPID",
             "reportingComponent": "kubelet",
@@ -1034,22 +889,22 @@
             "apiVersion": "v1",
             "count": 1,
             "eventTime": null,
-            "firstTimestamp": "2026-10-24T13:09:11Z",
+            "firstTimestamp": "2026-10-24T21:14:44Z",
             "involvedObject": {
                 "apiVersion": "v1",
                 "kind": "Node",
                 "name": "kubectl-flink-control-plane",
-                "uid": "c5354d3e-143c-4e1d-b1da-7ac545e78c34"
+                "uid": "42ba90b2-58b5-4834-902a-a1c68a4de39a"
             },
             "kind": "Event",
-            "lastTimestamp": "2026-10-24T13:09:11Z",
+            "lastTimestamp": "2026-10-24T21:14:44Z",
             "message": "Node kubectl-flink-control-plane event: Registered Node kubectl-flink-control-plane in Controller",
             "metadata": {
-                "creationTimestamp": "2026-10-24T13:09:11Z",
-                "name": "kubectl-flink-control-plane.18e1792adef048e6",
+                "creationTimestamp": "2026-10-24T21:14:44Z",
+                "name": "kubectl-flink-control-plane.18e193a9d97a40f9",
                 "namespace": "default",
-                "resourceVersion": "375",
-                "uid": "327c177f-48f6-4760-9b24-fe10c073d2e3"
+                "resourceVersion": "339",
+                "uid": "f2de7774-42d7-4a32-a49a-e3bf615198cf"
             },
             "reason": "RegisteredNode",
             "reportingComponent": "node-controller",
@@ -1062,7 +917,7 @@
         {
             "action": "StartKubeProxy",
             "apiVersion": "v1",
-            "eventTime": "2026-10-24T13:09:14.267589Z",
+            "eventTime": "2026-10-24T21:14:46.716250Z",
             "firstTimestamp": null,
             "involvedObject": {
                 "apiVersion": "v1",
@@ -1072,11 +927,11 @@
             "kind": "Event",
             "lastTimestamp": null,
             "metadata": {
-                "creationTimestamp": "2026-10-24T13:09:14Z",
-                "name": "kubectl-flink-control-plane.18e1792b779e6086",
+                "creationTimestamp": "2026-10-24T21:14:46Z",
+                "name": "kubectl-flink-control-plane.18e193aa64df5cff",
                 "namespace": "default",
-                "resourceVersion": "458",
-                "uid": "2bd5cc61-041b-4e72-8c63-667aab767767"
+                "resourceVersion": "425",
+                "uid": "f0ab1aae-f753-4e50-a1b0-f76383e99ee2"
             },
             "reason": "Starting",
             "reportingComponent": "kube-proxy",
@@ -1088,22 +943,22 @@
             "apiVersion": "v1",
             "count": 1,
             "eventTime": null,
-            "firstTimestamp": "2026-10-24T13:09:24Z",
+            "firstTimestamp": "2026-10-24T21:14:56Z",
             "involvedObject": {
                 "apiVersion": "v1",
                 "kind": "Node",
                 "name": "kubectl-flink-control-plane",
-                "uid": "c5354d3e-143c-4e1d-b1da-7ac545e78c34"
+                "uid": "42ba90b2-58b5-4834-902a-a1c68a4de39a"
             },
             "kind": "Event",
-            "lastTimestamp": "2026-10-24T13:09:24Z",
+            "lastTimestamp": "2026-10-24T21:14:56Z",
             "message": "Node kubectl-flink-control-plane status is now: NodeReady",
             "metadata": {
-                "creationTimestamp": "2026-10-24T13:09:24Z",
-                "name": "kubectl-flink-control-plane.18e1792dd2001ec0",
+                "creationTimestamp": "2026-10-24T21:14:56Z",
+                "name": "kubectl-flink-control-plane.18e193acc6ead16d",
                 "namespace": "default",
-                "resourceVersion": "484",
-                "uid": "625bd1c7-6ea0-4570-9ead-66a3ce23477f"
+                "resourceVersion": "452",
+                "uid": "18c8d15a-033c-46d4-baa8-d96e7dccc5f4"
             },
             "reason": "NodeReady",
             "reportingComponent": "kubelet",

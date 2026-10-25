@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+# kubectl (1.26 and later) runs kubectl_complete-<plugin> to complete `kubectl flink <TAB>`. Put this file on PATH
+# next to kubectl-flink; it hands the words to the plugin's own completion.
+exec kubectl-flink __complete "$@"

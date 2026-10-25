@@ -1,1 +1,1 @@
-[]
+[{"id":"busyTimeMsPerSecond","max":158.0,"avg":158.0,"sum":158.0},{"id":"backPressuredTimeMsPerSecond","max":0.0,"avg":0.0,"sum":0.0},{"id":"idleTimeMsPerSecond","max":842.0,"avg":842.0,"sum":842.0},{"id":"numRecordsInPerSecond","max":0.0,"avg":0.0,"sum":0.0},{"id":"numRecordsOutPerSecond","max":250.9,"avg":250.9,"sum":250.9}]
