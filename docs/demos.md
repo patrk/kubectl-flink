@@ -52,24 +52,25 @@ profile idLabels: [use-case].
 
 | Command | Mean Wall Time [ms] | Change | Factor |
 |:---|---:|---:|:---|
-| `kubectl get -A` | 232.6 ± 3.7 |  |  |
-| `kubectl flink ls -A` | 204.3 ± 4.8 | -12.2% |  |
+| `kubectl get -A` | 234.3 ± 5.3 |  |  |
+| `kubectl flink ls -A` | 147.2 ± 4.3 | -37.2% | (1.6x faster) |
 
 | Command | Mean Wall Time [ms] | Change | Factor |
 |:---|---:|---:|:---|
-| `kubectl get -A -o json \| jq (unhealthy)` | 857.5 ± 11.9 |  |  |
-| `kubectl flink ls -A --unhealthy` | 167.4 ± 8.5 | -80.5% | (5.1x faster) |
+| `kubectl get -A -o json \| jq (unhealthy)` | 855.0 ± 5.4 |  |  |
+| `kubectl flink ls -A --unhealthy` | 148.4 ± 6.1 | -82.6% | (5.8x faster) |
 
 | Command | Mean Wall Time [ms] | Change | Factor |
 |:---|---:|---:|:---|
-| `kubectl get -A -l use-case=1234` | 37.3 ± 5.3 |  |  |
-| `kubectl flink ls -A 1234` | 25.0 ± 1.3 | -33.1% | (1.5x faster) |
+| `kubectl get -A -l use-case=1234` | 34.3 ± 2.2 |  |  |
+| `kubectl flink ls -A 1234` | 22.5 ± 1.7 | -34.5% | (1.5x faster) |
 
 | Command | Mean Wall Time [ms] | Change | Factor |
 |:---|---:|---:|:---|
-| `kubectl flink why 1234 (-A)` | 30.1 ± 6.4 |  |  |
+| `kubectl flink why 1234 (-A)` | 28.7 ± 4.5 |  |  |
 
-- Listing with a health value per job costs no more than `kubectl get` without one.
+- Listing with a health value per job is faster than `kubectl get` without one: each page is decoded while the
+  API server encodes the next, and the table is written in a few large writes.
 - Finding the unhealthy jobs with kubectl alone means fetching every resource as JSON and filtering it, and the
   filter only sees lifecycle and errors, not restarts, missing TaskManagers or stale reconciles.
 - An ID is looked up by the API server in the profile's ID labels, and only the pods of the jobs found are read.

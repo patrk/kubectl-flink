@@ -63,6 +63,8 @@ type API struct {
 	// BrokenInformers fails watches and full lists with 500 while one-item probes still succeed, as an API
 	// server does when it is overloaded or an object cannot be served.
 	BrokenInformers bool
+	// ForbidContinued answers every request for a next page (one with a continue token) with 403.
+	ForbidContinued bool
 	// Latency delays every response, to model the round trip to a real API server.
 	Latency time.Duration
 	// Logs holds container logs by "namespace/pod", and of the previous container by "namespace/pod:previous",
@@ -247,7 +249,7 @@ func (f *API) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 	f.mu.Lock()
 	f.queries = append(f.queries, Request{Path: r.URL.Path, Query: q})
-	notFound, forbidden := f.NotFound, f.Forbidden[resource+"/"+ns]
+	notFound, forbidden := f.NotFound, f.Forbidden[resource+"/"+ns] || f.ForbidContinued && q.Get("continue") != ""
 	broken := f.BrokenInformers && q.Get("limit") != "1"
 	var items []*item
 	for _, it := range f.items[resource] {

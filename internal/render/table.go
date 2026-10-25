@@ -1,6 +1,7 @@
 package render
 
 import (
+	"bufio"
 	"cmp"
 	"fmt"
 	"io"
@@ -32,7 +33,11 @@ type TableOptions struct {
 // Table prints rows as a table. With Watch it prints the header and all rows once, then only the rows whose
 // content changed, keeping the column widths of the first print, as kubectl get -w does.
 type Table struct {
-	w      *tabwriter.Writer
+	w *tabwriter.Writer
+	// buf collects the tabwriter's many small writes, one per cell, into a few: on a terminal or a pipe each would
+	// be a system call, about 40 ms for 2,000 rows.
+	buf    *bufio.Writer
+	out    io.Writer
 	o      TableOptions
 	ageIdx int
 	last   map[string]string // row key → change signature of the last printed version
@@ -40,8 +45,11 @@ type Table struct {
 
 // NewTable returns a table printer writing to out.
 func NewTable(out io.Writer, o TableOptions) *Table {
+	buf := bufio.NewWriterSize(out, 64<<10)
 	t := &Table{
-		w:    tabwriter.NewWriter(out, 0, 8, 3, ' ', tabwriter.StripEscape|tabwriter.RememberWidths),
+		w:    tabwriter.NewWriter(buf, 0, 8, 3, ' ', tabwriter.StripEscape|tabwriter.RememberWidths),
+		buf:  buf,
+		out:  out,
 		o:    o,
 		last: map[string]string{},
 	}
@@ -221,7 +229,7 @@ func (t *Table) Print(rows []fleet.Row, scopes []fleet.Scope, now time.Time) err
 		t.line(cells)
 		t.last[key(rows[i].Job)] = sig
 	}
-	return t.w.Flush()
+	return t.flush()
 }
 
 // Update prints the rows and scope errors that changed since the last print, and a row for each job that is gone.
@@ -255,7 +263,16 @@ func (t *Table) Update(rows []fleet.Row, scopes []fleet.Scope, now time.Time) er
 			delete(t.last, k)
 		}
 	}
-	return t.w.Flush()
+	return t.flush()
+}
+
+// flush writes the table out. A failed write is not kept: bufio would repeat it on every later update of a watch.
+func (t *Table) flush() error {
+	err := cmp.Or(t.w.Flush(), t.buf.Flush())
+	if err != nil {
+		t.buf.Reset(t.out)
+	}
+	return err
 }
 
 func (t *Table) goneCells(k string) []string {

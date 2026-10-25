@@ -1,6 +1,7 @@
 package kube
 
 import (
+	"bytes"
 	"context"
 	"encoding/json"
 	"fmt"
@@ -111,6 +112,10 @@ func (c *Client) listPage(ctx context.Context, r Resource, namespace string, opt
 	if err != nil {
 		return nil, err
 	}
+	return decodeList(r, raw)
+}
+
+func decodeList(r Resource, raw []byte) (runtime.Object, error) {
 	obj := r.newList()
 	if err := json.Unmarshal(raw, obj); err != nil {
 		return nil, fmt.Errorf("decode %s: %w", r.GVR.Resource, err)
@@ -166,25 +171,96 @@ func (c *Client) list(ctx context.Context, r Resource, namespace string, opts me
 
 func (c *Client) listAll(ctx context.Context, r Resource, namespace string, opts metav1.ListOptions) (runtime.Object, error) {
 	opts.Limit = PageSize
+	type decoded struct {
+		list pagedList
+		cont string // the token the page was read for, which its own metadata must name too
+		err  error
+	}
 	var all pagedList
+	merge := func(d decoded) error {
+		if d.err != nil {
+			return d.err
+		}
+		if got := d.list.GetContinue(); got != d.cont {
+			return fmt.Errorf("decode %s: continue token %q, read ahead as %q", r.GVR.Resource, got, d.cont)
+		}
+		if all == nil {
+			all = d.list
+		} else {
+			all.appendPage(d.list)
+		}
+		return nil
+	}
+	// Each page is decoded while the next one is fetched: the API server spends most of a page's time encoding
+	// it, and the continue token is read from the start of the body without decoding the items.
+	var pending chan decoded
 	for {
-		page, err := c.listPage(ctx, r, namespace, opts)
+		raw, err := rawBody(c.get(r, namespace, &opts).Do(ctx))
+		if err == nil {
+			opts.Continue, err = continueToken(raw)
+		}
 		if err != nil {
+			// The page before may have failed to decode; that is the first error, and the one to report.
+			if pending != nil {
+				if d := <-pending; d.err != nil {
+					return nil, d.err
+				}
+			}
 			return nil, err
 		}
-		pl := page.(pagedList)
-		if all == nil {
-			all = pl
-		} else {
-			all.appendPage(pl)
+		next := make(chan decoded, 1)
+		go func(cont string) {
+			obj, err := decodeList(r, raw)
+			if err != nil {
+				next <- decoded{err: err}
+				return
+			}
+			next <- decoded{list: obj.(pagedList), cont: cont}
+		}(opts.Continue)
+		if pending != nil {
+			if err := merge(<-pending); err != nil {
+				<-next
+				return nil, err
+			}
 		}
-		if opts.Continue = pl.GetContinue(); opts.Continue == "" {
+		pending = next
+		if opts.Continue == "" {
+			if err := merge(<-pending); err != nil {
+				return nil, err
+			}
 			// The merged list is complete; page 1's continue token must not suggest otherwise.
 			all.SetContinue("")
 			all.SetRemainingItemCount(nil)
 			return all, nil
 		}
 	}
+}
+
+// continueToken reads metadata.continue of a list body. The API server writes metadata before items, so only
+// the start of the body is read; a body with items first is still read correctly, only slower.
+func continueToken(raw []byte) (string, error) {
+	dec := json.NewDecoder(bytes.NewReader(raw))
+	if _, err := dec.Token(); err != nil {
+		return "", fmt.Errorf("decode list: %w", err)
+	}
+	for dec.More() {
+		key, err := dec.Token()
+		if err != nil {
+			return "", fmt.Errorf("decode list: %w", err)
+		}
+		if key == "metadata" {
+			var m metav1.ListMeta
+			if err := dec.Decode(&m); err != nil {
+				return "", fmt.Errorf("decode list metadata: %w", err)
+			}
+			return m.Continue, nil
+		}
+		var skip json.RawMessage
+		if err := dec.Decode(&skip); err != nil {
+			return "", fmt.Errorf("decode list: %w", err)
+		}
+	}
+	return "", nil
 }
 
 // rawBody returns the response body undecoded. On failure it returns Result.Error, which decodes the API
