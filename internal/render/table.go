@@ -50,7 +50,7 @@ func NewTable(out io.Writer, o TableOptions) *Table {
 }
 
 var healthColors = map[model.Health]string{
-	model.OK: "32", model.Suspended: "2", model.Progressing: "36", model.Degraded: "33", model.Stuck: "35", model.Failed: "31",
+	model.OK: "32", model.Suspended: "02", model.Progressing: "36", model.Degraded: "33", model.Stuck: "35", model.Failed: "31",
 }
 
 const (
@@ -70,7 +70,7 @@ func (o TableOptions) Header() []string {
 	if o.ShowNamespace {
 		h = append(h, "NAMESPACE")
 	}
-	h = append(h, "NAME", HealthColumn, "LIFECYCLE", "JOB", "JM", ageColumn, "REASON")
+	h = append(h, "NAME", o.colored(HealthColumn, plainColor), "LIFECYCLE", "JOB", "JM", ageColumn, "REASON")
 	if o.Wide {
 		h = append(h, "TM", "JM RESTARTS", "DRIFT", "FLINK", "IMAGE", "OWNER")
 		if !o.NoSnapshotAge {
@@ -80,9 +80,14 @@ func (o TableOptions) Header() []string {
 	return h
 }
 
-// colored wraps s in an ANSI colour that the tabwriter does not count towards the column width.
+// plainColor is the terminal's own colour, for the cells of the health column that have none.
+const plainColor = "39"
+
+// colored wraps s in an ANSI colour. The tabwriter counts escaped text towards a cell's width, so every cell of
+// the health column, the header included, is wrapped in codes of the same length (two-digit colours): each then
+// counts the same few bytes more than it shows, and the padding comes out exact.
 func (o TableOptions) colored(s, code string) string {
-	if !o.Color || code == "" {
+	if !o.Color {
 		return s
 	}
 	return "\xff\x1b[" + code + "m\xff" + s + "\xff\x1b[0m\xff"
@@ -249,7 +254,7 @@ func (t *Table) goneCells(k string) []string {
 	if t.o.ShowNamespace {
 		cells = append(cells, ns)
 	}
-	cells = append(cells, name, "-", "-", "-", "-", "-", "deleted")
+	cells = append(cells, name, t.o.colored("-", plainColor), "-", "-", "-", "-", "deleted")
 	if t.o.Wide {
 		cells = append(cells, "-", "-", "-", "-", "-", "-", "-")
 	}

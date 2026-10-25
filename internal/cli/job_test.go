@@ -54,7 +54,9 @@ func TestResolveJob(t *testing.T) {
 		}
 	}
 	// Outside the context namespace only with -A, or with namespace/name.
-	if _, err := c.options().resolveJob(ctx, "uc-42", false); !errors.Is(err, fleet.ErrNoMatch) {
+	// The error says where it looked, so that a job in another namespace does not read as one that does not exist.
+	if _, err := c.options().resolveJob(ctx, "uc-42", false); !errors.Is(err, fleet.ErrNoMatch) ||
+		!strings.Contains(err.Error(), `no job matches "uc-42" in namespace team-a; -A looks in every namespace`) {
 		t.Errorf("uc-42 without -A: %v", err)
 	}
 	if tgt, err := c.options().resolveJob(ctx, "uc-42", true); err != nil || tgt.job.Name != "orders-0" {

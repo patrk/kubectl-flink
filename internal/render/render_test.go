@@ -6,6 +6,7 @@ import (
 	"flag"
 	"os"
 	"path/filepath"
+	"regexp"
 	"slices"
 	"strings"
 	"testing"
@@ -204,5 +205,30 @@ func TestEvents(t *testing.T) {
 	y := NewEvents(&b, true)
 	if err := y.Update(rows[:1], nil); err != nil || !strings.HasPrefix(b.String(), "---\nitem:") {
 		t.Errorf("yaml: %q", b.String())
+	}
+}
+
+// What a terminal shows of the coloured table lines up: after removing the colour codes, every row's lifecycle
+// starts where the header's does, also for an error row and a deleted one.
+func TestColorAlignment(t *testing.T) {
+	rows, scopes := fixture()
+	var b bytes.Buffer
+	tbl := NewTable(&b, TableOptions{Color: true, ShowContext: true, ShowNamespace: true})
+	if err := tbl.Print(rows, scopes, now); err != nil {
+		t.Fatal(err)
+	}
+	if err := tbl.Update(rows[1:], scopes, now); err != nil { // the first row is gone
+		t.Fatal(err)
+	}
+	ansi := regexp.MustCompile("\x1b\\[[0-9;]*m")
+	lines := strings.Split(strings.TrimSpace(ansi.ReplaceAllString(b.String(), "")), "\n")
+	col := strings.Index(lines[0], "LIFECYCLE")
+	for _, l := range lines[1:] {
+		if col >= len(l) || l[col-1] != ' ' || l[col] == ' ' {
+			t.Errorf("misaligned:\n%s\n%s", lines[0], l)
+		}
+	}
+	if !strings.Contains(b.String(), "deleted") {
+		t.Fatal("no deleted row")
 	}
 }
