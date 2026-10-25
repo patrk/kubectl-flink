@@ -2,6 +2,7 @@ package flink_test
 
 import (
 	"context"
+	"encoding/json"
 	"path/filepath"
 	"strings"
 	"testing"
@@ -95,5 +96,15 @@ func TestExceptionText(t *testing.T) {
 	e = flink.Exception{Name: "x.Y", Location: "10.0.0.1:1"}
 	if e.Message() != "x.Y" || e.Cause() != "" || e.Where() != "10.0.0.1:1" {
 		t.Errorf("%q %q %q", e.Message(), e.Cause(), e.Where())
+	}
+}
+
+func TestMetricMin(t *testing.T) {
+	var ms []flink.Metric
+	if err := json.Unmarshal([]byte(`[{"id":"a","min":0,"max":5},{"id":"b","max":5}]`), &ms); err != nil {
+		t.Fatal(err)
+	}
+	if !ms[0].HasMin || ms[0].Min != 0 || ms[0].Max != 5 || ms[1].HasMin || ms[1].ID != "b" {
+		t.Errorf("%+v", ms)
 	}
 }

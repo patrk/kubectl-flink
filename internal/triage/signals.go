@@ -52,6 +52,7 @@ const (
 	SigBackpressure     = "performance.backpressure"
 	SigBottleneck       = "performance.bottleneck"
 	SigSinkIdle         = "performance.sink-idle"
+	SigSkew             = "performance.skew" // "<vertex>: subtasks busy N to M ms/s, receiving A to B records/s"
 	SigHALeftover       = "ha.leftover"
 	SigSnapshotIgnored  = "snapshot.ignored"   // computed: FlinkStateSnapshots the operator has not processed
 	SigSnapshotFail     = "snapshot.failing"   // "<TYPE> <name> <state> after N failures: error" of a snapshot
@@ -62,7 +63,7 @@ const (
 var Kinds = []string{
 	SigLifecycle, SigJobManager, SigJobState, SigOperatorError, SigHealth, SigEvent, SigPodWaiting, SigPodTerminated, SigPodMount,
 	SigPodUnschedulable, SigLog, SigException, SigExceptionCause, SigCheckpointStale, SigCheckpointFail, SigRestored,
-	SigRestarts, SigJobsMultiple, SigSpecChange, SigSpecWriter, SigBackpressure, SigBottleneck, SigSinkIdle, SigHALeftover, SigSnapshotIgnored, SigSnapshotFail, SigSnapshotDone,
+	SigRestarts, SigJobsMultiple, SigSpecChange, SigSpecWriter, SigBackpressure, SigBottleneck, SigSinkIdle, SigSkew, SigHALeftover, SigSnapshotIgnored, SigSnapshotFail, SigSnapshotDone,
 }
 
 // Signals reduces evidence to signals, deduplicated, in a stable order.

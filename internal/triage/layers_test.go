@@ -190,3 +190,41 @@ func TestRuntimeSignals(t *testing.T) {
 		t.Errorf("restarted: %+v", findings)
 	}
 }
+
+func TestSkewSignal(t *testing.T) {
+	j := plan()
+	j.Vertices[1].Parallelism = 2
+	skewed := func(busyMin, busyMax float64, hasMin bool) []VertexMetrics {
+		m := vm("map", "Map", false, false, busyMax, 0, 248, 248)
+		m.Metrics[MetricBusy] = flink.Metric{Min: busyMin, Max: busyMax, HasMin: hasMin}
+		m.Metrics[MetricIn] = flink.Metric{Min: 52, Max: 196, Sum: 248, HasMin: true}
+		return []VertexMetrics{vm("src", "Source", true, false, 7, 300, 0, 248), m, vm("sink", "Sink", false, true, 1, 0, 248, 0)}
+	}
+	collect := func(job *flink.Job, vms []VertexMetrics) string {
+		var out []string
+		performanceSignals(job, vms, func(kind string, _ Layer, text string, _ ...time.Time) {
+			if kind == SigSkew {
+				out = append(out, text)
+			}
+		})
+		return strings.Join(out, "|")
+	}
+	// The demo's crawler: one subtask saturated, the other at 280.
+	if got := collect(j, skewed(280, 1000, true)); got != "Map: subtasks busy 280 to 1000 ms/s, receiving 52 to 196 records/s" {
+		t.Errorf("skewed: %q", got)
+	}
+	for name, vms := range map[string][]VertexMetrics{
+		"evenly busy":      skewed(700, 1000, true),
+		"not saturated":    skewed(100, 800, true),
+		"min not reported": skewed(0, 1000, false),
+	} {
+		if got := collect(j, vms); got != "" {
+			t.Errorf("%s: %q", name, got)
+		}
+	}
+	// One subtask cannot be skewed against itself.
+	j.Vertices[1].Parallelism = 1
+	if got := collect(j, skewed(280, 1000, true)); got != "" {
+		t.Errorf("parallelism 1: %q", got)
+	}
+}

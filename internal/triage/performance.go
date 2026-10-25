@@ -112,7 +112,11 @@ const (
 	BackpressureHigh = 500 // a subtask waiting on its output half the time or more: Flink's HIGH
 	BackpressureLow  = 100 // Flink's LOW starts above a tenth of the time
 	BusyHigh         = 900 // a subtask that never waits for input
-	minSourceRate    = 1   // records per second the sources must emit before a silent sink is notable
+	// SkewRatio is how much less the least busy subtask of a saturated operator must work for the operator to be
+	// skewed: half. A hot key rarely leaves the other subtasks idle, as they still get the other keys (the demo's
+	// crawler: 1000 against 280 ms/s), while ordinary imbalance stays well above half.
+	SkewRatio     = 0.5
+	minSourceRate = 1 // records per second the sources must emit before a silent sink is notable
 )
 
 // BackpressureLevel is the Flink web UI's back pressure status of a subtask's back-pressured ms/s. HIGH starts at
@@ -171,6 +175,13 @@ func performanceSignals(job *flink.Job, vms []VertexMetrics, add adder) {
 			add(SigBottleneck, Performance, fmt.Sprintf("%s: busy %.0f ms/s", d.Name, d.Metrics[MetricBusy].Max))
 		}
 	}
+	for i := range vms {
+		if v := &vms[i]; Skewed(v.Metrics[MetricBusy]) && parallelism(job, v.ID) > 1 {
+			busy, in := v.Metrics[MetricBusy], v.Metrics[MetricIn]
+			add(SigSkew, Performance, fmt.Sprintf("%s: subtasks busy %.0f to %.0f ms/s, receiving %.0f to %.0f records/s",
+				v.Name, busy.Min, busy.Max, in.Min, in.Max))
+		}
+	}
 	if sourceRate < minSourceRate {
 		return
 	}
@@ -179,6 +190,19 @@ func performanceSignals(job *flink.Job, vms []VertexMetrics, add adder) {
 			add(SigSinkIdle, Performance, fmt.Sprintf("%s receives nothing while the sources emit %.0f records/s", v.Name, sourceRate))
 		}
 	}
+}
+
+// Skewed reports whether an operator's busy time is skewed: one subtask saturated while another works much less,
+// as when one key carries most of the records.
+func Skewed(busy flink.Metric) bool {
+	return busy.HasMin && busy.Max >= BusyHigh && busy.Min <= busy.Max*SkewRatio
+}
+
+func parallelism(job *flink.Job, id string) int {
+	if v := job.Vertex(id); v != nil {
+		return v.Parallelism
+	}
+	return 0
 }
 
 // Warmup is how long a job must have been running before its rates are judged: Flink's rates are averages over
