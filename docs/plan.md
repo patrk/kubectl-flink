@@ -18,7 +18,9 @@ in [ADRs](adr/).
 | Should | `snapshots <job>`, `savepoint <job>` | FlinkStateSnapshot first, JobManager checkpoint history as fallback |
 | Could | `ui <job>`, `ui --serve` | Browser escape hatch; the CLI and TUI are the primary interface |
 | Could | `savepoint --restore-into-spec`, k9s `plugins.yaml` | |
-| Later | Job graph, per-subtask checkpoint detail, TaskManager memory and threads, flame graphs, metric charts | Deep single-job inspection in the TUI |
+| Should | Job graph tab in `top`: operators coloured by backpressure and busy time, as the Flink web UI does | The common look at one job without opening its web UI |
+| Should | Argo CD sync and health of the Application that owns a job, in `ls -o wide` and `why` | Explains why a fix in git has not arrived |
+| Later | Per-subtask checkpoint detail, TaskManager memory and threads, flame graphs, metric charts | Deep single-job inspection in the TUI |
 
 Every TUI screen has a CLI equivalent with `-o json`. `<job>` is `[namespace/]name` or any unique substring of a name;
 several matches list the candidates and exit 3.
@@ -115,7 +117,7 @@ Each milestone is a set of PRs from feature branches, merged with green CI. Test
 | M2 | Port-forward pool, REST client for 1.20 and 2.x, `exceptions`, `checkpoints`, `logs`, rules engine with default rules, `why` with operator, Kubernetes and runtime layers | Golden tests for each failure fixture; `why` on kind identifies induced failures |
 | M2c | `why` performance layer (backpressure and its bottleneck, a sink without input), HA layer (leftover job plans and checkpoint pointers, several jobs on an application cluster), restart loops and missing restart strategy, external restarters through `spec.restartNonce` | Scenarios unreachable, restart-loop, restart-bot and ha on kind; synthetic cases for backpressure, idle sinks and HA leftovers |
 | M3 | `report` with redaction, `history` | Redaction tests with secrets in every known location; bundle golden test |
-| M4 | `top`: list, filters, search, sort, contexts, detail panes reusing M2 collectors, prefetch | teatest golden screens; frame and redraw budgets |
+| M4 | `top`: list, filters, search, sort, contexts, detail panes reusing M2 collectors, prefetch, job graph tab; then Argo CD status | teatest golden screens; frame and redraw budgets |
 | M5 | Policy, owner detection, `restart`, `suspend`, `resume`, `savepoint`, `snapshots`, bulk runner, `--wait` | e2e on kind for each op including bulk and abort on failures; dry-run tests assert no writes |
 | M6 | goreleaser release, custom krew index, krew-index submission, Homebrew tap, offline install, README | `kubectl krew install` from the custom index works on a clean machine |
 | Later | `ui`, `ui --serve`, deep single-job inspection in the TUI | |

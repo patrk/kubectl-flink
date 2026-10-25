@@ -1,0 +1,16 @@
+kubectl flink top · dev, prd, broken · 2 jobs: 1 FAILED, 1 DEGRADED
+filter: unhealthy   sort: health
+CONTEXT   NAMESPACE   NAME       HEALTH     LIFECYCLE   JOB       JM      IN STATE   REASON
+broken    -           -          ERROR      -           -         -       -          context broken: Unauthorized
+dev       team-b      replay     FAILED     FAILED      FAILED    READY   12m        lifecycle FAILED: java.net.Connect…
+dev       team-a      payments   DEGRADED   STABLE      RUNNING   READY   3h         1/2 TaskManagers ready for 20m
+
+
+
+
+
+
+
+
+
+enter why command  / search name or ID label  f health filter  s sort  n namespace  c context  : command  ? help  q quit

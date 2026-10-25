@@ -1,0 +1,16 @@
+kubectl flink top · dev, prd, broken · 0 jobs
+filter: all   sort: health   search: nothing-like-this
+CONTEXT   NAMESPACE   NAME   HEALTH   LIFECYCLE   JOB   JM   IN STATE   REASON
+broken    -           -      ERROR    -           -     -    -          context broken: Unauthorized
+
+
+
+
+
+
+
+
+
+
+
+/nothing-like-this

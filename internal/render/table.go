@@ -23,6 +23,8 @@ type TableOptions struct {
 	Color         bool
 	ShowContext   bool
 	ShowNamespace bool
+	// ReasonWidth truncates the reason; 0 is 60, or 120 when Wide.
+	ReasonWidth int
 }
 
 // Table prints rows as a table. With Watch it prints the header and all rows once, then only the rows whose
@@ -41,7 +43,7 @@ func NewTable(out io.Writer, o TableOptions) *Table {
 		o:    o,
 		last: map[string]string{},
 	}
-	t.ageIdx = slices.Index(t.header(), ageColumn)
+	t.ageIdx = slices.Index(o.Header(), ageColumn)
 	return t
 }
 
@@ -50,28 +52,32 @@ var healthColors = map[model.Health]string{
 }
 
 const (
-	errorHealth = "ERROR"
+	// ErrorHealth stands in the health column of a scope that could not be read.
+	ErrorHealth = "ERROR"
 	ageColumn   = "IN STATE"
+	// HealthColumn is the header of the health column, which callers colour themselves when Color is off.
+	HealthColumn = "HEALTH"
 )
 
-func (t *Table) header() []string {
+// Header is the column names.
+func (o TableOptions) Header() []string {
 	var h []string
-	if t.o.ShowContext {
+	if o.ShowContext {
 		h = append(h, "CONTEXT")
 	}
-	if t.o.ShowNamespace {
+	if o.ShowNamespace {
 		h = append(h, "NAMESPACE")
 	}
-	h = append(h, "NAME", "HEALTH", "LIFECYCLE", "JOB", "JM", ageColumn, "REASON")
-	if t.o.Wide {
+	h = append(h, "NAME", HealthColumn, "LIFECYCLE", "JOB", "JM", ageColumn, "REASON")
+	if o.Wide {
 		h = append(h, "TM", "JM RESTARTS", "DRIFT", "FLINK", "IMAGE", "OWNER", "SNAPSHOT AGE")
 	}
 	return h
 }
 
 // colored wraps s in an ANSI colour that the tabwriter does not count towards the column width.
-func (t *Table) colored(s, code string) string {
-	if !t.o.Color || code == "" {
+func (o TableOptions) colored(s, code string) string {
+	if !o.Color || code == "" {
 		return s
 	}
 	return "\xff\x1b[" + code + "m\xff" + s + "\xff\x1b[0m\xff"
@@ -86,19 +92,22 @@ func truncate(s string, n int) string {
 	return s
 }
 
-// cells returns the row's cells and its change signature, which leaves out the age so that time passing alone
-// does not reprint a row.
-func (t *Table) cells(r *fleet.Row, now time.Time) (cells []string, sig string) {
+// Cells is the row's cells at now, in the order of Header.
+func (o TableOptions) Cells(r *fleet.Row, now time.Time) []string {
 	j := r.Job
-	if t.o.ShowContext {
+	var cells []string
+	if o.ShowContext {
 		cells = append(cells, j.Context)
 	}
-	if t.o.ShowNamespace {
+	if o.ShowNamespace {
 		cells = append(cells, j.Namespace)
 	}
 	reason, width := "-", 60
-	if t.o.Wide {
+	if o.Wide {
 		width = 120
+	}
+	if o.ReasonWidth > 0 {
+		width = o.ReasonWidth
 	}
 	if len(r.Findings) > 0 {
 		reason = truncate(r.Findings[0].Text(now), width)
@@ -107,9 +116,9 @@ func (t *Table) cells(r *fleet.Row, now time.Time) (cells []string, sig string) 
 	if since := j.StateSince(); !since.IsZero() {
 		age = duration.HumanDuration(now.Sub(since))
 	}
-	cells = append(cells, j.Name, t.colored(r.Health.String(), healthColors[r.Health]),
+	cells = append(cells, j.Name, o.colored(r.Health.String(), healthColors[r.Health]),
 		dash(j.Lifecycle), dash(j.JobState), dash(j.JMStatus), age, reason)
-	if t.o.Wide {
+	if o.Wide {
 		tm, restarts := "-", "-"
 		if j.Pods != nil {
 			restarts = strconv.Itoa(int(j.Pods.JM.Restarts))
@@ -127,6 +136,14 @@ func (t *Table) cells(r *fleet.Row, now time.Time) (cells []string, sig string) 
 		}
 		cells = append(cells, tm, restarts, drift, dash(flinkVersion(j)), dash(j.Image), dash(strings.Join(j.SpecOwners, ",")), snapshot)
 	}
+	return cells
+}
+
+// cells returns the row's cells and its change signature, which leaves out the age so that time passing alone
+// does not reprint a row.
+func (t *Table) cells(r *fleet.Row, now time.Time) (cells []string, sig string) {
+	cells = t.o.Cells(r, now)
+	j := r.Job
 	// The signature leaves out everything that changes with time alone: the ages, and the duration in the reason.
 	stable := slices.Clone(cells)
 	stable[t.ageIdx] = ""
@@ -139,13 +156,19 @@ func (t *Table) cells(r *fleet.Row, now time.Time) (cells []string, sig string) 
 	return cells, strings.Join(stable, "\t")
 }
 
-func (t *Table) errorCells(s *fleet.Scope) []string {
-	cells := []string{s.Context}
-	if t.o.ShowNamespace {
+func (t *Table) errorCells(s *fleet.Scope) []string { return t.o.ErrorCells(s) }
+
+// ErrorCells is the row of a scope that could not be read, in the order of Header.
+func (o TableOptions) ErrorCells(s *fleet.Scope) []string {
+	var cells []string
+	if o.ShowContext {
+		cells = append(cells, s.Context)
+	}
+	if o.ShowNamespace {
 		cells = append(cells, "-")
 	}
-	cells = append(cells, "-", t.colored(errorHealth, "31"), "-", "-", "-", "-", truncate(s.Err.Error(), 120))
-	if t.o.Wide {
+	cells = append(cells, "-", o.colored(ErrorHealth, "31"), "-", "-", "-", "-", truncate(s.Err.Error(), 120))
+	if o.Wide {
 		cells = append(cells, "-", "-", "-", "-", "-", "-", "-")
 	}
 	return cells
@@ -158,7 +181,7 @@ func (t *Table) line(cells []string) {
 // Print prints the header, an error row per failed scope and every row.
 func (t *Table) Print(rows []fleet.Row, scopes []fleet.Scope, now time.Time) error {
 	if !t.o.NoHeaders {
-		t.line(t.header())
+		t.line(t.o.Header())
 	}
 	for i := range scopes {
 		if s := &scopes[i]; s.Err != nil && t.o.ShowContext {
@@ -225,4 +248,7 @@ func (t *Table) goneCells(k string) []string {
 	return cells
 }
 
-func key(j *model.Job) string { return j.Context + "\x00" + j.Key() }
+func key(j *model.Job) string { return Key(j) }
+
+// Key identifies a job across contexts.
+func Key(j *model.Job) string { return j.Context + "\x00" + j.Key() }

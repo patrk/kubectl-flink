@@ -283,3 +283,21 @@ func TestReportWatchErrors(t *testing.T) {
 		t.Errorf("%q", got)
 	}
 }
+
+// top needs a terminal, and checks its flags first.
+func TestTopUsage(t *testing.T) {
+	c := newCluster(t)
+	c.add("dev", "team-a", kubetest.New(t))
+	for _, args := range [][]string{{}, {"--sort", "colour"}, {"--health", "sad"}} {
+		streams, _, _, errOut := genericiooptions.NewTestIOStreams()
+		o := &Options{ConfigFlags: genericclioptions.NewConfigFlags(true), IOStreams: streams}
+		cmd := newRootCommand(o)
+		cmd.SetArgs(append([]string{"--kubeconfig", c.kubeconfig, "top"}, args...))
+		if code := run(cmd, streams); code != ExitUsage {
+			t.Errorf("%v: code %d, want usage", args, code)
+		}
+		if len(args) == 0 && !strings.Contains(errOut.String(), "top needs a terminal") {
+			t.Errorf("no terminal: %q", errOut.String())
+		}
+	}
+}

@@ -170,6 +170,16 @@ func (s *Summary) Line() string {
 	return line + fmt.Sprintf(" · %d pods · requests %s CPU, %s memory", s.Pods, s.CPU, s.Memory)
 }
 
+// ScopeOptions shows the context column for several scopes and the namespace column when a scope reads more
+// than one namespace.
+func ScopeOptions(scopes []fleet.Scope) TableOptions {
+	o := TableOptions{ShowContext: len(scopes) > 1}
+	for i := range scopes {
+		o.ShowNamespace = o.ShowNamespace || scopes[i].AllNamespaces || len(scopes[i].Namespaces) > 1
+	}
+	return o
+}
+
 // Notes are the lines that explain how scopes were read: fallbacks and unread pods.
 func Notes(scopes []fleet.Scope) []string {
 	var out []string

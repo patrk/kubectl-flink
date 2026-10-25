@@ -1,0 +1,16 @@
+kubectl flink top · dev, prd, broken · 6 jobs: 1 FAILED, 1 DEGRADED, 1 SUSPENDED, 3 OK
+filter: all   sort: health
+          ╭──────────────────────────────────────────────────────────────────────────────────────────────────╮
+          │ keys                                                                                             │
+          │ ↑/k          up          /            search name or ID label   :            command             │
+          │ ↓/j          down        f            health filter             esc          back, clear filters │
+          │ pgup/ctrl+b  page up     s            sort                      ?            help                │
+          │ pgdn/ctrl+f  page down   n            namespace                 q            quit                │
+          │ g/home       first job   c            context                                                    │
+          │ G/end        last job    enter        why command                                                │
+          │                                                                                                  │
+          │ :ns NAME|all    :ctx NAME|all    :q                                                              │
+          │ :sort health|name|namespace|state-age|age                                                        │
+          │ :filter all|unhealthy|FAILED|STUCK|…                                                             │
+          ╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+enter why command  / search name or ID label  f health filter  s sort  n namespace  c context  : command  ? help  q quit
