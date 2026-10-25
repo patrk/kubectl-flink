@@ -2,6 +2,8 @@ version: "2"
 
 run:
   timeout: 5m
+  # Tagged tests build only in their CI jobs; lint compiles them on every change.
+  build-tags: [e2e, perf]
 
 linters:
   default: standard
