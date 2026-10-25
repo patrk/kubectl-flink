@@ -145,7 +145,12 @@ func (l *PodList) appendPage(p runtime.Object) { l.Items = append(l.Items, p.(*P
 // List lists r in namespace ("" for all namespaces) in pages of PageSize and returns one typed list. If the
 // continue token expires between pages, the list starts over once.
 func (c *Client) List(ctx context.Context, r Resource, namespace, labelSelector string) (runtime.Object, error) {
-	return c.list(ctx, r, namespace, metav1.ListOptions{LabelSelector: labelSelector})
+	return c.ListMatching(ctx, r, namespace, labelSelector, "")
+}
+
+// ListMatching is List with a field selector too, such as metadata.name=x.
+func (c *Client) ListMatching(ctx context.Context, r Resource, namespace, labelSelector, fieldSelector string) (runtime.Object, error) {
+	return c.list(ctx, r, namespace, metav1.ListOptions{LabelSelector: labelSelector, FieldSelector: fieldSelector})
 }
 
 func (c *Client) list(ctx context.Context, r Resource, namespace string, opts metav1.ListOptions) (runtime.Object, error) {

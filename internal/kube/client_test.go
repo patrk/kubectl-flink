@@ -3,6 +3,8 @@ package kube_test
 import (
 	"context"
 	"errors"
+	"fmt"
+	"slices"
 	"strings"
 	"testing"
 	"time"
@@ -243,5 +245,109 @@ func TestLoad(t *testing.T) {
 	f.Set(func() { f.NotFound = true })
 	if _, err := c.Load(context.Background(), kube.Plan{Read: []string{"team-a"}}, kube.Query{}); !errors.Is(err, kube.ErrNoOperator) {
 		t.Errorf("not found: %v", err)
+	}
+}
+
+func TestLoadMatch(t *testing.T) {
+	f := kubetest.New(t)
+	label := func(k, v string) func(int, map[string]any) {
+		return func(i int, o map[string]any) {
+			md := o["metadata"].(map[string]any)
+			l, _ := md["labels"].(map[string]any)
+			if l == nil {
+				l = map[string]any{}
+			}
+			l[k] = fmt.Sprint(v, i)
+			md["labels"] = l
+		}
+	}
+	f.Add("flinkdeployments", fdFixture, "team-a", "a", 3, label("use-case", "7"))
+	f.Add("flinkdeployments", fdFixture, "team-b", "b", 2, label("uc", "7"))
+	f.Add("pods", podsFixture, "team-a", "pa", 3, label("app", "a-"))
+	f.Add("pods", podsFixture, "team-b", "pb", 2, label("app", "b-"))
+	c := client(t, f)
+	plan := kube.Plan{Scope: kube.Scope{Context: "dev", AllNamespaces: true}, Read: []string{""}}
+	load := func(m kube.Match) *kube.Snapshot {
+		t.Helper()
+		s, err := c.Load(context.Background(), plan, kube.Query{Match: &m})
+		if err != nil {
+			t.Fatal(err)
+		}
+		return s
+	}
+	names := func(s *kube.Snapshot) string {
+		n := make([]string, 0, len(s.Deployments))
+		for _, d := range s.Deployments {
+			n = append(n, d.Namespace+"/"+d.Name)
+		}
+		slices.Sort(n)
+		return strings.Join(n, " ")
+	}
+
+	// a-1 carries use-case=71 and b-1 uc=71: the same ID under either key, found once each.
+	s := load(kube.Match{Name: "71", Labels: []string{"use-case", "uc"}, Value: "71"})
+	if got := names(s); got != "team-a/a-1 team-b/b-1" {
+		t.Errorf("by ID: %s", got)
+	}
+	// Only the pods of the clusters found are read.
+	pods := make([]string, 0, len(s.Pods))
+	for _, p := range s.Pods {
+		pods = append(pods, p.Name)
+	}
+	slices.Sort(pods)
+	if strings.Join(pods, " ") != "pa-1 pb-1" {
+		t.Errorf("pods %v", pods)
+	}
+	if got := names(load(kube.Match{Name: "a-2", Labels: []string{"use-case"}, Value: "a-2"})); got != "team-a/a-2" {
+		t.Errorf("by name: %s", got)
+	}
+	// A value no label can hold reads nothing by label, and nothing at all is listed unfiltered.
+	if got := names(load(kube.Match{Labels: []string{"use-case"}, Value: "not a label value"})); got != "" {
+		t.Errorf("invalid value: %s", got)
+	}
+	unfiltered := f.Count(func(r kubetest.Request) bool {
+		return strings.HasSuffix(r.Path, "/flinkdeployments") && r.Query.Get("labelSelector") == "" && r.Query.Get("fieldSelector") == ""
+	})
+	if unfiltered != 0 {
+		t.Errorf("%d unfiltered deployment lists", unfiltered)
+	}
+}
+
+func TestLoadMatchManyNamespacesAndLongNames(t *testing.T) {
+	f := kubetest.New(t)
+	long := strings.Repeat("x", 70)
+	read := make([]string, 0, 9)
+	for i := range 9 {
+		ns := fmt.Sprintf("team-%d", i)
+		read = append(read, ns)
+		f.Add("flinkdeployments", fdFixture, ns, "job", 2, func(j int, o map[string]any) {
+			o["metadata"].(map[string]any)["labels"] = map[string]any{"use-case": fmt.Sprint(i*10 + j)}
+		})
+	}
+	f.Add("flinkdeployments", fdFixture, "team-0", long, 1, func(_ int, o map[string]any) {
+		o["metadata"].(map[string]any)["name"] = long
+		o["metadata"].(map[string]any)["labels"] = map[string]any{"use-case": "1"}
+	})
+	f.Add("pods", podsFixture, "team-0", "p", 1, nil)
+	c := client(t, f)
+	ctx := context.Background()
+	m := &kube.Match{Labels: []string{"use-case"}, Value: "1"}
+
+	// Nine namespaces read one by one: the full load, matched as the API server would.
+	s, err := c.Load(ctx, kube.Plan{Read: read}, kube.Query{Match: m})
+	if err != nil || len(s.Deployments) != 2 || s.Deployments[0].Name != "job-1" || s.Deployments[1].Name != long {
+		t.Fatalf("many namespaces: %v %d", err, len(s.Deployments))
+	}
+	labelled := f.Count(func(r kubetest.Request) bool { return strings.Contains(r.Query.Get("labelSelector"), "use-case") })
+	if labelled != 0 {
+		t.Errorf("%d label lists for nine namespaces", labelled)
+	}
+	// Fewer: by the API server. A name too long for a label value reads every Flink pod of its namespace.
+	s, err = c.Load(ctx, kube.Plan{Read: read[:1]}, kube.Query{Match: m})
+	if err != nil || len(s.Deployments) != 2 || len(s.Pods) != 1 || s.PodsErr != nil {
+		t.Errorf("long name: %v, %d jobs, %d pods, %v", err, len(s.Deployments), len(s.Pods), s.PodsErr)
+	}
+	if s.Deployments[0].Name != "job-1" {
+		t.Errorf("order: %s first", s.Deployments[0].Name)
 	}
 }

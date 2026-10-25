@@ -36,10 +36,12 @@ func (t *target) cluster() string {
 
 func (t *target) String() string { return render.NewJobRef(t.job).String() }
 
-// resolveJob finds the job an argument names in the current scopes. An exact namespace/name is read directly;
-// anything else, and a namespace/name that does not exist as written, is matched against the listed jobs by
-// name, ID label or substring (fleet.Find). A scope that cannot be read is reported when nothing is found, so a
-// failure never reads as "no match".
+// resolveJob finds the job an argument names in the current scopes. An exact namespace/name is read directly.
+// Anything else is first looked up by the API server, as an exact name or a value of the profile's ID labels on
+// the resource; only when that finds nothing are all jobs listed and matched by name, ID label, on the pod
+// template too, or substring (fleet.Find). So an ID that one job carries on the resource and another only on its
+// pod template names the first. A scope that cannot be read is reported when nothing is found, so a failure never
+// reads as "no match".
 func (o *Options) resolveJob(ctx context.Context, arg string, allNamespaces bool) (*target, error) {
 	srcs, prof, err := o.sources(allNamespaces)
 	if err != nil {
@@ -69,8 +71,30 @@ func (o *Options) resolveJob(ctx context.Context, arg string, allNamespaces bool
 		}
 	}
 
-	scopes := fleet.Load(ctx, srcs, kube.Query{})
+	// A name or an ID the API server can find first; the whole fleet only when it finds nothing, for a part of a
+	// name or an ID in a pod template label. An exact name still wins over an ID, as fleet.Find decides.
+	if !strings.Contains(arg, "/") {
+		m := &kube.Match{Name: arg, Labels: prof.IDLabels, Value: arg}
+		t, _, err := findJob(fleet.Load(ctx, srcs, kube.Query{Match: m}), srcs, prof, arg)
+		if !errors.Is(err, fleet.ErrNoMatch) {
+			return t, ambiguousExit(err)
+		}
+	}
+	t, errs, err := findJob(fleet.Load(ctx, srcs, kube.Query{}), srcs, prof, arg)
+	scopeErrs = append(scopeErrs, errs...)
+	switch {
+	case errors.Is(err, fleet.ErrNoMatch) && len(scopeErrs) > 0:
+		return nil, fmt.Errorf("%w; and not every scope could be read: %w", err, errors.Join(dedupe(scopeErrs)...))
+	case errors.Is(err, fleet.ErrNoMatch) && !allNamespaces:
+		return nil, fmt.Errorf("%w in %s; -A looks in every namespace", err, searched(srcs))
+	}
+	return t, ambiguousExit(err)
+}
+
+// findJob matches arg against the jobs of the scopes, and returns the errors of the scopes it could not read.
+func findJob(scopes []fleet.Scope, srcs []fleet.Source, prof *profile.Profile, arg string) (*target, []error, error) {
 	var jobs []*model.Job
+	var scopeErrs []error
 	clients := map[*model.Job]*kube.Client{}
 	for i := range scopes {
 		if scopes[i].Err != nil {
@@ -84,18 +108,18 @@ func (o *Options) resolveJob(ctx context.Context, arg string, allNamespaces bool
 		}
 	}
 	job, err := fleet.Find(jobs, prof.IDLabels, arg)
-	var amb *fleet.AmbiguousError
-	switch {
-	case errors.As(err, &amb):
-		return nil, &exitError{code: ExitAmbiguous, err: err}
-	case errors.Is(err, fleet.ErrNoMatch) && len(scopeErrs) > 0:
-		return nil, fmt.Errorf("%w; and not every scope could be read: %w", err, errors.Join(dedupe(scopeErrs)...))
-	case errors.Is(err, fleet.ErrNoMatch) && !allNamespaces:
-		return nil, fmt.Errorf("%w in %s; -A looks in every namespace", err, searched(srcs))
-	case err != nil:
-		return nil, err
+	if err != nil {
+		return nil, scopeErrs, err
 	}
-	return &target{job: job, client: clients[job], profile: prof}, nil
+	return &target{job: job, client: clients[job], profile: prof}, scopeErrs, nil
+}
+
+// ambiguousExit gives an argument that matched several jobs its own exit code.
+func ambiguousExit(err error) error {
+	if amb := (*fleet.AmbiguousError)(nil); errors.As(err, &amb) {
+		return &exitError{code: ExitAmbiguous, err: err}
+	}
+	return err
 }
 
 // searched names the namespaces a job was looked for in, for a search that found nothing.

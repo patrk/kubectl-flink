@@ -35,7 +35,7 @@ var listKinds = map[string][2]string{
 type item struct {
 	ns, name string
 	labels   map[string]string
-	fields   map[string]string // field selector values: involvedObject.uid for events
+	fields   map[string]string // field selector values: metadata.name, and involvedObject.uid for events
 	raw      []byte
 }
 
@@ -165,8 +165,9 @@ func (f *API) Put(resource string, obj map[string]any) {
 			it.labels[k], _ = v.(string)
 		}
 	}
+	it.fields = map[string]string{"metadata.name": it.name}
 	if ref, ok := obj["involvedObject"].(map[string]any); ok {
-		it.fields = map[string]string{"involvedObject.uid": fmt.Sprint(ref["uid"])}
+		it.fields["involvedObject.uid"] = fmt.Sprint(ref["uid"])
 	}
 	var err error
 	if it.raw, err = json.Marshal(obj); err != nil {

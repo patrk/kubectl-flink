@@ -47,28 +47,34 @@ Flink cluster runs behind them. `make bench-flood` times the same questions with
 kubectl flink, with [hyperfine](https://github.com/sharkdp/hyperfine), on kind on a laptop. A remote cluster adds
 its round trips to both.
 
-2009 FlinkDeployments, 2026-10-25, hyperfine 2.0.0; mean ± σ of 20 runs after 3 warmups.
+2009 FlinkDeployments, 2026-10-25, hyperfine 2.0.0; mean ± σ of 20 runs after 3 warmups;
+profile idLabels: [use-case].
 
 | Command | Mean Wall Time [ms] | Change | Factor |
 |:---|---:|---:|:---|
-| `kubectl get -A` | 231.6 ± 4.2 |  |  |
-| `kubectl flink ls -A` | 197.5 ± 7.5 | -14.7% |  |
+| `kubectl get -A` | 232.6 ± 3.7 |  |  |
+| `kubectl flink ls -A` | 204.3 ± 4.8 | -12.2% |  |
 
 | Command | Mean Wall Time [ms] | Change | Factor |
 |:---|---:|---:|:---|
-| `kubectl get -A -o json \| jq (unhealthy)` | 847.0 ± 10.1 |  |  |
-| `kubectl flink ls -A --unhealthy` | 153.1 ± 7.8 | -81.9% | (5.5x faster) |
+| `kubectl get -A -o json \| jq (unhealthy)` | 857.5 ± 11.9 |  |  |
+| `kubectl flink ls -A --unhealthy` | 167.4 ± 8.5 | -80.5% | (5.1x faster) |
 
 | Command | Mean Wall Time [ms] | Change | Factor |
 |:---|---:|---:|:---|
-| `kubectl get -A -l use-case=1234` | 35.0 ± 2.6 |  |  |
-| `kubectl flink ls -A 1234` | 152.9 ± 6.8 | +337.0% | (4.4x slower) |
+| `kubectl get -A -l use-case=1234` | 37.3 ± 5.3 |  |  |
+| `kubectl flink ls -A 1234` | 25.0 ± 1.3 | -33.1% | (1.5x faster) |
+
+| Command | Mean Wall Time [ms] | Change | Factor |
+|:---|---:|---:|:---|
+| `kubectl flink why 1234 (-A)` | 30.1 ± 6.4 |  |  |
 
 - Listing with a health value per job costs no more than `kubectl get` without one.
 - Finding the unhealthy jobs with kubectl alone means fetching every resource as JSON and filtering it, and the
   filter only sees lifecycle and errors, not restarts, missing TaskManagers or stale reconciles.
-- Finding a job by one known label is faster with kubectl: the API server filters by the label. kubectl flink
-  reads every job, to match the value in any ID label, on the pod template too, or in the name.
+- An ID is looked up by the API server in the profile's ID labels, and only the pods of the jobs found are read.
+  Without idLabels in the profile, or when no job carries the value, every job is read, to match it in any label,
+  on the pod template too, or in the name; that costs what `ls -A` costs.
 
 ## Time to an answer
 
@@ -78,6 +84,6 @@ to take them.
 | Question | kubectl | kubectl flink |
 |:---|:---|:---|
 | Which of 2,000 jobs need attention? | `get -A` shows lifecycle and job state; restarts, missing TaskManagers and stale reconciles need a `describe` per job | `ls -A --unhealthy`, or `top`: one health value per job, the worst first |
-| Why is this one failing? | `describe` for `status.error` in a JSON string, `get pods`, `logs --previous` on the right container, a port-forward to the web UI for exceptions: five steps, and the pod and container names | `why <job>`: the cause first, then the evidence by layer; 26 ms here for a crash loop, 43 ms for a running job asked over REST |
+| Why is this one failing? | `describe` for `status.error` in a JSON string, `get pods`, `logs --previous` on the right container, a port-forward to the web UI for exceptions: five steps, and the pod and container names | `why <job>`: the cause first, then the evidence by layer; 26 ms here for a crash loop, 43 ms for a running job asked over REST, 30 ms by ID across 2,009 jobs |
 | Which job is use case 1234? | `get -A -l use-case=1234`, if you know the label key | `ls -A 1234`, or `/1234` in `top`: any ID label, or the name |
 | What goes into the ticket? | Copy and paste the above, and remove the secrets by hand | `report <job>`, or `R` in `top`: one bundle, secrets redacted |

@@ -42,7 +42,8 @@ func newLsCommand(o *Options) *cobra.Command {
 		Short:   "List Flink jobs with their health",
 		Long: `List FlinkDeployments and FlinkSessionJobs with a health derived from the operator status, the
 JobManager and TaskManager pods, and how long each state has lasted. FILTER keeps jobs whose namespace/name
-contains it. The summary and any fallback notes go to stderr.`,
+contains it or that carry it as an ID label value; with idLabels in the profile, the jobs that carry it as an ID
+are the answer when there are any, and only those are read. The summary and any fallback notes go to stderr.`,
 		Example: `  kubectl flink ls -A --unhealthy
   kubectl flink ls -n team-a -o wide --sort state-age
   kubectl flink ls -l team=payments -o json
@@ -122,7 +123,7 @@ func (lo *lsOptions) run(ctx context.Context) error {
 	if lo.watch {
 		return lo.runWatch(ctx, srcs, th)
 	}
-	scopes := fleet.Load(ctx, srcs, lo.query())
+	scopes := lo.load(ctx, srcs, prof.IDLabels)
 	if len(scopes) == 1 && scopes[0].Err != nil {
 		return scopes[0].Err
 	}
@@ -142,6 +143,20 @@ func (lo *lsOptions) run(ctx context.Context) error {
 		return &exitError{code: ExitUnhealthy, err: errors.New("unhealthy jobs listed")}
 	}
 	return nil
+}
+
+// load reads the scopes. With ID labels in the profile, a FILTER is first looked up as an ID by the API server;
+// the whole fleet is read only when no job carries it, for a part of a name or an ID in a pod template label.
+func (lo *lsOptions) load(ctx context.Context, srcs []fleet.Source, idLabels []string) []fleet.Scope {
+	if lo.filter.Text != "" && len(idLabels) > 0 {
+		q := lo.query()
+		q.Match = &kube.Match{Labels: idLabels, Value: lo.filter.Text}
+		scopes := fleet.Load(ctx, srcs, q)
+		if slices.ContainsFunc(scopes, func(s fleet.Scope) bool { return len(s.Jobs) > 0 }) {
+			return scopes
+		}
+	}
+	return fleet.Load(ctx, srcs, lo.query())
 }
 
 func (lo *lsOptions) rows(scopes []fleet.Scope, th model.Thresholds) ([]fleet.Row, error) {
