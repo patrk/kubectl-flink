@@ -169,6 +169,7 @@ func (a *assessor) run() {
 	a.operator()
 	a.jobManager()
 	a.job()
+	a.restarts()
 	a.drift()
 	a.statusError()
 	a.pods()
@@ -256,6 +257,35 @@ func (a *assessor) job() {
 		// example after a JobManager failover) while the spec says running.
 		a.timed(first(j.JobStateSince, j.ReconciledAt), a.th.DegradedAfter, Degraded, "job "+j.JobState)
 	}
+}
+
+// restarts finds a job that keeps failing, from the operator's JobException events. Its state cannot show it:
+// every restart resets how long the job has been RESTARTING, so a job failing for hours looks just started.
+func (a *assessor) restarts() {
+	j := a.j
+	if j.SessionCluster {
+		return
+	}
+	switch j.JobState {
+	case "FAILED", "FINISHED", "CANCELED":
+		return // the job has stopped; job() says so
+	}
+	n, since := j.failuresWithin(a.now, RestartWindow)
+	if n < RestartLoop {
+		return
+	}
+	what := fmt.Sprintf("restart loop: %d failures in the last %s", n, duration.HumanDuration(RestartWindow))
+	// Between two failures a job may run for a while: it is behind, not down. Down, it is FAILED once the
+	// failures have gone on for as long as a job may take to recover.
+	if j.JobState == "RUNNING" {
+		a.add(Degraded, "%s", what)
+		return
+	}
+	if a.now.Sub(since) >= a.th.DegradedAfter {
+		a.add(Failed, "%s", what)
+		return
+	}
+	a.add(Degraded, "%s", what)
 }
 
 func (a *assessor) drift() {

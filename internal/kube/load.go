@@ -21,6 +21,10 @@ type Snapshot struct {
 	// Snapshots are the completed FlinkStateSnapshots, for the age of each job's newest; empty when the CRD is
 	// missing or they may not be listed, which only blanks that column.
 	Snapshots []FlinkStateSnapshot
+	// JobEvents are the operator's JobException events, for how often each job failed recently.
+	JobEvents []Event
+	// EventsErr holds, per namespace, why its events could not be read; the restart loop check is skipped there.
+	EventsErr map[string]error
 	// PodsErr holds, per namespace read ("" for cluster scope), why its pods could not be read. Pods only add
 	// the TaskManager check, so this never fails a load; jobs in those namespaces get no pod data.
 	PodsErr map[string]error
@@ -46,6 +50,8 @@ type Query struct {
 	Snapshots bool
 	// Match, when set, reads only the jobs it names, filtered by the API server.
 	Match *Match
+	// Failures also reads the operator's JobException events, for the restart loop check.
+	Failures bool
 }
 
 // Match names jobs the API server can find without the whole fleet being read: by exact name, or by a value of
@@ -83,11 +89,13 @@ func (c *Client) Load(ctx context.Context, p Plan, q Query) (*Snapshot, error) {
 		return c.loadMatch(ctx, p, q)
 	}
 	type part struct {
-		fds  *FlinkDeploymentList
-		sjs  *FlinkSessionJobList
-		pods *PodList
-		perr error
-		snap *FlinkStateSnapshotList
+		fds    *FlinkDeploymentList
+		sjs    *FlinkSessionJobList
+		pods   *PodList
+		perr   error
+		snap   *FlinkStateSnapshotList
+		events *EventList
+		eerr   error
 	}
 	parts := make([]part, len(p.Read))
 	g, ctx := errgroup.WithContext(ctx)
@@ -118,6 +126,16 @@ func (c *Client) Load(ctx context.Context, p Plan, q Query) (*Snapshot, error) {
 			parts[i].perr = err
 			return nil
 		})
+		if q.Failures {
+			g.Go(func() error {
+				obj, err := c.ListMatching(ctx, Events, ns, "", JobExceptionSelector)
+				if err == nil {
+					parts[i].events = obj.(*EventList)
+				}
+				parts[i].eerr = err
+				return nil
+			})
+		}
 		if !q.Snapshots {
 			continue
 		}
@@ -138,6 +156,15 @@ func (c *Client) Load(ctx context.Context, p Plan, q Query) (*Snapshot, error) {
 		s.SessionJobs = append(s.SessionJobs, pt.sjs.Items...)
 		if pt.snap != nil {
 			s.Snapshots = append(s.Snapshots, pt.snap.Items...)
+		}
+		if pt.events != nil {
+			s.JobEvents = append(s.JobEvents, pt.events.Items...)
+		}
+		if pt.eerr != nil {
+			if s.EventsErr == nil {
+				s.EventsErr = map[string]error{}
+			}
+			s.EventsErr[p.Read[i]] = pt.eerr
 		}
 		if pt.perr != nil {
 			if s.PodsErr == nil {
@@ -238,6 +265,22 @@ func (c *Client) loadMatch(ctx context.Context, p Plan, q Query) (*Snapshot, err
 			s.Pods = append(s.Pods, obj.(*PodList).Items...)
 			return nil
 		})
+		if q.Failures {
+			g.Go(func() error {
+				obj, err := c.ListMatching(gctx, Events, ns, "", JobExceptionSelector)
+				mu.Lock()
+				defer mu.Unlock()
+				if err != nil {
+					if s.EventsErr == nil {
+						s.EventsErr = map[string]error{}
+					}
+					s.EventsErr[ns] = err
+					return nil
+				}
+				s.JobEvents = append(s.JobEvents, obj.(*EventList).Items...)
+				return nil
+			})
+		}
 		if q.Snapshots {
 			g.Go(func() error {
 				if obj, err := c.List(gctx, Snapshots, ns, LabelSnapshotState+"=COMPLETED"); err == nil {

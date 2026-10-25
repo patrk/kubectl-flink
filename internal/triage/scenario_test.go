@@ -52,7 +52,7 @@ func TestScenarioVerdicts(t *testing.T) {
 		"tm-lost":            {"taskmanager-lost", model.OK},
 		"suspended":          {"", model.Suspended},
 		"unreachable":        {"dependency-unreachable", model.Failed},
-		"restart-loop":       {"dependency-unreachable", model.OK},
+		"restart-loop":       {"dependency-unreachable", model.Degraded},
 		"restart-bot":        {"external-restart", model.OK},
 		"ha":                 {"", model.OK},
 		"checkpoint-storage": {"checkpoint-storage-unwritable", model.Progressing},

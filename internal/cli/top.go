@@ -81,7 +81,7 @@ func (to *topOptions) run(ctx context.Context, search string) error {
 	updates := make(chan []fleet.Scope)
 	go func() {
 		// Snapshots are left out: watching every completed one costs more than their age in w is worth.
-		fleet.Watch(ctx, srcs, kube.Query{Selector: to.selector}, updates)
+		fleet.Watch(ctx, srcs, kube.Query{Selector: to.selector, Failures: true}, updates)
 		close(updates)
 	}()
 	loader, err := newTopLoader(to.Options, srcs, prof)

@@ -25,16 +25,19 @@ const Coalesce = 250 * time.Millisecond
 
 // watched is one scope's informers.
 type watched struct {
-	src     Source
-	plan    kube.Plan
-	fds     []cache.SharedIndexInformer
-	sjs     []cache.SharedIndexInformer
-	pods    []cache.SharedIndexInformer
-	snaps   []cache.SharedIndexInformer
-	unread  []string
-	mu      sync.Mutex
-	err     error // the last watch error, cleared by the next event
-	initErr error // the scope could not be resolved; no informers run
+	src    Source
+	plan   kube.Plan
+	fds    []cache.SharedIndexInformer
+	sjs    []cache.SharedIndexInformer
+	pods   []cache.SharedIndexInformer
+	snaps  []cache.SharedIndexInformer
+	events []cache.SharedIndexInformer
+	// eventsUnread are the namespaces whose events could not be listed.
+	eventsUnread []string
+	unread       []string
+	mu           sync.Mutex
+	err          error // the last watch error, cleared by the next event
+	initErr      error // the scope could not be resolved; no informers run
 }
 
 // Watch keeps every source current with informers and sends the scopes after the initial sync and then after
@@ -92,7 +95,7 @@ func (w *watched) start(ctx context.Context, q kube.Query, mark func()) {
 	if w.plan, w.initErr = c.Resolve(ctx, w.src.Scope, w.src.ContextNamespace); w.initErr != nil {
 		return
 	}
-	podsOK, snapsOK, err := w.probe(ctx, q.Snapshots)
+	podsOK, snapsOK, eventsOK, err := w.probe(ctx, q.Snapshots)
 	if err != nil {
 		w.initErr = err
 		return
@@ -127,6 +130,17 @@ func (w *watched) start(ctx context.Context, q kube.Query, mark func()) {
 			run(snaps)
 			w.snaps = append(w.snaps, snaps)
 		}
+		// JobException events only add the restart loop check: they are left out where they cannot be listed, and
+		// the first frame does not wait for them.
+		if q.Failures && eventsOK[i] {
+			events := c.FieldInformer(kube.Events, ns, kube.JobExceptionSelector)
+			_ = events.SetWatchErrorHandlerWithContext(onErr)
+			_, _ = events.AddEventHandler(handler)
+			go events.RunWithContext(ctx)
+			w.events = append(w.events, events)
+		} else if q.Failures {
+			w.eventsUnread = append(w.eventsUnread, ns)
+		}
 		// Pods only add the TaskManager check: where they are forbidden, the scope goes on without them.
 		if !podsOK[i] {
 			w.unread = append(w.unread, ns)
@@ -150,9 +164,9 @@ var errNoSync = errors.New("no response")
 // probe checks every list before any informer starts, in parallel, because a forbidden informer never syncs.
 // A forbidden deployment or session job list fails the scope, as it does in Load; a forbidden pod list only
 // drops pods. At cluster scope Resolve has already probed the Flink lists.
-func (w *watched) probe(ctx context.Context, snapshots bool) (podsOK, snapsOK []bool, err error) {
+func (w *watched) probe(ctx context.Context, snapshots bool) (podsOK, snapsOK, eventsOK []bool, err error) {
 	c := w.src.Client
-	podsOK, snapsOK = make([]bool, len(w.plan.Read)), make([]bool, len(w.plan.Read))
+	podsOK, snapsOK, eventsOK = make([]bool, len(w.plan.Read)), make([]bool, len(w.plan.Read)), make([]bool, len(w.plan.Read))
 	clusterProbed := w.plan.AllNamespaces && len(w.plan.Read) == 1 && w.plan.Read[0] == ""
 	g, gctx := errgroup.WithContext(ctx)
 	g.SetLimit(8)
@@ -171,6 +185,10 @@ func (w *watched) probe(ctx context.Context, snapshots bool) (podsOK, snapsOK []
 			podsOK[i] = c.Probe(gctx, kube.Pods, ns) == nil
 			return nil
 		})
+		g.Go(func() error {
+			eventsOK[i] = c.Probe(gctx, kube.Events, ns) == nil
+			return nil
+		})
 		if snapshots {
 			g.Go(func() error {
 				snapsOK[i] = c.Probe(gctx, kube.Snapshots, ns) == nil
@@ -178,7 +196,7 @@ func (w *watched) probe(ctx context.Context, snapshots bool) (podsOK, snapsOK []
 			})
 		}
 	}
-	return podsOK, snapsOK, g.Wait()
+	return podsOK, snapsOK, eventsOK, g.Wait()
 }
 
 func (w *watched) clearErr() {
@@ -217,6 +235,11 @@ func snapshot(ws []*watched) []Scope {
 					snap.Snapshots = append(snap.Snapshots, *o.(*kube.FlinkStateSnapshot))
 				}
 			}
+			for _, inf := range w.events {
+				for _, o := range inf.GetStore().List() {
+					snap.JobEvents = append(snap.JobEvents, *o.(*kube.Event))
+				}
+			}
 			if len(w.unread) > 0 {
 				snap.PodsErr = map[string]error{}
 				for _, ns := range w.unread {
@@ -224,6 +247,7 @@ func snapshot(ws []*watched) []Scope {
 				}
 			}
 			s.Jobs, s.PodsUnread = Jobs(w.src.Scope.Context, snap)
+			s.FailuresUnread = w.eventsUnread
 			InferOwners(s.Jobs, w.src.Owners)
 		}
 		out[i] = s
