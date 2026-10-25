@@ -69,7 +69,7 @@ if [[ $(jq -r .state "$OUT/rest/job.json") == RUNNING ]]; then
   for vid in $(jq -r '.vertices[].id' "$OUT/rest/job.json"); do
     optional "/jobs/$jid/vertices/$vid/backpressure" "backpressure-$vid"
     get "/jobs/$jid/vertices/$vid/subtasks/metrics" "metric-names-$vid" 'length > 0'
-    get "/jobs/$jid/vertices/$vid/subtasks/metrics?get=busyTimeMsPerSecond,backPressuredTimeMsPerSecond,idleTimeMsPerSecond,numRecordsInPerSecond,numRecordsOutPerSecond&agg=sum,max,avg" "metrics-$vid" 'length > 0'
+    get "/jobs/$jid/vertices/$vid/subtasks/metrics?get=busyTimeMsPerSecond,backPressuredTimeMsPerSecond,idleTimeMsPerSecond,numRecordsInPerSecond,numRecordsOutPerSecond&agg=sum,max,avg,min" "metrics-$vid" 'length > 0'
   done
 fi
 echo "fixtures in $OUT"

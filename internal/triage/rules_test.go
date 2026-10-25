@@ -34,6 +34,7 @@ var synthetic = map[string][]triage.Signal{
 		{Kind: triage.SigBottleneck, Text: "Enrich -> Sink: payments: busy 990 ms/s"},
 	},
 	"sink-idle":     {{Kind: triage.SigSinkIdle, Text: "Sink: payments receives nothing while the sources emit 213 records/s"}},
+	"skew":          {{Kind: triage.SigSkew, Text: "Sessionize: subtasks busy 280 to 1000 ms/s, receiving 49 to 198 records/s"}},
 	"ha-leftover":   {{Kind: triage.SigHALeftover, Text: "job plan of 0000, not the current job 1111"}},
 	"multiple-jobs": {{Kind: triage.SigJobsMultiple, Text: "2 jobs run on the application cluster: 0000, 1111"}},
 	"checkpoints-stale": {

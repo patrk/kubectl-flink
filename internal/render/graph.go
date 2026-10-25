@@ -47,8 +47,13 @@ type GraphNode struct {
 	Status      string `json:"status"`
 	// Metrics is false when the operator's metrics were not read; the time split and rates are then zero.
 	Metrics bool `json:"metrics"`
-	// Busy, Pressed and Idle are the ms/s of the worst subtask; In and Out are records/s over all subtasks.
-	Busy       float64 `json:"busyMsPerSecond"`
+	// Busy and Pressed are the ms/s of the busiest and the most back-pressured subtask, Idle of the least idle one,
+	// so that together they describe the worst subtask; In and Out are records/s over all subtasks.
+	Busy float64 `json:"busyMsPerSecond"`
+	// BusyLeast is the busy ms/s of the least busy subtask; Skewed marks an operator whose busiest subtask is
+	// saturated while another works much less.
+	BusyLeast  float64 `json:"leastBusyMsPerSecond"`
+	Skewed     bool    `json:"skewed,omitempty"`
 	Pressed    float64 `json:"backPressuredMsPerSecond"`
 	Idle       float64 `json:"idleMsPerSecond"`
 	In         float64 `json:"recordsInPerSecond"`
@@ -113,6 +118,11 @@ func NewJobGraph(ev *triage.Evidence) *JobGraph {
 			m := vm.Metrics
 			n.Metrics = true
 			n.Busy, n.Pressed, n.Idle = m[triage.MetricBusy].Max, m[triage.MetricBackPressed].Max, m[triage.MetricIdle].Max
+			if idle := m[triage.MetricIdle]; idle.HasMin {
+				n.Idle = idle.Min
+			}
+			n.BusyLeast = m[triage.MetricBusy].Min
+			n.Skewed = v.Parallelism > 1 && triage.Skewed(m[triage.MetricBusy])
 			n.In, n.Out = m[triage.MetricIn].Sum, m[triage.MetricOut].Sum
 			n.Pending, n.HasPending = vm.Pending()
 			n.State, n.Backpressure = dominant(n.Busy, n.Pressed, n.Idle), triage.BackpressureLevel(n.Pressed)
@@ -149,6 +159,9 @@ func Graph(out io.Writer, ev *triage.Evidence, color bool) error {
 		w.printf("\n[%d] %s  ×%d  %s", n.Index, paint(n.State, n.Name), n.Parallelism, n.Status)
 		if n.Bottleneck {
 			w.printf("  %s", paint(Busy, "◀ bottleneck"))
+		}
+		if n.Skewed {
+			w.printf("  %s", paint(Busy, fmt.Sprintf("◀ skewed: subtasks busy %.0f to %.0f ms/s", n.BusyLeast, n.Busy)))
 		}
 		w.printf("\n")
 		if n.Metrics {

@@ -290,7 +290,26 @@ rules:
     explain: >-
       A subtask spends {{.ms}} ms of every second waiting to hand records downstream, so the job runs behind its
       input. {{if .bottleneck}}{{.bottleneck}} is busy {{.busy}} ms/s and cannot keep up.{{end}}
-    remedy: 'Raise the parallelism of the slow vertex, or look at what it waits on, such as a slow sink or lookup.'
+    remedy: >-
+      If {{if .bottleneck}}{{.bottleneck}}{{else}}the slow operator{{end}} calls another system, such as a lookup, an
+      async request or a sink, that system answers slowly: check its latency first, because more parallelism adds load
+      to it. If it computes, raise its parallelism.
+
+  - id: skew
+    layer: performance
+    severity: DEGRADED
+    when:
+      - signal: performance.skew
+        match: '(?P<vertex>.+): subtasks busy (?P<min>\d+) to (?P<max>\d+) ms/s, receiving (?P<inmin>\d+) to (?P<inmax>\d+) records/s'
+    supersedes: [backpressure]
+    title: '{{.vertex}} is skewed: one subtask does most of the work'
+    explain: >-
+      Its subtasks are busy between {{.min}} and {{.max}} ms of every second and receive between {{.inmin}} and
+      {{.inmax}} records/s. The busiest one cannot keep up while the others wait, so the job runs behind its input.
+      Usually one key carries most of the records.
+    remedy: >-
+      Find the hot key, often a default, empty or bot value: filter it out before the keyBy, pre-aggregate it, or add
+      a salt to the key. More parallelism does not spread a single key.
 
   - id: sink-idle
     layer: performance

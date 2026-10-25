@@ -2,6 +2,7 @@ package flink
 
 import (
 	"context"
+	"encoding/json"
 	"net/url"
 	"strconv"
 	"strings"
@@ -215,6 +216,25 @@ type Metric struct {
 	Max float64 `json:"max"`
 	Avg float64 `json:"avg"`
 	Sum float64 `json:"sum"`
+	// HasMin is false when the answer had no min, as in fixtures captured before it was asked for.
+	HasMin bool `json:"-"`
+}
+
+// UnmarshalJSON implements json.Unmarshaler.
+func (m *Metric) UnmarshalJSON(b []byte) error {
+	type plain Metric
+	var v struct {
+		plain
+		Min *float64 `json:"min"`
+	}
+	if err := json.Unmarshal(b, &v); err != nil {
+		return err
+	}
+	*m = Metric(v.plain)
+	if v.Min != nil {
+		m.Min, m.HasMin = *v.Min, true
+	}
+	return nil
 }
 
 // MetricNames lists the subtask metrics a vertex has.
