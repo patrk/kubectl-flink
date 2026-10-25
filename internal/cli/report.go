@@ -2,17 +2,23 @@ package cli
 
 import (
 	"bytes"
+	"cmp"
 	"context"
+	"errors"
 	"fmt"
+	"io/fs"
 	"os"
 	"path/filepath"
+	"regexp"
 	"slices"
 	"strings"
 	"time"
 
 	"github.com/spf13/cobra"
 
+	"github.com/patrk/kubectl-flink/internal/flink"
 	"github.com/patrk/kubectl-flink/internal/history"
+	"github.com/patrk/kubectl-flink/internal/redact"
 	"github.com/patrk/kubectl-flink/internal/render"
 	"github.com/patrk/kubectl-flink/internal/report"
 	"github.com/patrk/kubectl-flink/internal/triage"
@@ -57,7 +63,7 @@ namespace/name, a name, an ID label value or a unique part of a name.`,
 	f.BoolVarP(&ro.allNamespaces, "all-namespaces", "A", false, "Look for the job in all namespaces")
 	f.StringVar(&ro.restURL, "rest-url", "", "JobManager REST URL to use instead of a port-forward")
 	f.StringVar(&ro.dir, "dir", "", "Write the bundle into this directory instead of a .tar.gz")
-	f.StringVar(&ro.file, "file", "", "Path of the .tar.gz; default kubectl-flink-report-<namespace>-<name>-<time>.tar.gz")
+	f.StringVar(&ro.file, "file", "", "Path of the .tar.gz; default kubectl-flink-report-<context>-<namespace>-<name>-<time>.tar.gz in the current directory")
 	f.Int64Var(&ro.tail, "tail", report.DefaultTail, "Log lines per container")
 	f.IntVar(&ro.maxTaskManagers, "max-taskmanagers", report.DefaultMaxTaskManagers, "TaskManagers whose logs are included, those with trouble first")
 	f.BoolVarP(&ro.quiet, "quiet", "q", false, "Print only the path of the bundle")
@@ -80,47 +86,12 @@ func (ro *reportOptions) run(ctx context.Context, arg string) error {
 	if err != nil {
 		return err
 	}
-	ev, raw, access, closeFn := ro.collectJob(ctx, t, ro.restURL)
+	access, closeFn := t.access(ro.restURL)
 	defer closeFn()
-	signals := triage.Signals(ev)
-	v, err := triage.Judge(ev, signals, rules)
+	bundle, ref, now, err := ro.bundle(ctx, t, access, ro.restURL != "", rules, r, report.Options{Tail: ro.tail, MaxTaskManagers: ro.maxTaskManagers})
 	if err != nil {
 		return err
 	}
-	h, err := history.Build(ev, raw, r)
-	if err != nil {
-		return err
-	}
-	now := ro.now()
-
-	bundle := report.Collect(ctx, report.Source{Kube: t.client, REST: access}, ev.Job, raw, ev.Pods, ev.Events, ev.Snapshots, r,
-		report.Options{Tail: ro.tail, MaxTaskManagers: ro.maxTaskManagers})
-	var why, hist bytes.Buffer
-	if err := render.Why(&why, ev, v); err != nil {
-		return err
-	}
-	ref := render.NewJobRef(ev.Job)
-	if err := render.History(&hist, ref, h, now); err != nil {
-		return err
-	}
-	bundle.Add(r, "why.txt", why.String())
-	bundle.Add(r, "history.txt", hist.String())
-	reasons := make([]string, 0, len(ev.Health.Findings))
-	for i := range ev.Health.Findings {
-		reasons = append(reasons, ev.Health.Findings[i].Text(now))
-	}
-	for _, g := range ev.Gaps {
-		bundle.Gaps = append(bundle.Gaps, g.What+": "+g.Why)
-	}
-	slices.Sort(bundle.Gaps)
-	bundle.Gaps = slices.Compact(bundle.Gaps)
-	slices.SortFunc(bundle.Files, func(a, b report.File) int { return strings.Compare(a.Name, b.Name) })
-	summary := bundle.Summary(&report.SummaryInput{
-		Job: ref, Health: ev.Health.Health.String(), Reasons: reasons, Verdict: v, History: h, Captured: now, Version: version.Version,
-	})
-	bundle.Add(r, "summary.md", summary)
-	slices.SortFunc(bundle.Files, func(a, b report.File) int { return strings.Compare(a.Name, b.Name) })
-
 	path, err := ro.write(bundle, ref, now)
 	if err != nil {
 		return err
@@ -139,28 +110,95 @@ func (ro *reportOptions) run(ctx context.Context, arg string) error {
 	return nil
 }
 
+// bundle collects job through access and builds its report bundle, summary.md included, as of the returned time.
+func (o *Options) bundle(ctx context.Context, t *target, access flink.Access, force bool, rules []*triage.Rule,
+	r *redact.Redactor, opt report.Options,
+) (*report.Bundle, render.JobRef, time.Time, error) {
+	ev, raw := o.collectJob(ctx, t, access, force)
+	signals := triage.Signals(ev)
+	v, err := triage.Judge(ev, signals, rules)
+	if err != nil {
+		return nil, render.JobRef{}, time.Time{}, err
+	}
+	h, err := history.Build(ev, raw, r)
+	if err != nil {
+		return nil, render.JobRef{}, time.Time{}, err
+	}
+	now := o.now()
+
+	bundle := report.Collect(ctx, report.Source{Kube: t.client, REST: access}, ev.Job, raw, ev.Pods, ev.Events, ev.Snapshots, r, opt)
+	var why, hist bytes.Buffer
+	if err := render.Why(&why, ev, v); err != nil {
+		return nil, render.JobRef{}, time.Time{}, err
+	}
+	ref := render.NewJobRef(ev.Job)
+	if err := render.History(&hist, ref, h, now); err != nil {
+		return nil, render.JobRef{}, time.Time{}, err
+	}
+	bundle.Add(r, "why.txt", why.String())
+	bundle.Add(r, "history.txt", hist.String())
+	reasons := make([]string, 0, len(ev.Health.Findings))
+	for i := range ev.Health.Findings {
+		reasons = append(reasons, ev.Health.Findings[i].Text(now))
+	}
+	for _, g := range ev.Gaps {
+		bundle.Gaps = append(bundle.Gaps, g.What+": "+g.Why)
+	}
+	slices.Sort(bundle.Gaps)
+	bundle.Gaps = slices.Compact(bundle.Gaps)
+	slices.SortFunc(bundle.Files, func(a, b report.File) int { return strings.Compare(a.Name, b.Name) })
+	summary := bundle.Summary(&report.SummaryInput{
+		Job: ref, Health: ev.Health.Health.String(), Reasons: reasons, Verdict: v, History: h, Captured: now, Version: version.Version,
+	})
+	bundle.Add(r, "summary.md", summary)
+	slices.SortFunc(bundle.Files, func(a, b report.File) int { return strings.Compare(a.Name, b.Name) })
+	return bundle, ref, now, nil
+}
+
 // write puts the bundle into --dir, or into a .tar.gz named after the job and the capture time.
 func (ro *reportOptions) write(b *report.Bundle, ref render.JobRef, now time.Time) (string, error) {
 	if ro.dir != "" {
 		return ro.dir, b.WriteDir(ro.dir)
 	}
-	top := fmt.Sprintf("kubectl-flink-report-%s-%s-%s", ref.Namespace, ref.Name, now.UTC().Format("20060102T150405Z"))
-	path := ro.file
-	if path == "" {
-		path = top + ".tar.gz"
+	return writeTarGz(b, ref, now, ro.file)
+}
+
+// writeTarGz writes the bundle to file, by default a .tar.gz in the current directory named after the job and the
+// capture time, and never leaves a truncated one behind.
+func writeTarGz(b *report.Bundle, ref render.JobRef, now time.Time, file string) (string, error) {
+	top := "kubectl-flink-report-"
+	if ref.Context != "" {
+		top += unsafeName.ReplaceAllString(ref.Context, "_") + "-"
 	}
-	f, err := os.OpenFile(filepath.Clean(path), os.O_WRONLY|os.O_CREATE|os.O_EXCL, 0o600)
+	top += fmt.Sprintf("%s-%s-%s", ref.Namespace, ref.Name, now.UTC().Format("20060102T150405Z"))
+	// The bundle is written under a temporary name and linked into place, so that an interrupted write never
+	// leaves a truncated bundle under the real name, and an existing file is never overwritten.
+	tmp, err := os.CreateTemp(filepath.Dir(cmp.Or(file, ".")), ".kubectl-flink-report-*.part")
 	if err != nil {
 		return "", err
 	}
-	if err := b.WriteTarGz(f, top, now); err != nil {
-		_ = f.Close()
-		_ = os.Remove(path) // never leave a truncated bundle behind
+	defer func() { _ = os.Remove(tmp.Name()) }()
+	if err := b.WriteTarGz(tmp, top, now); err != nil {
+		_ = tmp.Close()
 		return "", err
 	}
-	if err := f.Close(); err != nil {
-		_ = os.Remove(path)
+	if err := tmp.Close(); err != nil {
 		return "", err
 	}
-	return path, nil
+	if file != "" {
+		return file, os.Link(tmp.Name(), filepath.Clean(file))
+	}
+	// A second report of the same job within the same second gets the next number.
+	for i := 1; ; i++ {
+		path := top + ".tar.gz"
+		if i > 1 {
+			path = fmt.Sprintf("%s-%d.tar.gz", top, i)
+		}
+		if err := os.Link(tmp.Name(), path); !errors.Is(err, fs.ErrExist) || i == 9 {
+			return path, err
+		}
+	}
 }
+
+// unsafeName are the characters a context name may hold that do not belong in a file name.
+var unsafeName = regexp.MustCompile(`[^A-Za-z0-9._-]+`)

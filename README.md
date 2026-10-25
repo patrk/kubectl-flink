@@ -20,7 +20,8 @@ kubectl flink exceptions | checkpoints | snapshots | graph | logs | history <job
 kubectl flink ui <job>             # port-forward to the JobManager and open the Flink web UI
 kubectl flink savepoint | restart | suspend | resume <job> [--dry-run] [--wait]
 kubectl flink top [-A] [FILTER]    # live table: / search, f health filter, s sort, n namespace, c context, ? keys;
-                                   # Enter opens a job: why, graph, exceptions, checkpoints, snapshots, logs, history
+                                   # Enter opens a job: why, graph, exceptions, checkpoints, snapshots, logs, history;
+                                   # R writes the report of the selected or open job; w shows the wide columns
 kubectl flink config view | validate   # the profile in force for this context, and checks for a profile file
 ```
 

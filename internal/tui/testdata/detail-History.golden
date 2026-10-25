@@ -27,4 +27,4 @@ no history: not built in this test
 
 
 
-esc back  1-7 tab  ↑↓ pgup pgdn scroll  ←→ pan  r collect again  y copy: kubectl flink history --context kind default/s…
+esc back  1-7 tabs  ↑↓ ←→ scroll  r refresh  R report  y copy command  q quit

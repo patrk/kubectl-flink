@@ -258,7 +258,7 @@ func TestReportTarball(t *testing.T) {
 		sums = append(sums, fmt.Sprintf("%x", sha256.Sum256(b)))
 		if i == 0 {
 			names := tarNames(t, b)
-			top := "kubectl-flink-report-default-missing-jar-" + s.Now.UTC().Format("20060102T150405Z") + "/"
+			top := "kubectl-flink-report-dev-default-missing-jar-" + s.Now.UTC().Format("20060102T150405Z") + "/"
 			if !slices.IsSorted(names) || !slices.Contains(names, top+"summary.md") || !slices.Contains(names, top+"why.txt") ||
 				!slices.ContainsFunc(names, func(n string) bool { return strings.HasPrefix(n, top+"logs/") }) {
 				t.Errorf("entries %v", names)

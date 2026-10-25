@@ -27,4 +27,4 @@ job RUNNING, 2 operators; time split of the worst subtask, rates summed
 
 
 
-esc back  1-7 tab  ↑↓ pgup pgdn scroll  ←→ pan  r collect again  y copy: kubectl flink graph --context kind default/snap
+esc back  1-7 tabs  ↑↓ ←→ scroll  r refresh  R report  y copy command  q quit

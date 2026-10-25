@@ -27,4 +27,4 @@ kubectl flink top · kind · default/snap · OK · collected 0s ago
 
 
 
-esc back  1-7 tab  ↑↓ pgup pgdn scroll  ←→ pan  r collect again  y copy: kubectl flink logs --context kind default/snap
+esc back  1-7 tabs  ↑↓ ←→ scroll  r refresh  R report  y copy command  q quit

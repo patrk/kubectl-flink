@@ -20,11 +20,13 @@ const fixtures = "../../testdata/fixtures/scenarios-operator-1.16.1-flink-2.2/"
 
 // fakeLoader serves details collected from captured scenarios and records what it was asked.
 type fakeLoader struct {
-	mu      sync.Mutex
-	details map[string]*Detail // by job name
-	calls   []string
-	ctxs    map[string]context.Context
-	log     string
+	mu        sync.Mutex
+	details   map[string]*Detail // by job name
+	calls     []string
+	ctxs      map[string]context.Context
+	log       string
+	reports   []string
+	reportErr error
 }
 
 func (f *fakeLoader) Detail(ctx context.Context, job model.Job) (*Detail, error) {
@@ -39,6 +41,16 @@ func (f *fakeLoader) Detail(ctx context.Context, job model.Job) (*Detail, error)
 }
 
 func (f *fakeLoader) Log(context.Context, model.Job, int) (string, error) { return f.log, nil }
+
+func (f *fakeLoader) Report(_ context.Context, job model.Job) (string, error) {
+	f.mu.Lock()
+	defer f.mu.Unlock()
+	f.reports = append(f.reports, job.Name)
+	if f.reportErr != nil {
+		return "", f.reportErr
+	}
+	return "/tmp/kubectl-flink-report-" + job.Name + ".tar.gz", nil
+}
 
 // scenarioJob loads a captured scenario as a job of the scope and its detail, judged with the default rules.
 func scenarioJob(t *testing.T, dir string) (model.Job, *Detail, time.Time) {
@@ -250,5 +262,55 @@ func TestDetailRefreshUsesCurrentJob(t *testing.T) {
 	m.collected(detailMsg{key: m.detail.key, detail: f.details["snap"]})
 	if cmd := m.tabOpened(); cmd != nil {
 		t.Error("log read in list mode")
+	}
+}
+
+// R writes the report of the selected job from the list, and of the open job from its detail; the footer says
+// where, and a second R while one is written does not start another.
+func TestReport(t *testing.T) {
+	m, f := detailModel(t)
+	_, cmd := m.Update(tea.KeyPressMsg{Code: 'R', Text: "R"})
+	if cmd == nil || !strings.Contains(m.flash, "writing the report of default/snap") {
+		t.Fatalf("flash %q", m.flash)
+	}
+	if _, again := m.Update(tea.KeyPressMsg{Code: 'R', Text: "R"}); again != nil || !strings.Contains(m.flash, "still writing") {
+		t.Errorf("second R: %q", m.flash)
+	}
+	run(m, cmd)
+	if m.flash != "report written: /tmp/kubectl-flink-report-snap.tar.gz" || len(f.reports) != 1 {
+		t.Errorf("flash %q, reports %v", m.flash, f.reports)
+	}
+	golden(t, "report-written", screen(m))
+
+	_, cmd = m.Update(tea.KeyPressMsg{Code: tea.KeyEnter})
+	run(m, cmd)
+	f.reportErr = errors.New("forbidden")
+	_, cmd = m.Update(tea.KeyPressMsg{Code: 'R', Text: "R"})
+	run(m, cmd)
+	if !strings.Contains(m.flash, "report of default/snap failed: forbidden") {
+		t.Errorf("flash %q", m.flash)
+	}
+}
+
+// w adds ls -o wide's columns and takes them away again.
+func TestWide(t *testing.T) {
+	m, _ := detailModel(t)
+	press(m, "w")
+	golden(t, "wide", screen(m))
+	press(m, "w")
+	if strings.Contains(screen(m), "JM RESTARTS") {
+		t.Error("w again keeps the wide columns")
+	}
+}
+
+// Quitting while a report is written asks first; the second quit drops it.
+func TestQuitWhileReporting(t *testing.T) {
+	m, _ := detailModel(t)
+	m.Update(tea.KeyPressMsg{Code: 'R', Text: "R"}) // not run: still writing
+	if _, cmd := m.Update(tea.KeyPressMsg{Code: 'q', Text: "q"}); cmd != nil || !strings.Contains(m.flash, "still being written") {
+		t.Fatalf("first q: %q", m.flash)
+	}
+	if _, cmd := m.Update(tea.KeyPressMsg{Code: 'q', Text: "q"}); cmd == nil {
+		t.Error("second q does not quit")
 	}
 }

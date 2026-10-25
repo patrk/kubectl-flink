@@ -20,6 +20,7 @@ import (
 	"github.com/patrk/kubectl-flink/internal/model"
 	"github.com/patrk/kubectl-flink/internal/profile"
 	"github.com/patrk/kubectl-flink/internal/redact"
+	"github.com/patrk/kubectl-flink/internal/report"
 	"github.com/patrk/kubectl-flink/internal/triage"
 	"github.com/patrk/kubectl-flink/internal/tui"
 )
@@ -79,7 +80,7 @@ func (to *topOptions) run(ctx context.Context, search string) error {
 	defer stop()
 	updates := make(chan []fleet.Scope)
 	go func() {
-		// Snapshots are left out: top does not show their age.
+		// Snapshots are left out: watching every completed one costs more than their age in w is worth.
 		fleet.Watch(ctx, srcs, kube.Query{Selector: to.selector}, updates)
 		close(updates)
 	}()
@@ -155,7 +156,7 @@ func (l *topLoader) Detail(ctx context.Context, job model.Job) (*tui.Detail, err
 		return nil, err
 	}
 	now := l.o.now()
-	ev := triage.Collect(ctx, triage.Source{Kube: t.client, REST: l.pool(t)}, t.job, now, l.profile.Thresholds())
+	ev, raw := l.o.collectJob(ctx, t, l.pool(t), false)
 	if ctx.Err() != nil {
 		return nil, ctx.Err()
 	}
@@ -164,15 +165,7 @@ func (l *topLoader) Detail(ctx context.Context, job model.Job) (*tui.Detail, err
 		return nil, err
 	}
 	d := &tui.Detail{Evidence: ev, Verdict: v, Loaded: now}
-	resource := kube.Deployments
-	if job.Kind == model.KindSessionJob {
-		resource = kube.SessionJobs
-	}
 	// As history does: without the resource, the timeline still has the events and status.
-	raw, err := t.client.GetRaw(ctx, resource, job.Namespace, job.Name)
-	if err != nil {
-		ev.Gaps = append(ev.Gaps, triage.Gap{Layer: triage.Operator, What: "resource", Why: err.Error()})
-	}
 	d.History, d.HistoryErr = history.Build(ev, raw, l.redactor)
 	return d, nil
 }
@@ -225,6 +218,20 @@ func restarted(p *kube.Pod) bool {
 		}
 	}
 	return false
+}
+
+// Report writes the job's handover bundle into the current directory, as kubectl flink report does.
+func (l *topLoader) Report(ctx context.Context, job model.Job) (string, error) {
+	t, err := l.target(&job)
+	if err != nil {
+		return "", err
+	}
+	b, ref, now, err := l.o.bundle(ctx, t, l.pool(t), false, l.rules, l.redactor,
+		report.Options{Tail: report.DefaultTail, MaxTaskManagers: report.DefaultMaxTaskManagers})
+	if err != nil {
+		return "", err
+	}
+	return writeTarGz(b, ref, now, "")
 }
 
 func (l *topLoader) close() {

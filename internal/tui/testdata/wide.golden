@@ -1,0 +1,30 @@
+kubectl flink top · kind · 2 jobs: 2 OK
+filter: all   sort: name
+NAME      HEALTH   LIFECYCLE   JOB       JM      IN STATE   REASON   TM   JM RESTARTS   DRIFT   FLINK   IMAGE       OWN…
+snap      OK       STABLE      RUNNING   READY   3m19s      -        -    -             -       2.2.1   flink:2.2   kub…
+tm-lost   OK       STABLE      RUNNING   READY   4m4s       -        -    -             -       2.2.1   flink:2.2   kub…
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+⏎ open  R report  / search  f filter  s sort  n ns  c ctx  : cmd  ? help  q quit

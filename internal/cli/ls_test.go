@@ -21,6 +21,7 @@ import (
 	"github.com/patrk/kubectl-flink/internal/kube/kubetest"
 	"github.com/patrk/kubectl-flink/internal/model"
 	"github.com/patrk/kubectl-flink/internal/profile"
+	"github.com/patrk/kubectl-flink/internal/triage/triagetest"
 )
 
 const (
@@ -334,5 +335,46 @@ func TestTopLoader(t *testing.T) {
 	}
 	if _, err := l.Log(t.Context(), job, 10); err == nil {
 		t.Error("unknown context read")
+	}
+}
+
+// R in top writes the same bundle as kubectl flink report, into the current directory.
+func TestTopLoaderReport(t *testing.T) {
+	s := triagetest.Load(t, "../../testdata/fixtures/scenarios-operator-1.16.1-flink-2.2/missing-jar")
+	c := newCluster(t)
+	c.add("dev", "default", s.API)
+	streams, _, _, _ := genericiooptions.NewTestIOStreams()
+	o := &Options{ConfigFlags: genericclioptions.NewConfigFlags(true), IOStreams: streams, Now: func() time.Time { return s.Now }}
+	kc := c.kubeconfig
+	o.ConfigFlags.KubeConfig = &kc
+	srcs, prof, err := o.sources(false)
+	if err != nil {
+		t.Fatal(err)
+	}
+	l, err := newTopLoader(o, srcs, prof)
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer l.close()
+	t.Chdir(t.TempDir())
+	job := *s.Job
+	job.Context = "dev"
+	path, err := l.Report(t.Context(), job)
+	if err != nil {
+		t.Fatal(err)
+	}
+	want := "kubectl-flink-report-dev-default-missing-jar-" + s.Now.UTC().Format("20060102T150405Z") + ".tar.gz"
+	if path != want {
+		t.Errorf("path %s, want %s", path, want)
+	}
+	if st, err := os.Stat(path); err != nil || st.Size() == 0 {
+		t.Errorf("bundle %v", err)
+	}
+	// A second report in the same second gets the next number, and no temporary file is left behind.
+	if path, err := l.Report(t.Context(), job); err != nil || path != strings.TrimSuffix(want, ".tar.gz")+"-2.tar.gz" {
+		t.Errorf("second report %s %v", path, err)
+	}
+	if left, _ := filepath.Glob(".kubectl-flink-report-*"); len(left) > 0 {
+		t.Errorf("left behind %v", left)
 	}
 }
