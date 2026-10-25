@@ -320,8 +320,9 @@ func performanceEvidence(w *lineWriter, ev *triage.Evidence) {
 			role = " (sink)"
 		}
 		m := v.Metrics
+		busy, pressed, idle := triage.WorstSplit(m)
 		line := fmt.Sprintf("%s%s: in %.0f/s, out %.0f/s; busy %.0f, backpressured %.0f, idle %.0f ms/s", v.Name, role,
-			m[triage.MetricIn].Sum, m[triage.MetricOut].Sum, m[triage.MetricBusy].Max, m[triage.MetricBackPressed].Max, m[triage.MetricIdle].Max)
+			m[triage.MetricIn].Sum, m[triage.MetricOut].Sum, busy, pressed, idle)
 		if p, ok := v.Pending(); ok {
 			line += fmt.Sprintf("; %.0f records pending", p)
 		}

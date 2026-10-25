@@ -301,12 +301,11 @@ rules:
     when:
       - signal: performance.skew
         match: '(?P<vertex>.+): subtasks busy (?P<min>\d+) to (?P<max>\d+) ms/s, receiving (?P<inmin>\d+) to (?P<inmax>\d+) records/s'
-    supersedes: [backpressure]
     title: '{{.vertex}} is skewed: one subtask does most of the work'
     explain: >-
       Its subtasks are busy between {{.min}} and {{.max}} ms of every second and receive between {{.inmin}} and
-      {{.inmax}} records/s. The busiest one cannot keep up while the others wait, so the job runs behind its input.
-      Usually one key carries most of the records.
+      {{.inmax}} records/s. The busiest one is saturated while the others have time to spare, so the operator cannot
+      go faster than that one subtask. Usually one key carries most of the records.
     remedy: >-
       Find the hot key, often a default, empty or bot value: filter it out before the keyBy, pre-aggregate it, or add
       a salt to the key. More parallelism does not spread a single key.

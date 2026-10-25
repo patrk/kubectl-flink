@@ -52,7 +52,7 @@ type GraphNode struct {
 	Busy float64 `json:"busyMsPerSecond"`
 	// BusyLeast is the busy ms/s of the least busy subtask; Skewed marks an operator whose busiest subtask is
 	// saturated while another works much less.
-	BusyLeast  float64 `json:"leastBusyMsPerSecond"`
+	BusyLeast  float64 `json:"leastBusyMsPerSecond,omitempty"`
 	Skewed     bool    `json:"skewed,omitempty"`
 	Pressed    float64 `json:"backPressuredMsPerSecond"`
 	Idle       float64 `json:"idleMsPerSecond"`
@@ -117,12 +117,11 @@ func NewJobGraph(ev *triage.Evidence) *JobGraph {
 		if vm := byID[id]; vm != nil && vm.Metrics != nil {
 			m := vm.Metrics
 			n.Metrics = true
-			n.Busy, n.Pressed, n.Idle = m[triage.MetricBusy].Max, m[triage.MetricBackPressed].Max, m[triage.MetricIdle].Max
-			if idle := m[triage.MetricIdle]; idle.HasMin {
-				n.Idle = idle.Min
+			n.Busy, n.Pressed, n.Idle = triage.WorstSplit(m)
+			if b := m[triage.MetricBusy]; b.HasMin {
+				n.BusyLeast = b.Min
 			}
-			n.BusyLeast = m[triage.MetricBusy].Min
-			n.Skewed = v.Parallelism > 1 && triage.Skewed(m[triage.MetricBusy])
+			n.Skewed = triage.Skewed(job, vm)
 			n.In, n.Out = m[triage.MetricIn].Sum, m[triage.MetricOut].Sum
 			n.Pending, n.HasPending = vm.Pending()
 			n.State, n.Backpressure = dominant(n.Busy, n.Pressed, n.Idle), triage.BackpressureLevel(n.Pressed)
