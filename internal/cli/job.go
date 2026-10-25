@@ -1,9 +1,11 @@
 package cli
 
 import (
+	"cmp"
 	"context"
 	"errors"
 	"fmt"
+	"slices"
 	"strings"
 
 	"github.com/spf13/cobra"
@@ -88,10 +90,34 @@ func (o *Options) resolveJob(ctx context.Context, arg string, allNamespaces bool
 		return nil, &exitError{code: ExitAmbiguous, err: err}
 	case errors.Is(err, fleet.ErrNoMatch) && len(scopeErrs) > 0:
 		return nil, fmt.Errorf("%w; and not every scope could be read: %w", err, errors.Join(dedupe(scopeErrs)...))
+	case errors.Is(err, fleet.ErrNoMatch) && !allNamespaces:
+		return nil, fmt.Errorf("%w in %s; -A looks in every namespace", err, searched(srcs))
 	case err != nil:
 		return nil, err
 	}
 	return &target{job: job, client: clients[job], profile: prof}, nil
+}
+
+// searched names the namespaces a job was looked for in, for a search that found nothing.
+func searched(srcs []fleet.Source) string {
+	var ns []string
+	for _, s := range srcs {
+		if s.Scope.AllNamespaces {
+			return "every namespace"
+		}
+		for _, n := range s.Scope.Namespaces {
+			ns = append(ns, cmp.Or(n, s.ContextNamespace, "default"))
+		}
+		if len(s.Scope.Namespaces) == 0 {
+			ns = append(ns, cmp.Or(s.ContextNamespace, "default"))
+		}
+	}
+	slices.Sort(ns)
+	ns = slices.Compact(ns)
+	if len(ns) == 1 {
+		return "namespace " + ns[0]
+	}
+	return "namespaces " + strings.Join(ns, ", ")
 }
 
 func ambiguous(arg string, found []*target) error {
