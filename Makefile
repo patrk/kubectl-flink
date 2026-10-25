@@ -47,9 +47,9 @@ fixtures:
 demo: ; KUBE_CONTEXT=$(KUBE_CONTEXT) FLINK_VERSION=$(FLINK_VERSION) hack/demo.sh
 demo-clean: ; KUBE_CONTEXT=$(KUBE_CONTEXT) FLINK_VERSION=$(FLINK_VERSION) hack/demo.sh clean
 
-# The README's recordings, from docs/demo/*.tape against make demo; needs vhs.
+# The README's recordings, from docs/demo/*.tape against make demo, on dark and light backgrounds; needs vhs.
 demo-gifs: build
-	for t in docs/demo/ls.tape docs/demo/why.tape docs/demo/top.tape; do vhs "$$t" || exit 1; done
+	hack/demo-gifs.sh
 
 # Failure states (bad image, missing jar, suspended) captured from the operator under test.
 scenarios:

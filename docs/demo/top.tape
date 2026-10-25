@@ -1,7 +1,8 @@
 Output docs/demo/top.gif
 Require kubectl
 Set Height 900
-Source docs/demo/setup.tape
+Source docs/demo/look.tape
+Source docs/demo/env.tape
 
 Sleep 600ms
 Type "kubectl flink top -A" Sleep 500ms Enter

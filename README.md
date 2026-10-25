@@ -9,14 +9,24 @@ value per job and explains a failure layer by layer: Flink runtime (exceptions, 
 OOMKilled, events), performance (backpressure, checkpoints, source lag) and operator (lifecycle, reconciliation,
 rollbacks).
 
-![kubectl flink ls: every job with one health value, then only the unhealthy](docs/demo/ls.gif)
+<picture>
+  <source media="(prefers-color-scheme: light)" srcset="docs/demo/ls-light.gif">
+  <img alt="kubectl flink ls: every job with one health value, then only the unhealthy" src="docs/demo/ls.gif">
+</picture>
 
-![kubectl flink why: a job found by its use-case ID, the cause first, then the evidence by layer](docs/demo/why.gif)
+<picture>
+  <source media="(prefers-color-scheme: light)" srcset="docs/demo/why-light.gif">
+  <img alt="kubectl flink why: a job found by its use-case ID, the cause first, then the evidence by layer" src="docs/demo/why.gif">
+</picture>
 
-![kubectl flink top: the unhealthy jobs, a job's verdict, and a job graph coloured like the Flink web UI's](docs/demo/top.gif)
+<picture>
+  <source media="(prefers-color-scheme: light)" srcset="docs/demo/top-light.gif">
+  <img alt="kubectl flink top: the unhealthy jobs, a job's verdict, and a job graph coloured like the Flink web UI's" src="docs/demo/top.gif">
+</picture>
 
-The recordings are made with [VHS](https://github.com/charmbracelet/vhs) from `docs/demo/*.tape` against the example
-jobs of `make demo` on kind: `make demo demo-gifs`.
+More in [docs/demos.md](docs/demos.md): the classic way next to one command, a crash loop from alert to
+handover, the job graph, and jobs found by the IDs people use. Recorded with [VHS](https://github.com/charmbracelet/vhs)
+against the example jobs of `make demo` on kind: `make demo demo-gifs`.
 
 > **Status: early development.** `ls`, `why`, `report`, `history`, `exceptions`, `checkpoints`, `snapshots`, `graph`, `logs`, `config` and `top` work; the other commands below are the working draft. Build with `make build`.
 
