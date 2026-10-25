@@ -4,7 +4,9 @@ package render
 import (
 	"cmp"
 	"fmt"
+	"math"
 	"sort"
+	"strconv"
 	"strings"
 	"time"
 
@@ -167,7 +169,16 @@ func (s *Summary) Line() string {
 	if len(parts) > 0 {
 		line += ": " + strings.Join(parts, ", ")
 	}
-	return line + fmt.Sprintf(" · %d pods · requests %s CPU, %s memory", s.Pods, s.CPU, s.Memory)
+	return line + fmt.Sprintf(" · %d pods · requests %s CPU, %s memory", s.Pods, cores(s.CPU), s.Memory)
+}
+
+// cores shows a CPU quantity in cores, 102.5 rather than 102500m; one that does not parse is shown as it is.
+func cores(q string) string {
+	c, err := resource.ParseQuantity(q)
+	if err != nil {
+		return q
+	}
+	return strconv.FormatFloat(math.Round(c.AsApproximateFloat64()*100)/100, 'f', -1, 64)
 }
 
 // ScopeOptions shows the context column for several scopes and the namespace column when a scope reads more

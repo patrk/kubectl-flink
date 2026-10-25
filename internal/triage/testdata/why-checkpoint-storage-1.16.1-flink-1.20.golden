@@ -23,13 +23,13 @@ Kubernetes
   JobManager log, error lines:
     org.apache.flink.runtime.client.JobInitializationException: Could not start the JobMaster.
     Caused by: java.util.concurrent.CompletionException: org.apache.flink.util.FlinkRuntimeException: Failed to create checkpoint storage at checkpoint coordin…
-    Caused by: org.apache.flink.util.FlinkRuntimeException: Failed to create checkpoint storage at checkpoint coordinator side.
-    Caused by: java.io.IOException: Failed to create directory for shared state: file:/flink-data/checkpoints/920a5945cb9cd86b58d05e0395580d15/shared
-    java.util.concurrent.CompletionException: org.apache.flink.client.deployment.application.ApplicationExecutionException: Could not execute application.
-    at java.base/java.util.concurrent.CompletableFuture.completeExceptionally(Unknown Source) ~[?:?]
-    Caused by: org.apache.flink.client.deployment.application.ApplicationExecutionException: Could not execute application.
-    Caused by: org.apache.flink.client.program.ProgramInvocationException: The main method caused an error: Failed to execute job 'State machine job'.
-    … 19 more: kubectl flink logs default/checkpoint-storage --previous
+    Caused by: org.apache.flink.util.FlinkRuntimeException: Failed to create checkpoint storage at checkpoint coordinator side. (×3)
+    Caused by: java.io.IOException: Failed to create directory for shared state: file:/flink-data/checkpoints/920a5945cb9cd86b58d05e0395580d15/shared (×3)
+    java.util.concurrent.CompletionException: org.apache.flink.client.deployment.application.ApplicationExecutionException: Could not execute application. (×2)
+    at java.base/java.util.concurrent.CompletableFuture.completeExceptionally(Unknown Source) ~[?:?] (×2)
+    Caused by: org.apache.flink.client.deployment.application.ApplicationExecutionException: Could not execute application. (×2)
+    Caused by: org.apache.flink.client.program.ProgramInvocationException: The main method caused an error: Failed to execute job 'State machine job'. (×2)
+    … 9 more: kubectl flink logs default/checkpoint-storage --previous
 
 Runtime
   not collected: JobManager REST API: not asked: the JobManager is DEPLOYING

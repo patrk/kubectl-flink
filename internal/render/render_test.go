@@ -16,6 +16,7 @@ import (
 
 	"github.com/patrk/kubectl-flink/internal/fleet"
 	"github.com/patrk/kubectl-flink/internal/model"
+	"github.com/patrk/kubectl-flink/internal/triage"
 )
 
 var update = flag.Bool("update", false, "rewrite golden files")
@@ -170,7 +171,7 @@ func TestNamesSummaryNotes(t *testing.T) {
 		t.Errorf("names %q", b.String())
 	}
 	s := Summarise(rows)
-	if got := s.Line(); got != "4 jobs: 1 FAILED, 1 DEGRADED, 2 OK · 3 pods · requests 1500m CPU, 4Gi memory" {
+	if got := s.Line(); got != "4 jobs: 1 FAILED, 1 DEGRADED, 2 OK · 3 pods · requests 1.5 CPU, 4Gi memory" {
 		t.Errorf("summary %q", got)
 	}
 	scopes[0].Note, scopes[0].PodsUnread = "cannot list Flink resources at cluster scope", []string{"team-b", ""}
@@ -230,5 +231,17 @@ func TestColorAlignment(t *testing.T) {
 	}
 	if !strings.Contains(b.String(), "deleted") {
 		t.Fatal("no deleted row")
+	}
+}
+
+// A failure that repeats with every restart is one line with a count, and the rest are counted as lines.
+func TestCollapseLogLines(t *testing.T) {
+	l := func(s string) triage.LogLine { return triage.LogLine{Pod: "jm", Text: s} }
+	got := collapse([]triage.LogLine{l("a"), l("b"), l("a"), l("a"), {Pod: "jm", Previous: true, Text: "a"}})
+	if len(got) != 3 || got[0].Text != "a" || got[0].n != 3 || got[1].n != 1 || !got[2].Previous {
+		t.Errorf("%+v", got)
+	}
+	if cores("102500m") != "102.5" || cores("100600m") != "100.6" || cores("2") != "2" || cores("1234m") != "1.23" || cores("x") != "x" {
+		t.Errorf("cores %s %s %s %s", cores("102500m"), cores("100600m"), cores("1234m"), cores("x"))
 	}
 }

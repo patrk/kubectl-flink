@@ -165,14 +165,45 @@ func kubernetesEvidence(w *lineWriter, ev *triage.Evidence) {
 	}
 	if len(ev.Logs) > 0 {
 		w.line(1, "JobManager log, error lines:")
-		for i, l := range ev.Logs {
+		lines := collapse(ev.Logs)
+		for i, l := range lines {
 			if i == whyLogs {
-				w.line(2, "… %d more: kubectl flink logs %s%s", len(ev.Logs)-whyLogs, ev.Job.Key(), previousFlag(l))
+				rest := 0
+				for _, r := range lines[i:] {
+					rest += r.n
+				}
+				w.line(2, "… %d more: kubectl flink logs %s%s", rest, ev.Job.Key(), previousFlag(l.LogLine))
 				break
 			}
-			w.line(2, "%s", l.Text)
+			if l.n > 1 {
+				w.line(2, "%s (×%d)", l.Text, l.n)
+			} else {
+				w.line(2, "%s", l.Text)
+			}
 		}
 	}
+}
+
+// repeated is a log line with the number of times it occurs.
+type repeated struct {
+	triage.LogLine
+	n int
+}
+
+// collapse keeps each distinct line once, where it first occurs, with how often it occurs: a failure that repeats
+// with every restart is one line, not a screenful.
+func collapse(lines []triage.LogLine) []repeated {
+	var out []repeated
+	at := map[triage.LogLine]int{}
+	for _, l := range lines {
+		if i, ok := at[l]; ok {
+			out[i].n++
+			continue
+		}
+		at[l] = len(out)
+		out = append(out, repeated{l, 1})
+	}
+	return out
 }
 
 func previousFlag(l triage.LogLine) string {

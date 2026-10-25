@@ -23,11 +23,7 @@ Kubernetes
     8s ago JobException ×4 on FlinkDeployment: java.net.UnknownHostException: nowhere.invalid at java.base/java.net.AbstractPlainSocketImpl.connect(Unknown Sou…
     81s ago Unhealthy ×4 on Pod: Startup probe failed: Get "http://10.244.0.81:8081/config": dial tcp 10.244.0.81:8081: connect: connection refused
   JobManager log, error lines:
-    java.net.UnknownHostException: nowhere.invalid
-    java.net.UnknownHostException: nowhere.invalid
-    java.net.UnknownHostException: nowhere.invalid
-    java.net.UnknownHostException: nowhere.invalid
-    java.net.UnknownHostException: nowhere.invalid
+    java.net.UnknownHostException: nowhere.invalid (×5)
 
 Runtime
   job RESTARTING, Flink 1.20.5, 1 job(s) on the cluster

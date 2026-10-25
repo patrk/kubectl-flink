@@ -32,14 +32,14 @@ Kubernetes
     49s ago Unhealthy ×4 on Pod: Startup probe failed: Get "http://10.244.0.80:8081/config": dial tcp 10.244.0.80:8081: connect: connection refused
   JobManager log, error lines:
     java.net.UnknownHostException: nowhere.invalid
-    org.apache.flink.runtime.JobException: Recovery is suppressed by NoRestartBackoffTimeStrategy
-    Caused by: java.net.UnknownHostException: nowhere.invalid
-    org.apache.flink.runtime.JobException: Recovery is suppressed by NoRestartBackoffTimeStrategy
-    Caused by: java.net.UnknownHostException: nowhere.invalid
-    org.apache.flink.runtime.JobException: Recovery is suppressed by NoRestartBackoffTimeStrategy
-    Caused by: java.net.UnknownHostException: nowhere.invalid
+    org.apache.flink.runtime.JobException: Recovery is suppressed by NoRestartBackoffTimeStrategy (×3)
+    Caused by: java.net.UnknownHostException: nowhere.invalid (×4)
     java.util.concurrent.CompletionException: org.apache.flink.client.deployment.application.UnsuccessfulExecutionException: Application Status: FAILED
-    … 7 more: kubectl flink logs default/unreachable
+    at org.apache.flink.client.deployment.application.ApplicationDispatcherBootstrap.lambda$unwrapJobResultException$7(ApplicationDispatcherBootstrap.java:403)…
+    Caused by: org.apache.flink.client.deployment.application.UnsuccessfulExecutionException: Application Status: FAILED
+    at org.apache.flink.client.deployment.application.UnsuccessfulExecutionException.fromJobResult(UnsuccessfulExecutionException.java:71) ~[flink-dist-1.20.5.…
+    Caused by: org.apache.flink.runtime.client.JobExecutionException: Job execution failed.
+    … 2 more: kubectl flink logs default/unreachable
 
 Runtime
   job FAILED, Flink 1.20.5, 1 job(s) on the cluster
