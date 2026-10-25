@@ -24,8 +24,8 @@ More recordings, each next to the classic way: [docs/demos.md](docs/demos.md).
 ## Quickstart
 
 ```sh
-make build && export PATH=$PWD/bin:$PATH   # krew install comes with the first release
-make kind-up demo                          # optional: kind with the operator and example jobs
+kubectl krew install flink                 # krew index pending; until then: github.com/patrk/kubectl-flink/releases
+make kind-up demo                          # optional, from a clone: kind with the operator and example jobs
 ```
 
 ```sh
@@ -40,7 +40,7 @@ kubectl flink config view                  # the profile in force for this conte
 ```
 
 `ls` also takes `-l selector`, `--health failed,stuck`, `--sort`, `-o json|yaml|name`, `-w` and `--exit-code`.
-Tab completion: put `kubectl_complete-flink`, shipped next to the binary, on your PATH.
+Tab completion: put `kubectl_complete-flink`, shipped in the archive next to the plugin, on your PATH.
 
 > **Early development.** Everything above works. Planned: `ui`, and `savepoint`, `restart`, `suspend` and `resume`
 > with dry run, owner warnings and `--wait`.
