@@ -1,0 +1,30 @@
+kubectl flink top · kind · default/snap · OK · collected 0s ago
+ 1 Why  2 Graph  3 Exceptions  4 Checkpoints  5 Snapshots  6 Logs  7 History
+Job: FlinkDeployment default/snap in context kind, job 2976d078d966cc1723d351c4a3884eb4
+No failures since the job started.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+esc back  1-7 tab  ↑↓ pgup pgdn scroll  ←→ pan  r collect again  y copy: kubectl flink exceptions --context kind defaul…

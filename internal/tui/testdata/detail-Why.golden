@@ -1,0 +1,30 @@
+kubectl flink top · kind · default/snap · OK · collected 0s ago
+ 1 Why  2 Graph  3 Exceptions  4 Checkpoints  5 Snapshots  6 Logs  7 History
+FlinkDeployment default/snap in context kind, job 2976d078d966cc1723d351c4a3884eb4 · OK
+
+Matched patterns
+  none of the known patterns matches
+  and nothing else looks wrong
+
+Operator
+  lifecycle STABLE, JobManager READY, job RUNNING, reconciled 3m51s ago, generation 1 (observed 1)
+  spec written by kubectl-client-side-apply, last 3m51s ago
+
+Kubernetes
+  pod snap-66d559579f-kpwnl (jobmanager): Running, ready
+  pod snap-taskmanager-1-1 (taskmanager): Running, ready
+  warning events, newest first:
+    3m47s ago Unhealthy ×4 on Pod: Startup probe failed: Get "http://10.244.0.68:8081/config": dial tcp 10.244.0.68:808…
+
+Runtime
+  2 FlinkStateSnapshots, newest completed checkpoint snap-checkpoint 6s ago
+  job RUNNING, Flink 2.2.1, 1 job(s) on the cluster
+  no failures since the job started
+  checkpoints: last completed #23 4s ago, interval 10s, 23 completed, 2 failed
+
+Performance
+  Source: Car data generator source -> Timestamps/Watermarks (source): in 0/s, out 10/s; busy 2, backpressured 0, idle …
+  GlobalWindows -> Sink: Print to Std. Out (sink): in 10/s, out 0/s; busy 3, backpressured 0, idle 997 ms/s
+
+HA
+esc back  1-7 tab  ↑↓ pgup pgdn scroll  ←→ pan  r collect again  y copy: kubectl flink why --context kind default/snap

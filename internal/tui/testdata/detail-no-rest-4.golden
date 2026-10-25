@@ -1,0 +1,30 @@
+kubectl flink top · kind · default/snap · PROGRESSING · collected 0s ago
+ 1 Why  2 Graph  3 Exceptions  4 Checkpoints  5 Snapshots  6 Logs  7 History
+No checkpoints: not asked: the JobManager is ERROR.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+esc back  1-7 tab  ↑↓ pgup pgdn scroll  ←→ pan  r collect again  y copy: kubectl flink checkpoints --context kind defau…

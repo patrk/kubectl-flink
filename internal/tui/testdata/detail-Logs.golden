@@ -1,0 +1,30 @@
+kubectl flink top · kind · default/snap · OK · collected 0s ago
+ 1 Why  2 Graph  3 Exceptions  4 Checkpoints  5 Snapshots  6 Logs  7 History
+2026-10-24 23:40:00,000 INFO  JobMaster - Job snap switched to RUNNING.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+esc back  1-7 tab  ↑↓ pgup pgdn scroll  ←→ pan  r collect again  y copy: kubectl flink logs --context kind default/snap

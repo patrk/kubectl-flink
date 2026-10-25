@@ -15,6 +15,7 @@ import (
 	"github.com/patrk/kubectl-flink/internal/flink"
 	"github.com/patrk/kubectl-flink/internal/flink/flinktest"
 	"github.com/patrk/kubectl-flink/internal/kube/kubetest"
+	"github.com/patrk/kubectl-flink/internal/render"
 	"github.com/patrk/kubectl-flink/internal/triage"
 )
 
@@ -108,7 +109,7 @@ func TestExceptionsCommand(t *testing.T) {
 		t.Errorf("--full: %d\n%s", code, out)
 	}
 	code, out, _ = exec("exceptions", "tm-lost", "--rest-url", url, "-o", "json")
-	var rep ExceptionReport
+	var rep render.ExceptionReport
 	if err := json.Unmarshal([]byte(out), &rep); code != ExitOK || err != nil || len(rep.Entries) == 0 || rep.Job.JobID == "" {
 		t.Errorf("json: %d %v\n%s", code, err, out)
 	}
@@ -197,5 +198,24 @@ func TestSnapshotsCommand(t *testing.T) {
 			t.Fatalf("%s: %d %s", version, code, errOut)
 		}
 		golden(t, "snapshots-"+version, out)
+	}
+}
+
+// TestGraphCommand draws the snapshots scenario's job graph on every captured Flink version.
+func TestGraphCommand(t *testing.T) {
+	dirs, _ := filepath.Glob("../../testdata/fixtures/scenarios-*/snapshots")
+	for _, dir := range dirs {
+		version := strings.TrimPrefix(filepath.Base(filepath.Dir(dir)), "scenarios-")
+		exec, url := restClusterAt(t, dir)
+		code, out, errOut := exec("graph", "snap", "--rest-url", url)
+		if code != ExitOK {
+			t.Fatalf("%s: %d %s", version, code, errOut)
+		}
+		golden(t, "graph-"+version, out)
+		code, out, _ = exec("graph", "snap", "--rest-url", url, "-o", "json")
+		var g render.JobGraph
+		if err := json.Unmarshal([]byte(out), &g); code != ExitOK || err != nil || len(g.Nodes) != 2 || !g.Nodes[0].Metrics {
+			t.Errorf("%s json: %d %v\n%s", version, code, err, out)
+		}
 	}
 }

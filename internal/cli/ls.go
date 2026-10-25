@@ -256,10 +256,11 @@ func (lo *lsOptions) query() kube.Query {
 	return kube.Query{Selector: lo.selector, Snapshots: lo.output == "wide" || lo.output == "json" || lo.output == "yaml"}
 }
 
-func (lo *lsOptions) color() bool {
+// color is true when stdout is a terminal and NO_COLOR is unset.
+func (o *Options) color() bool {
 	if os.Getenv("NO_COLOR") != "" {
 		return false
 	}
-	f, ok := lo.Out.(*os.File)
+	f, ok := o.Out.(*os.File)
 	return ok && term.IsTerminal(int(f.Fd()))
 }

@@ -32,7 +32,7 @@ func newKeyMap() keyMap {
 		context:   b("c", "context", "c"),
 		command:   b(":", "command", ":"),
 		help:      b("?", "help", "?"),
-		enter:     b("enter", "why command", "enter"),
+		enter:     b("enter", "details", "enter"),
 		back:      b("esc", "back, clear filters", "esc"),
 		quit:      b("q", "quit", "q"),
 		forceQuit: b("ctrl+c", "quit", "ctrl+c"),

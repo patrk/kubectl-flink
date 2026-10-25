@@ -7,10 +7,10 @@ filter: all   sort: health
           │ pgup/ctrl+b  page up     s            sort                      ?            help                │
           │ pgdn/ctrl+f  page down   n            namespace                 q            quit                │
           │ g/home       first job   c            context                                                    │
-          │ G/end        last job    enter        why command                                                │
+          │ G/end        last job    enter        details                                                    │
           │                                                                                                  │
           │ :ns NAME|all    :ctx NAME|all    :q                                                              │
           │ :sort health|name|namespace|state-age|age                                                        │
           │ :filter all|unhealthy|FAILED|STUCK|…                                                             │
           ╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
-enter why command  / search name or ID label  f health filter  s sort  n namespace  c context  : command  ? help  q quit
+enter details  / search name or ID label  f health filter  s sort  n namespace  c context  : command  ? help  q quit

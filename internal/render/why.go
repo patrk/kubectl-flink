@@ -1,6 +1,7 @@
 package render
 
 import (
+	"cmp"
 	"fmt"
 	"io"
 	"strings"
@@ -37,7 +38,12 @@ const (
 
 // Why prints the verdict, then the evidence by layer.
 func Why(out io.Writer, ev *triage.Evidence, v *triage.Verdict) error {
-	w := &lineWriter{w: out}
+	return WhyWidth(out, ev, v, whyWidth)
+}
+
+// WhyWidth is Why with lines cut and wrapped to width, for a terminal pane.
+func WhyWidth(out io.Writer, ev *triage.Evidence, v *triage.Verdict, width int) error {
+	w := &lineWriter{w: out, width: width}
 	j := ev.Job
 	w.line(0, "%s · %s", NewJobRef(j), ev.Health.Health)
 	for i, f := range ev.Health.Findings {
@@ -120,7 +126,7 @@ func operatorEvidence(w *lineWriter, ev *triage.Evidence) {
 	w.line(1, "lifecycle %s, JobManager %s, job %s, reconciled %s, generation %d (observed %d)",
 		dash(j.Lifecycle), dash(j.JMStatus), dash(j.JobState), age(j.ReconciledAt, ev.Now), j.Generation, j.ObservedGeneration)
 	if e := j.Error; e != nil {
-		w.line(1, "error: %s", e.Summary(whyWidth))
+		w.line(1, "error: %s", e.Summary(w.cols()))
 		for _, c := range e.Causes {
 			w.line(2, "caused by %s: %s", shortType(c.Type), flink.FirstLine(c.Message))
 		}
@@ -335,11 +341,14 @@ func shortType(t string) string {
 	return t
 }
 
-// lineWriter writes indented lines cut to whyWidth and keeps the first error.
+// lineWriter writes indented lines cut to width, whyWidth when 0, and keeps the first error.
 type lineWriter struct {
-	w   io.Writer
-	err error
+	w     io.Writer
+	width int
+	err   error
 }
+
+func (l *lineWriter) cols() int { return cmp.Or(l.width, whyWidth) }
 
 func (l *lineWriter) line(indent int, format string, args ...any) {
 	if l.err != nil {
@@ -347,7 +356,7 @@ func (l *lineWriter) line(indent int, format string, args ...any) {
 	}
 	s := strings.ReplaceAll(fmt.Sprintf(format, args...), "\n", " ")
 	lead := len(s) - len(strings.TrimLeft(s, " "))
-	s = truncate(strings.Repeat("  ", indent)+s[:lead]+strings.Join(strings.Fields(s), " "), whyWidth)
+	s = truncate(strings.Repeat("  ", indent)+s[:lead]+strings.Join(strings.Fields(s), " "), l.cols())
 	_, l.err = fmt.Fprintln(l.w, s)
 }
 
@@ -356,7 +365,7 @@ func (l *lineWriter) wrap(indent int, text string) {
 	prefix := strings.Repeat("  ", indent)
 	line := prefix
 	for _, word := range strings.Fields(text) {
-		if len(line) > len(prefix) && len(line)+1+len(word) > whyWidth {
+		if len(line) > len(prefix) && len(line)+1+len(word) > l.cols() {
 			l.line(0, "%s", line)
 			line = prefix
 		}

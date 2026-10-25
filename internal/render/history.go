@@ -18,7 +18,12 @@ type HistoryReport struct {
 
 // History prints the timeline newest first, then the spec changes the operator has not applied.
 func History(out io.Writer, job JobRef, h *history.History, now time.Time) error {
-	w := &lineWriter{w: out}
+	return HistoryWidth(out, job, h, now, 0)
+}
+
+// HistoryWidth is History with lines cut to width, for a terminal pane; 0 is the default width.
+func HistoryWidth(out io.Writer, job JobRef, h *history.History, now time.Time, width int) error {
+	w := &lineWriter{w: out, width: width}
 	w.line(0, "%s", job)
 	w.blank()
 	if err := w.err; err != nil {

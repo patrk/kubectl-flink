@@ -1,0 +1,30 @@
+kubectl flink top · kind · default/snap · OK · collected 0s ago
+ 1 Why  2 Graph  3 Exceptions  4 Checkpoints  5 Snapshots  6 Logs  7 History
+Job             FlinkDeployment default/snap in context kind, job 2976d078d966cc1723d351c4a3884eb4
+Checkpointing   every 10s, timeout 10m, exactly_once, HashMapStateBackend, FileSystemCheckpointStorage
+Last completed  #23 4s ago, took 6ms, 9.6KiB
+Last failed     -
+Last savepoint  #21 21s ago, took 14ms, 6.5KiB
+Restored from   -
+Counts          23 completed, 2 failed, 0 in progress, 0 restores
+
+ID   STATUS      TYPE         TRIGGERED   DURATION   SIZE      ACKED
+23   COMPLETED   CHECKPOINT   4s ago      6ms        9.6KiB    2/2
+22   COMPLETED   CHECKPOINT   14s ago     9ms        10.2KiB   2/2
+21   COMPLETED   SAVEPOINT    21s ago     14ms       6.5KiB    2/2
+20   COMPLETED   CHECKPOINT   21s ago     7ms        9.8KiB    2/2
+19   COMPLETED   CHECKPOINT   24s ago     5ms        9.8KiB    2/2
+18   COMPLETED   CHECKPOINT   34s ago     4ms        9.5KiB    2/2
+17   COMPLETED   CHECKPOINT   44s ago     19ms       9.6KiB    2/2
+16   COMPLETED   CHECKPOINT   54s ago     5ms        9.6KiB    2/2
+15   COMPLETED   CHECKPOINT   64s ago     5ms        9.5KiB    2/2
+14   COMPLETED   CHECKPOINT   74s ago     10ms       9.4KiB    2/2
+
+
+
+
+
+
+
+
+esc back  1-7 tab  ↑↓ pgup pgdn scroll  ←→ pan  r collect again  y copy: kubectl flink checkpoints --context kind defau…
