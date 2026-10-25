@@ -2,12 +2,13 @@ FLINK_OPERATOR_VERSION ?= 1.16.1
 FLINK_VERSION ?= 2.2
 KIND_CLUSTER ?= kubectl-flink
 KUBE_CONTEXT ?= kind-$(KIND_CLUSTER)
-VERSION ?= $(shell git describe --tags --always --dirty 2>/dev/null || echo dev)
+# Versions only: the demo tag holds recordings.
+VERSION ?= $(shell git describe --tags --match 'v*' --always --dirty 2>/dev/null || echo dev)
 LDFLAGS := -s -w -X github.com/patrk/kubectl-flink/internal/version.Version=$(VERSION) \
            -X github.com/patrk/kubectl-flink/internal/version.Commit=$(shell git rev-parse --short HEAD 2>/dev/null || echo none) \
            -X github.com/patrk/kubectl-flink/internal/version.Date=$(shell date -u +%FT%TZ)
 
-.PHONY: build test test-committed bench perf lint snapshot kind-up kind-deps kind-down e2e e2e-go fixtures scenarios crds demo demo-clean demo-gifs
+.PHONY: build test test-committed bench perf lint snapshot kind-up kind-deps kind-down e2e e2e-go fixtures scenarios crds demo demo-clean flood flood-clean bench-flood demo-gifs
 
 build: ; CGO_ENABLED=0 go build -ldflags "$(LDFLAGS)" -o bin/kubectl-flink ./cmd/kubectl-flink
 test:  ; go test -race ./...
@@ -46,6 +47,12 @@ fixtures:
 # Long-lived example jobs in three namespaces and many states, to try the plugin by hand; demo-clean removes them.
 demo: ; KUBE_CONTEXT=$(KUBE_CONTEXT) FLINK_VERSION=$(FLINK_VERSION) hack/demo.sh
 demo-clean: ; KUBE_CONTEXT=$(KUBE_CONTEXT) FLINK_VERSION=$(FLINK_VERSION) hack/demo.sh clean
+
+# 2,000 more FlinkDeployments with statuses copied from real jobs, which the operator ignores; FLOOD_JOBS and
+# FLOOD_NAMESPACES change the size. bench-flood times kubectl flink against kubectl on them; needs hyperfine.
+flood: ; KUBE_CONTEXT=$(KUBE_CONTEXT) hack/flood.sh
+flood-clean: ; KUBE_CONTEXT=$(KUBE_CONTEXT) hack/flood.sh clean
+bench-flood: build ; KUBE_CONTEXT=$(KUBE_CONTEXT) hack/bench-flood.sh
 
 # The recordings, from docs/demo/*.tape against make demo, on dark and light backgrounds, into docs/demo/out; needs vhs.
 demo-gifs: build
