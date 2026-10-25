@@ -55,6 +55,33 @@ func TestListPaginates(t *testing.T) {
 	}
 }
 
+// A page that cannot be decoded fails the list, whether pages after it were read or not.
+func TestListPageDecodeError(t *testing.T) {
+	for _, bad := range []int{100, 300, 599} {
+		f := kubetest.New(t)
+		f.Add("flinkdeployments", fdFixture, "team-a", "job", 600, func(i int, o map[string]any) {
+			if i == bad {
+				o["spec"] = "not an object"
+			}
+		})
+		_, err := client(t, f).List(context.Background(), kube.Deployments, "team-a", "")
+		if err == nil || !strings.Contains(err.Error(), "decode flinkdeployments") {
+			t.Errorf("bad item %d: %v", bad, err)
+		}
+	}
+	// The page after a bad one fails to be read: the decode error is still the one reported.
+	f := kubetest.New(t)
+	f.Add("flinkdeployments", fdFixture, "team-a", "job", 300, func(i int, o map[string]any) {
+		if i == 0 {
+			o["spec"] = "not an object"
+		}
+	})
+	f.ForbidContinued = true
+	if _, err := client(t, f).List(context.Background(), kube.Deployments, "team-a", ""); err == nil || !strings.Contains(err.Error(), "decode flinkdeployments") {
+		t.Errorf("decode error hidden by the next page: %v", err)
+	}
+}
+
 func TestListPaginatesEveryKind(t *testing.T) {
 	f := kubetest.New(t)
 	f.Add("flinksessionjobs", fdFixture, "team-a", "sj", 260, nil)
@@ -349,5 +376,21 @@ func TestLoadMatchManyNamespacesAndLongNames(t *testing.T) {
 	}
 	if s.Deployments[0].Name != "job-1" {
 		t.Errorf("order: %s first", s.Deployments[0].Name)
+	}
+}
+
+func TestContinueToken(t *testing.T) {
+	for body, want := range map[string]string{
+		`{"kind":"FlinkDeploymentList","apiVersion":"v1","metadata":{"continue":"abc"},"items":[{"x":1}]}`: "abc",
+		`{"items":[{"metadata":{"continue":"not this"}}],"metadata":{"continue":"def"}}`:                   "def",
+		`{"metadata":{}}`: "",
+		`{}`:              "",
+	} {
+		if got, err := kube.ContinueToken([]byte(body)); err != nil || got != want {
+			t.Errorf("%s: %q %v, want %q", body, got, err, want)
+		}
+	}
+	if _, err := kube.ContinueToken([]byte(`{"metadata":`)); err == nil {
+		t.Error("truncated body decoded")
 	}
 }
