@@ -29,8 +29,8 @@ func judge(t *testing.T, ev *triage.Evidence) *triage.Verdict {
 
 func ids(v *triage.Verdict) string {
 	out := make([]string, 0, len(v.Findings))
-	for _, f := range v.Findings {
-		out = append(out, f.ID)
+	for i := range v.Findings {
+		out = append(out, v.Findings[i].ID)
 	}
 	return strings.Join(out, ",")
 }

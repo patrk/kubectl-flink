@@ -9,6 +9,7 @@ import (
 
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
+	"github.com/patrk/kubectl-flink/internal/flink"
 	"github.com/patrk/kubectl-flink/internal/kube"
 	"github.com/patrk/kubectl-flink/internal/model"
 	"github.com/patrk/kubectl-flink/internal/triage"
@@ -50,8 +51,8 @@ func fire(t *testing.T, signals []triage.Signal) []string {
 		t.Fatal(err)
 	}
 	out := make([]string, 0, len(findings))
-	for _, f := range findings {
-		out = append(out, f.ID)
+	for i := range findings {
+		out = append(out, findings[i].ID)
 	}
 	return out
 }
@@ -272,5 +273,31 @@ func TestMountNeedsTheStuckPod(t *testing.T) {
 	pullBackOff := kube.ContainerState{Waiting: &kube.ContainerWaiting{Reason: "ImagePullBackOff", Message: `Back-off pulling image "busybox:nope"`}}
 	if got := fire(t, triage.Signals(podEvidence(created, initializing, &pullBackOff))); !slices.Equal(got, []string{"image-pull"}) {
 		t.Errorf("init image pull: %v", got)
+	}
+}
+
+func TestJudgePastFindings(t *testing.T) {
+	now := time.Date(2026, 10, 25, 12, 0, 0, 0, time.UTC)
+	running := now.Add(-30 * time.Minute)
+	ev := &triage.Evidence{Job: job, Health: model.Assessment{Health: model.OK}, Now: now,
+		REST: &triage.REST{Job: &flink.Job{State: "RUNNING", Timestamps: map[string]flink.Millis{"RUNNING": flink.Millis(running.UnixMilli())}}}}
+	unreachable := func(at time.Time) []triage.Signal {
+		return []triage.Signal{{Kind: triage.SigExceptionCause, Text: "java.net.ConnectException: HTTP connect timed out", At: at}}
+	}
+	// The outage before the current run is history: OK, marked past.
+	v, _ := triage.Judge(ev, unreachable(running.Add(-time.Minute)), triage.DefaultRules())
+	if len(v.Findings) != 1 || !v.Findings[0].Past || v.Findings[0].Severity != model.OK || v.Explained {
+		t.Errorf("before the run: %+v", v.Findings)
+	}
+	// During the current run it is the present.
+	v, _ = triage.Judge(ev, unreachable(running.Add(time.Minute)), triage.DefaultRules())
+	if len(v.Findings) != 1 || v.Findings[0].Past || v.Findings[0].Severity != model.Failed {
+		t.Errorf("during the run: %+v", v.Findings)
+	}
+	// A job that is not running has no current run to compare with.
+	ev.REST.Job.State = "RESTARTING"
+	v, _ = triage.Judge(ev, unreachable(running.Add(-time.Minute)), triage.DefaultRules())
+	if v.Findings[0].Past {
+		t.Errorf("restarting: %+v", v.Findings)
 	}
 }

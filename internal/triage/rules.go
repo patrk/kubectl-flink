@@ -176,7 +176,10 @@ type Finding struct {
 	Explain  string       `json:"explain"`
 	Remedy   string       `json:"remedy,omitempty"`
 	Evidence []Signal     `json:"evidence"`
-	rule     *Rule
+	// Past marks a finding whose evidence all happened before the job's current run: the job has run without it
+	// since, so it is told as history, at OK, and not as the cause of the present.
+	Past bool `json:"past,omitempty"`
+	rule *Rule
 }
 
 // match tries a condition against the signals and returns the matching signals and the captures of the first.

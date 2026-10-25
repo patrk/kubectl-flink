@@ -71,6 +71,9 @@ func WhyWidth(out io.Writer, ev *triage.Evidence, v *triage.Verdict, width int) 
 			if t := f.Newest(); !t.IsZero() {
 				when = ", newest evidence " + age(t, ev.Now)
 			}
+			if f.Past {
+				when += ", before the job's current run, which began " + age(triage.RunningSince(ev), ev.Now)
+			}
 			w.line(1, "%d. %s: %s (%s%s)", i+1, f.Severity, f.Title, f.Layer, when)
 			w.wrap(2, f.Explain)
 			if f.Remedy != "" {

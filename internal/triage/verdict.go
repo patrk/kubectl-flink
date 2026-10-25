@@ -53,14 +53,23 @@ func Judge(ev *Evidence, signals []Signal, rules []*Rule) (*Verdict, error) {
 		return nil, err
 	}
 	superseded := map[string]bool{}
-	for _, f := range findings {
-		for _, id := range f.rule.Supersedes {
+	for i := range findings {
+		for _, id := range findings[i].rule.Supersedes {
 			superseded[id] = true
 		}
 	}
 	// A superseded finding's evidence is explained too: it is the symptom of the finding that superseded it.
 	matched := slices.Clone(findings)
 	findings = slices.DeleteFunc(findings, func(f Finding) bool { return superseded[f.ID] })
+	// Flink keeps a job's exception history until it is redeployed, so a failure the job recovered from still
+	// matches its rule. Once the job runs again, everything before the current run is history.
+	if since := RunningSince(ev); !since.IsZero() {
+		for i := range findings {
+			if f := &findings[i]; f.Severity > model.OK && before(f, since) {
+				f.Severity, f.Past = model.OK, true
+			}
+		}
+	}
 	slices.SortStableFunc(findings, func(a, b Finding) int {
 		return cmp.Or(cmp.Compare(b.Severity, a.Severity),
 			cmp.Compare(slices.Index(rankLayers, a.Layer), slices.Index(rankLayers, b.Layer)))
@@ -77,13 +86,31 @@ func Judge(ev *Evidence, signals []Signal, rules []*Rule) (*Verdict, error) {
 	return v, nil
 }
 
+// RunningSince is when the job's current run began, by the JobManager; zero unless the job is RUNNING now.
+func RunningSince(ev *Evidence) time.Time {
+	if ev.REST == nil || ev.REST.Job == nil || ev.REST.Job.State != "RUNNING" {
+		return time.Time{}
+	}
+	return ev.REST.Job.Timestamps["RUNNING"].Time()
+}
+
+// before reports whether every signal of f is known to have happened before t; one without a time may be current.
+func before(f *Finding, t time.Time) bool {
+	for _, s := range f.Evidence {
+		if s.At.IsZero() || !s.At.Before(t) {
+			return false
+		}
+	}
+	return len(f.Evidence) > 0
+}
+
 // unexplained picks, by preference, the signals no finding used and that do not repeat a used one, such as the
 // operator's event that carries an exception already in a finding.
 func unexplained(signals []Signal, findings []Finding, withQuiet bool) []Signal {
 	var used []string
 	same := map[string]bool{}
-	for _, f := range findings {
-		for _, s := range f.Evidence {
+	for i := range findings {
+		for _, s := range findings[i].Evidence {
 			n := norm(s.Text)
 			same[n] = true
 			// Short texts, such as a status value, would make every signal that contains them look repeated; a
