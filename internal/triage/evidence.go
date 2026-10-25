@@ -53,13 +53,15 @@ type LogLine struct {
 
 // REST is what the JobManager reported.
 type REST struct {
-	FlinkVersion     string                  `json:"flinkVersion,omitempty"`
-	Jobs             []flink.JobOverview     `json:"jobs,omitempty"`
-	Job              *flink.Job              `json:"job,omitempty"`
-	Exceptions       []flink.Exception       `json:"exceptions,omitempty"`
-	Checkpoints      *flink.Checkpoints      `json:"checkpoints,omitempty"`
-	CheckpointConfig *flink.CheckpointConfig `json:"checkpointConfig,omitempty"`
-	metrics          []VertexMetrics
+	FlinkVersion string              `json:"flinkVersion,omitempty"`
+	Jobs         []flink.JobOverview `json:"jobs,omitempty"`
+	Job          *flink.Job          `json:"job,omitempty"`
+	Exceptions   []flink.Exception   `json:"exceptions,omitempty"`
+	// ExceptionsTruncated is true when the JobManager has more failures than were read.
+	ExceptionsTruncated bool                    `json:"exceptionsTruncated,omitempty"`
+	Checkpoints         *flink.Checkpoints      `json:"checkpoints,omitempty"`
+	CheckpointConfig    *flink.CheckpointConfig `json:"checkpointConfig,omitempty"`
+	metrics             []VertexMetrics
 }
 
 // Evidence is everything collected about one job.
@@ -238,14 +240,22 @@ func collectLogs(ctx context.Context, kc *kube.Client, namespace string, pods []
 var errNotAsked = errors.New("not asked")
 
 // collectREST reads the JobManager; the second error is the performance layer's, which fails on its own.
-func collectREST(ctx context.Context, access flink.Access, force bool, job *model.Job, cluster string) (*REST, error, error) {
+// askREST says why the JobManager is not asked, nil when it is.
+func askREST(access flink.Access, force bool, job *model.Job) error {
 	switch {
 	case access == nil:
-		return nil, nil, fmt.Errorf("%w: no access to the JobManager", errNotAsked)
+		return fmt.Errorf("%w: no access to the JobManager", errNotAsked)
 	case !force && job.Kind == model.KindDeployment && job.JMStatus != "READY":
-		return nil, nil, fmt.Errorf("%w: the JobManager is %s", errNotAsked, cmp.Or(job.JMStatus, "UNKNOWN"))
+		return fmt.Errorf("%w: the JobManager is %s", errNotAsked, cmp.Or(job.JMStatus, "UNKNOWN"))
 	case job.JobID == "":
-		return nil, nil, fmt.Errorf("%w: the job has no ID in its status", errNotAsked)
+		return fmt.Errorf("%w: the job has no ID in its status", errNotAsked)
+	}
+	return nil
+}
+
+func collectREST(ctx context.Context, access flink.Access, force bool, job *model.Job, cluster string) (*REST, error, error) {
+	if err := askREST(access, force, job); err != nil {
+		return nil, nil, err
 	}
 	r := &REST{}
 	var metricsErr error
@@ -265,7 +275,7 @@ func collectREST(ctx context.Context, access flink.Access, force bool, job *mode
 		if err != nil {
 			return err
 		}
-		r.Exceptions = ex.History.Entries
+		r.Exceptions, r.ExceptionsTruncated = ex.History.Entries, ex.History.Truncated
 		if r.Checkpoints, err = c.Checkpoints(ctx, job.JobID); err != nil {
 			return err
 		}
@@ -279,4 +289,39 @@ func collectREST(ctx context.Context, access flink.Access, force bool, job *mode
 		return nil
 	})
 	return r, metricsErr, err
+}
+
+// CollectGraph reads only what the job graph needs: the job's vertices and their metrics. What cannot be read
+// becomes a Gap, as in Collect.
+func CollectGraph(ctx context.Context, src Source, job *model.Job, now time.Time) *Evidence {
+	ctx, cancel := context.WithTimeout(ctx, Timeout)
+	defer cancel()
+	ev := &Evidence{Job: job, Now: now}
+	if err := askREST(src.REST, src.ForceREST, job); err != nil {
+		ev.Gaps = append(ev.Gaps, Gap{Layer: Runtime, What: "JobManager REST API", Why: err.Error()})
+		return ev
+	}
+	cluster := job.Name
+	if job.Kind == model.KindSessionJob {
+		cluster = job.DeploymentName
+	}
+	r := &REST{}
+	var metricsErr error
+	err := src.REST.Do(ctx, job.Namespace, cluster, func(c *flink.Client) error {
+		var err error
+		if r.Job, err = c.Job(ctx, job.JobID); err != nil {
+			return err
+		}
+		r.metrics, metricsErr = collectMetrics(ctx, c, r.Job)
+		return nil
+	})
+	if err != nil {
+		ev.Gaps = append(ev.Gaps, Gap{Layer: Runtime, What: "JobManager REST API", Why: err.Error()})
+		return ev
+	}
+	if metricsErr != nil {
+		ev.Gaps = append(ev.Gaps, Gap{Layer: Performance, What: "vertex metrics", Why: metricsErr.Error()})
+	}
+	ev.REST, ev.Metrics = r, r.metrics
+	return ev
 }

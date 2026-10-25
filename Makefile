@@ -7,7 +7,7 @@ LDFLAGS := -s -w -X github.com/patrk/kubectl-flink/internal/version.Version=$(VE
            -X github.com/patrk/kubectl-flink/internal/version.Commit=$(shell git rev-parse --short HEAD 2>/dev/null || echo none) \
            -X github.com/patrk/kubectl-flink/internal/version.Date=$(shell date -u +%FT%TZ)
 
-.PHONY: build test test-committed bench perf lint snapshot kind-up kind-deps kind-down e2e e2e-go fixtures scenarios crds
+.PHONY: build test test-committed bench perf lint snapshot kind-up kind-deps kind-down e2e e2e-go fixtures scenarios crds demo demo-clean
 
 build: ; CGO_ENABLED=0 go build -ldflags "$(LDFLAGS)" -o bin/kubectl-flink ./cmd/kubectl-flink
 test:  ; go test -race ./...
@@ -42,6 +42,10 @@ e2e-go: ; KUBE_CONTEXT=$(KUBE_CONTEXT) go test -tags e2e -run TestLive -v ./inte
 fixtures:
 	KUBE_CONTEXT=$(KUBE_CONTEXT) OUT=testdata/fixtures/operator-$(FLINK_OPERATOR_VERSION)-flink-$(FLINK_VERSION) \
 	  hack/capture-fixtures.sh basic
+
+# Long-lived example jobs in three namespaces and many states, to try the plugin by hand; demo-clean removes them.
+demo: ; KUBE_CONTEXT=$(KUBE_CONTEXT) FLINK_VERSION=$(FLINK_VERSION) hack/demo.sh
+demo-clean: ; KUBE_CONTEXT=$(KUBE_CONTEXT) FLINK_VERSION=$(FLINK_VERSION) hack/demo.sh clean
 
 # Failure states (bad image, missing jar, suspended) captured from the operator under test.
 scenarios:

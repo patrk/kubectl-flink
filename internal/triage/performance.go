@@ -109,10 +109,42 @@ func (v *VertexMetrics) Pending() (float64, bool) {
 
 // Thresholds of the performance signals, in milliseconds per second of a subtask, as the Flink UI uses them.
 const (
-	backpressureHigh = 500 // a subtask waiting on its output half the time or more
-	busyHigh         = 900 // a subtask that never waits for input
+	BackpressureHigh = 500 // a subtask waiting on its output half the time or more: Flink's HIGH
+	BackpressureLow  = 100 // Flink's LOW starts above a tenth of the time
+	BusyHigh         = 900 // a subtask that never waits for input
 	minSourceRate    = 1   // records per second the sources must emit before a silent sink is notable
 )
+
+// BackpressureLevel is the Flink web UI's back pressure status of a subtask's back-pressured ms/s. HIGH starts at
+// BackpressureHigh, where the performance signals start, so that the graph and why agree on the same operator.
+func BackpressureLevel(ms float64) string {
+	switch {
+	case ms >= BackpressureHigh:
+		return "HIGH"
+	case ms > BackpressureLow:
+		return "LOW"
+	}
+	return "OK"
+}
+
+// Bottlenecks are the vertices the performance signals name: the nearest busy vertex behind each backpressured
+// one, by ID.
+func Bottlenecks(job *flink.Job, vms []VertexMetrics) map[string]bool {
+	byID := map[string]*VertexMetrics{}
+	for i := range vms {
+		byID[vms[i].ID] = &vms[i]
+	}
+	out := map[string]bool{}
+	for i := range vms {
+		if vms[i].Metrics[MetricBackPressed].Max < BackpressureHigh {
+			continue
+		}
+		if d := bottleneck(job, byID, vms[i].ID); d != nil {
+			out[d.ID] = true
+		}
+	}
+	return out
+}
 
 // performanceSignals reports only what is notable: backpressure, the busy vertex behind it, and a sink that
 // receives nothing while the sources emit.
@@ -131,7 +163,7 @@ func performanceSignals(job *flink.Job, vms []VertexMetrics, add adder) {
 	for i := range vms {
 		v := &vms[i]
 		bp := v.Metrics[MetricBackPressed].Max
-		if bp < backpressureHigh {
+		if bp < BackpressureHigh {
 			continue
 		}
 		add(SigBackpressure, Performance, fmt.Sprintf("%s: backpressured %.0f ms/s", v.Name, bp))
@@ -171,7 +203,7 @@ func bottleneck(job *flink.Job, byID map[string]*VertexMetrics, from string) *Ve
 			continue
 		}
 		seen[id] = true
-		if d := byID[id]; d != nil && d.Metrics[MetricBusy].Max >= busyHigh {
+		if d := byID[id]; d != nil && d.Metrics[MetricBusy].Max >= BusyHigh {
 			return d
 		}
 		queue = append(queue, job.Downstream(id)...)

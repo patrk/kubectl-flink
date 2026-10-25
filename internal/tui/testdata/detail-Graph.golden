@@ -1,0 +1,30 @@
+kubectl flink top · kind · default/snap · OK · collected 0s ago
+ 1 Why  2 Graph  3 Exceptions  4 Checkpoints  5 Snapshots  6 Logs  7 History
+job RUNNING, 2 operators; time split of the worst subtask, rates summed
+
+╭────────────────────────────────╮
+│ [1] Source: Car data generator │    ╭────────────────────────────────╮
+│ source ->                      │    │ [2] GlobalWindows -> Sink:     │
+│ Timestamps/Watermarks          │    │ Print to Std. Out              │
+│ ×1 RUNNING                     │ ─▶ │ ×1 RUNNING                     │
+│ .............................. │    │ .............................. │
+│ busy 2 · bp 0 OK · idle 998    │    │ busy 3 · bp 0 OK · idle 997    │
+│ in 0/s, out 10/s               │    │ in 10/s, out 0/s               │
+│ → [2]                          │    ╰────────────────────────────────╯
+╰────────────────────────────────╯
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+esc back  1-7 tab  ↑↓ pgup pgdn scroll  ←→ pan  r collect again  y copy: kubectl flink graph --context kind default/snap

@@ -1,0 +1,18 @@
+FlinkDeployment team-a/orders in context dev
+job RUNNING, 4 operators; time split of the worst subtask, rates summed
+
+[1] [90mSource: Kafka[0m  ×4  RUNNING
+    [31m[0m[90m================[0m[34m....[0m  busy 10, back-pressured 800 (HIGH), idle 190 ms/s · in 0/s, out 12k/s
+    └─▶ [2] enrich -> lookup
+    └─▶ [3] filter
+
+[2] [31menrich -> lookup[0m  ×4  RUNNING  [31m◀ bottleneck[0m
+    [31m####################[0m[90m[0m[34m[0m  busy 990, back-pressured 0 (OK), idle 10 ms/s · in 6.2k/s, out 6.2k/s
+    └─▶ [4] Sink: orders
+
+[3] [34mfilter[0m  ×4  RUNNING
+    [31m#[0m[90m[0m[34m...................[0m  busy 40, back-pressured 0 (OK), idle 960 ms/s · in 6.3k/s, out 900/s
+    └─▶ [4] Sink: orders
+
+[4] [34mSink: orders[0m  ×2  RUNNING
+    [31m[0m[90m[0m[34m....................[0m  busy 5, back-pressured 0 (OK), idle 995 ms/s · in 7.1k/s, out 0/s

@@ -3,6 +3,7 @@ package tui
 
 import (
 	"cmp"
+	"context"
 	"fmt"
 	"slices"
 	"strings"
@@ -37,6 +38,10 @@ type Config struct {
 	Search string
 	Health []model.Health
 	Sort   string
+	// Loader collects a job's detail for Enter; without one, Enter shows the why command.
+	Loader Loader
+	// Context ends the collections when top ends; nil is context.Background.
+	Context context.Context
 }
 
 type mode int
@@ -47,6 +52,7 @@ const (
 	modeCommand
 	modeHelp
 	modePicker
+	modeDetail
 )
 
 // Model is the top screen. It is driven by messages only: scopes from Config.Updates, ticks and keys.
@@ -77,8 +83,15 @@ type Model struct {
 	// err ends top: the only scope could not be read.
 	err error
 
-	table  table
-	input  textinput.Model
+	table table
+	input textinput.Model
+
+	ctx     context.Context
+	gen     int // of the last cursor move, so that a prefetch fires only where the cursor rests
+	loading inflight
+	cache   map[string]*entry
+	detail  detailState
+
 	picker picker
 	flash  string
 }
@@ -108,7 +121,11 @@ var filters = []healthFilter{
 
 // New returns the model; the program starts it with Init.
 func New(cfg Config) *Model {
-	m := &Model{cfg: cfg, st: newStyles(), keys: newKeyMap(), search: cfg.Search, width: 80, height: 24}
+	m := &Model{cfg: cfg, st: newStyles(), keys: newKeyMap(), search: cfg.Search, width: 80, height: 24,
+		ctx: cfg.Context, cache: map[string]*entry{}}
+	if m.ctx == nil {
+		m.ctx = context.Background()
+	}
 	// --unhealthy or one --health value is a step of f, so f goes on from there.
 	if i := slices.IndexFunc(filters, func(f healthFilter) bool { return sameHealth(f.health, cfg.Health) }); i >= 0 {
 		m.filter = i
@@ -148,15 +165,32 @@ func (m *Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	switch msg := msg.(type) {
 	case tea.WindowSizeMsg:
 		m.width, m.height = msg.Width, msg.Height
+		if m.mode == modeDetail {
+			m.fillDetail(false)
+		}
+		return m, nil
+	case prefetchMsg:
+		cmd := m.prefetch(msg)
+		return m, cmd
+	case detailMsg:
+		m.collected(msg)
+		cmd := m.tabOpened()
+		return m, cmd
+	case logMsg:
+		m.logRead(msg)
 		return m, nil
 	case scopesMsg:
 		if !m.loaded && len(msg) == 1 && msg[0].Err != nil {
 			m.err = msg[0].Err // nothing to show; ls says so the same way
 			return m, tea.Quit
 		}
+		first := !m.loaded
 		m.scopes, m.loaded = msg, true
 		m.reassess()
 		cmd := m.wait()
+		if first {
+			cmd = tea.Batch(cmd, m.moved())
+		}
 		return m, cmd
 	case tickMsg:
 		m.reassess()
@@ -187,6 +221,8 @@ func (m *Model) key(msg tea.KeyPressMsg) tea.Cmd {
 		return nil
 	case modePicker:
 		return m.pickerKey(msg)
+	case modeDetail:
+		return m.detailKey(msg)
 	}
 	m.flash = ""
 	switch {
@@ -194,16 +230,22 @@ func (m *Model) key(msg tea.KeyPressMsg) tea.Cmd {
 		return tea.Quit
 	case key.Matches(msg, m.keys.up):
 		m.table.move(-1)
+		return m.moved()
 	case key.Matches(msg, m.keys.down):
 		m.table.move(1)
+		return m.moved()
 	case key.Matches(msg, m.keys.pageUp):
 		m.table.move(-m.bodyHeight())
+		return m.moved()
 	case key.Matches(msg, m.keys.pageDown):
 		m.table.move(m.bodyHeight())
+		return m.moved()
 	case key.Matches(msg, m.keys.top):
 		m.table.cursor = 0
+		return m.moved()
 	case key.Matches(msg, m.keys.bottom):
 		m.table.move(len(m.table.rows))
+		return m.moved()
 	case key.Matches(msg, m.keys.search):
 		m.mode = modeSearch
 		return m.prompt("/", m.search, nil)
@@ -226,9 +268,7 @@ func (m *Model) key(msg tea.KeyPressMsg) tea.Cmd {
 		}
 		m.openPicker("context", m.contexts(), m.context)
 	case key.Matches(msg, m.keys.enter):
-		if r := m.selected(); r != nil {
-			m.flash = "kubectl flink why " + jobRef(r.Job)
-		}
+		return m.openDetail()
 	case key.Matches(msg, m.keys.help):
 		m.mode = modeHelp
 	case key.Matches(msg, m.keys.back):
@@ -443,6 +483,9 @@ func (m *Model) View() tea.View {
 }
 
 func (m *Model) render() string {
+	if m.mode == modeDetail {
+		return m.detailView()
+	}
 	if !m.loaded {
 		return m.st.title.Render(cut("kubectl flink top · loading Flink jobs…", m.width))
 	}

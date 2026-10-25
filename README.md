@@ -9,17 +9,18 @@ value per job and explains a failure layer by layer: Flink runtime (exceptions, 
 OOMKilled, events), performance (backpressure, checkpoints, source lag) and operator (lifecycle, reconciliation,
 rollbacks).
 
-> **Status: early development.** `ls`, `why`, `report`, `history`, `exceptions`, `checkpoints`, `snapshots`, `logs`, `config` and `top` work; the other commands below are the working draft. Build with `make build`.
+> **Status: early development.** `ls`, `why`, `report`, `history`, `exceptions`, `checkpoints`, `snapshots`, `graph`, `logs`, `config` and `top` work; the other commands below are the working draft. Build with `make build`.
 
 ```
 kubectl flink ls [-A] [FILTER] [--unhealthy | --health failed,stuck] [-l selector] [--sort health|name|state-age]
                 [-o wide|json|yaml|name] [-w] [--exit-code]
 kubectl flink why <job>            # one-screen verdict, then the raw evidence
 kubectl flink report <job>         # handover bundle: every fact needed to debug the job, secrets redacted
-kubectl flink exceptions | checkpoints | snapshots | logs | history <job>
+kubectl flink exceptions | checkpoints | snapshots | graph | logs | history <job>
 kubectl flink ui <job>             # port-forward to the JobManager and open the Flink web UI
 kubectl flink savepoint | restart | suspend | resume <job> [--dry-run] [--wait]
-kubectl flink top [-A] [FILTER]    # live table: / search, f health filter, s sort, n namespace, c context, ? keys
+kubectl flink top [-A] [FILTER]    # live table: / search, f health filter, s sort, n namespace, c context, ? keys;
+                                   # Enter opens a job: why, graph, exceptions, checkpoints, snapshots, logs, history
 kubectl flink config view | validate   # the profile in force for this context, and checks for a profile file
 ```
 

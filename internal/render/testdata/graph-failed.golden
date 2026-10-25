@@ -1,0 +1,14 @@
+FlinkDeployment team-a/orders in context dev
+job FAILED, 4 operators; rates only while it runs
+
+[1] Source: Kafka  ×4  RUNNING
+    └─▶ [2] enrich -> lookup
+    └─▶ [3] filter
+
+[2] enrich -> lookup  ×4  RUNNING
+    └─▶ [4] Sink: orders
+
+[3] filter  ×4  RUNNING
+    └─▶ [4] Sink: orders
+
+[4] Sink: orders  ×2  RUNNING

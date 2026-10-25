@@ -141,8 +141,14 @@ func (t *target) access(restURL string) (access flink.Access, closeFn func()) {
 	if restURL != "" {
 		return flink.Direct(restURL), func() {}
 	}
-	pool := flink.NewPool(flink.NewForwarder(t.client.Config()), func(ctx context.Context, ns, cluster string) ([]string, error) {
-		pods, err := t.client.ComponentPods(ctx, ns, cluster, kube.ComponentJM)
+	pool := newPool(t.client, 1)
+	return pool, pool.Close
+}
+
+// newPool keeps up to size port-forwards to the ready JobManager pods the client can reach.
+func newPool(c *kube.Client, size int) *flink.Pool {
+	return flink.NewPool(flink.NewForwarder(c.Config()), func(ctx context.Context, ns, cluster string) ([]string, error) {
+		pods, err := c.ComponentPods(ctx, ns, cluster, kube.ComponentJM)
 		if err != nil {
 			return nil, err
 		}
@@ -153,8 +159,7 @@ func (t *target) access(restURL string) (access flink.Access, closeFn func()) {
 			}
 		}
 		return ready, nil
-	}, 1)
-	return pool, pool.Close
+	}, size)
 }
 
 // ErrJobManagerDown means the job's JobManager is not running, so there is no REST API to ask.

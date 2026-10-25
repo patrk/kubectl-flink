@@ -1,0 +1,9 @@
+FlinkDeployment default/snap in context dev, job 2976d078d966cc1723d351c4a3884eb4
+job RUNNING, 2 operators; time split of the worst subtask, rates summed
+
+[1] Source: Car data generator source -> Timestamps/Watermarks  ×1  RUNNING
+    ....................  busy 2, back-pressured 0 (OK), idle 998 ms/s · in 0/s, out 10/s
+    └─▶ [2] GlobalWindows -> Sink: Print to Std. Out
+
+[2] GlobalWindows -> Sink: Print to Std. Out  ×1  RUNNING
+    ....................  busy 3, back-pressured 0 (OK), idle 997 ms/s · in 10/s, out 0/s

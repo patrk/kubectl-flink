@@ -19,6 +19,7 @@ import (
 	"github.com/patrk/kubectl-flink/internal/fleet"
 	"github.com/patrk/kubectl-flink/internal/kube"
 	"github.com/patrk/kubectl-flink/internal/kube/kubetest"
+	"github.com/patrk/kubectl-flink/internal/model"
 	"github.com/patrk/kubectl-flink/internal/profile"
 )
 
@@ -299,5 +300,39 @@ func TestTopUsage(t *testing.T) {
 		if len(args) == 0 && !strings.Contains(errOut.String(), "top needs a terminal") {
 			t.Errorf("no terminal: %q", errOut.String())
 		}
+	}
+}
+
+// top's loader keeps one port-forward pool per context for the session, and knows only the contexts it read.
+func TestTopLoader(t *testing.T) {
+	c := newCluster(t)
+	c.add("dev", "team-a", kubetest.New(t))
+	streams, _, _, _ := genericiooptions.NewTestIOStreams()
+	o := &Options{ConfigFlags: genericclioptions.NewConfigFlags(true), IOStreams: streams}
+	kc := c.kubeconfig
+	o.ConfigFlags.KubeConfig = &kc
+	srcs, prof, err := o.sources(false)
+	if err != nil {
+		t.Fatal(err)
+	}
+	l, err := newTopLoader(o, srcs, prof)
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer l.close()
+	job := model.Job{Context: "dev", Namespace: "team-a", Name: "orders", Kind: model.KindDeployment}
+	tg, err := l.target(&job)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if first := l.pool(tg); l.pool(tg) != first {
+		t.Error("a pool per call, not per context")
+	}
+	job.Context = "gone"
+	if _, err := l.Detail(t.Context(), job); err == nil {
+		t.Error("unknown context collected")
+	}
+	if _, err := l.Log(t.Context(), job, 10); err == nil {
+		t.Error("unknown context read")
 	}
 }
