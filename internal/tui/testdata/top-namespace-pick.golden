@@ -1,0 +1,16 @@
+kubectl flink top · dev, prd, broken · 2 jobs: 2 OK
+filter: all   sort: health   namespace: payments
+CONTEXT   NAMESPACE   NAME            HEALTH   LIFECYCLE   JOB       JM      IN STATE   REASON
+broken    -           -               ERROR    -           -         -       -          context broken: Unauthorized
+dev       payments    fraud-scoring   OK       STABLE      RUNNING   READY   3h         -
+prd       payments    fraud-scoring   OK       STABLE      RUNNING   READY   3h         -
+
+
+
+
+
+
+
+
+
+enter why command  / search name or ID label  f health filter  s sort  n namespace  c context  : command  ? help  q quit

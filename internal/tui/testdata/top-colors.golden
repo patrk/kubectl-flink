@@ -1,0 +1,12 @@
+[1mkubectl flink top · dev, prd, broken · 6 jobs: 1 FAILED, 1 DEGRADED, 1 SUSPENDED, 3 OK[m
+[2mfilter: all   sort: health[m
+[1mCONTEXT   NAMESPACE   NAME            HEALTH      LIFECYCLE   JOB         JM      IN STATE   REASON[m
+broken    -           -               [31mERROR[m       -           -           -       -          context broken: Unauthoriz…
+[7mdev       team-b      replay          FAILED      FAILED      FAILED      READY   12m        lifecycle FAILED: java.net…[m
+dev       team-a      payments        [33mDEGRADED[m    STABLE      RUNNING     READY   3h         1/2 TaskManagers ready for…
+dev       team-b      nightly         [2mSUSPENDED[m   SUSPENDED   SUSPENDED   READY   3h         suspended
+dev       payments    fraud-scoring   [32mOK[m          STABLE      RUNNING     READY   3h         -
+dev       team-a      orders          [32mOK[m          STABLE      RUNNING     READY   3h         -
+prd       payments    fraud-scoring   [32mOK[m          STABLE      RUNNING     READY   3h         -
+
+[2menter why command  / search name or ID label  f health filter  s sort  n namespace  c context  : command  ? help  q quit[m

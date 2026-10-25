@@ -36,6 +36,17 @@ func Rows(scopes []Scope, now time.Time, th model.Thresholds) []Row {
 // Unhealthy is true for the health values --unhealthy and --exit-code act on.
 func Unhealthy(h model.Health) bool { return h >= model.Degraded }
 
+// UnhealthyValues are the health values Unhealthy is true for, best first.
+func UnhealthyValues() []model.Health {
+	var out []model.Health
+	for h := model.OK; h <= model.Failed; h++ {
+		if Unhealthy(h) {
+			out = append(out, h)
+		}
+	}
+	return out
+}
+
 // Filter keeps the rows a user asked for.
 type Filter struct {
 	// Health keeps only these values; empty keeps all.

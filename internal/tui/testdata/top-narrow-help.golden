@@ -1,0 +1,12 @@
+kubectl flink top · dev, prd, broken · 6 jobs: 1 FAILED, 1 …
+filter: all   sort: health
+       ╭───────────────────────────────────────────╮
+       │ keys                                      │
+       │ ↑/k          up                           │
+       │ ↓/j          down                         │
+       │ pgup/ctrl+b  page up                      │
+       │ pgdn/ctrl+f  page down                    │
+       │ g/home       first job                    │
+       │ G/end        last job                     │
+       │                                           │
+enter why command  / search name or ID label  f health filt…

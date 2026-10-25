@@ -25,15 +25,11 @@ const reassessEvery = 5 * time.Second
 
 type lsOptions struct {
 	*Options
-	allNamespaces bool
-	output        string
-	watch         bool
-	selector      string
-	health        []string
-	unhealthy     bool
-	sortBy        string
-	noHeaders     bool
-	exitCode      bool
+	fleetFlags
+	output    string
+	watch     bool
+	noHeaders bool
+	exitCode  bool
 
 	filter fleet.Filter
 }
@@ -63,17 +59,12 @@ contains it. The summary and any fallback notes go to stderr.`,
 		},
 	}
 	f := cmd.Flags()
-	f.BoolVarP(&lo.allNamespaces, "all-namespaces", "A", false, "List in all namespaces, falling back to the profile's namespaces when that is forbidden")
 	f.StringVarP(&lo.output, "output", "o", "table", "Output format: "+strings.Join(render.Formats, ", "))
 	f.BoolVarP(&lo.watch, "watch", "w", false, "Keep watching and print jobs whose state changes")
-	f.StringVarP(&lo.selector, "selector", "l", "", "Label selector on the FlinkDeployments and FlinkSessionJobs")
-	f.StringSliceVar(&lo.health, "health", nil, "Only jobs with these health values, such as failed,stuck")
-	f.BoolVar(&lo.unhealthy, "unhealthy", false, "Only DEGRADED, STUCK and FAILED jobs")
-	f.StringVar(&lo.sortBy, "sort", "health", "Sort by: "+strings.Join(fleet.SortKeys, ", "))
 	f.BoolVar(&lo.noHeaders, "no-headers", false, "Print no header, summary or notes")
 	f.BoolVar(&lo.exitCode, "exit-code", false, "Exit with 4 when a listed job is DEGRADED, STUCK or FAILED")
 	_ = cmd.RegisterFlagCompletionFunc("output", cobra.FixedCompletions(render.Formats, cobra.ShellCompDirectiveNoFileComp))
-	_ = cmd.RegisterFlagCompletionFunc("sort", cobra.FixedCompletions(fleet.SortKeys, cobra.ShellCompDirectiveNoFileComp))
+	lo.register(cmd)
 	return cmd
 }
 
@@ -84,20 +75,9 @@ func (lo *lsOptions) validate() error {
 	if lo.watch && lo.output == "name" {
 		return errors.New("-o name cannot be watched")
 	}
-	if !slices.Contains(fleet.SortKeys, lo.sortBy) {
-		return fmt.Errorf("unknown sort key %q, use one of %s", lo.sortBy, strings.Join(fleet.SortKeys, ", "))
-	}
-	for _, s := range lo.health {
-		h, err := model.ParseHealth(s)
-		if err != nil {
-			return err
-		}
-		lo.filter.Health = append(lo.filter.Health, h)
-	}
-	if lo.unhealthy {
-		lo.filter.Health = append(lo.filter.Health, model.Degraded, model.Stuck, model.Failed)
-	}
-	return nil
+	err := lo.parse()
+	lo.filter.Health = lo.healthValues
+	return err
 }
 
 // sources reads the kubeconfig and the profile and builds a client per scope.
@@ -166,10 +146,8 @@ func (lo *lsOptions) rows(scopes []fleet.Scope, th model.Thresholds) ([]fleet.Ro
 }
 
 func (lo *lsOptions) tableOptions(scopes []fleet.Scope) render.TableOptions {
-	o := render.TableOptions{Wide: lo.output == "wide", NoHeaders: lo.noHeaders, Color: lo.color(), ShowContext: len(scopes) > 1}
-	for i := range scopes {
-		o.ShowNamespace = o.ShowNamespace || scopes[i].AllNamespaces || len(scopes[i].Namespaces) > 1
-	}
+	o := render.ScopeOptions(scopes)
+	o.Wide, o.NoHeaders, o.Color = lo.output == "wide", lo.noHeaders, lo.color()
 	return o
 }
 
