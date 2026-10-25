@@ -1,4 +1,5 @@
 FlinkDeployment default/snap in context kind, job 6fac4c809f2b12f9bdf409fd0ec650bd · OK
+  OK from the status and pods, as ls shows it; the patterns below find DEGRADED: The operator does not process FlinkStateSnapshots
 
 Matched patterns
   1. DEGRADED: The operator does not process FlinkStateSnapshots (operator, newest evidence 2m10s ago)

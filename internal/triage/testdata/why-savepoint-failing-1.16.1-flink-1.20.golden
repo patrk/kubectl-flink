@@ -1,4 +1,5 @@
 FlinkDeployment default/basic in context kind, job 1ccc5fa1160763c418eb2187017b7b42 · OK
+  OK from the status and pods, as ls shows it; the patterns below find DEGRADED: Savepoint basic-savepoint has nowhere to go
 
 Matched patterns
   1. DEGRADED: Savepoint basic-savepoint has nowhere to go (runtime, newest evidence 11s ago)

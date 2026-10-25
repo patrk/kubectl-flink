@@ -1,4 +1,5 @@
 FlinkDeployment default/bad-image in context kind, job 4f96a09f15d1d633917750092b435920 · PROGRESSING
+  PROGRESSING from the status and pods, as ls shows it; the patterns below find FAILED: The image flink:does-not-exist cannot be pulled
   JobManager deployment ERROR: ErrImagePull: [flink-main-container] rpc error: code = NotFound desc = failed to pull and unpack image "docker.io/libra…
   job RECONCILING
 

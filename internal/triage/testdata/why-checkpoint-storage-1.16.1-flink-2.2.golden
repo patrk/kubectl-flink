@@ -1,4 +1,5 @@
 FlinkDeployment default/checkpoint-storage in context kind, job f89a84e44a12a8619d7694120b2aec3b · PROGRESSING
+  PROGRESSING from the status and pods, as ls shows it; the patterns below find FAILED: Flink cannot write its checkpoint storage at file:/flink-data/checkpoin…
   JobManager DEPLOYING
   job RECONCILING
 
