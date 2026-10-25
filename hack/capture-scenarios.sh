@@ -95,12 +95,16 @@ save() {
 # so a change restarts it; "on" is the chart's default and does nothing when nothing was changed.
 operator_snapshots() {
   local key=kubernetes.operator.snapshot.resource.enabled conf
+  # Charts up to 1.15 also ship the legacy flink-conf.yaml, which Flink reads first when it exists; both get the
+  # setting.
+  local files='def files: .key == "config.yaml" or .key == "flink-conf.yaml";'
   conf=$(k get configmap flink-operator-config -o json)
   if [[ $1 == on ]]; then
-    jq -e --arg key "$key" '.data["config.yaml"] | contains($key)' <<<"$conf" >/dev/null || return 0
-    conf=$(jq --arg key "$key" '.data["config.yaml"] |= (split("\n") | map(select(startswith($key) | not)) | join("\n") | sub("\n+$"; "\n"))' <<<"$conf")
+    jq -e --arg key "$key" '.data | to_entries | any(.value | contains($key))' <<<"$conf" >/dev/null || return 0
+    conf=$(jq --arg key "$key" "$files"'
+      .data |= with_entries(if files then .value |= (split("\n") | map(select(startswith($key) | not)) | join("\n") | sub("\n+$"; "\n")) else . end)' <<<"$conf")
   else
-    conf=$(jq --arg key "$key" '.data["config.yaml"] += "\n\($key): false\n"' <<<"$conf")
+    conf=$(jq --arg key "$key" "$files"' .data |= with_entries(if files then .value += "\n\($key): false\n" else . end)' <<<"$conf")
   fi
   k replace -f - <<<"$conf" >/dev/null
   k rollout restart deploy/flink-kubernetes-operator >/dev/null
