@@ -1,4 +1,5 @@
 FlinkDeployment default/bad-memory in context kind, job d3549ef1ab8e77a981b1649e0cf634a5 · PROGRESSING
+  PROGRESSING from the status and pods, as ls shows it; the patterns below find FAILED: The TaskManager memory is too small for its configured memory pools
   lifecycle UPGRADING
   JobManager deployment MISSING
 

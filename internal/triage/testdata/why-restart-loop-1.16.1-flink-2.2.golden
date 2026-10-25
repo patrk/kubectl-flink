@@ -1,4 +1,5 @@
 FlinkDeployment default/restart-loop in context kind, job 1ab1c1d7d18abcbdcb700e7fa3c68809 · DEGRADED
+  DEGRADED from the status and pods, as ls shows it; the patterns below find FAILED: The job cannot reach an external system: java.net.UnknownHostException: no…
   restart loop: 4 failures in the last 15m
 
 Matched patterns

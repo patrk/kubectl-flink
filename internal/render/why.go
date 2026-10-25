@@ -46,6 +46,12 @@ func WhyWidth(out io.Writer, ev *triage.Evidence, v *triage.Verdict, width int) 
 	w := &lineWriter{w: out, width: width}
 	j := ev.Job
 	w.line(0, "%s · %s", NewJobRef(j), ev.Health.Health)
+	// Health comes from the status and pods, as ls shows it; a pattern may see worse, such as back pressure in
+	// the metrics, and the header must not read as all clear above it.
+	if len(v.Findings) > 0 && v.Findings[0].Severity > ev.Health.Health {
+		f := &v.Findings[0]
+		w.line(1, "%s from the status and pods, as ls shows it; the patterns below find %s: %s", ev.Health.Health, f.Severity, f.Title)
+	}
 	for i, f := range ev.Health.Findings {
 		if i == 2 {
 			break

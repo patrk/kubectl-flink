@@ -1,4 +1,5 @@
 FlinkDeployment default/unschedulable in context kind, job 890d9909143c898b40b1669efbcabf14 · PROGRESSING
+  PROGRESSING from the status and pods, as ls shows it; the patterns below find STUCK: No node can run the pod: 0/1 nodes are available: 1 Insufficient cpu
   JobManager DEPLOYING
   job RECONCILING
 

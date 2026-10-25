@@ -1,4 +1,5 @@
 FlinkDeployment default/missing-jar in context kind, job da40c762a8d720cdf0ba2711133ba6e2 · PROGRESSING
+  PROGRESSING from the status and pods, as ls shows it; the patterns below find FAILED: The job jar /opt/flink/does-not-exist.jar does not exist
   JobManager deployment ERROR: CrashLoopBackOff: [flink-main-container] back-off 10s restarting failed container=flink-main-container pod=missing-jar-…
   job RECONCILING
 
