@@ -102,7 +102,11 @@ func (o *Options) sources(allNamespaces bool) ([]fleet.Source, *profile.Profile,
 	if n := o.ConfigFlags.Namespace; n != nil {
 		fl.Namespace = *n
 	}
-	return fleet.Sources(cs, p.Resolve(cs.Current(), fl)), &p, nil
+	srcs := fleet.Sources(cs, p.Resolve(cs.Current(), fl))
+	for i := range srcs {
+		srcs[i].Owners = p.Owners
+	}
+	return srcs, &p, nil
 }
 
 func (lo *lsOptions) run(ctx context.Context) error {

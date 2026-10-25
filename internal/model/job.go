@@ -32,8 +32,10 @@ type Job struct {
 	// DeletingSince is the deletion timestamp; zero when the resource is not being deleted.
 	DeletingSince time.Time
 
-	Labels    map[string]string
-	PodLabels map[string]string
+	Labels map[string]string
+	// Annotations are kept for owner inference; kubectl's last-applied-configuration is not among them.
+	Annotations map[string]string
+	PodLabels   map[string]string
 
 	// Spec.
 	SessionCluster bool // a FlinkDeployment without spec.job
@@ -69,6 +71,8 @@ type Job struct {
 	SpecOwners []string
 	// SpecWriters are those managers with the top-level spec fields they own and when they last wrote.
 	SpecWriters []SpecWriter
+	// Owner is the tool the spec comes from, inferred from the metadata.
+	Owner Owner
 
 	// Pods is nil when pods could not be read; the pod checks are then skipped.
 	Pods *ClusterPods
@@ -79,9 +83,9 @@ type Job struct {
 
 // SpecWriter is a field manager that owns spec fields.
 type SpecWriter struct {
-	Manager string
-	Fields  []string
-	Time    time.Time
+	Manager string    `json:"manager"`
+	Fields  []string  `json:"fields"`
+	Time    time.Time `json:"time"`
 }
 
 // Key is namespace/name, unique within a context.
@@ -130,14 +134,15 @@ func FromSessionJob(context string, sj *kube.FlinkSessionJob) Job {
 
 func fromMeta(kind Kind, context string, m *kube.Metadata) Job {
 	j := Job{
-		Kind:       kind,
-		Context:    context,
-		Namespace:  m.Namespace,
-		Name:       m.Name,
-		UID:        string(m.UID),
-		Generation: m.Generation,
-		Created:    m.CreationTimestamp.Time,
-		Labels:     m.Labels,
+		Kind:        kind,
+		Context:     context,
+		Namespace:   m.Namespace,
+		Name:        m.Name,
+		UID:         string(m.UID),
+		Generation:  m.Generation,
+		Created:     m.CreationTimestamp.Time,
+		Labels:      m.Labels,
+		Annotations: m.Annotations,
 	}
 	if m.DeletionTimestamp != nil {
 		j.DeletingSince = m.DeletionTimestamp.Time
@@ -154,6 +159,7 @@ func fromMeta(kind Kind, context string, m *kube.Metadata) Job {
 			j.SpecWriters = append(j.SpecWriters, SpecWriter{Manager: mgr.Name, Fields: mgr.SpecFields, Time: mgr.Time.Time})
 		}
 	}
+	j.Owner = InferOwner(&j, nil)
 	return j
 }
 

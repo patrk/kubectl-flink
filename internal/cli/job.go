@@ -146,6 +146,7 @@ func get(ctx context.Context, src fleet.Source, ns, name string) (*target, error
 	obj, err := src.Client.Get(ctx, kube.Deployments, ns, name)
 	if err == nil {
 		job := model.FromDeployment(src.Scope.Context, obj.(*kube.FlinkDeployment))
+		job.Owner = model.InferOwner(&job, src.Owners)
 		return &target{job: &job, client: src.Client}, nil
 	}
 	if !apierrors.IsNotFound(err) {
@@ -154,6 +155,7 @@ func get(ctx context.Context, src fleet.Source, ns, name string) (*target, error
 	obj, err = src.Client.Get(ctx, kube.SessionJobs, ns, name)
 	if err == nil {
 		job := model.FromSessionJob(src.Scope.Context, obj.(*kube.FlinkSessionJob))
+		job.Owner = model.InferOwner(&job, src.Owners)
 		return &target{job: &job, client: src.Client}, nil
 	}
 	if apierrors.IsNotFound(err) {

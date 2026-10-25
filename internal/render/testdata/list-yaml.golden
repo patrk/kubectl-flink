@@ -21,6 +21,11 @@ items:
   lifecycle: FAILED
   name: replay
   namespace: team-b
+  owner:
+    from: annotation argocd.argoproj.io/tracking-id
+    name: flink-jobs
+    reverts: self-heal
+    tool: Argo CD
   owners:
   - argocd-controller
   stateSince: "2026-10-24T09:00:00Z"
@@ -39,6 +44,16 @@ items:
   lifecycle: STABLE
   name: payments
   namespace: team-a
+  owner:
+    edits:
+    - fields:
+      - job
+      manager: kubectl-patch
+      time: "2026-10-24T11:00:00Z"
+    from: annotation argocd.argoproj.io/tracking-id
+    name: flink-jobs
+    reverts: self-heal
+    tool: Argo CD
   owners:
   - argocd-controller
   stateSince: "2026-10-24T09:00:00Z"
@@ -53,6 +68,11 @@ items:
   lifecycle: STABLE
   name: enrich
   namespace: team-a
+  owner:
+    from: annotation argocd.argoproj.io/tracking-id
+    name: flink-jobs
+    reverts: self-heal
+    tool: Argo CD
   owners:
   - argocd-controller
   sessionCluster: session
@@ -67,6 +87,11 @@ items:
   lifecycle: STABLE
   name: orders
   namespace: team-a
+  owner:
+    from: annotation argocd.argoproj.io/tracking-id
+    name: flink-jobs
+    reverts: self-heal
+    tool: Argo CD
   owners:
   - argocd-controller
   stateSince: "2026-10-24T09:00:00Z"

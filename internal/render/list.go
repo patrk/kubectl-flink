@@ -49,6 +49,7 @@ type Item struct {
 	FlinkVersion   string          `json:"flinkVersion,omitempty"`
 	Image          string          `json:"image,omitempty"`
 	Owners         []string        `json:"owners,omitempty"`
+	Owner          *model.Owner    `json:"owner,omitempty"`
 	LastSnapshot   *time.Time      `json:"lastSnapshot,omitempty"`
 }
 
@@ -99,6 +100,10 @@ func NewItem(r *fleet.Row) Item {
 		Lifecycle: j.Lifecycle, JobState: j.JobState, JobManager: j.JMStatus, JobID: j.JobID,
 		SessionCluster: j.DeploymentName, Drift: j.Drift(), FlinkVersion: flinkVersion(j), Image: j.Image,
 		Owners: j.SpecOwners,
+	}
+	if j.Owner.Tool != "" {
+		o := j.Owner
+		it.Owner = &o
 	}
 	if !j.LastSnapshot.IsZero() {
 		t := j.LastSnapshot.UTC()

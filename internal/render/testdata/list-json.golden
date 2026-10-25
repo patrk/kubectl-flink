@@ -32,7 +32,13 @@
       "image": "flink:2.2",
       "owners": [
         "argocd-controller"
-      ]
+      ],
+      "owner": {
+        "tool": "Argo CD",
+        "name": "flink-jobs",
+        "from": "annotation argocd.argoproj.io/tracking-id",
+        "reverts": "self-heal"
+      }
     },
     {
       "context": "dev",
@@ -60,7 +66,22 @@
       "image": "flink:2.2",
       "owners": [
         "argocd-controller"
-      ]
+      ],
+      "owner": {
+        "tool": "Argo CD",
+        "name": "flink-jobs",
+        "from": "annotation argocd.argoproj.io/tracking-id",
+        "reverts": "self-heal",
+        "edits": [
+          {
+            "manager": "kubectl-patch",
+            "fields": [
+              "job"
+            ],
+            "time": "2026-10-24T11:00:00Z"
+          }
+        ]
+      }
     },
     {
       "context": "dev",
@@ -75,7 +96,13 @@
       "flinkVersion": "2.2.0",
       "owners": [
         "argocd-controller"
-      ]
+      ],
+      "owner": {
+        "tool": "Argo CD",
+        "name": "flink-jobs",
+        "from": "annotation argocd.argoproj.io/tracking-id",
+        "reverts": "self-heal"
+      }
     },
     {
       "context": "dev",
@@ -91,7 +118,13 @@
       "image": "flink:2.2",
       "owners": [
         "argocd-controller"
-      ]
+      ],
+      "owner": {
+        "tool": "Argo CD",
+        "name": "flink-jobs",
+        "from": "annotation argocd.argoproj.io/tracking-id",
+        "reverts": "self-heal"
+      }
     }
   ],
   "scopes": [

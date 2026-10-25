@@ -224,6 +224,7 @@ func snapshot(ws []*watched) []Scope {
 				}
 			}
 			s.Jobs, s.PodsUnread = Jobs(w.src.Scope.Context, snap)
+			InferOwners(s.Jobs, w.src.Owners)
 		}
 		out[i] = s
 	}

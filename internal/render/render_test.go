@@ -56,10 +56,12 @@ func fixture() ([]fleet.Row, []fleet.Scope) {
 		JMStatus: "READY", Generation: 2, ObservedGeneration: 2, ReconciledAt: ago(3 * time.Hour),
 		JobStateSince: ago(3 * time.Hour), SpecJobState: "running", FlinkRuntime: "2.2.0", Image: "flink:2.2",
 		SpecOwners: []string{"argocd-controller"},
+		Owner:      model.Owner{Tool: model.ToolArgoCD, Name: "flink-jobs", From: "annotation argocd.argoproj.io/tracking-id", Reverts: model.RevertsSelfHeal},
 	}
 	ok, short, failed, sj := base, base, base, base
 	ok.Name = "orders"
 	short.Name, short.TMReplicas, short.Pods = "payments", 2, pods
+	short.Owner.Edits = []model.SpecWriter{{Manager: "kubectl-patch", Fields: []string{"job"}, Time: ago(time.Hour)}}
 	failed.Name, failed.Namespace, failed.Lifecycle, failed.JobState = "replay", "team-b", "FAILED", "FAILED"
 	failed.Error = model.ParseStatusError(`{"type":"org.apache.flink.FooException","message":"java.lang.OutOfMemoryError: Java heap space in the operator while it tried to read a very long reason"}`)
 	failed.Generation = 3
@@ -243,5 +245,33 @@ func TestCollapseLogLines(t *testing.T) {
 	}
 	if cores("102500m") != "102.5" || cores("100600m") != "100.6" || cores("2") != "2" || cores("1234m") != "1.23" || cores("x") != "x" {
 		t.Errorf("cores %s %s %s %s", cores("102500m"), cores("100600m"), cores("1234m"), cores("x"))
+	}
+}
+
+func TestWhyOwner(t *testing.T) {
+	why := func(j *model.Job) string {
+		var b bytes.Buffer
+		if err := Why(&b, &triage.Evidence{Job: j, Now: now}, &triage.Verdict{}); err != nil {
+			t.Fatal(err)
+		}
+		return b.String()
+	}
+	j := &model.Job{Name: "fraud", SpecOwners: []string{"argocd-controller", "kubectl-edit"}, SpecChangedAt: ago(time.Hour),
+		Owner: model.Owner{Tool: model.ToolArgoCD, Name: "payments-jobs", From: "annotation argocd.argoproj.io/tracking-id", Reverts: model.RevertsSelfHeal,
+			Edits: []model.SpecWriter{{Manager: "kubectl-edit", Fields: []string{"job"}, Time: ago(time.Hour)}}}}
+	got := why(j)
+	for _, want := range []string{
+		"spec written by argocd-controller, kubectl-edit, last 60m ago",
+		"owned by Argo CD payments-jobs (from annotation argocd.argoproj.io/tracking-id); it reverts a manual edit of the spec when the Application has self-heal on",
+		"spec job changed outside Argo CD by kubectl-edit, last 60m ago",
+	} {
+		if !strings.Contains(got, want) {
+			t.Errorf("missing %q in\n%s", want, got)
+		}
+	}
+	// Without a tool, the writers are named as before.
+	j.Owner = model.Owner{}
+	if got := why(j); !strings.Contains(got, "spec written by argocd-controller, kubectl-edit, last 60m ago") || strings.Contains(got, "owned by") {
+		t.Errorf("last writer:\n%s", got)
 	}
 }
