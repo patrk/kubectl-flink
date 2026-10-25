@@ -47,7 +47,7 @@ fixtures:
 demo: ; KUBE_CONTEXT=$(KUBE_CONTEXT) FLINK_VERSION=$(FLINK_VERSION) hack/demo.sh
 demo-clean: ; KUBE_CONTEXT=$(KUBE_CONTEXT) FLINK_VERSION=$(FLINK_VERSION) hack/demo.sh clean
 
-# The README's recordings, from docs/demo/*.tape against make demo, on dark and light backgrounds; needs vhs.
+# The recordings, from docs/demo/*.tape against make demo, on dark and light backgrounds, into docs/demo/out; needs vhs.
 demo-gifs: build
 	hack/demo-gifs.sh
 

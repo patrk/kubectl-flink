@@ -1,7 +1,7 @@
 # A short portrait overview, readable on a phone: about 67 columns in 4:5, so the TUI's narrow layout is what is
 # shown. MP4 for players that autoplay video muted; the typed comments carry the story without sound.
-Output docs/demo/highlights.mp4
-Output docs/demo/highlights.gif
+Output docs/demo/out/highlights.mp4
+Output docs/demo/out/highlights.gif
 Require kubectl
 Set FontFamily "MesloLGS NF"
 Set FontSize 24

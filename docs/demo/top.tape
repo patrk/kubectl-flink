@@ -1,4 +1,4 @@
-Output docs/demo/top.gif
+Output docs/demo/out/top.gif
 Require kubectl
 Set Height 900
 Source docs/demo/look.tape

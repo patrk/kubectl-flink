@@ -1,56 +1,48 @@
 # kubectl flink
 
-A kubectl plugin and terminal UI (TUI) for the [Apache Flink Kubernetes Operator](https://github.com/apache/flink-kubernetes-operator).
-It shows the health of every `FlinkDeployment` and `FlinkSessionJob`, explains why a Flink job is failing, and handles
-savepoints, restarts, suspend and resume safely, across hundreds of jobs and several clusters. Installs through krew.
+A kubectl plugin and terminal UI for the [Apache Flink Kubernetes Operator](https://github.com/apache/flink-kubernetes-operator).
+It gives every `FlinkDeployment` and `FlinkSessionJob` one health value, and explains a failing job with its evidence:
+operator, Kubernetes, Flink runtime and performance. Across hundreds of jobs and several clusters, read-only.
 
-`kubectl get flinkdeployments` shows no health, no drift and no `status.error`. `kubectl flink` derives one health
-value per job and explains a failure layer by layer: Flink runtime (exceptions, restarts), Kubernetes (pending pods,
-OOMKilled, events), performance (backpressure, checkpoints, source lag) and operator (lifecycle, reconciliation,
-rollbacks).
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: light)" srcset="https://github.com/patrk/kubectl-flink/releases/download/demo/highlights-light.gif">
+    <img width="480" alt="kubectl flink top: the unhealthy jobs, a job's verdict, and a job graph coloured like the Flink web UI's" src="https://github.com/patrk/kubectl-flink/releases/download/demo/highlights.gif">
+  </picture>
+</p>
 
-<picture>
-  <source media="(prefers-color-scheme: light)" srcset="docs/demo/ls-light.gif">
-  <img alt="kubectl flink ls: every job with one health value, then only the unhealthy" src="docs/demo/ls.gif">
-</picture>
+More recordings, each next to the classic way: [docs/demos.md](docs/demos.md).
 
-<picture>
-  <source media="(prefers-color-scheme: light)" srcset="docs/demo/why-light.gif">
-  <img alt="kubectl flink why: a job found by its use-case ID, the cause first, then the evidence by layer" src="docs/demo/why.gif">
-</picture>
+## How it works
 
-<picture>
-  <source media="(prefers-color-scheme: light)" srcset="docs/demo/top-light.gif">
-  <img alt="kubectl flink top: the unhealthy jobs, a job's verdict, and a job graph coloured like the Flink web UI's" src="docs/demo/top.gif">
-</picture>
+<img alt="kubectl flink reads the operator's resources, pods and events from each context, and for one job also the container logs and the JobManager REST API; it derives health, then a verdict" src="docs/how-it-works.drawio.svg">
 
-More in [docs/demos.md](docs/demos.md): the classic way next to one command, a crash loop from alert to
-handover, the job graph, and jobs found by the IDs people use. Recorded with [VHS](https://github.com/charmbracelet/vhs)
-against the example jobs of `make demo` on kind: `make demo demo-gifs`.
+- `ls` and `top` read only the Kubernetes API: one list per resource kind and namespace, in parallel, or a watch.
+- `why`, `report` and the TUI's job screen also read the JobManager's logs and its REST API, through a port-forward.
+- An optional profile adds the scopes to read, the labels people name jobs by, own verdict rules, and owners.
 
-> **Status: early development.** `ls`, `why`, `report`, `history`, `exceptions`, `checkpoints`, `snapshots`, `graph`, `logs`, `config` and `top` work; the other commands below are the working draft. Build with `make build`.
+## Quickstart
 
+```sh
+make build && export PATH=$PWD/bin:$PATH   # krew install comes with the first release
+make kind-up demo                          # optional: kind with the operator and example jobs
 ```
-kubectl flink ls [-A] [FILTER] [--unhealthy | --health failed,stuck] [-l selector] [--sort health|name|state-age]
-                [-o wide|json|yaml|name] [-w] [--exit-code]
-kubectl flink why <job>            # one-screen verdict, then the raw evidence
-kubectl flink report <job>         # handover bundle: every fact needed to debug the job, secrets redacted
+
+```sh
+kubectl flink ls -A                        # every job, one health value each
+kubectl flink ls -A --unhealthy -o wide    # only what is broken, with TaskManagers, drift, image and owner
+kubectl flink ls -A 4711                   # jobs by a business ID label, or by part of the name
+kubectl flink why orders/order-export      # the cause first, then the evidence by layer
+kubectl flink top -A                       # live TUI: / search, f unhealthy, Enter a job, R report, ? keys
+kubectl flink report order-export          # handover bundle for a ticket, secrets redacted
 kubectl flink exceptions | checkpoints | snapshots | graph | logs | history <job>
-kubectl flink ui <job>             # port-forward to the JobManager and open the Flink web UI
-kubectl flink savepoint | restart | suspend | resume <job> [--dry-run] [--wait]
-kubectl flink top [-A] [FILTER]    # live table: / search, f health filter, s sort, n namespace, c context, ? keys;
-                                   # Enter opens a job: why, graph, exceptions, checkpoints, snapshots, logs, history;
-                                   # R writes the report of the selected or open job; w shows the wide columns
-kubectl flink config view | validate   # the profile in force for this context, and checks for a profile file
+kubectl flink config view                  # the profile in force for this context
 ```
 
-Tab completion of job names and contexts: put `kubectl_complete-flink`, shipped next to the binary, on your PATH.
+`ls` also takes `-l selector`, `--health failed,stuck`, `--sort`, `-o json|yaml|name`, `-w` and `--exit-code`.
+Tab completion: put `kubectl_complete-flink`, shipped next to the binary, on your PATH.
 
-Design goals: fast at fleet scale (first rows in under 2 s at 500 jobs, no network on redraw), few keystrokes to an
-answer, safe write operations (dry run, prod confirmation, wait on lifecycle), and a generic core with platform
-specifics in a profile file.
-
-Not in v1: job submission, spec editing, autoscaler controls. Deep single-job inspection (job graphs, flame graphs,
-SQL) follows once fleet triage is done.
+> **Early development.** Everything above works. Planned: `ui`, and `savepoint`, `restart`, `suspend` and `resume`
+> with dry run, owner warnings and `--wait`.
 
 Apache License 2.0. Not affiliated with the Apache Software Foundation; Apache Flink is its trademark.
