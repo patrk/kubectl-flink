@@ -346,13 +346,17 @@ func (c *Client) Probe(ctx context.Context, r Resource, namespace string) error 
 // ListWatch lists and watches r in namespace for an informer. The reflector streams the initial state with
 // WatchList where the server supports it and falls back to a paginated LIST otherwise.
 func (c *Client) ListWatch(r Resource, namespace, labelSelector string) *cache.ListWatch {
+	return c.listWatch(r, namespace, labelSelector, "")
+}
+
+func (c *Client) listWatch(r Resource, namespace, labelSelector, fieldSelector string) *cache.ListWatch {
 	return &cache.ListWatch{
 		ListWithContextFunc: func(ctx context.Context, opts metav1.ListOptions) (runtime.Object, error) {
-			opts.LabelSelector = labelSelector
+			opts.LabelSelector, opts.FieldSelector = labelSelector, fieldSelector
 			return c.listPage(ctx, r, namespace, opts)
 		},
 		WatchFuncWithContext: func(ctx context.Context, opts metav1.ListOptions) (watch.Interface, error) {
-			opts.LabelSelector = labelSelector
+			opts.LabelSelector, opts.FieldSelector = labelSelector, fieldSelector
 			return c.watch(ctx, r, namespace, opts)
 		},
 	}
@@ -365,4 +369,9 @@ func (c *Client) Informer(r Resource, namespace, labelSelector string, indexers 
 		indexers = cache.Indexers{}
 	}
 	return cache.NewSharedIndexInformer(c.ListWatch(r, namespace, labelSelector), r.newObj(), 0, indexers)
+}
+
+// FieldInformer is an informer over the objects of r that match a field selector, such as JobExceptionSelector.
+func (c *Client) FieldInformer(r Resource, namespace, fieldSelector string) cache.SharedIndexInformer {
+	return cache.NewSharedIndexInformer(c.listWatch(r, namespace, "", fieldSelector), r.newObj(), 0, cache.Indexers{})
 }

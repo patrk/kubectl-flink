@@ -213,6 +213,14 @@ func Notes(scopes []fleet.Scope) []string {
 			out = append(out, fmt.Sprintf("cannot list pods in context %s, %s; TaskManager checks skipped there",
 				s.Context, strings.Join(ns, ", ")))
 		}
+		if len(s.FailuresUnread) > 0 {
+			ns := make([]string, len(s.FailuresUnread))
+			for i, n := range s.FailuresUnread {
+				ns[i] = cmp.Or(n, "all namespaces")
+			}
+			out = append(out, fmt.Sprintf("cannot list events in context %s, %s; restart loops not checked there",
+				s.Context, strings.Join(ns, ", ")))
+		}
 	}
 	return out
 }

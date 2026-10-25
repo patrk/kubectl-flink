@@ -188,9 +188,16 @@ func Collect(ctx context.Context, src Source, job *model.Job, now time.Time, th 
 	}
 	wg.Wait()
 
-	// Health with the pods just read, the same derivation as ls.
+	// Health with the pods and events just read, the same derivation as ls.
 	jobs := []model.Job{*job}
 	model.AttachPods(jobs, model.SummarisePods(ev.Pods), func(string) bool { return pods != nil })
+	var failures []kube.Event
+	for i := range ev.Events {
+		if e := &ev.Events[i]; e.JobException() {
+			failures = append(failures, *e)
+		}
+	}
+	model.AttachFailures(jobs, failures)
 	ev.Job = &jobs[0]
 	ev.Health = model.Assess(ev.Job, now, th)
 	return ev

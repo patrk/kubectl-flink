@@ -79,6 +79,16 @@ type Job struct {
 
 	// LastSnapshot is when the newest completed FlinkStateSnapshot of the job finished; zero when none is known.
 	LastSnapshot time.Time
+
+	// Failures are the job's failures as the operator reported them in JobException events; nil when there are
+	// none or events were not read, which the scope's FailuresUnread tells apart.
+	Failures []Failure
+}
+
+// Failure is one JobException event: an exception that happened Count times, first at First and last at Last.
+type Failure struct {
+	First, Last time.Time
+	Count       int32
 }
 
 // SpecWriter is a field manager that owns spec fields.

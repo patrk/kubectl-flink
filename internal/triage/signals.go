@@ -227,10 +227,10 @@ func terminal(state string) bool {
 	return false
 }
 
-// A job with restartLoop or more failures within restartWindow is restarting in a loop.
+// A job with restartLoop or more failures within restartWindow is restarting in a loop, as health judges it.
 const (
-	restartLoop   = 3
-	restartWindow = 15 * time.Minute
+	restartLoop   = model.RestartLoop
+	restartWindow = model.RestartWindow
 )
 
 // staleIntervals is how many intervals the last completed checkpoint may lag before it is called stale.

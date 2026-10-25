@@ -173,3 +173,29 @@ func TestWatchDoesNotWaitForBrokenScope(t *testing.T) {
 		t.Errorf("healthy scope: %+v", s[1])
 	}
 }
+
+func TestWatchCountsFailures(t *testing.T) {
+	f := kubetest.New(t)
+	f.Add("flinkdeployments", fdFixture, "team-a", "job", 1, nil)
+	uid := kubetest.ReadFixture(t, fdFixture)["metadata"].(map[string]any)["uid"]
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+	ch := make(chan []fleet.Scope)
+	go fleet.Watch(ctx, []fleet.Source{source(t, f, kube.Scope{Context: "dev"})}, kube.Query{Failures: true}, ch)
+	if s := next(t, ch); len(s[0].Jobs) != 1 || s[0].Jobs[0].Failures != nil {
+		t.Fatalf("initial: %+v", s)
+	}
+	now := time.Now().UTC().Format(time.RFC3339)
+	f.Put("events", map[string]any{"apiVersion": "v1", "kind": "Event", "metadata": map[string]any{"name": "e1", "namespace": "team-a"},
+		"involvedObject": map[string]any{"kind": "FlinkDeployment", "name": "job-0", "uid": uid},
+		"reason":         "JobException", "type": "Warning", "count": 5, "firstTimestamp": now, "lastTimestamp": now})
+	for {
+		s := next(t, ch)
+		if j := s[0].Jobs[0]; len(j.Failures) == 1 {
+			if n := j.FailuresWithin(time.Now(), model.RestartWindow); n != 5 {
+				t.Errorf("%d failures", n)
+			}
+			return
+		}
+	}
+}

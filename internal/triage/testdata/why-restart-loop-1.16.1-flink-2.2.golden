@@ -1,4 +1,5 @@
-FlinkDeployment default/restart-loop in context kind, job 1ab1c1d7d18abcbdcb700e7fa3c68809 · OK
+FlinkDeployment default/restart-loop in context kind, job 1ab1c1d7d18abcbdcb700e7fa3c68809 · DEGRADED
+  restart loop: 4 failures in the last 15m
 
 Matched patterns
   1. FAILED: The job cannot reach an external system: java.net.UnknownHostException: nowhere.invalid (runtime, newest evidence 2s ago)

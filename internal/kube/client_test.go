@@ -394,3 +394,33 @@ func TestContinueToken(t *testing.T) {
 		t.Error("truncated body decoded")
 	}
 }
+
+func TestLoadJobEvents(t *testing.T) {
+	f := kubetest.New(t)
+	f.Add("flinkdeployments", fdFixture, "team-a", "job", 1, nil)
+	event := func(name, reason, typ string) map[string]any {
+		return map[string]any{"metadata": map[string]any{"name": name, "namespace": "team-a"},
+			"involvedObject": map[string]any{"kind": "FlinkDeployment", "name": "job-0", "uid": "u1"},
+			"reason":         reason, "type": typ, "count": 7}
+	}
+	f.Put("events", event("e1", "JobException", "Warning"))
+	f.Put("events", event("e2", "SpecChanged", "Normal"))
+	f.Put("events", event("e3", "JobException", "Normal"))
+	c := client(t, f)
+	plan := kube.Plan{Read: []string{"team-a"}}
+	for _, q := range []kube.Query{{Failures: true}, {Match: &kube.Match{Name: "job-0"}, Failures: true}} {
+		s, err := c.Load(context.Background(), plan, q)
+		if err != nil || len(s.JobEvents) != 1 || s.JobEvents[0].Name != "e1" || s.JobEvents[0].Times() != 7 {
+			t.Errorf("match %v: %v %+v", q.Match != nil, err, s.JobEvents)
+		}
+	}
+	// Without Failures, no events are read.
+	if s, _ := c.Load(context.Background(), plan, kube.Query{}); s.JobEvents != nil || s.EventsErr != nil {
+		t.Errorf("events read unasked: %+v", s.JobEvents)
+	}
+	// Events that may not be listed only leave the check out, and say so.
+	f.Set(func() { f.Forbidden["events/team-a"] = true })
+	if s, err := c.Load(context.Background(), plan, kube.Query{Failures: true}); err != nil || len(s.Deployments) != 1 || s.JobEvents != nil || s.EventsErr["team-a"] == nil {
+		t.Errorf("forbidden events: %v %+v", err, s)
+	}
+}

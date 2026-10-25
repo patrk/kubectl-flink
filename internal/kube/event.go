@@ -89,6 +89,15 @@ func (l *EventList) DeepCopyObject() runtime.Object {
 	return out
 }
 
+// JobExceptionSelector selects the events in which the operator reports a job's failures, one per distinct
+// exception, merged by count when it repeats. JobException is the same test on an event already read.
+const JobExceptionSelector = "reason=" + jobExceptionReason + ",type=Warning"
+
+const jobExceptionReason = "JobException"
+
+// JobException reports whether the event is one in which the operator reports a failure of the job.
+func (e *Event) JobException() bool { return e.Reason == jobExceptionReason && e.Type == "Warning" }
+
 // Events are the core/v1 events.
 var Events = Resource{
 	GVR:     CoreGroupVersion.WithResource("events"),

@@ -24,7 +24,10 @@ type Scope struct {
 	// PodsUnread lists the namespaces whose pods could not be read ("" for cluster scope); jobs there have no
 	// pod data.
 	PodsUnread []string
-	Jobs       []model.Job
+	// FailuresUnread lists the namespaces whose JobException events could not be read; the restart loop check
+	// is skipped there.
+	FailuresUnread []string
+	Jobs           []model.Job
 }
 
 // Source is a scope with its client.
@@ -80,6 +83,7 @@ func load(ctx context.Context, src Source, q kube.Query) Scope {
 		return s
 	}
 	s.Jobs, s.PodsUnread = Jobs(src.Scope.Context, snap)
+	s.FailuresUnread = unread(snap.EventsErr)
 	InferOwners(s.Jobs, src.Owners)
 	return s
 }
@@ -95,6 +99,7 @@ func Jobs(kubeContext string, snap *kube.Snapshot) (jobs []model.Job, podsUnread
 	}
 	model.AttachPods(jobs, model.SummarisePods(snap.Pods), snap.PodsRead)
 	model.AttachSnapshots(jobs, snap.Snapshots)
+	model.AttachFailures(jobs, snap.JobEvents)
 	unread := make([]string, 0, len(snap.PodsErr))
 	for ns := range snap.PodsErr {
 		unread = append(unread, ns)
@@ -111,6 +116,15 @@ func InferOwners(jobs []model.Job, rules []model.OwnerRule) {
 	for i := range jobs {
 		jobs[i].Owner = model.InferOwner(&jobs[i], rules)
 	}
+}
+
+func unread(errs map[string]error) []string {
+	out := make([]string, 0, len(errs))
+	for ns := range errs {
+		out = append(out, ns)
+	}
+	slices.Sort(out)
+	return out
 }
 
 var errPodsUnread = errors.New("pods could not be read")

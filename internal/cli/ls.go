@@ -272,7 +272,7 @@ func (lo *lsOptions) reportWatchErrors(scopes []fleet.Scope, last map[string]str
 
 // query reads snapshots only for the outputs that show them: the wide table, JSON and YAML.
 func (lo *lsOptions) query() kube.Query {
-	return kube.Query{Selector: lo.selector, Snapshots: lo.output == "wide" || lo.output == "json" || lo.output == "yaml"}
+	return kube.Query{Selector: lo.selector, Snapshots: lo.output == "wide" || lo.output == "json" || lo.output == "yaml", Failures: true}
 }
 
 // color is true when stdout is a terminal and NO_COLOR is unset.
