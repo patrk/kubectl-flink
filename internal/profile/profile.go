@@ -49,6 +49,9 @@ type Profile struct {
 	DisableRules []string `json:"disableRules,omitempty"`
 	// Report adds redaction patterns for the report bundle and history, for secrets only this platform has.
 	Report ReportSettings `json:"report,omitzero"`
+	// Owners name the tools that deploy jobs beyond Argo CD, Flux and Helm, such as a platform's deployment
+	// service; they are tried in order, before the built-in inference.
+	Owners []model.OwnerRule `json:"owners,omitempty"`
 	// ReconcileInterval is the operator's reconcile interval, from which health thresholds are derived.
 	ReconcileInterval metav1.Duration `json:"reconcileInterval,omitzero"`
 }
@@ -126,6 +129,11 @@ func (f *File) Validate() error {
 				errs = append(errs, fmt.Errorf("%s: context %q appears in two scopes", where, s.Context))
 			}
 			seen[s.Context] = true
+		}
+		for j := range p.Owners {
+			if err := p.Owners[j].Validate(); err != nil {
+				errs = append(errs, fmt.Errorf("%s: %w", where, err))
+			}
 		}
 		own, err := triage.CompileRules(p.Rules)
 		if err != nil {

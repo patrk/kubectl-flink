@@ -16,6 +16,11 @@ profiles:
     match: ["*-prd", "*-pre"]
     reconcileInterval: 30s
     idLabels: [use-case]
+    owners:
+      - tool: Deployment service
+        manager: deploy-svc
+        nameLabel: use-case
+        reverts: always
     scopes:
       - context: cluster-pre
         namespaces: [team-a, team-b]
@@ -45,6 +50,9 @@ func TestLoadAndSelect(t *testing.T) {
 	if p.Name != "prod-jumphost" || p.ReconcileInterval.Duration != 30*time.Second || strings.Join(p.IDLabels, ",") != "use-case" {
 		t.Fatalf("got %+v", p)
 	}
+	if len(p.Owners) != 1 || p.Owners[0].Tool != "Deployment service" || p.Owners[0].Reverts != "always" {
+		t.Errorf("owners %+v", p.Owners)
+	}
 	if th := p.Thresholds(); th.Grace != time.Minute {
 		t.Errorf("grace %s from a 30s interval", th.Grace)
 	}
@@ -71,6 +79,8 @@ func TestLoadRejects(t *testing.T) {
 		"dup":             {"apiVersion: kubectl-flink/v1alpha1\nprofiles: [{name: a, match: [x], scopes: [{context: c}, {context: c}]}]\n", "two scopes"},
 		"negative":        {"apiVersion: kubectl-flink/v1alpha1\nprofiles: [{name: a, match: [x], reconcileInterval: -1s}]\n", "negative"},
 		"redact pattern":  {"apiVersion: kubectl-flink/v1alpha1\nprofiles: [{name: a, match: [x], report: {redactKeys: ['(']}}]\n", "report: error parsing regexp"},
+		"owner rule":      {"apiVersion: kubectl-flink/v1alpha1\nprofiles: [{name: a, match: [x], owners: [{tool: svc}]}]\n", "needs a manager, label or annotation"},
+		"owner reverts":   {"apiVersion: kubectl-flink/v1alpha1\nprofiles: [{name: a, match: [x], owners: [{tool: svc, manager: m, reverts: sometimes}]}]\n", `reverts is "sometimes"`},
 		"disable typo":    {"apiVersion: kubectl-flink/v1alpha1\nprofiles: [{name: a, match: [x], disableRules: [image-pul]}]\n", `no rule "image-pul"`},
 		"supersedes typo": {"apiVersion: kubectl-flink/v1alpha1\nprofiles: [{name: a, match: [x], rules: [{id: r, layer: kubernetes, severity: OK, title: t, explain: e, when: [{signal: event, match: x}], supersedes: [nope]}]}]\n", `supersedes unknown rule "nope"`},
 	} {

@@ -34,6 +34,8 @@ type Source struct {
 	ContextNamespace string
 	// Err is set when no client could be built, such as for a context missing from the kubeconfig.
 	Err error
+	// Owners are the profile's owner rules, applied to the jobs read.
+	Owners []model.OwnerRule
 }
 
 // Sources builds a client per scope.
@@ -78,6 +80,7 @@ func load(ctx context.Context, src Source, q kube.Query) Scope {
 		return s
 	}
 	s.Jobs, s.PodsUnread = Jobs(src.Scope.Context, snap)
+	InferOwners(s.Jobs, src.Owners)
 	return s
 }
 
@@ -98,6 +101,16 @@ func Jobs(kubeContext string, snap *kube.Snapshot) (jobs []model.Job, podsUnread
 	}
 	slices.Sort(unread)
 	return jobs, unread
+}
+
+// InferOwners infers the jobs' owners again with the profile's rules; without rules the conversion's stands.
+func InferOwners(jobs []model.Job, rules []model.OwnerRule) {
+	if len(rules) == 0 {
+		return
+	}
+	for i := range jobs {
+		jobs[i].Owner = model.InferOwner(&jobs[i], rules)
+	}
 }
 
 var errPodsUnread = errors.New("pods could not be read")

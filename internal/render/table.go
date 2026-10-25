@@ -144,12 +144,26 @@ func (o TableOptions) Cells(r *fleet.Row, now time.Time) []string {
 		if !j.LastSnapshot.IsZero() {
 			snapshot = duration.HumanDuration(now.Sub(j.LastSnapshot))
 		}
-		cells = append(cells, tm, restarts, drift, dash(flinkVersion(j)), dash(j.Image), dash(strings.Join(j.SpecOwners, ",")))
+		cells = append(cells, tm, restarts, drift, dash(flinkVersion(j)), dash(j.Image), dash(ownerCell(j)))
 		if !o.NoSnapshotAge {
 			cells = append(cells, snapshot)
 		}
 	}
 	return cells
+}
+
+// ownerCell is the owner and, after a +, the managers that edited the spec outside it; without a known owner,
+// the spec writers. It has no spaces, so that the wide table still splits on whitespace.
+func ownerCell(j *model.Job) string {
+	o := j.Owner
+	if o.Tool == "" {
+		return strings.Join(j.SpecOwners, ",")
+	}
+	s := o.Token()
+	for _, e := range o.Edits {
+		s += "+" + e.Manager
+	}
+	return s
 }
 
 // cells returns the row's cells and its change signature, which leaves out the age so that time passing alone

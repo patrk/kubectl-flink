@@ -9,6 +9,7 @@ import (
 	"github.com/spf13/cobra"
 
 	"github.com/patrk/kubectl-flink/internal/kube"
+	"github.com/patrk/kubectl-flink/internal/model"
 	"github.com/patrk/kubectl-flink/internal/profile"
 	"github.com/patrk/kubectl-flink/internal/render"
 	"github.com/patrk/kubectl-flink/internal/triage"
@@ -34,6 +35,7 @@ type EffectiveConfig struct {
 	Profile    string                 `json:"profile"`
 	Scopes     []ScopeView            `json:"scopes"`
 	IDLabels   []string               `json:"idLabels,omitempty"`
+	Owners     []model.OwnerRule      `json:"owners,omitempty"`
 	Thresholds ThresholdsView         `json:"thresholds"`
 	Rules      RulesView              `json:"rules"`
 	Report     profile.ReportSettings `json:"report,omitzero"`
@@ -103,7 +105,7 @@ func (o *Options) effectiveConfig(all bool) (*EffectiveConfig, error) {
 	}
 	_, statErr := os.Stat(path)
 	v := &EffectiveConfig{Path: path, FileExists: statErr == nil, Context: cs.Current(), Profile: p.Name,
-		IDLabels: p.IDLabels, Report: p.Report}
+		IDLabels: p.IDLabels, Owners: p.Owners, Report: p.Report}
 	for _, s := range srcs {
 		sv := ScopeView{Scope: s.Scope}
 		if s.Err != nil {

@@ -131,8 +131,29 @@ func operatorEvidence(w *lineWriter, ev *triage.Evidence) {
 			w.line(2, "caused by %s: %s", shortType(c.Type), flink.FirstLine(c.Message))
 		}
 	}
+	ownerEvidence(w, j, ev.Now)
+}
+
+// revertNotes say what the owner does with a manual edit of the spec.
+var revertNotes = map[model.Reverts]string{
+	model.RevertsAlways:      "; it reverts a manual edit of the spec",
+	model.RevertsSelfHeal:    "; it reverts a manual edit of the spec when the Application has self-heal on",
+	model.RevertsNextRelease: "; a manual edit of the spec lasts until the next release",
+	model.RevertsUnknown:     "; whether it reverts a manual edit is not known",
+}
+
+// ownerEvidence names who the spec comes from and the fields changed outside it.
+func ownerEvidence(w *lineWriter, j *model.Job, now time.Time) {
 	if len(j.SpecOwners) > 0 {
-		w.line(1, "spec written by %s, last %s", strings.Join(j.SpecOwners, ", "), age(j.SpecChangedAt, ev.Now))
+		w.line(1, "spec written by %s, last %s", strings.Join(j.SpecOwners, ", "), age(j.SpecChangedAt, now))
+	}
+	o := j.Owner
+	if o.Tool == "" {
+		return
+	}
+	w.line(1, "owned by %s (from %s)%s", o, o.From, revertNotes[o.Reverts])
+	for _, e := range o.Edits {
+		w.line(2, "spec %s changed outside %s by %s, last %s", strings.Join(e.Fields, ", "), o.Tool, e.Manager, age(e.Time, now))
 	}
 }
 
