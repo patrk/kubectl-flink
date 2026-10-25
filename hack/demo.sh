@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Deploys long-lived example jobs in three namespaces and many states, to try kubectl flink by hand and to record
+# Deploys long-lived example jobs in four namespaces and many states, to try kubectl flink by hand and to record
 # the README demos. Every job carries a team label and a use-case ID, as real fleets name their jobs.
 # Usage: KUBE_CONTEXT=<ctx> FLINK_VERSION=<x.y> hack/demo.sh [clean]
 set -euo pipefail
@@ -7,7 +7,7 @@ set -euo pipefail
 k() { kubectl --context "$KUBE_CONTEXT" "$@"; }
 minor=$(cut -d. -f1-2 <<<"$FLINK_VERSION")
 export FLINK_VERSION FLINK_VERSION_ENUM=${minor/./_}
-namespaces=(payments orders analytics)
+namespaces=(payments orders analytics shop)
 
 if [[ ${1:-} == clean ]]; then
   for ns in "${namespaces[@]}"; do
@@ -70,6 +70,15 @@ metadata: {name: daily-report-savepoint, namespace: analytics}
 spec: {jobReference: {kind: FlinkDeployment, name: daily-report}, savepoint: {}}
 YAML
 
+# shop: a checkout pipeline that asks an inventory service over HTTP, and a clickstream with a hot key. They run on
+# the demo-job image (make demo-image), built for Flink 2.2.
+if [[ $minor == 2.2 ]]; then
+  k create configmap inventory -n shop --from-file=hack/demo-job/inventory.py --dry-run=client -o yaml | k apply -f - >/dev/null
+  k apply -f hack/demo-job/shop.yaml
+else
+  echo "shop: skipped, its jobs are built for Flink 2.2"
+fi
+
 echo "waiting for order-archive to run before suspending it…"
 for _ in $(seq 60); do
   [[ $(k get flinkdeployment order-archive -n orders -o jsonpath='{.status.jobStatus.state}') == RUNNING ]] && break
@@ -83,6 +92,10 @@ Deployed. Jobs settle in two to three minutes; then try:
   bin/kubectl-flink --context $KUBE_CONTEXT top -A
   bin/kubectl-flink --context $KUBE_CONTEXT ls -A -o wide
   bin/kubectl-flink --context $KUBE_CONTEXT why 4711
-  bin/kubectl-flink --context $KUBE_CONTEXT graph payments/settlement
+  bin/kubectl-flink --context $KUBE_CONTEXT graph shop/checkout
+What can happen to shop/checkout, and back:
+  kubectl --context $KUBE_CONTEXT -n shop set env deploy/inventory LATENCY_MS=500   # the inventory database gets slow (20)
+  kubectl --context $KUBE_CONTEXT -n shop set env deploy/inventory ERROR_PERCENT=2  # it fails some requests (0)
+  kubectl --context $KUBE_CONTEXT -n shop scale deploy/inventory --replicas=0       # it goes down (1)
 Remove them with: make demo-clean
 EOF

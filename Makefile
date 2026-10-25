@@ -8,7 +8,7 @@ LDFLAGS := -s -w -X github.com/patrk/kubectl-flink/internal/version.Version=$(VE
            -X github.com/patrk/kubectl-flink/internal/version.Commit=$(shell git rev-parse --short HEAD 2>/dev/null || echo none) \
            -X github.com/patrk/kubectl-flink/internal/version.Date=$(shell date -u +%FT%TZ)
 
-.PHONY: build test test-committed bench perf lint snapshot kind-up kind-deps kind-down e2e e2e-go fixtures scenarios crds demo demo-clean flood flood-clean bench-flood demo-gifs
+.PHONY: build test test-committed bench perf lint snapshot kind-up kind-deps kind-down e2e e2e-go fixtures scenarios crds demo demo-image demo-clean flood flood-clean bench-flood demo-gifs
 
 build: ; CGO_ENABLED=0 go build -ldflags "$(LDFLAGS)" -o bin/kubectl-flink ./cmd/kubectl-flink
 test:  ; go test -race ./...
@@ -45,7 +45,11 @@ fixtures:
 	  hack/capture-fixtures.sh basic
 
 # Long-lived example jobs in three namespaces and many states, to try the plugin by hand; demo-clean removes them.
-demo: ; KUBE_CONTEXT=$(KUBE_CONTEXT) FLINK_VERSION=$(FLINK_VERSION) hack/demo.sh
+demo: demo-image ; KUBE_CONTEXT=$(KUBE_CONTEXT) FLINK_VERSION=$(FLINK_VERSION) hack/demo.sh
+# The shop jobs' image: hack/demo-job built on flink:2.2 and loaded into kind, never pulled.
+demo-image:
+	docker build -t kubectl-flink-demo:local hack/demo-job
+	kind load docker-image kubectl-flink-demo:local --name $(KIND_CLUSTER)
 demo-clean: ; KUBE_CONTEXT=$(KUBE_CONTEXT) FLINK_VERSION=$(FLINK_VERSION) hack/demo.sh clean
 
 # 2,000 more FlinkDeployments with statuses copied from real jobs, which the operator ignores; FLOOD_JOBS and

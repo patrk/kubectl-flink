@@ -1,0 +1,81 @@
+# The shop namespace of make demo: two jobs on the demo-job image, with several operators each, and the inventory
+# service the checkout job depends on. Chaining is off, so that every operator is its own vertex in the job graph
+# and back pressure is attributed to the operator that causes it. Checkpoints every 30 s, kept by the JobManager.
+apiVersion: apps/v1
+kind: Deployment
+metadata: {name: inventory, namespace: shop, labels: {app: inventory}}
+spec:
+  selector: {matchLabels: {app: inventory}}
+  template:
+    metadata: {labels: {app: inventory}}
+    spec:
+      containers:
+        - name: inventory
+          image: python:3.13-alpine
+          command: [python, /app/inventory.py]
+          env:
+            - {name: LATENCY_MS, value: "20"}
+            - {name: ERROR_PERCENT, value: "0"}
+          ports: [{containerPort: 8080}]
+          readinessProbe: {tcpSocket: {port: 8080}, periodSeconds: 2}
+          resources: {requests: {cpu: 50m, memory: 32Mi}}
+          volumeMounts: [{name: app, mountPath: /app}]
+      volumes: [{name: app, configMap: {name: inventory}}]
+---
+apiVersion: v1
+kind: Service
+metadata: {name: inventory, namespace: shop}
+spec:
+  selector: {app: inventory}
+  ports: [{port: 8080}]
+---
+apiVersion: flink.apache.org/v1beta1
+kind: FlinkDeployment
+metadata: {name: checkout, namespace: shop, labels: {team: shop, use-case: "7001"}}
+spec:
+  image: kubectl-flink-demo:local
+  imagePullPolicy: IfNotPresent
+  flinkVersion: v2_2
+  flinkConfiguration:
+    taskmanager.numberOfTaskSlots: "2"
+    pipeline.operator-chaining.enabled: "false"
+    execution.checkpointing.interval: 30s
+    execution.checkpointing.storage: jobmanager
+    restart-strategy.type: fixed-delay
+    restart-strategy.fixed-delay.attempts: "2147483647"
+    restart-strategy.fixed-delay.delay: 10 s
+    kubernetes.jobmanager.cpu.limit-factor: "6"
+    kubernetes.taskmanager.cpu.limit-factor: "6"
+  serviceAccount: flink
+  jobManager: {resource: {memory: 768m, cpu: 0.15}}
+  taskManager: {resource: {memory: 1536m, cpu: 0.25}}
+  job:
+    jarURI: local:///opt/flink/usrlib/demo-job.jar
+    entryClass: demo.Checkout
+    args: [--rate, "200"]
+    parallelism: 2
+    upgradeMode: stateless
+---
+apiVersion: flink.apache.org/v1beta1
+kind: FlinkDeployment
+metadata: {name: clicks, namespace: shop, labels: {team: shop, use-case: "7002"}}
+spec:
+  image: kubectl-flink-demo:local
+  imagePullPolicy: IfNotPresent
+  flinkVersion: v2_2
+  flinkConfiguration:
+    taskmanager.numberOfTaskSlots: "2"
+    pipeline.operator-chaining.enabled: "false"
+    execution.checkpointing.interval: 30s
+    execution.checkpointing.storage: jobmanager
+    kubernetes.jobmanager.cpu.limit-factor: "6"
+    kubernetes.taskmanager.cpu.limit-factor: "6"
+  serviceAccount: flink
+  jobManager: {resource: {memory: 768m, cpu: 0.15}}
+  taskManager: {resource: {memory: 1024m, cpu: 0.25}}
+  job:
+    jarURI: local:///opt/flink/usrlib/demo-job.jar
+    entryClass: demo.Clickstream
+    args: [--rate, "400", --hot, "60", --work-us, "5000"]
+    parallelism: 2
+    upgradeMode: stateless
