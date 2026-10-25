@@ -1,0 +1,28 @@
+FlinkDeployment default/snap in context kind, job 2976d078d966cc1723d351c4a3884eb4 · OK
+
+Matched patterns
+  1. DEGRADED: The operator does not process FlinkStateSnapshots (operator, newest evidence 2m10s ago)
+    2 FlinkStateSnapshots without a status, the oldest created 2m10s ago. The operator decides when it starts whether it handles FlinkStateSnapshots: not when
+    kubernetes.operator.snapshot.resource.enabled is false, and not when listing them failed at that moment (it then logs that the FlinkStateSnapshot CRD was
+    not installed). The savepoints these resources ask for are not taken, and periodic and upgrade snapshots are not recorded.
+    Next: Check the operator log from its start and its snapshot.resource.enabled setting; once it can list FlinkStateSnapshots, restart it.
+    · snapshot.ignored: 2 FlinkStateSnapshots without a status, the oldest created 2m10s ago
+
+Operator
+  lifecycle STABLE, JobManager READY, job RUNNING, reconciled 3m26s ago, generation 1 (observed 1)
+  spec written by kubectl-client-side-apply, last 3m27s ago
+
+Kubernetes
+  pod snap-66d559579f-kpwnl (jobmanager): Running, ready
+  pod snap-taskmanager-1-1 (taskmanager): Running, ready
+  warning events, newest first:
+    3m23s ago Unhealthy ×4 on Pod: Startup probe failed: Get "http://10.244.0.68:8081/config": dial tcp 10.244.0.68:8081: connect: connection refused
+
+Runtime
+  2 FlinkStateSnapshots, 2 without a status
+  not collected: JobManager REST API: Get "http://127.0.0.1:1/config": dial tcp 127.0.0.1:1: connect: connection refused
+
+Performance
+
+HA
+  HA not configured

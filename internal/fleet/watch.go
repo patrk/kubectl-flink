@@ -30,6 +30,7 @@ type watched struct {
 	fds     []cache.SharedIndexInformer
 	sjs     []cache.SharedIndexInformer
 	pods    []cache.SharedIndexInformer
+	snaps   []cache.SharedIndexInformer
 	unread  []string
 	mu      sync.Mutex
 	err     error // the last watch error, cleared by the next event
@@ -39,7 +40,7 @@ type watched struct {
 // Watch keeps every source current with informers and sends the scopes after the initial sync and then after
 // every burst of changes, at most once per Coalesce. It returns when ctx ends. Health changes that come from
 // time passing alone have no event; the caller re-assesses on its own tick.
-func Watch(ctx context.Context, sources []Source, labelSelector string, out chan<- []Scope) {
+func Watch(ctx context.Context, sources []Source, q kube.Query, out chan<- []Scope) {
 	dirty := make(chan struct{}, 1)
 	mark := func() {
 		select {
@@ -51,7 +52,7 @@ func Watch(ctx context.Context, sources []Source, labelSelector string, out chan
 	var wg sync.WaitGroup
 	for i, src := range sources {
 		ws[i] = &watched{src: src}
-		wg.Go(func() { ws[i].start(ctx, labelSelector, mark) })
+		wg.Go(func() { ws[i].start(ctx, q, mark) })
 	}
 	wg.Wait()
 
@@ -83,7 +84,7 @@ func Watch(ctx context.Context, sources []Source, labelSelector string, out chan
 }
 
 // start resolves the scope, starts its informers and waits for them to sync, at most SyncTimeout.
-func (w *watched) start(ctx context.Context, labelSelector string, mark func()) {
+func (w *watched) start(ctx context.Context, q kube.Query, mark func()) {
 	if w.initErr = w.src.Err; w.initErr != nil {
 		return
 	}
@@ -91,7 +92,7 @@ func (w *watched) start(ctx context.Context, labelSelector string, mark func()) 
 	if w.plan, w.initErr = c.Resolve(ctx, w.src.Scope, w.src.ContextNamespace); w.initErr != nil {
 		return
 	}
-	podsOK, err := w.probe(ctx)
+	podsOK, snapsOK, err := w.probe(ctx, q.Snapshots)
 	if err != nil {
 		w.initErr = err
 		return
@@ -115,11 +116,17 @@ func (w *watched) start(ctx context.Context, labelSelector string, mark func()) 
 		synced = append(synced, inf.HasSynced)
 	}
 	for i, ns := range w.plan.Read {
-		fd := c.Informer(kube.Deployments, ns, labelSelector, nil)
-		sj := c.Informer(kube.SessionJobs, ns, labelSelector, nil)
+		fd := c.Informer(kube.Deployments, ns, q.Selector, nil)
+		sj := c.Informer(kube.SessionJobs, ns, q.Selector, nil)
 		run(fd)
 		run(sj)
 		w.fds, w.sjs = append(w.fds, fd), append(w.sjs, sj)
+		// Completed snapshots only give ls -o wide its snapshot age; without them that column stays empty.
+		if snapsOK[i] {
+			snaps := c.Informer(kube.Snapshots, ns, kube.LabelSnapshotState+"=COMPLETED", nil)
+			run(snaps)
+			w.snaps = append(w.snaps, snaps)
+		}
 		// Pods only add the TaskManager check: where they are forbidden, the scope goes on without them.
 		if !podsOK[i] {
 			w.unread = append(w.unread, ns)
@@ -143,9 +150,9 @@ var errNoSync = errors.New("no response")
 // probe checks every list before any informer starts, in parallel, because a forbidden informer never syncs.
 // A forbidden deployment or session job list fails the scope, as it does in Load; a forbidden pod list only
 // drops pods. At cluster scope Resolve has already probed the Flink lists.
-func (w *watched) probe(ctx context.Context) (podsOK []bool, err error) {
+func (w *watched) probe(ctx context.Context, snapshots bool) (podsOK, snapsOK []bool, err error) {
 	c := w.src.Client
-	podsOK = make([]bool, len(w.plan.Read))
+	podsOK, snapsOK = make([]bool, len(w.plan.Read)), make([]bool, len(w.plan.Read))
 	clusterProbed := w.plan.AllNamespaces && len(w.plan.Read) == 1 && w.plan.Read[0] == ""
 	g, gctx := errgroup.WithContext(ctx)
 	g.SetLimit(8)
@@ -164,8 +171,14 @@ func (w *watched) probe(ctx context.Context) (podsOK []bool, err error) {
 			podsOK[i] = c.Probe(gctx, kube.Pods, ns) == nil
 			return nil
 		})
+		if snapshots {
+			g.Go(func() error {
+				snapsOK[i] = c.Probe(gctx, kube.Snapshots, ns) == nil
+				return nil
+			})
+		}
 	}
-	return podsOK, g.Wait()
+	return podsOK, snapsOK, g.Wait()
 }
 
 func (w *watched) clearErr() {
@@ -197,6 +210,11 @@ func snapshot(ws []*watched) []Scope {
 			for _, inf := range w.pods {
 				for _, o := range inf.GetStore().List() {
 					snap.Pods = append(snap.Pods, *o.(*kube.Pod))
+				}
+			}
+			for _, inf := range w.snaps {
+				for _, o := range inf.GetStore().List() {
+					snap.Snapshots = append(snap.Snapshots, *o.(*kube.FlinkStateSnapshot))
 				}
 			}
 			if len(w.unread) > 0 {

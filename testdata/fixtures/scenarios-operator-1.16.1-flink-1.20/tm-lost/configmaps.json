@@ -5,7 +5,7 @@
       "apiVersion": "v1",
       "kind": "ConfigMap",
       "metadata": {
-        "creationTimestamp": "2026-10-24T20:38:11Z",
+        "creationTimestamp": "2026-10-24T23:46:39Z",
         "labels": {
           "app": "tm-lost",
           "component": "autoscaler"
@@ -19,11 +19,11 @@
             "controller": false,
             "kind": "FlinkDeployment",
             "name": "tm-lost",
-            "uid": "d6eac9cb-c91f-4c39-a012-1132d1630fe1"
+            "uid": "26767fca-fbe2-47dd-be23-a4c82ff8354c"
           }
         ],
-        "resourceVersion": "57361",
-        "uid": "9371fcbb-a062-410e-8e8f-4a0d18e3b928"
+        "resourceVersion": "95265",
+        "uid": "c548e813-a571-44b7-96c8-f145eca7ba89"
       },
       "data": null
     },
@@ -35,7 +35,7 @@
       },
       "kind": "ConfigMap",
       "metadata": {
-        "creationTimestamp": "2026-10-24T20:38:11Z",
+        "creationTimestamp": "2026-10-24T23:46:39Z",
         "labels": {
           "app": "tm-lost",
           "type": "flink-native-kubernetes"
@@ -49,11 +49,11 @@
             "controller": true,
             "kind": "Deployment",
             "name": "tm-lost",
-            "uid": "8717cd2d-4e44-4584-86e5-05b7f76b5968"
+            "uid": "a8910473-eea9-4ca9-a782-640e97eb585e"
           }
         ],
-        "resourceVersion": "57329",
-        "uid": "ea1fffcc-0ab5-4d88-b024-d203fc2b4d1d"
+        "resourceVersion": "95237",
+        "uid": "15277f11-baf7-4ca9-8394-5e8baab4f569"
       }
     }
   ],

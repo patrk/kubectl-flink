@@ -5,23 +5,23 @@
       "apiVersion": "v1",
       "count": 6,
       "eventTime": null,
-      "firstTimestamp": "2026-10-24T20:37:18Z",
+      "firstTimestamp": "2026-10-24T23:43:36Z",
       "involvedObject": {
         "apiVersion": "flink.apache.org/v1beta1",
         "kind": "FlinkDeployment",
         "name": "bad-memory",
         "namespace": "default",
-        "uid": "dcf5080b-4873-437e-8f5a-6b3b76b745b1"
+        "uid": "f5fc2fad-205c-44bb-a65c-bc28edc849fa"
       },
       "kind": "Event",
-      "lastTimestamp": "2026-10-24T20:38:04Z",
+      "lastTimestamp": "2026-10-24T23:44:22Z",
       "message": "TaskManager memory configuration failed: Sum of configured JVM Metaspace (256.000mb (268435456 bytes)) and JVM Overhead (192.000mb (201326592 bytes)) exceed configured Total Process Memory (400.000mb (419430400 bytes)). -> Sum of configured JVM Metaspace (256.000mb (268435456 bytes)) and JVM Overhead (192.000mb (201326592 bytes)) exceed configured Total Process Memory (400.000mb (419430400 bytes)).",
       "metadata": {
-        "creationTimestamp": "2026-10-24T20:37:18Z",
-        "name": "JobManagerDeployment.1648104653",
+        "creationTimestamp": "2026-10-24T23:43:36Z",
+        "name": "JobManagerDeployment.634057570",
         "namespace": "default",
-        "resourceVersion": "57134",
-        "uid": "8706bc0a-31d9-431c-98da-184bbfa637b7"
+        "resourceVersion": "94684",
+        "uid": "1f9fe963-c25e-493d-9c64-c2ae5f0909fd"
       },
       "reason": "Error",
       "reportingComponent": "",
@@ -35,23 +35,23 @@
       "apiVersion": "v1",
       "count": 6,
       "eventTime": null,
-      "firstTimestamp": "2026-10-24T20:37:18Z",
+      "firstTimestamp": "2026-10-24T23:43:36Z",
       "involvedObject": {
         "apiVersion": "flink.apache.org/v1beta1",
         "kind": "FlinkDeployment",
         "name": "bad-memory",
         "namespace": "default",
-        "uid": "dcf5080b-4873-437e-8f5a-6b3b76b745b1"
+        "uid": "f5fc2fad-205c-44bb-a65c-bc28edc849fa"
       },
       "kind": "Event",
-      "lastTimestamp": "2026-10-24T20:38:04Z",
+      "lastTimestamp": "2026-10-24T23:44:22Z",
       "message": "Starting deployment",
       "metadata": {
-        "creationTimestamp": "2026-10-24T20:37:18Z",
-        "name": "JobManagerDeployment.1863640148",
+        "creationTimestamp": "2026-10-24T23:43:36Z",
+        "name": "JobManagerDeployment.849593065",
         "namespace": "default",
-        "resourceVersion": "57133",
-        "uid": "eded8d28-afd4-4c7b-adf7-d7fd53d17d71"
+        "resourceVersion": "94683",
+        "uid": "3c4649af-b345-4ff2-95b5-94f0c39e72b0"
       },
       "reason": "Submit",
       "reportingComponent": "",

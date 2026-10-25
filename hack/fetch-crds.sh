@@ -12,7 +12,7 @@ for v in $VERSIONS; do
   helm pull --repo "https://archive.apache.org/dist/flink/flink-kubernetes-operator-$v/" \
     flink-kubernetes-operator --version "$v" --untar -d "$tmp/$v" >/dev/null
   mkdir -p "$OUT/operator-$v"
-  for crd in flinkdeployments flinksessionjobs; do
+  for crd in flinkdeployments flinksessionjobs flinkstatesnapshots; do
     gzip -9 -n -c "$tmp/$v/flink-kubernetes-operator/crds/$crd.flink.apache.org-v1.yml" >"$OUT/operator-$v/$crd.yml.gz"
   done
   echo "operator $v: $(ls "$OUT/operator-$v" | tr '\n' ' ')"

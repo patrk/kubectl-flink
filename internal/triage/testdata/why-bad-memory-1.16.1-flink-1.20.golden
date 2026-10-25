@@ -1,9 +1,9 @@
-FlinkDeployment default/bad-memory in context kind, job f708a83ad1a2d4a2cb603cb9d58228a6 · PROGRESSING
+FlinkDeployment default/bad-memory in context kind, job 1f60fdef3ae1253736165964abb6f223 · PROGRESSING
   lifecycle UPGRADING
   JobManager deployment MISSING
 
 Matched patterns
-  1. FAILED: The TaskManager memory is too small for its configured memory pools (operator, newest evidence 60s ago)
+  1. FAILED: The TaskManager memory is too small for its configured memory pools (operator, newest evidence 7s ago)
     Flink derives its memory pools from spec.taskManager.resource.memory and rejects a total smaller than its fixed parts, so the operator does not deploy the
     change. The sizes are in the error below.
     Next: Raise the memory of the TaskManager, or lower the fixed pools (metaspace, overhead, framework memory) in flinkConfiguration.
@@ -14,16 +14,16 @@ Also seen, not explained by the above
   · operator.error: Sum of configured JVM Metaspace (256.000mb (268435456 bytes)) and JVM Overhead (192.000mb (201326592 bytes)) exceed configured Total Proces…
 
 Operator
-  lifecycle UPGRADING, JobManager MISSING, job -, reconciled 60s ago, generation 1 (observed 1)
+  lifecycle UPGRADING, JobManager MISSING, job -, reconciled 6s ago, generation 1 (observed 1)
   error: Sum of configured JVM Metaspace (256.000mb (268435456 bytes)) and JVM Overhead (192.000mb (201326592 bytes)) exceed configured Total Process Memory (4…
     caused by IllegalConfigurationException: TaskManager memory configuration failed: Sum of configured JVM Metaspace (256.000mb (268435456 bytes)) and JVM Ove…
     caused by IllegalConfigurationException: Sum of configured JVM Metaspace (256.000mb (268435456 bytes)) and JVM Overhead (192.000mb (201326592 bytes)) excee…
-  spec written by kubectl-client-side-apply, last 106s ago
+  spec written by kubectl-client-side-apply, last 53s ago
 
 Kubernetes
   no Flink pods
   warning events, newest first:
-    60s ago Error ×6 on FlinkDeployment: TaskManager memory configuration failed: Sum of configured JVM Metaspace (256.000mb (268435456 bytes)) and JVM Overhea…
+    7s ago Error ×6 on FlinkDeployment: TaskManager memory configuration failed: Sum of configured JVM Metaspace (256.000mb (268435456 bytes)) and JVM Overhead…
 
 Runtime
   not collected: JobManager REST API: not asked: the JobManager is MISSING

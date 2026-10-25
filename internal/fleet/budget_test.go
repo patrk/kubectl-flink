@@ -35,14 +35,36 @@ func fleetAPI(t testing.TB, namespaces, jobsPerNamespace int) (f *kubetest.API, 
 				labels["app"], labels["component"] = fmt.Sprintf("job-%d", i), component
 			})
 		}
+		// The plan's budget counts snapshots too: seven completed per job, 10,500 for 1,500 jobs.
+		for i := range jobsPerNamespace {
+			for k := range snapshotsPerJob {
+				f.Put("flinkstatesnapshots", map[string]any{
+					"apiVersion": "flink.apache.org/v1beta1", "kind": "FlinkStateSnapshot",
+					"metadata": map[string]any{"name": fmt.Sprintf("job-%d-savepoint-%d", i, k), "namespace": ns,
+						"creationTimestamp": "2026-10-24T10:00:00Z",
+						"labels": map[string]any{"job-reference.kind": "FlinkDeployment", "job-reference.name": fmt.Sprintf("job-%d", i),
+							"snapshot.state": "COMPLETED", "snapshot.type": "SAVEPOINT", "snapshot.trigger-type": "PERIODIC"}},
+					"spec": map[string]any{"jobReference": map[string]any{"kind": "FlinkDeployment", "name": fmt.Sprintf("job-%d", i)},
+						"savepoint": map[string]any{"formatType": "CANONICAL"}},
+					"status": map[string]any{"state": "COMPLETED", "path": fmt.Sprintf("s3://bucket/savepoints/job-%d/savepoint-%d", i, k),
+						"resultTimestamp": fmt.Sprintf("2026-10-24T10:%02d:00Z", k), "triggerTimestamp": fmt.Sprintf("2026-10-24T10:%02d:00Z", k)},
+				})
+			}
+		}
 	}
 	f.Latency = apiLatency
 	return f, nss
 }
 
+// snapshotsPerJob is the number of completed FlinkStateSnapshots per job in the budget tests.
+const snapshotsPerJob = 7
+
+// wide is the costliest query: ls -o wide also reads snapshots.
+var wide = kube.Query{Snapshots: true}
+
 // ls does what ls does: load, assess, sort and render a table.
 func ls(t testing.TB, src fleet.Source) []fleet.Scope {
-	scopes := fleet.Load(context.Background(), []fleet.Source{src}, "")
+	scopes := fleet.Load(context.Background(), []fleet.Source{src}, wide)
 	if scopes[0].Err != nil {
 		t.Fatal(scopes[0].Err)
 	}
@@ -70,8 +92,8 @@ func TestBudgetLs(t *testing.T) {
 		scopes := ls(t, src)
 		took := time.Since(start)
 		jobs := tc.namespaces * tc.perNamespace
-		if len(scopes[0].Jobs) != jobs {
-			t.Fatalf("%d jobs, want %d", len(scopes[0].Jobs), jobs)
+		if len(scopes[0].Jobs) != jobs || scopes[0].Jobs[0].LastSnapshot.IsZero() {
+			t.Fatalf("%d jobs, want %d, with snapshot ages", len(scopes[0].Jobs), jobs)
 		}
 		t.Logf("ls, %d jobs in %d namespaces: %s (budget %s)", jobs, tc.namespaces, took, tc.budget)
 		if took > tc.budget {
@@ -80,7 +102,8 @@ func TestBudgetLs(t *testing.T) {
 	}
 }
 
-// TestBudgetMemory measures the heap held by watch caches and derived jobs for 1,500 jobs and 3,000 pods.
+// TestBudgetMemory measures the heap held by watch caches and derived jobs for 1,500 jobs, 3,000 pods and 10,500
+// completed snapshots.
 func TestBudgetMemory(t *testing.T) {
 	const budget = 150 << 20
 	f, nss := fleetAPI(t, 4, 375)
@@ -94,7 +117,7 @@ func TestBudgetMemory(t *testing.T) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 	ch := make(chan []fleet.Scope)
-	go fleet.Watch(ctx, []fleet.Source{src}, "", ch)
+	go fleet.Watch(ctx, []fleet.Source{src}, wide, ch)
 	scopes := next(t, ch)
 	rows := fleet.Rows(scopes, time.Now(), model.DefaultThresholds())
 
@@ -118,7 +141,7 @@ func TestBudgetRedraw(t *testing.T) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 	ch := make(chan []fleet.Scope)
-	go fleet.Watch(ctx, []fleet.Source{src}, "", ch)
+	go fleet.Watch(ctx, []fleet.Source{src}, wide, ch)
 	next(t, ch)
 
 	start := time.Now()

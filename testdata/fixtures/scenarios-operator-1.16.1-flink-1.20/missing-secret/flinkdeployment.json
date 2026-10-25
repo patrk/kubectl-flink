@@ -3,9 +3,9 @@
     "kind": "FlinkDeployment",
     "metadata": {
         "annotations": {
-            "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"flink.apache.org/v1beta1\",\"kind\":\"FlinkDeployment\",\"metadata\":{\"annotations\":{},\"name\":\"missing-secret\",\"namespace\":\"default\"},\"spec\":{\"flinkConfiguration\":{\"taskmanager.numberOfTaskSlots\":\"1\"},\"flinkVersion\":\"v1_20\",\"image\":\"flink:1.20\",\"job\":{\"jarURI\":\"local:///opt/flink/examples/streaming/StateMachineExample.jar\",\"parallelism\":1,\"upgradeMode\":\"stateless\"},\"jobManager\":{\"resource\":{\"cpu\":0.5,\"memory\":\"1024m\"}},\"podTemplate\":{\"spec\":{\"containers\":[{\"name\":\"flink-main-container\",\"volumeMounts\":[{\"mountPath\":\"/opt/creds\",\"name\":\"creds\"}]}],\"volumes\":[{\"name\":\"creds\",\"secret\":{\"secretName\":\"does-not-exist\"}}]}},\"serviceAccount\":\"flink\",\"taskManager\":{\"resource\":{\"cpu\":0.5,\"memory\":\"1024m\"}}}}\n"
+            "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"flink.apache.org/v1beta1\",\"kind\":\"FlinkDeployment\",\"metadata\":{\"annotations\":{},\"name\":\"missing-secret\",\"namespace\":\"default\"},\"spec\":{\"flinkConfiguration\":{\"kubernetes.jobmanager.cpu.limit-factor\":\"6\",\"kubernetes.taskmanager.cpu.limit-factor\":\"6\",\"taskmanager.numberOfTaskSlots\":\"1\"},\"flinkVersion\":\"v1_20\",\"image\":\"flink:1.20\",\"job\":{\"jarURI\":\"local:///opt/flink/examples/streaming/StateMachineExample.jar\",\"parallelism\":1,\"upgradeMode\":\"stateless\"},\"jobManager\":{\"resource\":{\"cpu\":0.15,\"memory\":\"1024m\"}},\"podTemplate\":{\"spec\":{\"containers\":[{\"name\":\"flink-main-container\",\"volumeMounts\":[{\"mountPath\":\"/opt/creds\",\"name\":\"creds\"}]}],\"volumes\":[{\"name\":\"creds\",\"secret\":{\"secretName\":\"does-not-exist\"}}]}},\"serviceAccount\":\"flink\",\"taskManager\":{\"resource\":{\"cpu\":0.15,\"memory\":\"1024m\"}}}}\n"
         },
-        "creationTimestamp": "2026-10-24T20:37:18Z",
+        "creationTimestamp": "2026-10-24T23:43:36Z",
         "finalizers": [
             "flinkdeployments.flink.apache.org/finalizer"
         ],
@@ -24,7 +24,7 @@
                 },
                 "manager": "fabric8-kubernetes-client",
                 "operation": "Update",
-                "time": "2026-10-24T20:37:18Z"
+                "time": "2026-10-24T23:43:36Z"
             },
             {
                 "apiVersion": "flink.apache.org/v1beta1",
@@ -68,7 +68,7 @@
                 "manager": "fabric8-kubernetes-client",
                 "operation": "Update",
                 "subresource": "status",
-                "time": "2026-10-24T20:37:18Z"
+                "time": "2026-10-24T23:43:36Z"
             },
             {
                 "apiVersion": "flink.apache.org/v1beta1",
@@ -84,6 +84,8 @@
                         ".": {},
                         "f:flinkConfiguration": {
                             ".": {},
+                            "f:kubernetes.jobmanager.cpu.limit-factor": {},
+                            "f:kubernetes.taskmanager.cpu.limit-factor": {},
                             "f:taskmanager.numberOfTaskSlots": {}
                         },
                         "f:flinkVersion": {},
@@ -123,16 +125,18 @@
                 },
                 "manager": "kubectl-client-side-apply",
                 "operation": "Update",
-                "time": "2026-10-24T20:37:18Z"
+                "time": "2026-10-24T23:43:36Z"
             }
         ],
         "name": "missing-secret",
         "namespace": "default",
-        "resourceVersion": "56785",
-        "uid": "c2546167-8145-474d-9177-31eae248f3de"
+        "resourceVersion": "94359",
+        "uid": "fbd146f8-e2ea-425c-b5b5-731fb0fa4c36"
     },
     "spec": {
         "flinkConfiguration": {
+            "kubernetes.jobmanager.cpu.limit-factor": "6",
+            "kubernetes.taskmanager.cpu.limit-factor": "6",
             "taskmanager.numberOfTaskSlots": "1"
         },
         "flinkVersion": "v1_20",
@@ -144,7 +148,7 @@
         },
         "jobManager": {
             "resource": {
-                "cpu": 0.5,
+                "cpu": 0.15,
                 "memory": "1024m"
             }
         },
@@ -174,7 +178,7 @@
         "serviceAccount": "flink",
         "taskManager": {
             "resource": {
-                "cpu": 0.5,
+                "cpu": 0.15,
                 "memory": "1024m"
             }
         }
@@ -183,7 +187,7 @@
         "clusterInfo": {},
         "conditions": [
             {
-                "lastTransitionTime": "2026-10-24T20:37:18.677303835Z",
+                "lastTransitionTime": "2026-10-24T23:43:36.490493801Z",
                 "message": "Job status RECONCILING",
                 "reason": "Reconciling",
                 "status": "False",
@@ -196,7 +200,7 @@
             "checkpointInfo": {
                 "lastPeriodicCheckpointTimestamp": 0
             },
-            "jobId": "4f60df8198dbc40a1660b2106244fe0f",
+            "jobId": "065a66f4757235b2a6f4211b0d16adbd",
             "savepointInfo": {
                 "lastPeriodicSavepointTimestamp": 0,
                 "savepointHistory": []
@@ -206,8 +210,8 @@
         "lifecycleState": "DEPLOYED",
         "observedGeneration": 1,
         "reconciliationStatus": {
-            "lastReconciledSpec": "{\"spec\":{\"job\":{\"jarURI\":\"local:///opt/flink/examples/streaming/StateMachineExample.jar\",\"parallelism\":1,\"entryClass\":null,\"args\":[],\"state\":\"running\",\"savepointTriggerNonce\":null,\"initialSavepointPath\":null,\"checkpointTriggerNonce\":null,\"upgradeMode\":\"stateless\",\"allowNonRestoredState\":null,\"savepointRedeployNonce\":null,\"autoscalerResetNonce\":null},\"restartNonce\":null,\"flinkConfiguration\":{\"taskmanager.numberOfTaskSlots\":\"1\"},\"image\":\"flink:1.20\",\"imagePullPolicy\":null,\"serviceAccount\":\"flink\",\"flinkVersion\":\"v1_20\",\"ingress\":null,\"podTemplate\":{\"spec\":{\"containers\":[{\"name\":\"flink-main-container\",\"volumeMounts\":[{\"mountPath\":\"/opt/creds\",\"name\":\"creds\"}]}],\"volumes\":[{\"name\":\"creds\",\"secret\":{\"secretName\":\"does-not-exist\"}}]}},\"jobManager\":{\"resource\":{\"cpu\":0.5,\"memory\":\"1024m\",\"ephemeralStorage\":null},\"resources\":null,\"replicas\":1,\"podTemplate\":null},\"taskManager\":{\"resource\":{\"cpu\":0.5,\"memory\":\"1024m\",\"ephemeralStorage\":null},\"resources\":null,\"replicas\":null,\"podTemplate\":null},\"logConfiguration\":null,\"mode\":null},\"resource_metadata\":{\"apiVersion\":\"flink.apache.org/v1beta1\",\"firstDeployment\":true}}",
-            "reconciliationTimestamp": 1792874238677,
+            "lastReconciledSpec": "{\"spec\":{\"job\":{\"jarURI\":\"local:///opt/flink/examples/streaming/StateMachineExample.jar\",\"parallelism\":1,\"entryClass\":null,\"args\":[],\"state\":\"running\",\"savepointTriggerNonce\":null,\"initialSavepointPath\":null,\"checkpointTriggerNonce\":null,\"upgradeMode\":\"stateless\",\"allowNonRestoredState\":null,\"savepointRedeployNonce\":null,\"autoscalerResetNonce\":null},\"restartNonce\":null,\"flinkConfiguration\":{\"kubernetes.jobmanager.cpu.limit-factor\":\"6\",\"kubernetes.taskmanager.cpu.limit-factor\":\"6\",\"taskmanager.numberOfTaskSlots\":\"1\"},\"image\":\"flink:1.20\",\"imagePullPolicy\":null,\"serviceAccount\":\"flink\",\"flinkVersion\":\"v1_20\",\"ingress\":null,\"podTemplate\":{\"spec\":{\"containers\":[{\"name\":\"flink-main-container\",\"volumeMounts\":[{\"mountPath\":\"/opt/creds\",\"name\":\"creds\"}]}],\"volumes\":[{\"name\":\"creds\",\"secret\":{\"secretName\":\"does-not-exist\"}}]}},\"jobManager\":{\"resource\":{\"cpu\":0.15,\"memory\":\"1024m\",\"ephemeralStorage\":null},\"resources\":null,\"replicas\":1,\"podTemplate\":null},\"taskManager\":{\"resource\":{\"cpu\":0.15,\"memory\":\"1024m\",\"ephemeralStorage\":null},\"resources\":null,\"replicas\":null,\"podTemplate\":null},\"logConfiguration\":null,\"mode\":null},\"resource_metadata\":{\"apiVersion\":\"flink.apache.org/v1beta1\",\"firstDeployment\":true}}",
+            "reconciliationTimestamp": 1792885416489,
             "state": "DEPLOYED"
         },
         "taskManager": {

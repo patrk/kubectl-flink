@@ -1,0 +1,586 @@
+{
+  "apiVersion": "v1",
+  "items": [
+    {
+      "apiVersion": "v1",
+      "count": 1,
+      "eventTime": null,
+      "firstTimestamp": "2026-10-24T23:39:42Z",
+      "involvedObject": {
+        "apiVersion": "flink.apache.org/v1beta1",
+        "kind": "FlinkDeployment",
+        "name": "snap",
+        "namespace": "default",
+        "uid": "448db5cc-a804-457d-a698-f29c4a4e5c42"
+      },
+      "kind": "Event",
+      "lastTimestamp": "2026-10-24T23:39:42Z",
+      "message": "Job status changed from CREATED to RUNNING",
+      "metadata": {
+        "creationTimestamp": "2026-10-24T23:39:42Z",
+        "name": "Job.1467809840",
+        "namespace": "default",
+        "resourceVersion": "93603",
+        "uid": "69154f12-b173-40bd-8ef3-40260eb54377"
+      },
+      "reason": "JobStatusChanged",
+      "reportingComponent": "",
+      "reportingInstance": "",
+      "source": {
+        "component": "Job"
+      },
+      "type": "Normal"
+    },
+    {
+      "apiVersion": "v1",
+      "count": 1,
+      "eventTime": null,
+      "firstTimestamp": "2026-10-24T23:39:27Z",
+      "involvedObject": {
+        "apiVersion": "flink.apache.org/v1beta1",
+        "kind": "FlinkDeployment",
+        "name": "snap",
+        "namespace": "default",
+        "uid": "448db5cc-a804-457d-a698-f29c4a4e5c42"
+      },
+      "kind": "Event",
+      "lastTimestamp": "2026-10-24T23:39:27Z",
+      "message": "Job status changed from RECONCILING to CREATED",
+      "metadata": {
+        "creationTimestamp": "2026-10-24T23:39:27Z",
+        "name": "Job.176112714",
+        "namespace": "default",
+        "resourceVersion": "93577",
+        "uid": "6a2b5a8f-a073-4a79-bbcc-3d7e8485d33e"
+      },
+      "reason": "JobStatusChanged",
+      "reportingComponent": "",
+      "reportingInstance": "",
+      "source": {
+        "component": "Job"
+      },
+      "type": "Normal"
+    },
+    {
+      "apiVersion": "v1",
+      "count": 1,
+      "eventTime": null,
+      "firstTimestamp": "2026-10-24T23:39:11Z",
+      "involvedObject": {
+        "apiVersion": "flink.apache.org/v1beta1",
+        "kind": "FlinkDeployment",
+        "name": "snap",
+        "namespace": "default",
+        "uid": "448db5cc-a804-457d-a698-f29c4a4e5c42"
+      },
+      "kind": "Event",
+      "lastTimestamp": "2026-10-24T23:39:11Z",
+      "message": "Starting deployment",
+      "metadata": {
+        "creationTimestamp": "2026-10-24T23:39:11Z",
+        "name": "JobManagerDeployment.1865518489",
+        "namespace": "default",
+        "resourceVersion": "93487",
+        "uid": "213e4a2d-8e98-49ba-a019-2e740c87961e"
+      },
+      "reason": "Submit",
+      "reportingComponent": "",
+      "reportingInstance": "",
+      "source": {
+        "component": "JobManagerDeployment"
+      },
+      "type": "Normal"
+    },
+    {
+      "action": "Binding",
+      "apiVersion": "v1",
+      "eventTime": "2026-10-24T23:39:11.171343Z",
+      "firstTimestamp": null,
+      "involvedObject": {
+        "apiVersion": "v1",
+        "kind": "Pod",
+        "name": "snap-66d559579f-kpwnl",
+        "namespace": "default",
+        "resourceVersion": "93491",
+        "uid": "56cf1cd0-ddd4-495e-a078-a87bddcedccb"
+      },
+      "kind": "Event",
+      "lastTimestamp": null,
+      "message": "Successfully assigned default/snap-66d559579f-kpwnl to kubectl-flink-control-plane",
+      "metadata": {
+        "creationTimestamp": "2026-10-24T23:39:11Z",
+        "name": "snap-66d559579f-kpwnl.18e19b8bbea3fd38",
+        "namespace": "default",
+        "resourceVersion": "93501",
+        "uid": "3885e67c-8b5c-466b-9b3b-83dcacc9450f"
+      },
+      "reason": "Scheduled",
+      "reportingComponent": "default-scheduler",
+      "reportingInstance": "default-scheduler-kubectl-flink-control-plane",
+      "source": {},
+      "type": "Normal"
+    },
+    {
+      "apiVersion": "v1",
+      "count": 1,
+      "eventTime": null,
+      "firstTimestamp": "2026-10-24T23:39:11Z",
+      "involvedObject": {
+        "apiVersion": "v1",
+        "fieldPath": "spec.initContainers{data-dir}",
+        "kind": "Pod",
+        "name": "snap-66d559579f-kpwnl",
+        "namespace": "default",
+        "resourceVersion": "93495",
+        "uid": "56cf1cd0-ddd4-495e-a078-a87bddcedccb"
+      },
+      "kind": "Event",
+      "lastTimestamp": "2026-10-24T23:39:11Z",
+      "message": "Container image \"flink:2.2\" already present on machine and can be accessed by the pod",
+      "metadata": {
+        "creationTimestamp": "2026-10-24T23:39:11Z",
+        "name": "snap-66d559579f-kpwnl.18e19b8bd3c42557",
+        "namespace": "default",
+        "resourceVersion": "93512",
+        "uid": "d5fa8bcc-d6fd-4fc3-98c5-8ec774df6fa3"
+      },
+      "reason": "Pulled",
+      "reportingComponent": "kubelet",
+      "reportingInstance": "kubectl-flink-control-plane",
+      "source": {
+        "component": "kubelet",
+        "host": "kubectl-flink-control-plane"
+      },
+      "type": "Normal"
+    },
+    {
+      "apiVersion": "v1",
+      "count": 1,
+      "eventTime": null,
+      "firstTimestamp": "2026-10-24T23:39:11Z",
+      "involvedObject": {
+        "apiVersion": "v1",
+        "fieldPath": "spec.initContainers{data-dir}",
+        "kind": "Pod",
+        "name": "snap-66d559579f-kpwnl",
+        "namespace": "default",
+        "resourceVersion": "93495",
+        "uid": "56cf1cd0-ddd4-495e-a078-a87bddcedccb"
+      },
+      "kind": "Event",
+      "lastTimestamp": "2026-10-24T23:39:11Z",
+      "message": "Container created",
+      "metadata": {
+        "creationTimestamp": "2026-10-24T23:39:11Z",
+        "name": "snap-66d559579f-kpwnl.18e19b8bd42a0e35",
+        "namespace": "default",
+        "resourceVersion": "93514",
+        "uid": "d6dc28eb-169f-4d1a-9540-bb783aaba551"
+      },
+      "reason": "Created",
+      "reportingComponent": "kubelet",
+      "reportingInstance": "kubectl-flink-control-plane",
+      "source": {
+        "component": "kubelet",
+        "host": "kubectl-flink-control-plane"
+      },
+      "type": "Normal"
+    },
+    {
+      "apiVersion": "v1",
+      "count": 1,
+      "eventTime": null,
+      "firstTimestamp": "2026-10-24T23:39:11Z",
+      "involvedObject": {
+        "apiVersion": "v1",
+        "fieldPath": "spec.initContainers{data-dir}",
+        "kind": "Pod",
+        "name": "snap-66d559579f-kpwnl",
+        "namespace": "default",
+        "resourceVersion": "93495",
+        "uid": "56cf1cd0-ddd4-495e-a078-a87bddcedccb"
+      },
+      "kind": "Event",
+      "lastTimestamp": "2026-10-24T23:39:11Z",
+      "message": "Container started",
+      "metadata": {
+        "creationTimestamp": "2026-10-24T23:39:11Z",
+        "name": "snap-66d559579f-kpwnl.18e19b8bd5c12f24",
+        "namespace": "default",
+        "resourceVersion": "93515",
+        "uid": "85a41249-333a-47cd-9c7c-51966be531cb"
+      },
+      "reason": "Started",
+      "reportingComponent": "kubelet",
+      "reportingInstance": "kubectl-flink-control-plane",
+      "source": {
+        "component": "kubelet",
+        "host": "kubectl-flink-control-plane"
+      },
+      "type": "Normal"
+    },
+    {
+      "apiVersion": "v1",
+      "count": 1,
+      "eventTime": null,
+      "firstTimestamp": "2026-10-24T23:39:11Z",
+      "involvedObject": {
+        "apiVersion": "v1",
+        "fieldPath": "spec.containers{flink-main-container}",
+        "kind": "Pod",
+        "name": "snap-66d559579f-kpwnl",
+        "namespace": "default",
+        "resourceVersion": "93495",
+        "uid": "56cf1cd0-ddd4-495e-a078-a87bddcedccb"
+      },
+      "kind": "Event",
+      "lastTimestamp": "2026-10-24T23:39:11Z",
+      "message": "Container image \"flink:2.2\" already present on machine and can be accessed by the pod",
+      "metadata": {
+        "creationTimestamp": "2026-10-24T23:39:11Z",
+        "name": "snap-66d559579f-kpwnl.18e19b8becd1e27e",
+        "namespace": "default",
+        "resourceVersion": "93523",
+        "uid": "4c9e089a-5ff8-415a-aa08-ca26f28d3136"
+      },
+      "reason": "Pulled",
+      "reportingComponent": "kubelet",
+      "reportingInstance": "kubectl-flink-control-plane",
+      "source": {
+        "component": "kubelet",
+        "host": "kubectl-flink-control-plane"
+      },
+      "type": "Normal"
+    },
+    {
+      "apiVersion": "v1",
+      "count": 1,
+      "eventTime": null,
+      "firstTimestamp": "2026-10-24T23:39:11Z",
+      "involvedObject": {
+        "apiVersion": "v1",
+        "fieldPath": "spec.containers{flink-main-container}",
+        "kind": "Pod",
+        "name": "snap-66d559579f-kpwnl",
+        "namespace": "default",
+        "resourceVersion": "93495",
+        "uid": "56cf1cd0-ddd4-495e-a078-a87bddcedccb"
+      },
+      "kind": "Event",
+      "lastTimestamp": "2026-10-24T23:39:11Z",
+      "message": "Container created",
+      "metadata": {
+        "creationTimestamp": "2026-10-24T23:39:11Z",
+        "name": "snap-66d559579f-kpwnl.18e19b8bed4c0d65",
+        "namespace": "default",
+        "resourceVersion": "93525",
+        "uid": "b844d487-7a17-406a-ba70-6dddbcda07cc"
+      },
+      "reason": "Created",
+      "reportingComponent": "kubelet",
+      "reportingInstance": "kubectl-flink-control-plane",
+      "source": {
+        "component": "kubelet",
+        "host": "kubectl-flink-control-plane"
+      },
+      "type": "Normal"
+    },
+    {
+      "apiVersion": "v1",
+      "count": 1,
+      "eventTime": null,
+      "firstTimestamp": "2026-10-24T23:39:11Z",
+      "involvedObject": {
+        "apiVersion": "v1",
+        "fieldPath": "spec.containers{flink-main-container}",
+        "kind": "Pod",
+        "name": "snap-66d559579f-kpwnl",
+        "namespace": "default",
+        "resourceVersion": "93495",
+        "uid": "56cf1cd0-ddd4-495e-a078-a87bddcedccb"
+      },
+      "kind": "Event",
+      "lastTimestamp": "2026-10-24T23:39:11Z",
+      "message": "Container started",
+      "metadata": {
+        "creationTimestamp": "2026-10-24T23:39:11Z",
+        "name": "snap-66d559579f-kpwnl.18e19b8bef139e12",
+        "namespace": "default",
+        "resourceVersion": "93526",
+        "uid": "1a2f3b9f-7c4d-49a4-afb6-5a14d07d993f"
+      },
+      "reason": "Started",
+      "reportingComponent": "kubelet",
+      "reportingInstance": "kubectl-flink-control-plane",
+      "source": {
+        "component": "kubelet",
+        "host": "kubectl-flink-control-plane"
+      },
+      "type": "Normal"
+    },
+    {
+      "apiVersion": "v1",
+      "count": 4,
+      "eventTime": null,
+      "firstTimestamp": "2026-10-24T23:39:12Z",
+      "involvedObject": {
+        "apiVersion": "v1",
+        "fieldPath": "spec.containers{flink-main-container}",
+        "kind": "Pod",
+        "name": "snap-66d559579f-kpwnl",
+        "namespace": "default",
+        "resourceVersion": "93495",
+        "uid": "56cf1cd0-ddd4-495e-a078-a87bddcedccb"
+      },
+      "kind": "Event",
+      "lastTimestamp": "2026-10-24T23:39:15Z",
+      "message": "Startup probe failed: Get \"http://10.244.0.68:8081/config\": dial tcp 10.244.0.68:8081: connect: connection refused",
+      "metadata": {
+        "creationTimestamp": "2026-10-24T23:39:12Z",
+        "name": "snap-66d559579f-kpwnl.18e19b8c0cb2a548",
+        "namespace": "default",
+        "resourceVersion": "93535",
+        "uid": "65034707-bfb6-4fa3-8dd3-689d9e2ad8b6"
+      },
+      "reason": "Unhealthy",
+      "reportingComponent": "kubelet",
+      "reportingInstance": "kubectl-flink-control-plane",
+      "source": {
+        "component": "kubelet",
+        "host": "kubectl-flink-control-plane"
+      },
+      "type": "Warning"
+    },
+    {
+      "action": "Binding",
+      "apiVersion": "v1",
+      "eventTime": "2026-10-24T23:39:17.427087Z",
+      "firstTimestamp": null,
+      "involvedObject": {
+        "apiVersion": "v1",
+        "kind": "Pod",
+        "name": "snap-taskmanager-1-1",
+        "namespace": "default",
+        "resourceVersion": "93548",
+        "uid": "8ff84e78-1b18-45b6-92e7-3f8fd6b74027"
+      },
+      "kind": "Event",
+      "lastTimestamp": null,
+      "message": "Successfully assigned default/snap-taskmanager-1-1 to kubectl-flink-control-plane",
+      "metadata": {
+        "creationTimestamp": "2026-10-24T23:39:17Z",
+        "name": "snap-taskmanager-1-1.18e19b8d33831c91",
+        "namespace": "default",
+        "resourceVersion": "93550",
+        "uid": "85e99f55-51a4-4788-8f4d-1379735ab911"
+      },
+      "reason": "Scheduled",
+      "reportingComponent": "default-scheduler",
+      "reportingInstance": "default-scheduler-kubectl-flink-control-plane",
+      "source": {},
+      "type": "Normal"
+    },
+    {
+      "apiVersion": "v1",
+      "count": 1,
+      "eventTime": null,
+      "firstTimestamp": "2026-10-24T23:39:17Z",
+      "involvedObject": {
+        "apiVersion": "v1",
+        "fieldPath": "spec.initContainers{data-dir}",
+        "kind": "Pod",
+        "name": "snap-taskmanager-1-1",
+        "namespace": "default",
+        "resourceVersion": "93549",
+        "uid": "8ff84e78-1b18-45b6-92e7-3f8fd6b74027"
+      },
+      "kind": "Event",
+      "lastTimestamp": "2026-10-24T23:39:17Z",
+      "message": "Container image \"flink:2.2\" already present on machine and can be accessed by the pod",
+      "metadata": {
+        "creationTimestamp": "2026-10-24T23:39:17Z",
+        "name": "snap-taskmanager-1-1.18e19b8d488705e5",
+        "namespace": "default",
+        "resourceVersion": "93552",
+        "uid": "89efa0ad-7035-43c5-a4fc-cac6c51b99ee"
+      },
+      "reason": "Pulled",
+      "reportingComponent": "kubelet",
+      "reportingInstance": "kubectl-flink-control-plane",
+      "source": {
+        "component": "kubelet",
+        "host": "kubectl-flink-control-plane"
+      },
+      "type": "Normal"
+    },
+    {
+      "apiVersion": "v1",
+      "count": 1,
+      "eventTime": null,
+      "firstTimestamp": "2026-10-24T23:39:17Z",
+      "involvedObject": {
+        "apiVersion": "v1",
+        "fieldPath": "spec.initContainers{data-dir}",
+        "kind": "Pod",
+        "name": "snap-taskmanager-1-1",
+        "namespace": "default",
+        "resourceVersion": "93549",
+        "uid": "8ff84e78-1b18-45b6-92e7-3f8fd6b74027"
+      },
+      "kind": "Event",
+      "lastTimestamp": "2026-10-24T23:39:17Z",
+      "message": "Container created",
+      "metadata": {
+        "creationTimestamp": "2026-10-24T23:39:17Z",
+        "name": "snap-taskmanager-1-1.18e19b8d48fc4c84",
+        "namespace": "default",
+        "resourceVersion": "93554",
+        "uid": "e4317370-1ac5-4782-8948-2f10930191c0"
+      },
+      "reason": "Created",
+      "reportingComponent": "kubelet",
+      "reportingInstance": "kubectl-flink-control-plane",
+      "source": {
+        "component": "kubelet",
+        "host": "kubectl-flink-control-plane"
+      },
+      "type": "Normal"
+    },
+    {
+      "apiVersion": "v1",
+      "count": 1,
+      "eventTime": null,
+      "firstTimestamp": "2026-10-24T23:39:17Z",
+      "involvedObject": {
+        "apiVersion": "v1",
+        "fieldPath": "spec.initContainers{data-dir}",
+        "kind": "Pod",
+        "name": "snap-taskmanager-1-1",
+        "namespace": "default",
+        "resourceVersion": "93549",
+        "uid": "8ff84e78-1b18-45b6-92e7-3f8fd6b74027"
+      },
+      "kind": "Event",
+      "lastTimestamp": "2026-10-24T23:39:17Z",
+      "message": "Container started",
+      "metadata": {
+        "creationTimestamp": "2026-10-24T23:39:17Z",
+        "name": "snap-taskmanager-1-1.18e19b8d4ab0797d",
+        "namespace": "default",
+        "resourceVersion": "93555",
+        "uid": "f942b245-43bb-4fcc-b7f4-936df0045d09"
+      },
+      "reason": "Started",
+      "reportingComponent": "kubelet",
+      "reportingInstance": "kubectl-flink-control-plane",
+      "source": {
+        "component": "kubelet",
+        "host": "kubectl-flink-control-plane"
+      },
+      "type": "Normal"
+    },
+    {
+      "apiVersion": "v1",
+      "count": 1,
+      "eventTime": null,
+      "firstTimestamp": "2026-10-24T23:39:17Z",
+      "involvedObject": {
+        "apiVersion": "v1",
+        "fieldPath": "spec.containers{flink-main-container}",
+        "kind": "Pod",
+        "name": "snap-taskmanager-1-1",
+        "namespace": "default",
+        "resourceVersion": "93549",
+        "uid": "8ff84e78-1b18-45b6-92e7-3f8fd6b74027"
+      },
+      "kind": "Event",
+      "lastTimestamp": "2026-10-24T23:39:17Z",
+      "message": "Container image \"flink:2.2\" already present on machine and can be accessed by the pod",
+      "metadata": {
+        "creationTimestamp": "2026-10-24T23:39:17Z",
+        "name": "snap-taskmanager-1-1.18e19b8d530d5ed3",
+        "namespace": "default",
+        "resourceVersion": "93559",
+        "uid": "a68230c5-8059-41ae-952a-72f6b65cd047"
+      },
+      "reason": "Pulled",
+      "reportingComponent": "kubelet",
+      "reportingInstance": "kubectl-flink-control-plane",
+      "source": {
+        "component": "kubelet",
+        "host": "kubectl-flink-control-plane"
+      },
+      "type": "Normal"
+    },
+    {
+      "apiVersion": "v1",
+      "count": 1,
+      "eventTime": null,
+      "firstTimestamp": "2026-10-24T23:39:17Z",
+      "involvedObject": {
+        "apiVersion": "v1",
+        "fieldPath": "spec.containers{flink-main-container}",
+        "kind": "Pod",
+        "name": "snap-taskmanager-1-1",
+        "namespace": "default",
+        "resourceVersion": "93549",
+        "uid": "8ff84e78-1b18-45b6-92e7-3f8fd6b74027"
+      },
+      "kind": "Event",
+      "lastTimestamp": "2026-10-24T23:39:17Z",
+      "message": "Container created",
+      "metadata": {
+        "creationTimestamp": "2026-10-24T23:39:17Z",
+        "name": "snap-taskmanager-1-1.18e19b8d538d15cf",
+        "namespace": "default",
+        "resourceVersion": "93561",
+        "uid": "11058be3-cbb4-4c2d-b0e8-7012c9cf17d3"
+      },
+      "reason": "Created",
+      "reportingComponent": "kubelet",
+      "reportingInstance": "kubectl-flink-control-plane",
+      "source": {
+        "component": "kubelet",
+        "host": "kubectl-flink-control-plane"
+      },
+      "type": "Normal"
+    },
+    {
+      "apiVersion": "v1",
+      "count": 1,
+      "eventTime": null,
+      "firstTimestamp": "2026-10-24T23:39:17Z",
+      "involvedObject": {
+        "apiVersion": "v1",
+        "fieldPath": "spec.containers{flink-main-container}",
+        "kind": "Pod",
+        "name": "snap-taskmanager-1-1",
+        "namespace": "default",
+        "resourceVersion": "93549",
+        "uid": "8ff84e78-1b18-45b6-92e7-3f8fd6b74027"
+      },
+      "kind": "Event",
+      "lastTimestamp": "2026-10-24T23:39:17Z",
+      "message": "Container started",
+      "metadata": {
+        "creationTimestamp": "2026-10-24T23:39:17Z",
+        "name": "snap-taskmanager-1-1.18e19b8d55123dd5",
+        "namespace": "default",
+        "resourceVersion": "93562",
+        "uid": "85402891-d24a-4162-8f1c-9d731694778f"
+      },
+      "reason": "Started",
+      "reportingComponent": "kubelet",
+      "reportingInstance": "kubectl-flink-control-plane",
+      "source": {
+        "component": "kubelet",
+        "host": "kubectl-flink-control-plane"
+      },
+      "type": "Normal"
+    }
+  ],
+  "kind": "List",
+  "metadata": {
+    "resourceVersion": ""
+  }
+}

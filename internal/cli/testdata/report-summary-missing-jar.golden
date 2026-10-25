@@ -1,10 +1,10 @@
 # FlinkDeployment default/missing-jar
 
-Context `dev`, captured 2026-10-24T20:34:03Z by kubectl-flink dev.
-Flink job `30a0a7cb56f88acb5253438bf2a48e1d`.
+Context `dev`, captured 2026-10-24T23:34:31Z by kubectl-flink dev.
+Flink job `da40c762a8d720cdf0ba2711133ba6e2`.
 
 **Health: PROGRESSING**
-- JobManager deployment ERROR: CrashLoopBackOff: [flink-main-container] back-off 20s restarting failed container=flink-main-container pod=missing-jar-…
+- JobManager deployment ERROR: CrashLoopBackOff: [flink-main-container] back-off 10s restarting failed container=flink-main-container pod=missing-jar-…
 - job RECONCILING
 
 ## Matched patterns
@@ -17,20 +17,19 @@ Flink job `30a0a7cb56f88acb5253438bf2a48e1d`.
 
 | UTC | Source | What |
 |---|---|---|
-| 10-24 20:33:03 | event flinkdeployment | CrashLoopBackOff: [flink-main-container] back-off 20s restarting failed container=flink-main-container pod=missing-jar-6dcbb6c8fc-jdxmc_def… |
-| 10-24 20:32:59 | event pod | BackOff: Back-off restarting failed container flink-main-container in pod missing-jar-6dcbb6c8fc-jdxmc_default(6a46a5a3-2395-4124-ab3e-6c41… |
-| 10-24 20:32:58 | event pod | Unhealthy: Startup probe failed: Get "http://10.244.0.93:8081/config": dial tcp 10.244.0.93:8081: connect: connection refused (×17 since 20… |
-| 10-24 20:32:58 | pod | jobmanager missing-jar-6dcbb6c8fc-jdxmc exited: Error exit 1 |
-| 10-24 20:32:53 | event pod | Pulled: Container image "flink:2.2" already present on machine and can be accessed by the pod (×3 since 20:32:28) |
-| 10-24 20:32:53 | event pod | Created: Container created (×3 since 20:32:28) |
-| 10-24 20:32:53 | event pod | Started: Container started (×3 since 20:32:28) |
-| 10-24 20:32:43 | event flinkdeployment | CrashLoopBackOff: [flink-main-container] back-off 10s restarting failed container=flink-main-container pod=missing-jar-6dcbb6c8fc-jdxmc_def… |
-| 10-24 20:32:28 | status | operator reconciled generation 1: lifecycle DEPLOYED |
-| 10-24 20:32:28 | event pod | Scheduled: Successfully assigned default/missing-jar-6dcbb6c8fc-jdxmc to kubectl-flink-control-plane |
-| 10-24 20:32:28 | resource | created, generation 1 |
-| 10-24 20:32:28 | managedFields | kubectl-client-side-apply last wrote the resource; it owns spec flinkConfiguration, flinkVersion, image, job, jobManager, serviceAccount, t… |
-| 10-24 20:32:28 | event flinkdeployment | Submit: Starting deployment |
-| 10-24 20:32:28 | pod | jobmanager pod missing-jar-6dcbb6c8fc-jdxmc created |
+| 10-24 23:34:07 | event pod | BackOff: Back-off restarting failed container flink-main-container in pod missing-jar-6dc6464575-mn6dh_default(8f39af77-cea5-444c-8dfe-1513… |
+| 10-24 23:34:06 | event pod | Unhealthy: Startup probe failed: Get "http://10.244.0.50:8081/config": dial tcp 10.244.0.50:8081: connect: connection refused (×13 since 23… |
+| 10-24 23:34:05 | pod | jobmanager missing-jar-6dc6464575-mn6dh exited: Error exit 1 |
+| 10-24 23:34:03 | event pod | Pulled: Container image "flink:2.2" already present on machine and can be accessed by the pod (×4 since 23:33:18) |
+| 10-24 23:34:03 | event pod | Created: Container created (×4 since 23:33:18) |
+| 10-24 23:34:03 | event pod | Started: Container started (×4 since 23:33:18) |
+| 10-24 23:33:28 | event flinkdeployment | CrashLoopBackOff: [flink-main-container] back-off 10s restarting failed container=flink-main-container pod=missing-jar-6dc6464575-mn6dh_def… |
+| 10-24 23:33:18 | status | operator reconciled generation 1: lifecycle DEPLOYED |
+| 10-24 23:33:17 | event pod | Scheduled: Successfully assigned default/missing-jar-6dc6464575-mn6dh to kubectl-flink-control-plane |
+| 10-24 23:33:17 | resource | created, generation 1 |
+| 10-24 23:33:17 | managedFields | kubectl-client-side-apply last wrote the resource; it owns spec flinkConfiguration, flinkVersion, image, job, jobManager, serviceAccount, t… |
+| 10-24 23:33:17 | event flinkdeployment | Submit: Starting deployment |
+| 10-24 23:33:17 | pod | jobmanager pod missing-jar-6dc6464575-mn6dh created |
 
 ## Not collected
 
@@ -43,8 +42,8 @@ Flink job `30a0a7cb56f88acb5253438bf2a48e1d`.
 | events.json | 0 |
 | flink-config.json | 0 |
 | history.txt | 0 |
-| logs/missing-jar-6dcbb6c8fc-jdxmc.previous.txt | 0 |
-| logs/missing-jar-6dcbb6c8fc-jdxmc.txt | 0 |
+| logs/missing-jar-6dc6464575-mn6dh.previous.txt | 0 |
+| logs/missing-jar-6dc6464575-mn6dh.txt | 0 |
 | pods.json | 2 |
 | resource.json | 0 |
 | why.txt | 0 |

@@ -1,0 +1,227 @@
+{
+    "apiVersion": "flink.apache.org/v1beta1",
+    "kind": "FlinkDeployment",
+    "metadata": {
+        "annotations": {
+            "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"flink.apache.org/v1beta1\",\"kind\":\"FlinkDeployment\",\"metadata\":{\"annotations\":{},\"name\":\"checkpoint-storage\",\"namespace\":\"default\"},\"spec\":{\"flinkConfiguration\":{\"execution.checkpointing.dir\":\"file:///flink-data/checkpoints\",\"execution.checkpointing.interval\":\"10s\",\"execution.checkpointing.savepoint-dir\":\"file:///flink-data/savepoints\",\"kubernetes.jobmanager.cpu.limit-factor\":\"6\",\"kubernetes.taskmanager.cpu.limit-factor\":\"6\",\"taskmanager.numberOfTaskSlots\":\"1\"},\"flinkVersion\":\"v2_2\",\"image\":\"flink:2.2\",\"job\":{\"jarURI\":\"local:///opt/flink/examples/streaming/StateMachineExample.jar\",\"parallelism\":1,\"upgradeMode\":\"stateless\"},\"jobManager\":{\"resource\":{\"cpu\":0.15,\"memory\":\"1024m\"}},\"podTemplate\":{\"spec\":{\"containers\":[{\"name\":\"flink-main-container\",\"volumeMounts\":[{\"mountPath\":\"/flink-data\",\"name\":\"flink-data\"}]}],\"volumes\":[{\"hostPath\":{\"path\":\"/tmp/flink-unwritable-4204\",\"type\":\"DirectoryOrCreate\"},\"name\":\"flink-data\"}]}},\"serviceAccount\":\"flink\",\"taskManager\":{\"resource\":{\"cpu\":0.15,\"memory\":\"1024m\"}}}}\n"
+        },
+        "creationTimestamp": "2026-10-24T23:33:17Z",
+        "finalizers": [
+            "flinkdeployments.flink.apache.org/finalizer"
+        ],
+        "generation": 1,
+        "managedFields": [
+            {
+                "apiVersion": "flink.apache.org/v1beta1",
+                "fieldsType": "FieldsV1",
+                "fieldsV1": {
+                    "f:metadata": {
+                        "f:finalizers": {
+                            ".": {},
+                            "v:\"flinkdeployments.flink.apache.org/finalizer\"": {}
+                        }
+                    }
+                },
+                "manager": "fabric8-kubernetes-client",
+                "operation": "Update",
+                "time": "2026-10-24T23:33:17Z"
+            },
+            {
+                "apiVersion": "flink.apache.org/v1beta1",
+                "fieldsType": "FieldsV1",
+                "fieldsV1": {
+                    "f:metadata": {
+                        "f:annotations": {
+                            ".": {},
+                            "f:kubectl.kubernetes.io/last-applied-configuration": {}
+                        }
+                    },
+                    "f:spec": {
+                        ".": {},
+                        "f:flinkConfiguration": {
+                            ".": {},
+                            "f:execution.checkpointing.dir": {},
+                            "f:execution.checkpointing.interval": {},
+                            "f:execution.checkpointing.savepoint-dir": {},
+                            "f:kubernetes.jobmanager.cpu.limit-factor": {},
+                            "f:kubernetes.taskmanager.cpu.limit-factor": {},
+                            "f:taskmanager.numberOfTaskSlots": {}
+                        },
+                        "f:flinkVersion": {},
+                        "f:image": {},
+                        "f:job": {
+                            ".": {},
+                            "f:jarURI": {},
+                            "f:parallelism": {},
+                            "f:upgradeMode": {}
+                        },
+                        "f:jobManager": {
+                            ".": {},
+                            "f:resource": {
+                                ".": {},
+                                "f:cpu": {},
+                                "f:memory": {}
+                            }
+                        },
+                        "f:podTemplate": {
+                            ".": {},
+                            "f:spec": {
+                                ".": {},
+                                "f:containers": {},
+                                "f:volumes": {}
+                            }
+                        },
+                        "f:serviceAccount": {},
+                        "f:taskManager": {
+                            ".": {},
+                            "f:resource": {
+                                ".": {},
+                                "f:cpu": {},
+                                "f:memory": {}
+                            }
+                        }
+                    }
+                },
+                "manager": "kubectl-client-side-apply",
+                "operation": "Update",
+                "time": "2026-10-24T23:33:17Z"
+            },
+            {
+                "apiVersion": "flink.apache.org/v1beta1",
+                "fieldsType": "FieldsV1",
+                "fieldsV1": {
+                    "f:status": {
+                        ".": {},
+                        "f:clusterInfo": {},
+                        "f:conditions": {},
+                        "f:jobManagerDeploymentStatus": {},
+                        "f:jobStatus": {
+                            ".": {},
+                            "f:checkpointInfo": {
+                                ".": {},
+                                "f:lastPeriodicCheckpointTimestamp": {}
+                            },
+                            "f:jobId": {},
+                            "f:savepointInfo": {
+                                ".": {},
+                                "f:lastPeriodicSavepointTimestamp": {},
+                                "f:savepointHistory": {}
+                            },
+                            "f:state": {}
+                        },
+                        "f:lifecycleState": {},
+                        "f:observedGeneration": {},
+                        "f:reconciliationStatus": {
+                            ".": {},
+                            "f:lastReconciledSpec": {},
+                            "f:reconciliationTimestamp": {},
+                            "f:state": {}
+                        },
+                        "f:taskManager": {
+                            ".": {},
+                            "f:labelSelector": {},
+                            "f:replicas": {}
+                        }
+                    }
+                },
+                "manager": "fabric8-kubernetes-client",
+                "operation": "Update",
+                "subresource": "status",
+                "time": "2026-10-24T23:33:18Z"
+            }
+        ],
+        "name": "checkpoint-storage",
+        "namespace": "default",
+        "resourceVersion": "91068",
+        "uid": "6f0805d1-14c8-43d2-84a3-243f65b2df7e"
+    },
+    "spec": {
+        "flinkConfiguration": {
+            "execution.checkpointing.dir": "file:///flink-data/checkpoints",
+            "execution.checkpointing.interval": "10s",
+            "execution.checkpointing.savepoint-dir": "file:///flink-data/savepoints",
+            "kubernetes.jobmanager.cpu.limit-factor": "6",
+            "kubernetes.taskmanager.cpu.limit-factor": "6",
+            "taskmanager.numberOfTaskSlots": "1"
+        },
+        "flinkVersion": "v2_2",
+        "image": "flink:2.2",
+        "job": {
+            "jarURI": "local:///opt/flink/examples/streaming/StateMachineExample.jar",
+            "parallelism": 1,
+            "upgradeMode": "stateless"
+        },
+        "jobManager": {
+            "resource": {
+                "cpu": 0.15,
+                "memory": "1024m"
+            }
+        },
+        "podTemplate": {
+            "spec": {
+                "containers": [
+                    {
+                        "name": "flink-main-container",
+                        "volumeMounts": [
+                            {
+                                "mountPath": "/flink-data",
+                                "name": "flink-data"
+                            }
+                        ]
+                    }
+                ],
+                "volumes": [
+                    {
+                        "hostPath": {
+                            "path": "/tmp/flink-unwritable-4204",
+                            "type": "DirectoryOrCreate"
+                        },
+                        "name": "flink-data"
+                    }
+                ]
+            }
+        },
+        "serviceAccount": "flink",
+        "taskManager": {
+            "resource": {
+                "cpu": 0.15,
+                "memory": "1024m"
+            }
+        }
+    },
+    "status": {
+        "clusterInfo": {},
+        "conditions": [
+            {
+                "lastTransitionTime": "2026-10-24T23:33:18.177090792Z",
+                "message": "Job status RECONCILING",
+                "reason": "Reconciling",
+                "status": "False",
+                "type": "Running"
+            }
+        ],
+        "jobManagerDeploymentStatus": "DEPLOYING",
+        "jobStatus": {
+            "checkpointInfo": {
+                "lastPeriodicCheckpointTimestamp": 0
+            },
+            "jobId": "f89a84e44a12a8619d7694120b2aec3b",
+            "savepointInfo": {
+                "lastPeriodicSavepointTimestamp": 0,
+                "savepointHistory": []
+            },
+            "state": "RECONCILING"
+        },
+        "lifecycleState": "DEPLOYED",
+        "observedGeneration": 1,
+        "reconciliationStatus": {
+            "lastReconciledSpec": "{\"spec\":{\"job\":{\"jarURI\":\"local:///opt/flink/examples/streaming/StateMachineExample.jar\",\"parallelism\":1,\"entryClass\":null,\"args\":[],\"state\":\"running\",\"savepointTriggerNonce\":null,\"initialSavepointPath\":null,\"checkpointTriggerNonce\":null,\"upgradeMode\":\"stateless\",\"allowNonRestoredState\":null,\"savepointRedeployNonce\":null,\"autoscalerResetNonce\":null},\"restartNonce\":null,\"flinkConfiguration\":{\"execution.checkpointing.dir\":\"file:///flink-data/checkpoints\",\"execution.checkpointing.interval\":\"10s\",\"execution.checkpointing.savepoint-dir\":\"file:///flink-data/savepoints\",\"kubernetes.jobmanager.cpu.limit-factor\":\"6\",\"kubernetes.taskmanager.cpu.limit-factor\":\"6\",\"taskmanager.numberOfTaskSlots\":\"1\"},\"image\":\"flink:2.2\",\"imagePullPolicy\":null,\"serviceAccount\":\"flink\",\"flinkVersion\":\"v2_2\",\"ingress\":null,\"podTemplate\":{\"spec\":{\"containers\":[{\"name\":\"flink-main-container\",\"volumeMounts\":[{\"mountPath\":\"/flink-data\",\"name\":\"flink-data\"}]}],\"volumes\":[{\"hostPath\":{\"path\":\"/tmp/flink-unwritable-4204\",\"type\":\"DirectoryOrCreate\"},\"name\":\"flink-data\"}]}},\"jobManager\":{\"resource\":{\"cpu\":0.15,\"memory\":\"1024m\",\"ephemeralStorage\":null},\"resources\":null,\"replicas\":1,\"podTemplate\":null},\"taskManager\":{\"resource\":{\"cpu\":0.15,\"memory\":\"1024m\",\"ephemeralStorage\":null},\"resources\":null,\"replicas\":null,\"podTemplate\":null},\"logConfiguration\":null,\"mode\":null},\"resource_metadata\":{\"apiVersion\":\"flink.apache.org/v1beta1\",\"firstDeployment\":true}}",
+            "reconciliationTimestamp": 1792884798176,
+            "state": "DEPLOYED"
+        },
+        "taskManager": {
+            "labelSelector": "component=taskmanager,app=checkpoint-storage",
+            "replicas": 1
+        }
+    }
+}

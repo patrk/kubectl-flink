@@ -1,0 +1,269 @@
+{
+    "apiVersion": "flink.apache.org/v1beta1",
+    "kind": "FlinkDeployment",
+    "metadata": {
+        "annotations": {
+            "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"flink.apache.org/v1beta1\",\"kind\":\"FlinkDeployment\",\"metadata\":{\"annotations\":{},\"name\":\"snap\",\"namespace\":\"default\"},\"spec\":{\"flinkConfiguration\":{\"execution.checkpointing.dir\":\"file:///flink-data/checkpoints\",\"execution.checkpointing.interval\":\"10s\",\"execution.checkpointing.savepoint-dir\":\"file:///flink-data/savepoints\",\"kubernetes.jobmanager.cpu.limit-factor\":\"6\",\"kubernetes.taskmanager.cpu.limit-factor\":\"6\",\"taskmanager.numberOfTaskSlots\":\"1\"},\"flinkVersion\":\"v1_20\",\"image\":\"flink:1.20\",\"job\":{\"jarURI\":\"local:///opt/flink/examples/streaming/TopSpeedWindowing.jar\",\"parallelism\":1,\"upgradeMode\":\"stateless\"},\"jobManager\":{\"resource\":{\"cpu\":0.15,\"memory\":\"1024m\"}},\"podTemplate\":{\"spec\":{\"containers\":[{\"name\":\"flink-main-container\",\"volumeMounts\":[{\"mountPath\":\"/flink-data\",\"name\":\"flink-data\"}]}],\"initContainers\":[{\"command\":[\"sh\",\"-c\",\"chmod 0777 /flink-data\"],\"image\":\"flink:1.20\",\"name\":\"data-dir\",\"securityContext\":{\"runAsUser\":0},\"volumeMounts\":[{\"mountPath\":\"/flink-data\",\"name\":\"flink-data\"}]}],\"volumes\":[{\"hostPath\":{\"path\":\"/tmp/flink-snap\",\"type\":\"DirectoryOrCreate\"},\"name\":\"flink-data\"}]}},\"serviceAccount\":\"flink\",\"taskManager\":{\"resource\":{\"cpu\":0.15,\"memory\":\"1024m\"}}}}\n"
+        },
+        "creationTimestamp": "2026-10-24T23:50:39Z",
+        "finalizers": [
+            "flinkdeployments.flink.apache.org/finalizer"
+        ],
+        "generation": 1,
+        "managedFields": [
+            {
+                "apiVersion": "flink.apache.org/v1beta1",
+                "fieldsType": "FieldsV1",
+                "fieldsV1": {
+                    "f:metadata": {
+                        "f:finalizers": {
+                            ".": {},
+                            "v:\"flinkdeployments.flink.apache.org/finalizer\"": {}
+                        }
+                    }
+                },
+                "manager": "fabric8-kubernetes-client",
+                "operation": "Update",
+                "time": "2026-10-24T23:50:39Z"
+            },
+            {
+                "apiVersion": "flink.apache.org/v1beta1",
+                "fieldsType": "FieldsV1",
+                "fieldsV1": {
+                    "f:metadata": {
+                        "f:annotations": {
+                            ".": {},
+                            "f:kubectl.kubernetes.io/last-applied-configuration": {}
+                        }
+                    },
+                    "f:spec": {
+                        ".": {},
+                        "f:flinkConfiguration": {
+                            ".": {},
+                            "f:execution.checkpointing.dir": {},
+                            "f:execution.checkpointing.interval": {},
+                            "f:execution.checkpointing.savepoint-dir": {},
+                            "f:kubernetes.jobmanager.cpu.limit-factor": {},
+                            "f:kubernetes.taskmanager.cpu.limit-factor": {},
+                            "f:taskmanager.numberOfTaskSlots": {}
+                        },
+                        "f:flinkVersion": {},
+                        "f:image": {},
+                        "f:job": {
+                            ".": {},
+                            "f:jarURI": {},
+                            "f:parallelism": {},
+                            "f:upgradeMode": {}
+                        },
+                        "f:jobManager": {
+                            ".": {},
+                            "f:resource": {
+                                ".": {},
+                                "f:cpu": {},
+                                "f:memory": {}
+                            }
+                        },
+                        "f:podTemplate": {
+                            ".": {},
+                            "f:spec": {
+                                ".": {},
+                                "f:containers": {},
+                                "f:initContainers": {},
+                                "f:volumes": {}
+                            }
+                        },
+                        "f:serviceAccount": {},
+                        "f:taskManager": {
+                            ".": {},
+                            "f:resource": {
+                                ".": {},
+                                "f:cpu": {},
+                                "f:memory": {}
+                            }
+                        }
+                    }
+                },
+                "manager": "kubectl-client-side-apply",
+                "operation": "Update",
+                "time": "2026-10-24T23:50:39Z"
+            },
+            {
+                "apiVersion": "flink.apache.org/v1beta1",
+                "fieldsType": "FieldsV1",
+                "fieldsV1": {
+                    "f:status": {
+                        ".": {},
+                        "f:clusterInfo": {
+                            ".": {},
+                            "f:flink-revision": {},
+                            "f:flink-version": {},
+                            "f:state-size": {},
+                            "f:total-cpu": {},
+                            "f:total-memory": {}
+                        },
+                        "f:conditions": {},
+                        "f:jobManagerDeploymentStatus": {},
+                        "f:jobStatus": {
+                            ".": {},
+                            "f:checkpointInfo": {
+                                ".": {},
+                                "f:lastPeriodicCheckpointTimestamp": {}
+                            },
+                            "f:jobId": {},
+                            "f:jobName": {},
+                            "f:savepointInfo": {
+                                ".": {},
+                                "f:lastPeriodicSavepointTimestamp": {},
+                                "f:savepointHistory": {}
+                            },
+                            "f:startTime": {},
+                            "f:state": {},
+                            "f:updateTime": {}
+                        },
+                        "f:lifecycleState": {},
+                        "f:observedGeneration": {},
+                        "f:reconciliationStatus": {
+                            ".": {},
+                            "f:lastReconciledSpec": {},
+                            "f:lastStableSpec": {},
+                            "f:reconciliationTimestamp": {},
+                            "f:state": {}
+                        },
+                        "f:taskManager": {
+                            ".": {},
+                            "f:labelSelector": {},
+                            "f:replicas": {}
+                        }
+                    }
+                },
+                "manager": "fabric8-kubernetes-client",
+                "operation": "Update",
+                "subresource": "status",
+                "time": "2026-10-24T23:53:33Z"
+            }
+        ],
+        "name": "snap",
+        "namespace": "default",
+        "resourceVersion": "97298",
+        "uid": "c31c3266-fe96-4411-ac26-eb41294fba37"
+    },
+    "spec": {
+        "flinkConfiguration": {
+            "execution.checkpointing.dir": "file:///flink-data/checkpoints",
+            "execution.checkpointing.interval": "10s",
+            "execution.checkpointing.savepoint-dir": "file:///flink-data/savepoints",
+            "kubernetes.jobmanager.cpu.limit-factor": "6",
+            "kubernetes.taskmanager.cpu.limit-factor": "6",
+            "taskmanager.numberOfTaskSlots": "1"
+        },
+        "flinkVersion": "v1_20",
+        "image": "flink:1.20",
+        "job": {
+            "jarURI": "local:///opt/flink/examples/streaming/TopSpeedWindowing.jar",
+            "parallelism": 1,
+            "upgradeMode": "stateless"
+        },
+        "jobManager": {
+            "resource": {
+                "cpu": 0.15,
+                "memory": "1024m"
+            }
+        },
+        "podTemplate": {
+            "spec": {
+                "containers": [
+                    {
+                        "name": "flink-main-container",
+                        "volumeMounts": [
+                            {
+                                "mountPath": "/flink-data",
+                                "name": "flink-data"
+                            }
+                        ]
+                    }
+                ],
+                "initContainers": [
+                    {
+                        "command": [
+                            "sh",
+                            "-c",
+                            "chmod 0777 /flink-data"
+                        ],
+                        "image": "flink:1.20",
+                        "name": "data-dir",
+                        "securityContext": {
+                            "runAsUser": 0
+                        },
+                        "volumeMounts": [
+                            {
+                                "mountPath": "/flink-data",
+                                "name": "flink-data"
+                            }
+                        ]
+                    }
+                ],
+                "volumes": [
+                    {
+                        "hostPath": {
+                            "path": "/tmp/flink-snap",
+                            "type": "DirectoryOrCreate"
+                        },
+                        "name": "flink-data"
+                    }
+                ]
+            }
+        },
+        "serviceAccount": "flink",
+        "taskManager": {
+            "resource": {
+                "cpu": 0.15,
+                "memory": "1024m"
+            }
+        }
+    },
+    "status": {
+        "clusterInfo": {
+            "flink-revision": "0980485 @ 2026-06-08T09:21:06+02:00",
+            "flink-version": "1.20.5",
+            "state-size": "9685",
+            "total-cpu": "1.7999999999999998",
+            "total-memory": "2147483648"
+        },
+        "conditions": [
+            {
+                "lastTransitionTime": "2026-10-24T23:51:13.309177096Z",
+                "message": "Job status RUNNING",
+                "reason": "Running",
+                "status": "True",
+                "type": "Running"
+            }
+        ],
+        "jobManagerDeploymentStatus": "READY",
+        "jobStatus": {
+            "checkpointInfo": {
+                "lastPeriodicCheckpointTimestamp": 0
+            },
+            "jobId": "6fac4c809f2b12f9bdf409fd0ec650bd",
+            "jobName": "CarTopSpeedWindowingExample",
+            "savepointInfo": {
+                "lastPeriodicSavepointTimestamp": 0,
+                "savepointHistory": []
+            },
+            "startTime": "1792885844778",
+            "state": "RUNNING",
+            "updateTime": "1792885873200"
+        },
+        "lifecycleState": "STABLE",
+        "observedGeneration": 1,
+        "reconciliationStatus": {
+            "lastReconciledSpec": "{\"spec\":{\"job\":{\"jarURI\":\"local:///opt/flink/examples/streaming/TopSpeedWindowing.jar\",\"parallelism\":1,\"entryClass\":null,\"args\":[],\"state\":\"running\",\"savepointTriggerNonce\":null,\"initialSavepointPath\":null,\"checkpointTriggerNonce\":null,\"upgradeMode\":\"stateless\",\"allowNonRestoredState\":null,\"savepointRedeployNonce\":null,\"autoscalerResetNonce\":null},\"restartNonce\":null,\"flinkConfiguration\":{\"execution.checkpointing.dir\":\"file:///flink-data/checkpoints\",\"execution.checkpointing.interval\":\"10s\",\"execution.checkpointing.savepoint-dir\":\"file:///flink-data/savepoints\",\"kubernetes.jobmanager.cpu.limit-factor\":\"6\",\"kubernetes.taskmanager.cpu.limit-factor\":\"6\",\"taskmanager.numberOfTaskSlots\":\"1\"},\"image\":\"flink:1.20\",\"imagePullPolicy\":null,\"serviceAccount\":\"flink\",\"flinkVersion\":\"v1_20\",\"ingress\":null,\"podTemplate\":{\"spec\":{\"containers\":[{\"name\":\"flink-main-container\",\"volumeMounts\":[{\"mountPath\":\"/flink-data\",\"name\":\"flink-data\"}]}],\"initContainers\":[{\"command\":[\"sh\",\"-c\",\"chmod 0777 /flink-data\"],\"image\":\"flink:1.20\",\"name\":\"data-dir\",\"securityContext\":{\"runAsUser\":0},\"volumeMounts\":[{\"mountPath\":\"/flink-data\",\"name\":\"flink-data\"}]}],\"volumes\":[{\"hostPath\":{\"path\":\"/tmp/flink-snap\",\"type\":\"DirectoryOrCreate\"},\"name\":\"flink-data\"}]}},\"jobManager\":{\"resource\":{\"cpu\":0.15,\"memory\":\"1024m\",\"ephemeralStorage\":null},\"resources\":null,\"replicas\":1,\"podTemplate\":null},\"taskManager\":{\"resource\":{\"cpu\":0.15,\"memory\":\"1024m\",\"ephemeralStorage\":null},\"resources\":null,\"replicas\":null,\"podTemplate\":null},\"logConfiguration\":null,\"mode\":null},\"resource_metadata\":{\"apiVersion\":\"flink.apache.org/v1beta1\",\"firstDeployment\":true}}",
+            "lastStableSpec": "{\"spec\":{\"job\":{\"jarURI\":\"local:///opt/flink/examples/streaming/TopSpeedWindowing.jar\",\"parallelism\":1,\"entryClass\":null,\"args\":[],\"state\":\"running\",\"savepointTriggerNonce\":null,\"initialSavepointPath\":null,\"checkpointTriggerNonce\":null,\"upgradeMode\":\"stateless\",\"allowNonRestoredState\":null,\"savepointRedeployNonce\":null,\"autoscalerResetNonce\":null},\"restartNonce\":null,\"flinkConfiguration\":{\"execution.checkpointing.dir\":\"file:///flink-data/checkpoints\",\"execution.checkpointing.interval\":\"10s\",\"execution.checkpointing.savepoint-dir\":\"file:///flink-data/savepoints\",\"kubernetes.jobmanager.cpu.limit-factor\":\"6\",\"kubernetes.taskmanager.cpu.limit-factor\":\"6\",\"taskmanager.numberOfTaskSlots\":\"1\"},\"image\":\"flink:1.20\",\"imagePullPolicy\":null,\"serviceAccount\":\"flink\",\"flinkVersion\":\"v1_20\",\"ingress\":null,\"podTemplate\":{\"spec\":{\"containers\":[{\"name\":\"flink-main-container\",\"volumeMounts\":[{\"mountPath\":\"/flink-data\",\"name\":\"flink-data\"}]}],\"initContainers\":[{\"command\":[\"sh\",\"-c\",\"chmod 0777 /flink-data\"],\"image\":\"flink:1.20\",\"name\":\"data-dir\",\"securityContext\":{\"runAsUser\":0},\"volumeMounts\":[{\"mountPath\":\"/flink-data\",\"name\":\"flink-data\"}]}],\"volumes\":[{\"hostPath\":{\"path\":\"/tmp/flink-snap\",\"type\":\"DirectoryOrCreate\"},\"name\":\"flink-data\"}]}},\"jobManager\":{\"resource\":{\"cpu\":0.15,\"memory\":\"1024m\",\"ephemeralStorage\":null},\"resources\":null,\"replicas\":1,\"podTemplate\":null},\"taskManager\":{\"resource\":{\"cpu\":0.15,\"memory\":\"1024m\",\"ephemeralStorage\":null},\"resources\":null,\"replicas\":null,\"podTemplate\":null},\"logConfiguration\":null,\"mode\":null},\"resource_metadata\":{\"apiVersion\":\"flink.apache.org/v1beta1\",\"firstDeployment\":true}}",
+            "reconciliationTimestamp": 1792885839828,
+            "state": "DEPLOYED"
+        },
+        "taskManager": {
+            "labelSelector": "component=taskmanager,app=snap",
+            "replicas": 1
+        }
+    }
+}

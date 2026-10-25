@@ -93,7 +93,7 @@ func (ro *reportOptions) run(ctx context.Context, arg string) error {
 	}
 	now := ro.now()
 
-	bundle := report.Collect(ctx, report.Source{Kube: t.client, REST: access}, ev.Job, raw, ev.Pods, ev.Events, r,
+	bundle := report.Collect(ctx, report.Source{Kube: t.client, REST: access}, ev.Job, raw, ev.Pods, ev.Events, ev.Snapshots, r,
 		report.Options{Tail: ro.tail, MaxTaskManagers: ro.maxTaskManagers})
 	var why, hist bytes.Buffer
 	if err := render.Why(&why, ev, v); err != nil {

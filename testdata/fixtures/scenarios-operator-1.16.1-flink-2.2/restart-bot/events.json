@@ -5,23 +5,23 @@
       "apiVersion": "v1",
       "count": 3,
       "eventTime": null,
-      "firstTimestamp": "2026-10-24T20:33:58Z",
+      "firstTimestamp": "2026-10-24T23:35:43Z",
       "involvedObject": {
         "apiVersion": "flink.apache.org/v1beta1",
         "kind": "FlinkDeployment",
         "name": "restart-bot",
         "namespace": "default",
-        "uid": "eecb5ed9-4770-45f9-a122-174380a849d7"
+        "uid": "e3eb05c0-977a-47ac-afdf-07a439b2dfca"
       },
       "kind": "Event",
-      "lastTimestamp": "2026-10-24T20:36:00Z",
+      "lastTimestamp": "2026-10-24T23:37:47Z",
       "message": "Job status changed from RECONCILING to RUNNING",
       "metadata": {
-        "creationTimestamp": "2026-10-24T20:33:58Z",
-        "name": "Job.1048186486",
+        "creationTimestamp": "2026-10-24T23:35:43Z",
+        "name": "Job.971989025",
         "namespace": "default",
-        "resourceVersion": "56143",
-        "uid": "a6428cbe-22bd-4827-894b-2cca511e15ae"
+        "resourceVersion": "92902",
+        "uid": "df26dde0-1727-44c9-b8e8-9ddcc9a2525b"
       },
       "reason": "JobStatusChanged",
       "reportingComponent": "",
@@ -35,23 +35,23 @@
       "apiVersion": "v1",
       "count": 3,
       "eventTime": null,
-      "firstTimestamp": "2026-10-24T20:33:20Z",
+      "firstTimestamp": "2026-10-24T23:35:11Z",
       "involvedObject": {
         "apiVersion": "flink.apache.org/v1beta1",
         "kind": "FlinkDeployment",
         "name": "restart-bot",
         "namespace": "default",
-        "uid": "eecb5ed9-4770-45f9-a122-174380a849d7"
+        "uid": "e3eb05c0-977a-47ac-afdf-07a439b2dfca"
       },
       "kind": "Event",
-      "lastTimestamp": "2026-10-24T20:35:29Z",
+      "lastTimestamp": "2026-10-24T23:37:19Z",
       "message": "Starting deployment",
       "metadata": {
-        "creationTimestamp": "2026-10-24T20:33:20Z",
-        "name": "JobManagerDeployment.1293640432",
+        "creationTimestamp": "2026-10-24T23:35:11Z",
+        "name": "JobManagerDeployment.1217442971",
         "namespace": "default",
-        "resourceVersion": "55957",
-        "uid": "703f413b-6546-49b4-906f-2aefc32ead07"
+        "resourceVersion": "92734",
+        "uid": "5cf5510c-ca3d-4162-b01b-5b7a20bdf0d8"
       },
       "reason": "Submit",
       "reportingComponent": "",
@@ -65,23 +65,23 @@
       "apiVersion": "v1",
       "count": 1,
       "eventTime": null,
-      "firstTimestamp": "2026-10-24T20:35:26Z",
+      "firstTimestamp": "2026-10-24T23:37:17Z",
       "involvedObject": {
         "apiVersion": "flink.apache.org/v1beta1",
         "kind": "FlinkDeployment",
         "name": "restart-bot",
         "namespace": "default",
-        "uid": "eecb5ed9-4770-45f9-a122-174380a849d7"
+        "uid": "e3eb05c0-977a-47ac-afdf-07a439b2dfca"
       },
       "kind": "Event",
-      "lastTimestamp": "2026-10-24T20:35:26Z",
+      "lastTimestamp": "2026-10-24T23:37:17Z",
       "message": "UPGRADE change(s) detected (Diff: FlinkDeploymentSpec[restartNonce : 1 -> 2]), starting reconciliation.",
       "metadata": {
-        "creationTimestamp": "2026-10-24T20:35:26Z",
-        "name": "JobManagerDeployment.1327851116",
+        "creationTimestamp": "2026-10-24T23:37:17Z",
+        "name": "JobManagerDeployment.1251653655",
         "namespace": "default",
-        "resourceVersion": "55899",
-        "uid": "570f3013-62f8-41e3-bfe6-b3130211804e"
+        "resourceVersion": "92681",
+        "uid": "81689ac0-bef6-444b-a93b-2ef4c415ea4b"
       },
       "reason": "SpecChanged",
       "reportingComponent": "",
@@ -95,23 +95,23 @@
       "apiVersion": "v1",
       "count": 1,
       "eventTime": null,
-      "firstTimestamp": "2026-10-24T20:34:50Z",
+      "firstTimestamp": "2026-10-24T23:36:36Z",
       "involvedObject": {
         "apiVersion": "flink.apache.org/v1beta1",
         "kind": "FlinkDeployment",
         "name": "restart-bot",
         "namespace": "default",
-        "uid": "eecb5ed9-4770-45f9-a122-174380a849d7"
+        "uid": "e3eb05c0-977a-47ac-afdf-07a439b2dfca"
       },
       "kind": "Event",
-      "lastTimestamp": "2026-10-24T20:34:50Z",
+      "lastTimestamp": "2026-10-24T23:36:36Z",
       "message": "UPGRADE change(s) detected (Diff: FlinkDeploymentSpec[restartNonce : null -> 1]), starting reconciliation.",
       "metadata": {
-        "creationTimestamp": "2026-10-24T20:34:50Z",
-        "name": "JobManagerDeployment.1574164203",
+        "creationTimestamp": "2026-10-24T23:36:36Z",
+        "name": "JobManagerDeployment.1497966742",
         "namespace": "default",
-        "resourceVersion": "55638",
-        "uid": "46562277-6e60-47ce-b96e-25f5de495a25"
+        "resourceVersion": "92407",
+        "uid": "50401203-de76-4907-a067-632228be1efc"
       },
       "reason": "SpecChanged",
       "reportingComponent": "",
@@ -125,23 +125,23 @@
       "apiVersion": "v1",
       "count": 2,
       "eventTime": null,
-      "firstTimestamp": "2026-10-24T20:34:50Z",
+      "firstTimestamp": "2026-10-24T23:36:36Z",
       "involvedObject": {
         "apiVersion": "flink.apache.org/v1beta1",
         "kind": "FlinkDeployment",
         "name": "restart-bot",
         "namespace": "default",
-        "uid": "eecb5ed9-4770-45f9-a122-174380a849d7"
+        "uid": "e3eb05c0-977a-47ac-afdf-07a439b2dfca"
       },
       "kind": "Event",
-      "lastTimestamp": "2026-10-24T20:35:26Z",
+      "lastTimestamp": "2026-10-24T23:37:17Z",
       "message": "Suspending existing deployment.",
       "metadata": {
-        "creationTimestamp": "2026-10-24T20:34:50Z",
-        "name": "JobManagerDeployment.2077811734",
+        "creationTimestamp": "2026-10-24T23:36:36Z",
+        "name": "JobManagerDeployment.2001614273",
         "namespace": "default",
-        "resourceVersion": "55900",
-        "uid": "100fc968-a4bb-48c5-a9f5-f9f8d1e63306"
+        "resourceVersion": "92682",
+        "uid": "62128ee4-a655-44e8-92a4-92c7c01867e1"
       },
       "reason": "Suspended",
       "reportingComponent": "",
@@ -154,25 +154,25 @@
     {
       "action": "Binding",
       "apiVersion": "v1",
-      "eventTime": "2026-10-24T20:35:29.252908Z",
+      "eventTime": "2026-10-24T23:37:19.858005Z",
       "firstTimestamp": null,
       "involvedObject": {
         "apiVersion": "v1",
         "kind": "Pod",
-        "name": "restart-bot-f76bb5d7f-c55qn",
+        "name": "restart-bot-55ff488685-9btwx",
         "namespace": "default",
-        "resourceVersion": "55965",
-        "uid": "b174fc1e-b4c6-4479-8741-6e06cecbfe5d"
+        "resourceVersion": "92740",
+        "uid": "4ceb65cd-04de-462d-96e9-6e496c5f961a"
       },
       "kind": "Event",
       "lastTimestamp": null,
-      "message": "Successfully assigned default/restart-bot-f76bb5d7f-c55qn to kubectl-flink-control-plane",
+      "message": "Successfully assigned default/restart-bot-55ff488685-9btwx to kubectl-flink-control-plane",
       "metadata": {
-        "creationTimestamp": "2026-10-24T20:35:29Z",
-        "name": "restart-bot-f76bb5d7f-c55qn.18e19185811b8f45",
+        "creationTimestamp": "2026-10-24T23:37:19Z",
+        "name": "restart-bot-55ff488685-9btwx.18e19b71d3d9495c",
         "namespace": "default",
-        "resourceVersion": "55974",
-        "uid": "651df7f6-2b59-4fc6-8e30-3f569458179f"
+        "resourceVersion": "92750",
+        "uid": "8fb9b60d-37c3-45ac-84a9-02038ef163a1"
       },
       "reason": "Scheduled",
       "reportingComponent": "default-scheduler",
@@ -184,25 +184,25 @@
       "apiVersion": "v1",
       "count": 1,
       "eventTime": null,
-      "firstTimestamp": "2026-10-24T20:35:29Z",
+      "firstTimestamp": "2026-10-24T23:37:20Z",
       "involvedObject": {
         "apiVersion": "v1",
         "fieldPath": "spec.containers{flink-main-container}",
         "kind": "Pod",
-        "name": "restart-bot-f76bb5d7f-c55qn",
+        "name": "restart-bot-55ff488685-9btwx",
         "namespace": "default",
-        "resourceVersion": "55968",
-        "uid": "b174fc1e-b4c6-4479-8741-6e06cecbfe5d"
+        "resourceVersion": "92746",
+        "uid": "4ceb65cd-04de-462d-96e9-6e496c5f961a"
       },
       "kind": "Event",
-      "lastTimestamp": "2026-10-24T20:35:29Z",
+      "lastTimestamp": "2026-10-24T23:37:20Z",
       "message": "Container image \"flink:2.2\" already present on machine and can be accessed by the pod",
       "metadata": {
-        "creationTimestamp": "2026-10-24T20:35:29Z",
-        "name": "restart-bot-f76bb5d7f-c55qn.18e1918595ee8628",
+        "creationTimestamp": "2026-10-24T23:37:20Z",
+        "name": "restart-bot-55ff488685-9btwx.18e19b71e904379e",
         "namespace": "default",
-        "resourceVersion": "55981",
-        "uid": "fe73a76e-0fe9-421c-9349-c76761269a26"
+        "resourceVersion": "92761",
+        "uid": "39671b08-0ced-4788-8bb7-4bf9d2a54939"
       },
       "reason": "Pulled",
       "reportingComponent": "kubelet",
@@ -217,25 +217,25 @@
       "apiVersion": "v1",
       "count": 1,
       "eventTime": null,
-      "firstTimestamp": "2026-10-24T20:35:29Z",
+      "firstTimestamp": "2026-10-24T23:37:20Z",
       "involvedObject": {
         "apiVersion": "v1",
         "fieldPath": "spec.containers{flink-main-container}",
         "kind": "Pod",
-        "name": "restart-bot-f76bb5d7f-c55qn",
+        "name": "restart-bot-55ff488685-9btwx",
         "namespace": "default",
-        "resourceVersion": "55968",
-        "uid": "b174fc1e-b4c6-4479-8741-6e06cecbfe5d"
+        "resourceVersion": "92746",
+        "uid": "4ceb65cd-04de-462d-96e9-6e496c5f961a"
       },
       "kind": "Event",
-      "lastTimestamp": "2026-10-24T20:35:29Z",
+      "lastTimestamp": "2026-10-24T23:37:20Z",
       "message": "Container created",
       "metadata": {
-        "creationTimestamp": "2026-10-24T20:35:29Z",
-        "name": "restart-bot-f76bb5d7f-c55qn.18e19185965b3cb9",
+        "creationTimestamp": "2026-10-24T23:37:20Z",
+        "name": "restart-bot-55ff488685-9btwx.18e19b71e971ab26",
         "namespace": "default",
-        "resourceVersion": "55983",
-        "uid": "1a261d42-7711-4665-b26e-abe9fb100012"
+        "resourceVersion": "92763",
+        "uid": "1a46346f-84fb-40e1-9462-4a493ca03e9c"
       },
       "reason": "Created",
       "reportingComponent": "kubelet",
@@ -250,25 +250,25 @@
       "apiVersion": "v1",
       "count": 1,
       "eventTime": null,
-      "firstTimestamp": "2026-10-24T20:35:29Z",
+      "firstTimestamp": "2026-10-24T23:37:20Z",
       "involvedObject": {
         "apiVersion": "v1",
         "fieldPath": "spec.containers{flink-main-container}",
         "kind": "Pod",
-        "name": "restart-bot-f76bb5d7f-c55qn",
+        "name": "restart-bot-55ff488685-9btwx",
         "namespace": "default",
-        "resourceVersion": "55968",
-        "uid": "b174fc1e-b4c6-4479-8741-6e06cecbfe5d"
+        "resourceVersion": "92746",
+        "uid": "4ceb65cd-04de-462d-96e9-6e496c5f961a"
       },
       "kind": "Event",
-      "lastTimestamp": "2026-10-24T20:35:29Z",
+      "lastTimestamp": "2026-10-24T23:37:20Z",
       "message": "Container started",
       "metadata": {
-        "creationTimestamp": "2026-10-24T20:35:29Z",
-        "name": "restart-bot-f76bb5d7f-c55qn.18e1918597edd93f",
+        "creationTimestamp": "2026-10-24T23:37:20Z",
+        "name": "restart-bot-55ff488685-9btwx.18e19b71eb4b503d",
         "namespace": "default",
-        "resourceVersion": "55984",
-        "uid": "32758f2f-9413-486d-89d5-d81a3845e184"
+        "resourceVersion": "92764",
+        "uid": "3a14b775-67e8-4bc5-b6e0-19da0dc34adf"
       },
       "reason": "Started",
       "reportingComponent": "kubelet",
@@ -281,27 +281,27 @@
     },
     {
       "apiVersion": "v1",
-      "count": 7,
+      "count": 3,
       "eventTime": null,
-      "firstTimestamp": "2026-10-24T20:35:30Z",
+      "firstTimestamp": "2026-10-24T23:37:21Z",
       "involvedObject": {
         "apiVersion": "v1",
         "fieldPath": "spec.containers{flink-main-container}",
         "kind": "Pod",
-        "name": "restart-bot-f76bb5d7f-c55qn",
+        "name": "restart-bot-55ff488685-9btwx",
         "namespace": "default",
-        "resourceVersion": "55968",
-        "uid": "b174fc1e-b4c6-4479-8741-6e06cecbfe5d"
+        "resourceVersion": "92746",
+        "uid": "4ceb65cd-04de-462d-96e9-6e496c5f961a"
       },
       "kind": "Event",
-      "lastTimestamp": "2026-10-24T20:35:36Z",
-      "message": "Startup probe failed: Get \"http://10.244.0.108:8081/config\": dial tcp 10.244.0.108:8081: connect: connection refused",
+      "lastTimestamp": "2026-10-24T23:37:23Z",
+      "message": "Startup probe failed: Get \"http://10.244.0.65:8081/config\": dial tcp 10.244.0.65:8081: connect: connection refused",
       "metadata": {
-        "creationTimestamp": "2026-10-24T20:35:30Z",
-        "name": "restart-bot-f76bb5d7f-c55qn.18e19185cf12a8bb",
+        "creationTimestamp": "2026-10-24T23:37:21Z",
+        "name": "restart-bot-55ff488685-9btwx.18e19b7222086d57",
         "namespace": "default",
-        "resourceVersion": "56025",
-        "uid": "9d88675e-6b9d-490e-bfb7-089d096f4693"
+        "resourceVersion": "92785",
+        "uid": "2726cc91-dfe9-4a96-b35c-5cea11260fff"
       },
       "reason": "Unhealthy",
       "reportingComponent": "kubelet",
@@ -315,25 +315,25 @@
     {
       "action": "Binding",
       "apiVersion": "v1",
-      "eventTime": "2026-10-24T20:35:40.636961Z",
+      "eventTime": "2026-10-24T23:37:26.065637Z",
       "firstTimestamp": null,
       "involvedObject": {
         "apiVersion": "v1",
         "kind": "Pod",
         "name": "restart-bot-taskmanager-1-1",
         "namespace": "default",
-        "resourceVersion": "56051",
-        "uid": "9f6c225c-d249-4302-ab85-cb58f2367561"
+        "resourceVersion": "92806",
+        "uid": "d6d2790f-b1ed-4414-b5ea-fd36128123f8"
       },
       "kind": "Event",
       "lastTimestamp": null,
       "message": "Successfully assigned default/restart-bot-taskmanager-1-1 to kubectl-flink-control-plane",
       "metadata": {
-        "creationTimestamp": "2026-10-24T20:35:40Z",
-        "name": "restart-bot-taskmanager-1-1.18e1918827a66f94",
+        "creationTimestamp": "2026-10-24T23:37:26Z",
+        "name": "restart-bot-taskmanager-1-1.18e19b7345da3bb5",
         "namespace": "default",
-        "resourceVersion": "56053",
-        "uid": "e7457bdb-969c-424d-8a52-18a2a8a68929"
+        "resourceVersion": "92808",
+        "uid": "b2213316-a115-429d-822e-edc51831d758"
       },
       "reason": "Scheduled",
       "reportingComponent": "default-scheduler",
@@ -345,25 +345,25 @@
       "apiVersion": "v1",
       "count": 1,
       "eventTime": null,
-      "firstTimestamp": "2026-10-24T20:35:40Z",
+      "firstTimestamp": "2026-10-24T23:37:26Z",
       "involvedObject": {
         "apiVersion": "v1",
         "fieldPath": "spec.containers{flink-main-container}",
         "kind": "Pod",
         "name": "restart-bot-taskmanager-1-1",
         "namespace": "default",
-        "resourceVersion": "56052",
-        "uid": "9f6c225c-d249-4302-ab85-cb58f2367561"
+        "resourceVersion": "92807",
+        "uid": "d6d2790f-b1ed-4414-b5ea-fd36128123f8"
       },
       "kind": "Event",
-      "lastTimestamp": "2026-10-24T20:35:40Z",
+      "lastTimestamp": "2026-10-24T23:37:26Z",
       "message": "Container image \"flink:2.2\" already present on machine and can be accessed by the pod",
       "metadata": {
-        "creationTimestamp": "2026-10-24T20:35:40Z",
-        "name": "restart-bot-taskmanager-1-1.18e191883cb52128",
+        "creationTimestamp": "2026-10-24T23:37:26Z",
+        "name": "restart-bot-taskmanager-1-1.18e19b735b03ae3f",
         "namespace": "default",
-        "resourceVersion": "56057",
-        "uid": "8be6fd87-4bb6-433f-bf32-bc0a3a2077b1"
+        "resourceVersion": "92810",
+        "uid": "dd8edd56-ea6b-4b26-8a30-7cca31d8741e"
       },
       "reason": "Pulled",
       "reportingComponent": "kubelet",
@@ -378,25 +378,25 @@
       "apiVersion": "v1",
       "count": 1,
       "eventTime": null,
-      "firstTimestamp": "2026-10-24T20:35:40Z",
+      "firstTimestamp": "2026-10-24T23:37:26Z",
       "involvedObject": {
         "apiVersion": "v1",
         "fieldPath": "spec.containers{flink-main-container}",
         "kind": "Pod",
         "name": "restart-bot-taskmanager-1-1",
         "namespace": "default",
-        "resourceVersion": "56052",
-        "uid": "9f6c225c-d249-4302-ab85-cb58f2367561"
+        "resourceVersion": "92807",
+        "uid": "d6d2790f-b1ed-4414-b5ea-fd36128123f8"
       },
       "kind": "Event",
-      "lastTimestamp": "2026-10-24T20:35:40Z",
+      "lastTimestamp": "2026-10-24T23:37:26Z",
       "message": "Container created",
       "metadata": {
-        "creationTimestamp": "2026-10-24T20:35:40Z",
-        "name": "restart-bot-taskmanager-1-1.18e191883d22a068",
+        "creationTimestamp": "2026-10-24T23:37:26Z",
+        "name": "restart-bot-taskmanager-1-1.18e19b735b82ea59",
         "namespace": "default",
-        "resourceVersion": "56059",
-        "uid": "08823054-3cc2-4664-bf3b-de3789d3a593"
+        "resourceVersion": "92812",
+        "uid": "e2f3a359-eaf9-4fef-b215-7610e5a4c686"
       },
       "reason": "Created",
       "reportingComponent": "kubelet",
@@ -411,25 +411,25 @@
       "apiVersion": "v1",
       "count": 1,
       "eventTime": null,
-      "firstTimestamp": "2026-10-24T20:35:41Z",
+      "firstTimestamp": "2026-10-24T23:37:26Z",
       "involvedObject": {
         "apiVersion": "v1",
         "fieldPath": "spec.containers{flink-main-container}",
         "kind": "Pod",
         "name": "restart-bot-taskmanager-1-1",
         "namespace": "default",
-        "resourceVersion": "56052",
-        "uid": "9f6c225c-d249-4302-ab85-cb58f2367561"
+        "resourceVersion": "92807",
+        "uid": "d6d2790f-b1ed-4414-b5ea-fd36128123f8"
       },
       "kind": "Event",
-      "lastTimestamp": "2026-10-24T20:35:41Z",
+      "lastTimestamp": "2026-10-24T23:37:26Z",
       "message": "Container started",
       "metadata": {
-        "creationTimestamp": "2026-10-24T20:35:41Z",
-        "name": "restart-bot-taskmanager-1-1.18e191883eb8aec3",
+        "creationTimestamp": "2026-10-24T23:37:26Z",
+        "name": "restart-bot-taskmanager-1-1.18e19b735d349c64",
         "namespace": "default",
-        "resourceVersion": "56060",
-        "uid": "751f0e22-e08f-4afa-8c7e-9f2e03c40274"
+        "resourceVersion": "92813",
+        "uid": "4682a205-48f5-4e11-947f-45339d825632"
       },
       "reason": "Started",
       "reportingComponent": "kubelet",

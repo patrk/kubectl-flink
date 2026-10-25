@@ -74,7 +74,7 @@ func TestLive(t *testing.T) {
 	if err != nil || len(plan.Read) != 1 || plan.Read[0] != "" {
 		t.Fatalf("cluster scope: %+v %v", plan, err)
 	}
-	snap, err := c.Load(ctx, plan, "")
+	snap, err := c.Load(ctx, plan, kube.Query{})
 	if err != nil {
 		t.Fatal(err)
 	}

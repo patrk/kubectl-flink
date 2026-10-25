@@ -5,7 +5,7 @@
       "apiVersion": "v1",
       "kind": "ConfigMap",
       "metadata": {
-        "creationTimestamp": "2026-10-24T20:37:18Z",
+        "creationTimestamp": "2026-10-24T23:43:36Z",
         "labels": {
           "app": "suspended",
           "component": "autoscaler"
@@ -19,11 +19,11 @@
             "controller": false,
             "kind": "FlinkDeployment",
             "name": "suspended",
-            "uid": "fc61ea8f-4d65-451b-bd49-2db1731a671f"
+            "uid": "393b528b-4218-49b4-a79e-152a72f79377"
           }
         ],
-        "resourceVersion": "56694",
-        "uid": "9aa1d781-dc42-44ab-af3c-cb151247a916"
+        "resourceVersion": "94345",
+        "uid": "92014492-ed9f-421e-9ee3-fa75d6f36773"
       },
       "data": null
     }

@@ -185,6 +185,16 @@ func TestJudge(t *testing.T) {
 	if ids(v) != "image-pull" || kinds(v.Unexplained) != "exception.cause" {
 		t.Errorf("second problem: %s %+v", ids(v), v.Unexplained)
 	}
+	// A short cause that a finding uses is not listed again (Flink 2.2: "UnsupportedOperationException: Not
+	// supported yet." reduces to 18 characters).
+	ev.Health.Health = model.Failed
+	v, _ = triage.Judge(ev, []triage.Signal{
+		{Kind: triage.SigRestarts, Text: "6 failures in the last 15m"},
+		{Kind: triage.SigExceptionCause, Text: "java.lang.UnsupportedOperationException: Not supported yet."},
+	}, triage.DefaultRules())
+	if ids(v) != "restart-loop" || len(v.Unexplained) != 0 {
+		t.Errorf("short cause repeated: %s %+v", ids(v), v.Unexplained)
+	}
 	// A note that does not explain the health leaves the health itself to look at.
 	v, _ = triage.Judge(ev, []triage.Signal{
 		{Kind: triage.SigHealth, Text: "JobManager DEPLOYING for 20m"},

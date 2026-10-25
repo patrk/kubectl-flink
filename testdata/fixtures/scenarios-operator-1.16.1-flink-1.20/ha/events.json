@@ -5,23 +5,23 @@
       "apiVersion": "v1",
       "count": 1,
       "eventTime": null,
-      "firstTimestamp": "2026-10-24T20:38:45Z",
+      "firstTimestamp": "2026-10-24T23:47:12Z",
       "involvedObject": {
         "apiVersion": "flink.apache.org/v1beta1",
         "kind": "FlinkDeployment",
         "name": "ha",
         "namespace": "default",
-        "uid": "d43d51c9-1da4-4968-aeb0-6c38661081f8"
+        "uid": "1f3f7828-80bd-40e0-a8be-91947f31cb0a"
       },
       "kind": "Event",
-      "lastTimestamp": "2026-10-24T20:38:45Z",
+      "lastTimestamp": "2026-10-24T23:47:12Z",
       "message": "Job status changed from RECONCILING to RUNNING",
       "metadata": {
-        "creationTimestamp": "2026-10-24T20:38:45Z",
-        "name": "Job.523137346",
+        "creationTimestamp": "2026-10-24T23:47:12Z",
+        "name": "Job.1551675766",
         "namespace": "default",
-        "resourceVersion": "57680",
-        "uid": "bee0f3d4-f7d4-4e98-904a-f540311e9c21"
+        "resourceVersion": "95601",
+        "uid": "65b3deda-7a8f-4d31-a771-389a73a09787"
       },
       "reason": "JobStatusChanged",
       "reportingComponent": "",
@@ -35,23 +35,23 @@
       "apiVersion": "v1",
       "count": 1,
       "eventTime": null,
-      "firstTimestamp": "2026-10-24T20:38:11Z",
+      "firstTimestamp": "2026-10-24T23:46:39Z",
       "involvedObject": {
         "apiVersion": "flink.apache.org/v1beta1",
         "kind": "FlinkDeployment",
         "name": "ha",
         "namespace": "default",
-        "uid": "d43d51c9-1da4-4968-aeb0-6c38661081f8"
+        "uid": "1f3f7828-80bd-40e0-a8be-91947f31cb0a"
       },
       "kind": "Event",
-      "lastTimestamp": "2026-10-24T20:38:11Z",
+      "lastTimestamp": "2026-10-24T23:46:39Z",
       "message": "Starting deployment",
       "metadata": {
-        "creationTimestamp": "2026-10-24T20:38:11Z",
-        "name": "JobManagerDeployment.1207389064",
+        "creationTimestamp": "2026-10-24T23:46:39Z",
+        "name": "JobManagerDeployment.88443836",
         "namespace": "default",
-        "resourceVersion": "57412",
-        "uid": "62964801-b12f-4dba-913d-a33f3a3c2edc"
+        "resourceVersion": "95320",
+        "uid": "29f03700-eb7d-40e9-9c37-5116e9bf82d3"
       },
       "reason": "Submit",
       "reportingComponent": "",
@@ -64,25 +64,25 @@
     {
       "action": "Binding",
       "apiVersion": "v1",
-      "eventTime": "2026-10-24T20:38:11.940165Z",
+      "eventTime": "2026-10-24T23:46:39.723565Z",
       "firstTimestamp": null,
       "involvedObject": {
         "apiVersion": "v1",
         "kind": "Pod",
-        "name": "ha-7f4fdfbfdd-p5zqx",
+        "name": "ha-b8594665d-5554r",
         "namespace": "default",
-        "resourceVersion": "57421",
-        "uid": "43dadf03-1016-4a99-8326-d0344d46456c"
+        "resourceVersion": "95327",
+        "uid": "a1d3d31c-8adb-40fd-be2e-2baec849678d"
       },
       "kind": "Event",
       "lastTimestamp": null,
-      "message": "Successfully assigned default/ha-7f4fdfbfdd-p5zqx to kubectl-flink-control-plane",
+      "message": "Successfully assigned default/ha-b8594665d-5554r to kubectl-flink-control-plane",
       "metadata": {
-        "creationTimestamp": "2026-10-24T20:38:11Z",
-        "name": "ha-7f4fdfbfdd-p5zqx.18e191ab620614e1",
+        "creationTimestamp": "2026-10-24T23:46:39Z",
+        "name": "ha-b8594665d-5554r.18e19bf42e6fbb38",
         "namespace": "default",
-        "resourceVersion": "57429",
-        "uid": "e28e36a0-c722-4ce3-983b-f877429a8e23"
+        "resourceVersion": "95337",
+        "uid": "ddd49600-d24a-475d-a76f-2af2ba8e42b9"
       },
       "reason": "Scheduled",
       "reportingComponent": "default-scheduler",
@@ -94,25 +94,25 @@
       "apiVersion": "v1",
       "count": 1,
       "eventTime": null,
-      "firstTimestamp": "2026-10-24T20:38:12Z",
+      "firstTimestamp": "2026-10-24T23:46:40Z",
       "involvedObject": {
         "apiVersion": "v1",
         "fieldPath": "spec.containers{flink-main-container}",
         "kind": "Pod",
-        "name": "ha-7f4fdfbfdd-p5zqx",
+        "name": "ha-b8594665d-5554r",
         "namespace": "default",
-        "resourceVersion": "57425",
-        "uid": "43dadf03-1016-4a99-8326-d0344d46456c"
+        "resourceVersion": "95331",
+        "uid": "a1d3d31c-8adb-40fd-be2e-2baec849678d"
       },
       "kind": "Event",
-      "lastTimestamp": "2026-10-24T20:38:12Z",
+      "lastTimestamp": "2026-10-24T23:46:40Z",
       "message": "Container image \"flink:1.20\" already present on machine and can be accessed by the pod",
       "metadata": {
-        "creationTimestamp": "2026-10-24T20:38:12Z",
-        "name": "ha-7f4fdfbfdd-p5zqx.18e191ab77786e81",
+        "creationTimestamp": "2026-10-24T23:46:40Z",
+        "name": "ha-b8594665d-5554r.18e19bf443b1e4bd",
         "namespace": "default",
-        "resourceVersion": "57474",
-        "uid": "4f63916e-d2a3-40a1-83c7-4dcd7cb566ea"
+        "resourceVersion": "95380",
+        "uid": "1cdb9c96-6ae3-49e2-b921-9e91218755e6"
       },
       "reason": "Pulled",
       "reportingComponent": "kubelet",
@@ -127,25 +127,25 @@
       "apiVersion": "v1",
       "count": 1,
       "eventTime": null,
-      "firstTimestamp": "2026-10-24T20:38:12Z",
+      "firstTimestamp": "2026-10-24T23:46:40Z",
       "involvedObject": {
         "apiVersion": "v1",
         "fieldPath": "spec.containers{flink-main-container}",
         "kind": "Pod",
-        "name": "ha-7f4fdfbfdd-p5zqx",
+        "name": "ha-b8594665d-5554r",
         "namespace": "default",
-        "resourceVersion": "57425",
-        "uid": "43dadf03-1016-4a99-8326-d0344d46456c"
+        "resourceVersion": "95331",
+        "uid": "a1d3d31c-8adb-40fd-be2e-2baec849678d"
       },
       "kind": "Event",
-      "lastTimestamp": "2026-10-24T20:38:12Z",
+      "lastTimestamp": "2026-10-24T23:46:40Z",
       "message": "Container created",
       "metadata": {
-        "creationTimestamp": "2026-10-24T20:38:12Z",
-        "name": "ha-7f4fdfbfdd-p5zqx.18e191ab77eb6dcb",
+        "creationTimestamp": "2026-10-24T23:46:40Z",
+        "name": "ha-b8594665d-5554r.18e19bf444447251",
         "namespace": "default",
-        "resourceVersion": "57476",
-        "uid": "9a7fe4d6-bc54-455b-9f4b-06d3e245afa7"
+        "resourceVersion": "95382",
+        "uid": "7f20911f-c817-4bc0-805d-20cbbea51e3d"
       },
       "reason": "Created",
       "reportingComponent": "kubelet",
@@ -160,25 +160,25 @@
       "apiVersion": "v1",
       "count": 1,
       "eventTime": null,
-      "firstTimestamp": "2026-10-24T20:38:12Z",
+      "firstTimestamp": "2026-10-24T23:46:40Z",
       "involvedObject": {
         "apiVersion": "v1",
         "fieldPath": "spec.containers{flink-main-container}",
         "kind": "Pod",
-        "name": "ha-7f4fdfbfdd-p5zqx",
+        "name": "ha-b8594665d-5554r",
         "namespace": "default",
-        "resourceVersion": "57425",
-        "uid": "43dadf03-1016-4a99-8326-d0344d46456c"
+        "resourceVersion": "95331",
+        "uid": "a1d3d31c-8adb-40fd-be2e-2baec849678d"
       },
       "kind": "Event",
-      "lastTimestamp": "2026-10-24T20:38:12Z",
+      "lastTimestamp": "2026-10-24T23:46:40Z",
       "message": "Container started",
       "metadata": {
-        "creationTimestamp": "2026-10-24T20:38:12Z",
-        "name": "ha-7f4fdfbfdd-p5zqx.18e191ab79d2e305",
+        "creationTimestamp": "2026-10-24T23:46:40Z",
+        "name": "ha-b8594665d-5554r.18e19bf44639328a",
         "namespace": "default",
-        "resourceVersion": "57477",
-        "uid": "6511e029-f3b9-4317-b5cd-26e6097db8e9"
+        "resourceVersion": "95383",
+        "uid": "72d6e950-4a17-4901-b123-7e93b80ee2bc"
       },
       "reason": "Started",
       "reportingComponent": "kubelet",
@@ -191,27 +191,27 @@
     },
     {
       "apiVersion": "v1",
-      "count": 8,
+      "count": 4,
       "eventTime": null,
-      "firstTimestamp": "2026-10-24T20:38:13Z",
+      "firstTimestamp": "2026-10-24T23:46:41Z",
       "involvedObject": {
         "apiVersion": "v1",
         "fieldPath": "spec.containers{flink-main-container}",
         "kind": "Pod",
-        "name": "ha-7f4fdfbfdd-p5zqx",
+        "name": "ha-b8594665d-5554r",
         "namespace": "default",
-        "resourceVersion": "57425",
-        "uid": "43dadf03-1016-4a99-8326-d0344d46456c"
+        "resourceVersion": "95331",
+        "uid": "a1d3d31c-8adb-40fd-be2e-2baec849678d"
       },
       "kind": "Event",
-      "lastTimestamp": "2026-10-24T20:38:20Z",
-      "message": "Startup probe failed: Get \"http://10.244.0.119:8081/config\": dial tcp 10.244.0.119:8081: connect: connection refused",
+      "lastTimestamp": "2026-10-24T23:46:44Z",
+      "message": "Startup probe failed: Get \"http://10.244.0.83:8081/config\": dial tcp 10.244.0.83:8081: connect: connection refused",
       "metadata": {
-        "creationTimestamp": "2026-10-24T20:38:13Z",
-        "name": "ha-7f4fdfbfdd-p5zqx.18e191abb0122dd4",
+        "creationTimestamp": "2026-10-24T23:46:41Z",
+        "name": "ha-b8594665d-5554r.18e19bf47c94f834",
         "namespace": "default",
-        "resourceVersion": "57534",
-        "uid": "6974a60e-d325-4906-8561-32e7e8533217"
+        "resourceVersion": "95418",
+        "uid": "27cfa845-ed41-4c25-85e5-696e02f659ae"
       },
       "reason": "Unhealthy",
       "reportingComponent": "kubelet",
@@ -224,27 +224,27 @@
     },
     {
       "apiVersion": "v1",
-      "count": 2,
+      "count": 1,
       "eventTime": null,
-      "firstTimestamp": "2026-10-24T20:38:22Z",
+      "firstTimestamp": "2026-10-24T23:46:45Z",
       "involvedObject": {
         "apiVersion": "v1",
         "fieldPath": "spec.containers{flink-main-container}",
         "kind": "Pod",
-        "name": "ha-7f4fdfbfdd-p5zqx",
+        "name": "ha-b8594665d-5554r",
         "namespace": "default",
-        "resourceVersion": "57425",
-        "uid": "43dadf03-1016-4a99-8326-d0344d46456c"
+        "resourceVersion": "95331",
+        "uid": "a1d3d31c-8adb-40fd-be2e-2baec849678d"
       },
       "kind": "Event",
-      "lastTimestamp": "2026-10-24T20:38:22Z",
+      "lastTimestamp": "2026-10-24T23:46:45Z",
       "message": "Startup probe failed: HTTP probe failed with statuscode: 503",
       "metadata": {
-        "creationTimestamp": "2026-10-24T20:38:22Z",
-        "name": "ha-7f4fdfbfdd-p5zqx.18e191adba06a35b",
+        "creationTimestamp": "2026-10-24T23:46:45Z",
+        "name": "ha-b8594665d-5554r.18e19bf58395cd5d",
         "namespace": "default",
-        "resourceVersion": "57573",
-        "uid": "1f8b166d-5c88-4bd7-a5f0-584d231b0f13"
+        "resourceVersion": "95458",
+        "uid": "8834edfe-fd8c-43bf-aca7-331842148ee2"
       },
       "reason": "Unhealthy",
       "reportingComponent": "kubelet",
@@ -258,25 +258,25 @@
     {
       "action": "Binding",
       "apiVersion": "v1",
-      "eventTime": "2026-10-24T20:38:24.614104Z",
+      "eventTime": "2026-10-24T23:46:46.606824Z",
       "firstTimestamp": null,
       "involvedObject": {
         "apiVersion": "v1",
         "kind": "Pod",
         "name": "ha-taskmanager-1-1",
         "namespace": "default",
-        "resourceVersion": "57618",
-        "uid": "624f24ae-1c93-4124-ba5b-b72717b5c9bd"
+        "resourceVersion": "95505",
+        "uid": "d802ed0d-264f-462f-b7b0-d581264ef201"
       },
       "kind": "Event",
       "lastTimestamp": null,
       "message": "Successfully assigned default/ha-taskmanager-1-1 to kubectl-flink-control-plane",
       "metadata": {
-        "creationTimestamp": "2026-10-24T20:38:24Z",
-        "name": "ha-taskmanager-1-1.18e191ae55730d58",
+        "creationTimestamp": "2026-10-24T23:46:46Z",
+        "name": "ha-taskmanager-1-1.18e19bf5c8b5fa2d",
         "namespace": "default",
-        "resourceVersion": "57620",
-        "uid": "60c67a10-98e7-4a17-9bd9-8025a09ec9f5"
+        "resourceVersion": "95507",
+        "uid": "a5cf8fc8-ad3c-49f9-a0fe-17a62038ce59"
       },
       "reason": "Scheduled",
       "reportingComponent": "default-scheduler",
@@ -288,25 +288,25 @@
       "apiVersion": "v1",
       "count": 1,
       "eventTime": null,
-      "firstTimestamp": "2026-10-24T20:38:24Z",
+      "firstTimestamp": "2026-10-24T23:46:46Z",
       "involvedObject": {
         "apiVersion": "v1",
         "fieldPath": "spec.containers{flink-main-container}",
         "kind": "Pod",
         "name": "ha-taskmanager-1-1",
         "namespace": "default",
-        "resourceVersion": "57619",
-        "uid": "624f24ae-1c93-4124-ba5b-b72717b5c9bd"
+        "resourceVersion": "95506",
+        "uid": "d802ed0d-264f-462f-b7b0-d581264ef201"
       },
       "kind": "Event",
-      "lastTimestamp": "2026-10-24T20:38:24Z",
+      "lastTimestamp": "2026-10-24T23:46:46Z",
       "message": "Container image \"flink:1.20\" already present on machine and can be accessed by the pod",
       "metadata": {
-        "creationTimestamp": "2026-10-24T20:38:24Z",
-        "name": "ha-taskmanager-1-1.18e191ae6b1d47a8",
+        "creationTimestamp": "2026-10-24T23:46:46Z",
+        "name": "ha-taskmanager-1-1.18e19bf5de421fcd",
         "namespace": "default",
-        "resourceVersion": "57627",
-        "uid": "a0e466ee-4fa2-4bd4-801a-5759e7ecbe3b"
+        "resourceVersion": "95509",
+        "uid": "4f92f863-9040-431c-b838-71af158eaee2"
       },
       "reason": "Pulled",
       "reportingComponent": "kubelet",
@@ -321,25 +321,25 @@
       "apiVersion": "v1",
       "count": 1,
       "eventTime": null,
-      "firstTimestamp": "2026-10-24T20:38:24Z",
+      "firstTimestamp": "2026-10-24T23:46:46Z",
       "involvedObject": {
         "apiVersion": "v1",
         "fieldPath": "spec.containers{flink-main-container}",
         "kind": "Pod",
         "name": "ha-taskmanager-1-1",
         "namespace": "default",
-        "resourceVersion": "57619",
-        "uid": "624f24ae-1c93-4124-ba5b-b72717b5c9bd"
+        "resourceVersion": "95506",
+        "uid": "d802ed0d-264f-462f-b7b0-d581264ef201"
       },
       "kind": "Event",
-      "lastTimestamp": "2026-10-24T20:38:24Z",
+      "lastTimestamp": "2026-10-24T23:46:46Z",
       "message": "Container created",
       "metadata": {
-        "creationTimestamp": "2026-10-24T20:38:24Z",
-        "name": "ha-taskmanager-1-1.18e191ae6b9b65a0",
+        "creationTimestamp": "2026-10-24T23:46:46Z",
+        "name": "ha-taskmanager-1-1.18e19bf5debb7a5f",
         "namespace": "default",
-        "resourceVersion": "57629",
-        "uid": "2a5d9abd-099e-4e66-8bbf-8fd30cad18c7"
+        "resourceVersion": "95511",
+        "uid": "964c29d5-35ec-42a5-af23-27dc642daf87"
       },
       "reason": "Created",
       "reportingComponent": "kubelet",
@@ -354,25 +354,25 @@
       "apiVersion": "v1",
       "count": 1,
       "eventTime": null,
-      "firstTimestamp": "2026-10-24T20:38:25Z",
+      "firstTimestamp": "2026-10-24T23:46:47Z",
       "involvedObject": {
         "apiVersion": "v1",
         "fieldPath": "spec.containers{flink-main-container}",
         "kind": "Pod",
         "name": "ha-taskmanager-1-1",
         "namespace": "default",
-        "resourceVersion": "57619",
-        "uid": "624f24ae-1c93-4124-ba5b-b72717b5c9bd"
+        "resourceVersion": "95506",
+        "uid": "d802ed0d-264f-462f-b7b0-d581264ef201"
       },
       "kind": "Event",
-      "lastTimestamp": "2026-10-24T20:38:25Z",
+      "lastTimestamp": "2026-10-24T23:46:47Z",
       "message": "Container started",
       "metadata": {
-        "creationTimestamp": "2026-10-24T20:38:25Z",
-        "name": "ha-taskmanager-1-1.18e191ae6d438d49",
+        "creationTimestamp": "2026-10-24T23:46:47Z",
+        "name": "ha-taskmanager-1-1.18e19bf5e0c1de37",
         "namespace": "default",
-        "resourceVersion": "57632",
-        "uid": "a0b3a466-efc2-48e2-b567-035c2d97daa0"
+        "resourceVersion": "95512",
+        "uid": "deb92441-d911-4243-a29d-d6587f08ba17"
       },
       "reason": "Started",
       "reportingComponent": "kubelet",

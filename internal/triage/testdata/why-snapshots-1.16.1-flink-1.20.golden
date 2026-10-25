@@ -1,0 +1,28 @@
+FlinkDeployment default/snap in context kind, job 6fac4c809f2b12f9bdf409fd0ec650bd · OK
+
+Matched patterns
+  none of the known patterns matches
+  and nothing else looks wrong
+
+Operator
+  lifecycle STABLE, JobManager READY, job RUNNING, reconciled 3m51s ago, generation 1 (observed 1)
+  spec written by kubectl-client-side-apply, last 3m51s ago
+
+Kubernetes
+  pod snap-6bdfd76545-mf8w4 (jobmanager): Running, ready
+  pod snap-taskmanager-1-1 (taskmanager): Running, ready
+  warning events, newest first:
+    3m46s ago Unhealthy ×4 on Pod: Startup probe failed: Get "http://10.244.0.94:8081/config": dial tcp 10.244.0.94:8081: connect: connection refused
+
+Runtime
+  2 FlinkStateSnapshots, newest completed checkpoint snap-checkpoint 6s ago
+  job RUNNING, Flink 1.20.5, 1 job(s) on the cluster
+  no failures since the job started
+  checkpoints: last completed #23 5s ago, interval 10s, 23 completed, 1 failed
+
+Performance
+  Source: Car data generator source -> Timestamps/Watermarks (source): in 0/s, out 10/s; busy 2, backpressured 0, idle 998 ms/s
+  GlobalWindows -> Sink: Print to Std. Out (sink): in 10/s, out 0/s; busy 4, backpressured 0, idle 996 ms/s
+
+HA
+  HA not configured

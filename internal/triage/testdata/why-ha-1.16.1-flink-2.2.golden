@@ -1,28 +1,29 @@
-FlinkDeployment default/ha in context kind, job f0f235dfc801a3ee18ff3953291659b3 · OK
+FlinkDeployment default/ha in context kind, job 3458bde89625e5c1ff9fae676d53d635 · OK
 
 Matched patterns
   none of the known patterns matches
   and nothing else looks wrong
 
 Operator
-  lifecycle STABLE, JobManager READY, job RUNNING, reconciled 3m4s ago, generation 1 (observed 1)
-  spec written by kubectl-client-side-apply, last 3m4s ago
+  lifecycle STABLE, JobManager READY, job RUNNING, reconciled 2m59s ago, generation 1 (observed 1)
+  spec written by kubectl-client-side-apply, last 2m59s ago
 
 Kubernetes
-  pod ha-6b6c4b76d9-drqfk (jobmanager): Running, ready
+  pod ha-7dbdf9787-nsp26 (jobmanager): Running, ready
   pod ha-taskmanager-1-1 (taskmanager): Running, ready
   warning events, newest first:
-    2m56s ago Unhealthy ×8 on Pod: Startup probe failed: Get "http://10.244.0.100:8081/config": dial tcp 10.244.0.100:8081: connect: connection refused
+    2m53s ago Unhealthy on Pod: Startup probe failed: HTTP probe failed with statuscode: 503
+    2m55s ago Unhealthy ×4 on Pod: Startup probe failed: Get "http://10.244.0.57:8081/config": dial tcp 10.244.0.57:8081: connect: connection refused
 
 Runtime
   job RUNNING, Flink 2.2.1, 1 job(s) on the cluster
   no failures since the job started
-  checkpoints: last completed #79 0s ago, interval 2s, 79 completed, 8 failed
+  checkpoints: last completed #81 0s ago, interval 2s, 81 completed, 5 failed
 
 Performance
-  Source: Events Generator Source (source): in 0/s, out 1000/s; busy 21, backpressured 0, idle 979 ms/s
+  Source: Events Generator Source (source): in 0/s, out 1000/s; busy 25, backpressured 0, idle 975 ms/s
   Flat Map -> Sink: Print to Std. Out (sink): in 1000/s, out 0/s; busy 2, backpressured 0, idle 998 ms/s
 
 HA
-  ConfigMaps: ha-cluster-config-map, ha-f0f235dfc801a3ee18ff3953291659b3-config-map
-  job plans: f0f235dfc801a3ee18ff3953291659b3; checkpoint pointers: f0f235dfc801a3ee18ff3953291659b3
+  ConfigMaps: ha-3458bde89625e5c1ff9fae676d53d635-config-map, ha-cluster-config-map
+  job plans: 3458bde89625e5c1ff9fae676d53d635; checkpoint pointers: 3458bde89625e5c1ff9fae676d53d635

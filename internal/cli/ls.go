@@ -138,7 +138,7 @@ func (lo *lsOptions) run(ctx context.Context) error {
 	if lo.watch {
 		return lo.runWatch(ctx, srcs, th)
 	}
-	scopes := fleet.Load(ctx, srcs, lo.selector)
+	scopes := fleet.Load(ctx, srcs, lo.query())
 	if len(scopes) == 1 && scopes[0].Err != nil {
 		return scopes[0].Err
 	}
@@ -203,7 +203,7 @@ func (lo *lsOptions) runWatch(ctx context.Context, srcs []fleet.Source, th model
 	ctx, stop := signal.NotifyContext(ctx, os.Interrupt)
 	defer stop()
 	updates := make(chan []fleet.Scope)
-	go fleet.Watch(ctx, srcs, lo.selector, updates)
+	go fleet.Watch(ctx, srcs, lo.query(), updates)
 
 	var scopes []fleet.Scope
 	select {
@@ -271,6 +271,11 @@ func (lo *lsOptions) reportWatchErrors(scopes []fleet.Scope, last map[string]str
 		}
 		last[s.Context] = msg
 	}
+}
+
+// query reads snapshots only for the outputs that show them: the wide table, JSON and YAML.
+func (lo *lsOptions) query() kube.Query {
+	return kube.Query{Selector: lo.selector, Snapshots: lo.output == "wide" || lo.output == "json" || lo.output == "yaml"}
 }
 
 func (lo *lsOptions) color() bool {

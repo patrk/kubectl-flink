@@ -177,6 +177,7 @@ func previousFlag(l triage.LogLine) string {
 }
 
 func runtimeEvidence(w *lineWriter, ev *triage.Evidence) {
+	snapshotEvidence(w, ev)
 	r := ev.REST
 	if r == nil || r.Job == nil {
 		return
@@ -210,6 +211,39 @@ func runtimeEvidence(w *lineWriter, ev *triage.Evidence) {
 			w.line(2, "restored from #%d %s", rs.ID, age(rs.RestoredAt.Time(), ev.Now))
 		}
 	}
+}
+
+// snapshotEvidence summarises the job's FlinkStateSnapshots in one line; snapshots lists them.
+func snapshotEvidence(w *lineWriter, ev *triage.Evidence) {
+	if len(ev.Snapshots) == 0 {
+		return
+	}
+	var completed *kube.FlinkStateSnapshot
+	failing, pending := 0, 0
+	for i := range ev.Snapshots {
+		s := &ev.Snapshots[i]
+		switch {
+		case s.Status.State == "COMPLETED":
+			if completed == nil || s.Result().After(completed.Result()) {
+				completed = s
+			}
+		case s.Status.State == "":
+			pending++
+		case s.Status.State == "FAILED" || s.Status.State == "ABANDONED" || s.Status.Failures > 0:
+			failing++
+		}
+	}
+	line := fmt.Sprintf("%d FlinkStateSnapshots", len(ev.Snapshots))
+	if completed != nil {
+		line += fmt.Sprintf(", newest completed %s %s %s", strings.ToLower(completed.Type()), completed.Name, age(completed.Result(), ev.Now))
+	}
+	if failing > 0 {
+		line += fmt.Sprintf(", %d failing", failing)
+	}
+	if pending > 0 {
+		line += fmt.Sprintf(", %d without a status", pending)
+	}
+	w.line(1, "%s", line)
 }
 
 func performanceEvidence(w *lineWriter, ev *triage.Evidence) {

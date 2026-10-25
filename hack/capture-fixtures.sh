@@ -5,6 +5,8 @@ set -euo pipefail
 name=${1:?name}
 : "${OUT:?}" "${KUBE_CONTEXT:?}"
 k() { kubectl --context "$KUBE_CONTEXT" "$@"; }
+# Cleared first: files of an earlier capture would otherwise mix in, e.g. vertex metrics of a job that now restarts.
+rm -rf "$OUT/rest"
 mkdir -p "$OUT/rest"
 
 k get flinkdeployment "$name" -o json --show-managed-fields > "$OUT/flinkdeployment.json"

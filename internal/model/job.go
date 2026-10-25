@@ -72,6 +72,9 @@ type Job struct {
 
 	// Pods is nil when pods could not be read; the pod checks are then skipped.
 	Pods *ClusterPods
+
+	// LastSnapshot is when the newest completed FlinkStateSnapshot of the job finished; zero when none is known.
+	LastSnapshot time.Time
 }
 
 // SpecWriter is a field manager that owns spec fields.

@@ -50,18 +50,18 @@ func Sources(cs *kube.Contexts, scopes []kube.Scope) []Source {
 	return out
 }
 
-// Load reads all sources in parallel. labelSelector filters deployments and session jobs on the server.
-func Load(ctx context.Context, sources []Source, labelSelector string) []Scope {
+// Load reads all sources in parallel.
+func Load(ctx context.Context, sources []Source, q kube.Query) []Scope {
 	out := make([]Scope, len(sources))
 	var wg sync.WaitGroup
 	for i, src := range sources {
-		wg.Go(func() { out[i] = load(ctx, src, labelSelector) })
+		wg.Go(func() { out[i] = load(ctx, src, q) })
 	}
 	wg.Wait()
 	return out
 }
 
-func load(ctx context.Context, src Source, labelSelector string) Scope {
+func load(ctx context.Context, src Source, q kube.Query) Scope {
 	s := Scope{Scope: src.Scope, Err: src.Err}
 	if s.Err != nil {
 		return s
@@ -72,7 +72,7 @@ func load(ctx context.Context, src Source, labelSelector string) Scope {
 		s.Err = err
 		return s
 	}
-	snap, err := src.Client.Load(ctx, plan, labelSelector)
+	snap, err := src.Client.Load(ctx, plan, q)
 	if err != nil {
 		s.Err = err
 		return s
@@ -91,6 +91,7 @@ func Jobs(kubeContext string, snap *kube.Snapshot) (jobs []model.Job, podsUnread
 		jobs = append(jobs, model.FromSessionJob(kubeContext, &snap.SessionJobs[i]))
 	}
 	model.AttachPods(jobs, model.SummarisePods(snap.Pods), snap.PodsRead)
+	model.AttachSnapshots(jobs, snap.Snapshots)
 	unread := make([]string, 0, len(snap.PodsErr))
 	for ns := range snap.PodsErr {
 		unread = append(unread, ns)

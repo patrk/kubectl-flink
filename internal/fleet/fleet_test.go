@@ -31,7 +31,7 @@ func TestLoadScopes(t *testing.T) {
 
 	scopes := fleet.Load(context.Background(), []fleet.Source{
 		source(t, dev, kube.Scope{Context: "dev"}), source(t, prd, kube.Scope{Context: "prd"}), broken,
-	}, "")
+	}, kube.Query{})
 	if len(scopes) != 3 || scopes[0].Err != nil || len(scopes[0].Jobs) != 2 {
 		t.Fatalf("dev: %+v", scopes[0])
 	}
@@ -51,7 +51,7 @@ func TestLoadLabelSelector(t *testing.T) {
 		o["metadata"].(map[string]any)["labels"] = map[string]any{"team": "payments"}
 	})
 	f.Add("flinkdeployments", fdFixture, "team-a", "other", 3, nil)
-	scopes := fleet.Load(context.Background(), []fleet.Source{source(t, f, kube.Scope{Context: "dev"})}, "team=payments")
+	scopes := fleet.Load(context.Background(), []fleet.Source{source(t, f, kube.Scope{Context: "dev"})}, kube.Query{Selector: "team=payments"})
 	if n := len(scopes[0].Jobs); n != 2 {
 		t.Errorf("%d jobs, want the 2 labelled ones", n)
 	}
@@ -61,9 +61,27 @@ func TestLoadPodsUnread(t *testing.T) {
 	f := kubetest.New(t)
 	f.Add("flinkdeployments", fdFixture, "team-a", "job", 1, nil)
 	f.Forbidden["pods/team-a"] = true
-	s := fleet.Load(context.Background(), []fleet.Source{source(t, f, kube.Scope{Context: "dev"})}, "")[0]
+	s := fleet.Load(context.Background(), []fleet.Source{source(t, f, kube.Scope{Context: "dev"})}, kube.Query{})[0]
 	if s.Err != nil || strings.Join(s.PodsUnread, ",") != "team-a" || s.Jobs[0].Pods != nil {
 		t.Errorf("%+v", s)
+	}
+}
+
+// Snapshots are read only when the query asks for them: only some outputs show their age.
+func TestLoadSnapshots(t *testing.T) {
+	f := kubetest.New(t)
+	f.Add("flinkdeployments", fdFixture, "team-a", "job", 1, nil)
+	f.Put("flinkstatesnapshots", map[string]any{
+		"apiVersion": "flink.apache.org/v1beta1", "kind": "FlinkStateSnapshot",
+		"metadata": map[string]any{"name": "sp", "namespace": "team-a", "labels": map[string]any{
+			kube.LabelSnapshotKind: "FlinkDeployment", kube.LabelSnapshotJob: "job-0", kube.LabelSnapshotState: "COMPLETED"}},
+		"status": map[string]any{"state": "COMPLETED", "resultTimestamp": "2026-10-24T11:00:00Z"},
+	})
+	for _, q := range []kube.Query{{}, {Snapshots: true}} {
+		s := fleet.Load(context.Background(), []fleet.Source{source(t, f, kube.Scope{Context: "dev"})}, q)[0]
+		if s.Err != nil || s.Jobs[0].LastSnapshot.IsZero() == q.Snapshots {
+			t.Errorf("%+v: last snapshot %v, err %v", q, s.Jobs[0].LastSnapshot, s.Err)
+		}
 	}
 }
 

@@ -53,13 +53,16 @@ const (
 	SigBottleneck       = "performance.bottleneck"
 	SigSinkIdle         = "performance.sink-idle"
 	SigHALeftover       = "ha.leftover"
+	SigSnapshotIgnored  = "snapshot.ignored"   // computed: FlinkStateSnapshots the operator has not processed
+	SigSnapshotFail     = "snapshot.failing"   // "<TYPE> <name> <state> after N failures: error" of a snapshot
+	SigSnapshotDone     = "snapshot.completed" // "<TYPE> <name> <age> ago: path" of a completed snapshot
 )
 
 // Kinds is the vocabulary rules may use.
 var Kinds = []string{
 	SigLifecycle, SigJobManager, SigJobState, SigOperatorError, SigHealth, SigEvent, SigPodWaiting, SigPodTerminated, SigPodMount,
 	SigPodUnschedulable, SigLog, SigException, SigExceptionCause, SigCheckpointStale, SigCheckpointFail, SigRestored,
-	SigRestarts, SigJobsMultiple, SigSpecChange, SigSpecWriter, SigBackpressure, SigBottleneck, SigSinkIdle, SigHALeftover,
+	SigRestarts, SigJobsMultiple, SigSpecChange, SigSpecWriter, SigBackpressure, SigBottleneck, SigSinkIdle, SigHALeftover, SigSnapshotIgnored, SigSnapshotFail, SigSnapshotDone,
 }
 
 // Signals reduces evidence to signals, deduplicated, in a stable order.
@@ -165,6 +168,7 @@ func Signals(ev *Evidence) []Signal {
 	if ev.HA != nil {
 		haSignals(ev.HA, j, add)
 	}
+	snapshotSignals(ev.Snapshots, ev.Now, add)
 	slices.SortStableFunc(out, func(a, b Signal) int { return strings.Compare(a.Kind, b.Kind) })
 	type key struct{ kind, text string }
 	seen := map[key]bool{}

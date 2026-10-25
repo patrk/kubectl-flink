@@ -47,6 +47,7 @@ type Item struct {
 	FlinkVersion   string          `json:"flinkVersion,omitempty"`
 	Image          string          `json:"image,omitempty"`
 	Owners         []string        `json:"owners,omitempty"`
+	LastSnapshot   *time.Time      `json:"lastSnapshot,omitempty"`
 }
 
 // Replicas is ready against desired.
@@ -96,6 +97,10 @@ func NewItem(r *fleet.Row) Item {
 		Lifecycle: j.Lifecycle, JobState: j.JobState, JobManager: j.JMStatus, JobID: j.JobID,
 		SessionCluster: j.DeploymentName, Drift: j.Drift(), FlinkVersion: flinkVersion(j), Image: j.Image,
 		Owners: j.SpecOwners,
+	}
+	if !j.LastSnapshot.IsZero() {
+		t := j.LastSnapshot.UTC()
+		it.LastSnapshot = &t
 	}
 	if t := j.StateSince(); !t.IsZero() {
 		t = t.UTC()

@@ -8,16 +8,16 @@
                 "annotations": {
                     "flinkdeployment.flink.apache.org/generation": "1"
                 },
-                "creationTimestamp": "2026-10-24T20:37:18Z",
-                "generateName": "missing-jar-597b458676-",
+                "creationTimestamp": "2026-10-24T23:43:36Z",
+                "generateName": "missing-jar-6b6b955874-",
                 "generation": 1,
                 "labels": {
                     "app": "missing-jar",
                     "component": "jobmanager",
-                    "pod-template-hash": "597b458676",
+                    "pod-template-hash": "6b6b955874",
                     "type": "flink-native-kubernetes"
                 },
-                "name": "missing-jar-597b458676-ql9tx",
+                "name": "missing-jar-6b6b955874-bzfjj",
                 "namespace": "default",
                 "ownerReferences": [
                     {
@@ -25,12 +25,12 @@
                         "blockOwnerDeletion": true,
                         "controller": true,
                         "kind": "ReplicaSet",
-                        "name": "missing-jar-597b458676",
-                        "uid": "67cb83c8-9f7f-4237-b647-c6360f5c0804"
+                        "name": "missing-jar-6b6b955874",
+                        "uid": "0a8a0079-c888-4819-be2c-c91bcb4f1967"
                     }
                 ],
-                "resourceVersion": "57041",
-                "uid": "286bc8f3-da0a-4e3f-8581-719f6613a4a9"
+                "resourceVersion": "94707",
+                "uid": "f5a0fd7b-1c6b-4601-85ef-6527f89a3b2d"
             },
             "spec": {
                 "containers": [
@@ -76,11 +76,11 @@
                         ],
                         "resources": {
                             "limits": {
-                                "cpu": "500m",
+                                "cpu": "900m",
                                 "memory": "1Gi"
                             },
                             "requests": {
-                                "cpu": "500m",
+                                "cpu": "150m",
                                 "memory": "1Gi"
                             }
                         },
@@ -108,7 +108,7 @@
                             },
                             {
                                 "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
-                                "name": "kube-api-access-gncll",
+                                "name": "kube-api-access-k8bc2",
                                 "readOnly": true
                             }
                         ]
@@ -162,7 +162,7 @@
                         "name": "flink-config-volume"
                     },
                     {
-                        "name": "kube-api-access-gncll",
+                        "name": "kube-api-access-k8bc2",
                         "projected": {
                             "defaultMode": 420,
                             "sources": [
@@ -203,27 +203,27 @@
             },
             "status": {
                 "allocatedResources": {
-                    "cpu": "500m",
+                    "cpu": "150m",
                     "memory": "1Gi"
                 },
                 "conditions": [
                     {
                         "lastProbeTime": null,
-                        "lastTransitionTime": "2026-10-24T20:37:18Z",
+                        "lastTransitionTime": "2026-10-24T23:43:36Z",
                         "observedGeneration": 1,
                         "status": "True",
                         "type": "PodReadyToStartContainers"
                     },
                     {
                         "lastProbeTime": null,
-                        "lastTransitionTime": "2026-10-24T20:37:18Z",
+                        "lastTransitionTime": "2026-10-24T23:43:36Z",
                         "observedGeneration": 1,
                         "status": "True",
                         "type": "Initialized"
                     },
                     {
                         "lastProbeTime": null,
-                        "lastTransitionTime": "2026-10-24T20:37:18Z",
+                        "lastTransitionTime": "2026-10-24T23:43:36Z",
                         "message": "containers with unready status: [flink-main-container]",
                         "observedGeneration": 1,
                         "reason": "ContainersNotReady",
@@ -232,7 +232,7 @@
                     },
                     {
                         "lastProbeTime": null,
-                        "lastTransitionTime": "2026-10-24T20:37:18Z",
+                        "lastTransitionTime": "2026-10-24T23:43:36Z",
                         "message": "containers with unready status: [flink-main-container]",
                         "observedGeneration": 1,
                         "reason": "ContainersNotReady",
@@ -241,7 +241,7 @@
                     },
                     {
                         "lastProbeTime": null,
-                        "lastTransitionTime": "2026-10-24T20:37:18Z",
+                        "lastTransitionTime": "2026-10-24T23:43:36Z",
                         "observedGeneration": 1,
                         "status": "True",
                         "type": "PodScheduled"
@@ -250,38 +250,38 @@
                 "containerStatuses": [
                     {
                         "allocatedResources": {
-                            "cpu": "500m",
+                            "cpu": "150m",
                             "memory": "1Gi"
                         },
-                        "containerID": "containerd://f8cd73e0d9b97ada670a7b0f8e8603179b1833a9cbf7a2eb07e26013ca982809",
+                        "containerID": "containerd://3d4473754b64eac67c2f18a9eabbed0215c5eebd67584efd66ee049ecb223e05",
                         "image": "docker.io/library/flink:1.20",
                         "imageID": "docker.io/library/flink@sha256:671e890a10e783374d626a6870756c6ad86983e8f94e8a21b6d1408a1f86be2c",
                         "lastState": {
                             "terminated": {
-                                "containerID": "containerd://f8cd73e0d9b97ada670a7b0f8e8603179b1833a9cbf7a2eb07e26013ca982809",
+                                "containerID": "containerd://3d4473754b64eac67c2f18a9eabbed0215c5eebd67584efd66ee049ecb223e05",
                                 "exitCode": 1,
-                                "finishedAt": "2026-10-24T20:37:46Z",
+                                "finishedAt": "2026-10-24T23:44:25Z",
                                 "reason": "Error",
-                                "startedAt": "2026-10-24T20:37:41Z"
+                                "startedAt": "2026-10-24T23:44:23Z"
                             }
                         },
                         "name": "flink-main-container",
                         "ready": false,
                         "resources": {
                             "limits": {
-                                "cpu": "500m",
+                                "cpu": "900m",
                                 "memory": "1Gi"
                             },
                             "requests": {
-                                "cpu": "500m",
+                                "cpu": "150m",
                                 "memory": "1Gi"
                             }
                         },
-                        "restartCount": 2,
+                        "restartCount": 3,
                         "started": false,
                         "state": {
                             "waiting": {
-                                "message": "back-off 20s restarting failed container=flink-main-container pod=missing-jar-597b458676-ql9tx_default(286bc8f3-da0a-4e3f-8581-719f6613a4a9)",
+                                "message": "back-off 40s restarting failed container=flink-main-container pod=missing-jar-6b6b955874-bzfjj_default(f5a0fd7b-1c6b-4601-85ef-6527f89a3b2d)",
                                 "reason": "CrashLoopBackOff"
                             }
                         },
@@ -305,7 +305,7 @@
                             },
                             {
                                 "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
-                                "name": "kube-api-access-gncll",
+                                "name": "kube-api-access-k8bc2",
                                 "readOnly": true,
                                 "recursiveReadOnly": "Disabled"
                             }
@@ -320,24 +320,24 @@
                 ],
                 "observedGeneration": 1,
                 "phase": "Running",
-                "podIP": "10.244.0.112",
+                "podIP": "10.244.0.74",
                 "podIPs": [
                     {
-                        "ip": "10.244.0.112"
+                        "ip": "10.244.0.74"
                     }
                 ],
-                "qosClass": "Guaranteed",
+                "qosClass": "Burstable",
                 "resources": {
                     "limits": {
-                        "cpu": "500m",
+                        "cpu": "900m",
                         "memory": "1Gi"
                     },
                     "requests": {
-                        "cpu": "489m",
+                        "cpu": "130m",
                         "memory": "1Gi"
                     }
                 },
-                "startTime": "2026-10-24T20:37:18Z"
+                "startTime": "2026-10-24T23:43:36Z"
             }
         }
     ],

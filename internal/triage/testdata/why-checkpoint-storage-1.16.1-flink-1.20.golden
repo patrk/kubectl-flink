@@ -1,0 +1,40 @@
+FlinkDeployment default/checkpoint-storage in context kind, job 920a5945cb9cd86b58d05e0395580d15 · PROGRESSING
+  JobManager DEPLOYING, waiting: CrashLoopBackOff (checkpoint-storage-7b88cb9fc7-k9bvv)
+  job RECONCILING
+
+Matched patterns
+  1. FAILED: Flink cannot write its checkpoint storage at file:/flink-data/checkpoints/920a5945cb9cd86b58d05e0395580d15/shared (runtime)
+    The JobManager creates the checkpoint directories when the job starts and fails if it cannot. On a volume the Flink user (uid 9999 in the official image)
+    needs write access; on object storage, the credentials or the bucket are usually wrong.
+    Next: Check execution.checkpointing.dir, and that the Flink user can write there.
+    · log.jobmanager: Caused by: java.io.IOException: Failed to create directory for shared state: file:/flink-data/checkpoints/920a5945cb9cd86b58d05e0395580d1…
+    · log.jobmanager: Caused by: java.util.concurrent.CompletionException: org.apache.flink.util.FlinkRuntimeException: Failed to create checkpoint storage at …
+    · log.jobmanager: Caused by: org.apache.flink.util.FlinkRuntimeException: Failed to create checkpoint storage at checkpoint coordinator side.
+
+Operator
+  lifecycle DEPLOYED, JobManager DEPLOYING, job RECONCILING, reconciled 2m57s ago, generation 1 (observed 1)
+  spec written by kubectl-client-side-apply, last 2m58s ago
+
+Kubernetes
+  pod checkpoint-storage-7b88cb9fc7-k9bvv (jobmanager): Running, waiting CrashLoopBackOff, 4 restarts, last Error exit 2 63s ago
+  warning events, newest first:
+    0s ago BackOff ×5 on Pod: Back-off restarting failed container flink-main-container in pod checkpoint-storage-7b88cb9fc7-k9bvv_default(8c7e98fb-a95e-439a-a…
+    66s ago Unhealthy ×18 on Pod: Startup probe failed: Get "http://10.244.0.77:8081/config": dial tcp 10.244.0.77:8081: connect: connection refused
+  JobManager log, error lines:
+    org.apache.flink.runtime.client.JobInitializationException: Could not start the JobMaster.
+    Caused by: java.util.concurrent.CompletionException: org.apache.flink.util.FlinkRuntimeException: Failed to create checkpoint storage at checkpoint coordin…
+    Caused by: org.apache.flink.util.FlinkRuntimeException: Failed to create checkpoint storage at checkpoint coordinator side.
+    Caused by: java.io.IOException: Failed to create directory for shared state: file:/flink-data/checkpoints/920a5945cb9cd86b58d05e0395580d15/shared
+    java.util.concurrent.CompletionException: org.apache.flink.client.deployment.application.ApplicationExecutionException: Could not execute application.
+    at java.base/java.util.concurrent.CompletableFuture.completeExceptionally(Unknown Source) ~[?:?]
+    Caused by: org.apache.flink.client.deployment.application.ApplicationExecutionException: Could not execute application.
+    Caused by: org.apache.flink.client.program.ProgramInvocationException: The main method caused an error: Failed to execute job 'State machine job'.
+    … 19 more: kubectl flink logs default/checkpoint-storage --previous
+
+Runtime
+  not collected: JobManager REST API: not asked: the JobManager is DEPLOYING
+
+Performance
+
+HA
+  HA not configured

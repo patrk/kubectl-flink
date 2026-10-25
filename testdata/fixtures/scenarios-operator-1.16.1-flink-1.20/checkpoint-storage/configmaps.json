@@ -1,0 +1,92 @@
+{
+  "apiVersion": "v1",
+  "items": [
+    {
+      "apiVersion": "v1",
+      "kind": "ConfigMap",
+      "metadata": {
+        "creationTimestamp": "2026-10-24T23:43:36Z",
+        "labels": {
+          "app": "checkpoint-storage",
+          "component": "autoscaler"
+        },
+        "name": "autoscaler-checkpoint-storage",
+        "namespace": "default",
+        "ownerReferences": [
+          {
+            "apiVersion": "flink.apache.org/v1beta1",
+            "blockOwnerDeletion": false,
+            "controller": false,
+            "kind": "FlinkDeployment",
+            "name": "checkpoint-storage",
+            "uid": "19c4061e-941d-4b90-b8d3-c10febd29253"
+          }
+        ],
+        "resourceVersion": "94357",
+        "uid": "319f59e9-89ac-4f59-8f73-aab10345d18f"
+      },
+      "data": null
+    },
+    {
+      "apiVersion": "v1",
+      "data": {
+        "flink-conf.yaml": "",
+        "log4j-console.properties": ""
+      },
+      "kind": "ConfigMap",
+      "metadata": {
+        "creationTimestamp": "2026-10-24T23:43:36Z",
+        "labels": {
+          "app": "checkpoint-storage",
+          "type": "flink-native-kubernetes"
+        },
+        "name": "flink-config-checkpoint-storage",
+        "namespace": "default",
+        "ownerReferences": [
+          {
+            "apiVersion": "apps/v1",
+            "blockOwnerDeletion": true,
+            "controller": true,
+            "kind": "Deployment",
+            "name": "checkpoint-storage",
+            "uid": "e9295b63-02e0-4807-9542-dfb7d9b9bf05"
+          }
+        ],
+        "resourceVersion": "94336",
+        "uid": "89786b69-7ef0-4a4a-a9d7-cb484b718a19"
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "data": {
+        "taskmanager-pod-template.yaml": ""
+      },
+      "kind": "ConfigMap",
+      "metadata": {
+        "creationTimestamp": "2026-10-24T23:43:36Z",
+        "labels": {
+          "app": "checkpoint-storage",
+          "type": "flink-native-kubernetes"
+        },
+        "name": "pod-template-checkpoint-storage",
+        "namespace": "default",
+        "ownerReferences": [
+          {
+            "apiVersion": "apps/v1",
+            "blockOwnerDeletion": true,
+            "controller": true,
+            "kind": "Deployment",
+            "name": "checkpoint-storage",
+            "uid": "e9295b63-02e0-4807-9542-dfb7d9b9bf05"
+          }
+        ],
+        "resourceVersion": "94337",
+        "uid": "be42b792-a855-497b-9d77-d9132ff0f7d0"
+      }
+    }
+  ],
+  "kind": "List",
+  "metadata": {
+    "resourceVersion": ""
+  }
+}

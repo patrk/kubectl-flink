@@ -1,23 +1,23 @@
-FlinkDeployment default/unschedulable in context kind, job c2650a3ac02de2f9e2e405739ccd5962 · PROGRESSING
+FlinkDeployment default/unschedulable in context kind, job 4439be7d7cde77d260fb48b9d3a5c019 · PROGRESSING
   JobManager DEPLOYING
   job RECONCILING
 
 Matched patterns
-  1. STUCK: No node can run the pod: 0/1 nodes are available: 1 Insufficient cpu (kubernetes, newest evidence 60s ago)
+  1. STUCK: No node can run the pod: 0/1 nodes are available: 1 Insufficient cpu (kubernetes, newest evidence 17s ago)
     The scheduler finds no node with the requested resources, labels or tolerations, so the pod stays Pending.
     Next: Lower the resources of the job, or add capacity; check node selectors, affinity and taints.
     · event: FailedScheduling: 0/1 nodes are available: 1 Insufficient cpu. preemption: 0/1 nodes are available: 1 Preemption is not helpful for scheduling.
     · pod.unschedulable: 0/1 nodes are available: 1 Insufficient cpu. preemption: 0/1 nodes are available: 1 Preemption is not helpful for scheduling. (jobmana…
 
 Operator
-  lifecycle DEPLOYED, JobManager DEPLOYING, job RECONCILING, reconciled 61s ago, generation 1 (observed 1)
-  spec written by kubectl-client-side-apply, last 62s ago
+  lifecycle DEPLOYED, JobManager DEPLOYING, job RECONCILING, reconciled 53s ago, generation 1 (observed 1)
+  spec written by kubectl-client-side-apply, last 54s ago
 
 Kubernetes
-  pod unschedulable-5bdd4b9576-mknkb (jobmanager): Pending, unschedulable
+  pod unschedulable-64665d4c5b-8nbcj (jobmanager): Pending, unschedulable
   warning events, newest first:
-    60s ago FailedScheduling ×2 on Pod: 0/1 nodes are available: 1 Insufficient cpu. preemption: 0/1 nodes are available: 1 Preemption is not helpful for sched…
-    61s ago FailedScheduling on Pod: 0/1 nodes are available: 1 Insufficient cpu. preemption: 0/1 nodes are available: 1 Preemption is not helpful for scheduli…
+    17s ago FailedScheduling ×2 on Pod: 0/1 nodes are available: 1 Insufficient cpu. preemption: 0/1 nodes are available: 1 Preemption is not helpful for sched…
+    53s ago FailedScheduling on Pod: 0/1 nodes are available: 1 Insufficient cpu. preemption: 0/1 nodes are available: 1 Preemption is not helpful for scheduli…
 
 Runtime
   not collected: JobManager REST API: not asked: the JobManager is DEPLOYING

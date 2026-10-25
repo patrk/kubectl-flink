@@ -67,17 +67,20 @@ func restCluster(t *testing.T) (exec func(args ...string) (int, string, string),
 	return restClusterAt(t, tmLost)
 }
 
-func restClusterAt(t *testing.T, tmLost string) (exec func(args ...string) (int, string, string), restURL string) {
+func restClusterAt(t *testing.T, dir string) (exec func(args ...string) (int, string, string), restURL string) {
 	f := kubetest.New(t)
-	f.Put("flinkdeployments", kubetest.ReadFixture(t, filepath.Join(tmLost, "flinkdeployment.json")))
+	f.Put("flinkdeployments", kubetest.ReadFixture(t, filepath.Join(dir, "flinkdeployment.json")))
+	if snaps := filepath.Join(dir, "snapshots.json"); fileExists(snaps) {
+		f.PutAll("flinkstatesnapshots", snaps)
+	}
 	c := newCluster(t)
 	c.add("dev", "default", f)
-	srv, _ := flinktest.Server(t, tmLost)
+	srv, _ := flinktest.Server(t, dir)
 
 	var job struct {
 		Now flink.Millis `json:"now"`
 	}
-	b, err := os.ReadFile(filepath.Join(tmLost, "rest", "job.json"))
+	b, err := os.ReadFile(filepath.Join(dir, "rest", "job.json"))
 	if err != nil || json.Unmarshal(b, &job) != nil {
 		t.Fatalf("job.json: %v", err)
 	}
@@ -171,5 +174,28 @@ func TestStale(t *testing.T) {
 		if got := triage.StaleCheckpoint(tc.c, tc.cfg, now); tc.want == "" && got != "" || !strings.Contains(got, tc.want) {
 			t.Errorf("%s: %q, want %q", name, got, tc.want)
 		}
+	}
+}
+
+func fileExists(path string) bool {
+	_, err := os.Stat(path)
+	return err == nil
+}
+
+// TestSnapshotsCommand lists the snapshots scenario's FlinkStateSnapshots next to the JobManager's checkpoints, on
+// every captured Flink version.
+func TestSnapshotsCommand(t *testing.T) {
+	dirs, _ := filepath.Glob("../../testdata/fixtures/scenarios-*/snapshots")
+	if len(dirs) < 2 {
+		t.Fatalf("found %d snapshots fixtures, want 1.20 and 2.2", len(dirs))
+	}
+	for _, dir := range dirs {
+		version := strings.TrimPrefix(filepath.Base(filepath.Dir(dir)), "scenarios-")
+		exec, url := restClusterAt(t, dir)
+		code, out, errOut := exec("snapshots", "snap", "--rest-url", url)
+		if code != ExitOK {
+			t.Fatalf("%s: %d %s", version, code, errOut)
+		}
+		golden(t, "snapshots-"+version, out)
 	}
 }

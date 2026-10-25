@@ -1,0 +1,233 @@
+{
+  "apiVersion": "v1",
+  "items": [
+    {
+      "apiVersion": "v1",
+      "count": 1,
+      "eventTime": null,
+      "firstTimestamp": "2026-10-24T23:33:17Z",
+      "involvedObject": {
+        "apiVersion": "flink.apache.org/v1beta1",
+        "kind": "FlinkDeployment",
+        "name": "checkpoint-storage",
+        "namespace": "default",
+        "uid": "6f0805d1-14c8-43d2-84a3-243f65b2df7e"
+      },
+      "kind": "Event",
+      "lastTimestamp": "2026-10-24T23:33:17Z",
+      "message": "Starting deployment",
+      "metadata": {
+        "creationTimestamp": "2026-10-24T23:33:17Z",
+        "name": "JobManagerDeployment.1975243212",
+        "namespace": "default",
+        "resourceVersion": "91017",
+        "uid": "5472b434-3b0a-4870-8a48-96520f623e41"
+      },
+      "reason": "Submit",
+      "reportingComponent": "",
+      "reportingInstance": "",
+      "source": {
+        "component": "JobManagerDeployment"
+      },
+      "type": "Normal"
+    },
+    {
+      "action": "Binding",
+      "apiVersion": "v1",
+      "eventTime": "2026-10-24T23:33:18.143158Z",
+      "firstTimestamp": null,
+      "involvedObject": {
+        "apiVersion": "v1",
+        "kind": "Pod",
+        "name": "checkpoint-storage-85dc9b9897-xnkrr",
+        "namespace": "default",
+        "resourceVersion": "91057",
+        "uid": "2859f727-02cc-445e-819f-87d23ccfd568"
+      },
+      "kind": "Event",
+      "lastTimestamp": null,
+      "message": "Successfully assigned default/checkpoint-storage-85dc9b9897-xnkrr to kubectl-flink-control-plane",
+      "metadata": {
+        "creationTimestamp": "2026-10-24T23:33:18Z",
+        "name": "checkpoint-storage-85dc9b9897-xnkrr.18e19b398c856d67",
+        "namespace": "default",
+        "resourceVersion": "91061",
+        "uid": "a26bc614-2a83-4721-847d-db0feedbe06d"
+      },
+      "reason": "Scheduled",
+      "reportingComponent": "default-scheduler",
+      "reportingInstance": "default-scheduler-kubectl-flink-control-plane",
+      "source": {},
+      "type": "Normal"
+    },
+    {
+      "apiVersion": "v1",
+      "count": 5,
+      "eventTime": null,
+      "firstTimestamp": "2026-10-24T23:33:18Z",
+      "involvedObject": {
+        "apiVersion": "v1",
+        "fieldPath": "spec.containers{flink-main-container}",
+        "kind": "Pod",
+        "name": "checkpoint-storage-85dc9b9897-xnkrr",
+        "namespace": "default",
+        "resourceVersion": "91059",
+        "uid": "2859f727-02cc-445e-819f-87d23ccfd568"
+      },
+      "kind": "Event",
+      "lastTimestamp": "2026-10-24T23:35:04Z",
+      "message": "Container image \"flink:2.2\" already present on machine and can be accessed by the pod",
+      "metadata": {
+        "creationTimestamp": "2026-10-24T23:33:18Z",
+        "name": "checkpoint-storage-85dc9b9897-xnkrr.18e19b39a2ecd637",
+        "namespace": "default",
+        "resourceVersion": "91561",
+        "uid": "a24f8a1a-c413-4907-8131-ac447f30d61f"
+      },
+      "reason": "Pulled",
+      "reportingComponent": "kubelet",
+      "reportingInstance": "kubectl-flink-control-plane",
+      "source": {
+        "component": "kubelet",
+        "host": "kubectl-flink-control-plane"
+      },
+      "type": "Normal"
+    },
+    {
+      "apiVersion": "v1",
+      "count": 5,
+      "eventTime": null,
+      "firstTimestamp": "2026-10-24T23:33:18Z",
+      "involvedObject": {
+        "apiVersion": "v1",
+        "fieldPath": "spec.containers{flink-main-container}",
+        "kind": "Pod",
+        "name": "checkpoint-storage-85dc9b9897-xnkrr",
+        "namespace": "default",
+        "resourceVersion": "91059",
+        "uid": "2859f727-02cc-445e-819f-87d23ccfd568"
+      },
+      "kind": "Event",
+      "lastTimestamp": "2026-10-24T23:35:04Z",
+      "message": "Container created",
+      "metadata": {
+        "creationTimestamp": "2026-10-24T23:33:18Z",
+        "name": "checkpoint-storage-85dc9b9897-xnkrr.18e19b39a35d1226",
+        "namespace": "default",
+        "resourceVersion": "91563",
+        "uid": "5b38ff51-1bce-4b0f-b213-ae8d8f3d3b5d"
+      },
+      "reason": "Created",
+      "reportingComponent": "kubelet",
+      "reportingInstance": "kubectl-flink-control-plane",
+      "source": {
+        "component": "kubelet",
+        "host": "kubectl-flink-control-plane"
+      },
+      "type": "Normal"
+    },
+    {
+      "apiVersion": "v1",
+      "count": 5,
+      "eventTime": null,
+      "firstTimestamp": "2026-10-24T23:33:18Z",
+      "involvedObject": {
+        "apiVersion": "v1",
+        "fieldPath": "spec.containers{flink-main-container}",
+        "kind": "Pod",
+        "name": "checkpoint-storage-85dc9b9897-xnkrr",
+        "namespace": "default",
+        "resourceVersion": "91059",
+        "uid": "2859f727-02cc-445e-819f-87d23ccfd568"
+      },
+      "kind": "Event",
+      "lastTimestamp": "2026-10-24T23:35:04Z",
+      "message": "Container started",
+      "metadata": {
+        "creationTimestamp": "2026-10-24T23:33:18Z",
+        "name": "checkpoint-storage-85dc9b9897-xnkrr.18e19b39a53bb689",
+        "namespace": "default",
+        "resourceVersion": "91564",
+        "uid": "cdd35fa4-1eb9-4d3f-ba1c-0957a199e8c6"
+      },
+      "reason": "Started",
+      "reportingComponent": "kubelet",
+      "reportingInstance": "kubectl-flink-control-plane",
+      "source": {
+        "component": "kubelet",
+        "host": "kubectl-flink-control-plane"
+      },
+      "type": "Normal"
+    },
+    {
+      "apiVersion": "v1",
+      "count": 16,
+      "eventTime": null,
+      "firstTimestamp": "2026-10-24T23:33:19Z",
+      "involvedObject": {
+        "apiVersion": "v1",
+        "fieldPath": "spec.containers{flink-main-container}",
+        "kind": "Pod",
+        "name": "checkpoint-storage-85dc9b9897-xnkrr",
+        "namespace": "default",
+        "resourceVersion": "91059",
+        "uid": "2859f727-02cc-445e-819f-87d23ccfd568"
+      },
+      "kind": "Event",
+      "lastTimestamp": "2026-10-24T23:34:19Z",
+      "message": "Startup probe failed: Get \"http://10.244.0.51:8081/config\": dial tcp 10.244.0.51:8081: connect: connection refused",
+      "metadata": {
+        "creationTimestamp": "2026-10-24T23:33:19Z",
+        "name": "checkpoint-storage-85dc9b9897-xnkrr.18e19b39db7d09b1",
+        "namespace": "default",
+        "resourceVersion": "91448",
+        "uid": "ceaf5d36-6720-469e-b402-1b66af352edc"
+      },
+      "reason": "Unhealthy",
+      "reportingComponent": "kubelet",
+      "reportingInstance": "kubectl-flink-control-plane",
+      "source": {
+        "component": "kubelet",
+        "host": "kubectl-flink-control-plane"
+      },
+      "type": "Warning"
+    },
+    {
+      "apiVersion": "v1",
+      "count": 3,
+      "eventTime": null,
+      "firstTimestamp": "2026-10-24T23:33:31Z",
+      "involvedObject": {
+        "apiVersion": "v1",
+        "fieldPath": "spec.containers{flink-main-container}",
+        "kind": "Pod",
+        "name": "checkpoint-storage-85dc9b9897-xnkrr",
+        "namespace": "default",
+        "resourceVersion": "91059",
+        "uid": "2859f727-02cc-445e-819f-87d23ccfd568"
+      },
+      "kind": "Event",
+      "lastTimestamp": "2026-10-24T23:34:22Z",
+      "message": "Back-off restarting failed container flink-main-container in pod checkpoint-storage-85dc9b9897-xnkrr_default(2859f727-02cc-445e-819f-87d23ccfd568)",
+      "metadata": {
+        "creationTimestamp": "2026-10-24T23:33:31Z",
+        "name": "checkpoint-storage-85dc9b9897-xnkrr.18e19b3c9bedc4ad",
+        "namespace": "default",
+        "resourceVersion": "91462",
+        "uid": "1092202c-8472-41a5-9ceb-97e5bac1b15e"
+      },
+      "reason": "BackOff",
+      "reportingComponent": "kubelet",
+      "reportingInstance": "kubectl-flink-control-plane",
+      "source": {
+        "component": "kubelet",
+        "host": "kubectl-flink-control-plane"
+      },
+      "type": "Warning"
+    }
+  ],
+  "kind": "List",
+  "metadata": {
+    "resourceVersion": ""
+  }
+}

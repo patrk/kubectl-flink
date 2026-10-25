@@ -5,7 +5,7 @@
       "apiVersion": "v1",
       "kind": "ConfigMap",
       "metadata": {
-        "creationTimestamp": "2026-10-24T20:38:11Z",
+        "creationTimestamp": "2026-10-24T23:46:39Z",
         "labels": {
           "app": "restart-loop",
           "component": "autoscaler"
@@ -19,11 +19,11 @@
             "controller": false,
             "kind": "FlinkDeployment",
             "name": "restart-loop",
-            "uid": "f903135a-2207-4d74-a63c-4abf9589b20a"
+            "uid": "3667e2bf-e904-4d25-a9bd-58bf62d2b2d5"
           }
         ],
-        "resourceVersion": "57415",
-        "uid": "b21bf12b-9d54-4c77-8ab8-a1df855ad530"
+        "resourceVersion": "95321",
+        "uid": "e7a5b05b-ffbf-42bd-a619-dbe0ffdfea83"
       },
       "data": null
     },
@@ -35,7 +35,7 @@
       },
       "kind": "ConfigMap",
       "metadata": {
-        "creationTimestamp": "2026-10-24T20:38:11Z",
+        "creationTimestamp": "2026-10-24T23:46:39Z",
         "labels": {
           "app": "restart-loop",
           "type": "flink-native-kubernetes"
@@ -49,11 +49,11 @@
             "controller": true,
             "kind": "Deployment",
             "name": "restart-loop",
-            "uid": "ed3c9065-2420-4c0f-a662-e6855963f20e"
+            "uid": "6971b9c0-9d90-4571-b409-2f1ba63506ac"
           }
         ],
-        "resourceVersion": "57383",
-        "uid": "e73b35d6-467b-47d4-88aa-90eb5fa3144f"
+        "resourceVersion": "95288",
+        "uid": "d8aaf6cc-5d83-4e46-9016-72c99452b6c1"
       }
     }
   ],

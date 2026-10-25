@@ -24,11 +24,12 @@ import (
 
 // listKinds are the kind and apiVersion a real API server puts on list responses.
 var listKinds = map[string][2]string{
-	"flinkdeployments": {"FlinkDeploymentList", "flink.apache.org/v1beta1"},
-	"flinksessionjobs": {"FlinkSessionJobList", "flink.apache.org/v1beta1"},
-	"pods":             {"PodList", "v1"},
-	"events":           {"EventList", "v1"},
-	"configmaps":       {"ConfigMapList", "v1"},
+	"flinkdeployments":    {"FlinkDeploymentList", "flink.apache.org/v1beta1"},
+	"flinksessionjobs":    {"FlinkSessionJobList", "flink.apache.org/v1beta1"},
+	"pods":                {"PodList", "v1"},
+	"events":              {"EventList", "v1"},
+	"configmaps":          {"ConfigMapList", "v1"},
+	"flinkstatesnapshots": {"FlinkStateSnapshotList", "flink.apache.org/v1beta1"},
 }
 
 type item struct {
