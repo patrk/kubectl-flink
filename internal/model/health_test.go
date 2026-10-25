@@ -75,6 +75,10 @@ func TestAssess(t *testing.T) {
 		{"suspended", func(j *Job) {
 			j.SpecJobState, j.Lifecycle, j.JobState, j.JMStatus = "suspended", "SUSPENDED", "FINISHED", "MISSING"
 		}, Suspended, "suspended"},
+		{"suspended, then changed", func(j *Job) {
+			j.SpecJobState, j.Lifecycle, j.JobState, j.JMStatus = "suspended", "SUSPENDED", "FINISHED", "MISSING"
+			j.Generation, j.ObservedGeneration, j.SpecChangedAt = 4, 3, ago(time.Hour)
+		}, Suspended, "suspended; spec changes apply on resume"},
 		{"suspend pending", func(j *Job) { j.SpecJobState, j.SpecChangedAt = "suspended", ago(time.Minute) }, Progressing, "suspend requested"},
 		{"suspend stuck", func(j *Job) { j.SpecJobState, j.SpecChangedAt = "suspended", ago(time.Hour) }, Stuck, "suspend requested, lifecycle STABLE for 60m"},
 		{"never reconciled, new", func(j *Job) { j.Lifecycle, j.ReconciledAt, j.Created = "", time.Time{}, ago(10*time.Second) }, Progressing, "not reconciled"},
