@@ -125,12 +125,30 @@ func TestResolveJobIDLabelsFromProfile(t *testing.T) {
 	if tgt, err := c.options().resolveJob(context.Background(), "uc-1", false); err != nil || tgt.job.Name != "orders-0" {
 		t.Errorf("uc-1: %v %v", tgt, err)
 	}
-	if _, err := c.options().resolveJob(context.Background(), "prod", false); !errors.Is(err, fleet.ErrNoMatch) {
-		t.Errorf("env is not an ID label: %v", err)
-	}
 	code, out, _ := c.ls("-o", "name", "uc-1")
 	if code != ExitOK || out != "team-a/orders-0\n" {
 		t.Errorf("ls by ID: %d %q", code, out)
+	}
+	// Both found the ID through the API server, without reading every job.
+	unfiltered := func() int {
+		return f.Count(func(r kubetest.Request) bool {
+			return strings.HasSuffix(r.Path, "/flinkdeployments") && r.Query.Get("labelSelector") == "" &&
+				r.Query.Get("fieldSelector") == "" && r.Query.Get("limit") != "1"
+		})
+	}
+	if n := unfiltered(); n != 0 {
+		t.Errorf("%d unfiltered lists for an ID", n)
+	}
+	if _, err := c.options().resolveJob(context.Background(), "prod", false); !errors.Is(err, fleet.ErrNoMatch) {
+		t.Errorf("env is not an ID label: %v", err)
+	}
+	// The pods of the job found are read, so its TaskManagers count.
+	if _, out, _ := c.ls("-o", "json", "uc-1"); !strings.Contains(out, `"ready": 1`) {
+		t.Errorf("pods of the job found: %s", out)
+	}
+	// No job carries it as an ID: the whole fleet is read for a part of a name.
+	if code, out, _ := c.ls("-o", "name", "paym"); code != ExitOK || out != "team-a/payments-0\n" || unfiltered() == 0 {
+		t.Errorf("fallback to names: %d %q, %d unfiltered lists", code, out, unfiltered())
 	}
 }
 

@@ -7,12 +7,19 @@ set -euo pipefail
 : "${KUBE_CONTEXT:?}"
 command -v hyperfine >/dev/null || { echo "needs hyperfine: brew install hyperfine" >&2; exit 1; }
 mkdir -p docs/demo/out
+# The flood's jobs carry their ID in the use-case label; a profile that says so lets an ID be looked up by the API
+# server.
+KUBECTL_FLINK_CONFIG=$(mktemp)
+export KUBECTL_FLINK_CONFIG
+trap 'rm -f "$KUBECTL_FLINK_CONFIG"' EXIT
+printf 'apiVersion: kubectl-flink/v1alpha1\nprofiles: [{name: flood, match: ["*"], idLabels: [use-case]}]\n' > "$KUBECTL_FLINK_CONFIG"
 k="kubectl --context $KUBE_CONTEXT" f="bin/kubectl-flink --context $KUBE_CONTEXT"
 n=$($k get flinkdeployments -A --no-headers | wc -l | tr -d ' ')
 # What kubectl alone can say about an unhealthy job: a lifecycle other than STABLE or SUSPENDED, or an error.
 unhealthy='.items[] | select((.status.lifecycleState | IN("STABLE", "SUSPENDED") | not) or .status.error != null) | .metadata.name'
 {
-  echo "$n FlinkDeployments, $(date -u +%Y-%m-%d), hyperfine $(hyperfine --version | cut -d' ' -f2); mean ± σ of 20 runs after 3 warmups."
+  echo "$n FlinkDeployments, $(date -u +%Y-%m-%d), hyperfine $(hyperfine --version | cut -d' ' -f2); mean ± σ of 20 runs after 3 warmups;"
+  echo "profile idLabels: [use-case]."
   echo
 } > docs/demo/out/bench.md
 run() {
@@ -27,4 +34,5 @@ run -n "kubectl get -A" "$k get flinkdeployments -A" -n "kubectl flink ls -A" "$
 run -n "kubectl get -A -o json | jq (unhealthy)" "$k get flinkdeployments -A -o json | jq -r '$unhealthy'" \
   -n "kubectl flink ls -A --unhealthy" "$f ls -A --unhealthy"
 run -n "kubectl get -A -l use-case=1234" "$k get flinkdeployments -A -l use-case=1234" -n "kubectl flink ls -A 1234" "$f ls -A 1234"
+run -n "kubectl flink why 1234 (-A)" "$f why -A 1234 >/dev/null"
 cat docs/demo/out/bench.md
