@@ -9,6 +9,15 @@ value per job and explains a failure layer by layer: Flink runtime (exceptions, 
 OOMKilled, events), performance (backpressure, checkpoints, source lag) and operator (lifecycle, reconciliation,
 rollbacks).
 
+![kubectl flink ls: every job with one health value, then only the unhealthy](docs/demo/ls.gif)
+
+![kubectl flink why: a job found by its use-case ID, the cause first, then the evidence by layer](docs/demo/why.gif)
+
+![kubectl flink top: the unhealthy jobs, a job's verdict, and a job graph coloured like the Flink web UI's](docs/demo/top.gif)
+
+The recordings are made with [VHS](https://github.com/charmbracelet/vhs) from `docs/demo/*.tape` against the example
+jobs of `make demo` on kind: `make demo demo-gifs`.
+
 > **Status: early development.** `ls`, `why`, `report`, `history`, `exceptions`, `checkpoints`, `snapshots`, `graph`, `logs`, `config` and `top` work; the other commands below are the working draft. Build with `make build`.
 
 ```

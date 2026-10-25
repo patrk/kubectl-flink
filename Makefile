@@ -7,7 +7,7 @@ LDFLAGS := -s -w -X github.com/patrk/kubectl-flink/internal/version.Version=$(VE
            -X github.com/patrk/kubectl-flink/internal/version.Commit=$(shell git rev-parse --short HEAD 2>/dev/null || echo none) \
            -X github.com/patrk/kubectl-flink/internal/version.Date=$(shell date -u +%FT%TZ)
 
-.PHONY: build test test-committed bench perf lint snapshot kind-up kind-deps kind-down e2e e2e-go fixtures scenarios crds demo demo-clean
+.PHONY: build test test-committed bench perf lint snapshot kind-up kind-deps kind-down e2e e2e-go fixtures scenarios crds demo demo-clean demo-gifs
 
 build: ; CGO_ENABLED=0 go build -ldflags "$(LDFLAGS)" -o bin/kubectl-flink ./cmd/kubectl-flink
 test:  ; go test -race ./...
@@ -46,6 +46,10 @@ fixtures:
 # Long-lived example jobs in three namespaces and many states, to try the plugin by hand; demo-clean removes them.
 demo: ; KUBE_CONTEXT=$(KUBE_CONTEXT) FLINK_VERSION=$(FLINK_VERSION) hack/demo.sh
 demo-clean: ; KUBE_CONTEXT=$(KUBE_CONTEXT) FLINK_VERSION=$(FLINK_VERSION) hack/demo.sh clean
+
+# The README's recordings, from docs/demo/*.tape against make demo; needs vhs.
+demo-gifs: build
+	for t in docs/demo/ls.tape docs/demo/why.tape docs/demo/top.tape; do vhs "$$t" || exit 1; done
 
 # Failure states (bad image, missing jar, suspended) captured from the operator under test.
 scenarios:
