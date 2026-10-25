@@ -2,6 +2,7 @@ package kube
 
 import (
 	"fmt"
+	"slices"
 
 	"k8s.io/cli-runtime/pkg/genericclioptions"
 	"k8s.io/client-go/rest"
@@ -54,4 +55,14 @@ func (c *Contexts) Config(name string) (*rest.Config, string, error) {
 	}
 	ns, _, err := cc.Namespace()
 	return cfg, ns, err
+}
+
+// Names lists the kubeconfig's contexts, sorted.
+func (c *Contexts) Names() []string {
+	out := make([]string, 0, len(c.raw.Contexts))
+	for name := range c.raw.Contexts {
+		out = append(out, name)
+	}
+	slices.Sort(out)
+	return out
 }

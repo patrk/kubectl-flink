@@ -9,7 +9,7 @@ value per job and explains a failure layer by layer: Flink runtime (exceptions, 
 OOMKilled, events), performance (backpressure, checkpoints, source lag) and operator (lifecycle, reconciliation,
 rollbacks).
 
-> **Status: early development.** `ls`, `why`, `report`, `history`, `exceptions`, `checkpoints` and `logs` work; the other commands below are the working draft. Build with `make build`.
+> **Status: early development.** `ls`, `why`, `report`, `history`, `exceptions`, `checkpoints`, `snapshots`, `logs` and `config` work; the other commands below are the working draft. Build with `make build`.
 
 ```
 kubectl flink ls [-A] [FILTER] [--unhealthy | --health failed,stuck] [-l selector] [--sort health|name|state-age]
@@ -20,7 +20,10 @@ kubectl flink exceptions | checkpoints | snapshots | logs | history <job>
 kubectl flink ui <job>             # port-forward to the JobManager and open the Flink web UI
 kubectl flink savepoint | restart | suspend | resume <job> [--dry-run] [--wait]
 kubectl flink top                  # k9s-style terminal UI on the same data
+kubectl flink config view | validate   # the profile in force for this context, and checks for a profile file
 ```
+
+Tab completion of job names and contexts: put `kubectl_complete-flink`, shipped next to the binary, on your PATH.
 
 Design goals: fast at fleet scale (first rows in under 2 s at 500 jobs, no network on redraw), few keystrokes to an
 answer, safe write operations (dry run, prod confirmation, wait on lifecycle), and a generic core with platform
