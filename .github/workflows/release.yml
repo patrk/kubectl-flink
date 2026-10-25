@@ -1,0 +1,23 @@
+name: release
+on:
+  push:
+    tags: ["v*.*.*"]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with: { fetch-depth: 0 }
+      - uses: actions/setup-go@v7
+        with: { go-version-file: go.mod }
+      - run: make test
+      - uses: goreleaser/goreleaser-action@v7
+        with: { version: "~> v2", args: release --clean }
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # Opens the krew-index PR for the new version; the first version is submitted by hand. Skips prereleases.
+      - uses: rajatjindal/krew-release-bot@v0.0.51
