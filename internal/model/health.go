@@ -176,12 +176,18 @@ func (a *assessor) run() {
 
 func (a *assessor) suspended() {
 	j := a.j
-	if j.Lifecycle == "SUSPENDED" {
-		a.add(Suspended, "suspended")
-	} else {
+	if j.Lifecycle != "SUSPENDED" {
 		a.timed(j.SpecChangedAt, a.th.StuckAfter, Stuck, "suspend requested, lifecycle "+j.Lifecycle)
+		a.drift()
+		return
 	}
-	a.drift()
+	// The operator keeps a change to a suspended job for its resume, without observing the new generation:
+	// that is not a stuck change.
+	if j.Drift() {
+		a.add(Suspended, "suspended; spec changes apply on resume")
+		return
+	}
+	a.add(Suspended, "suspended")
 }
 
 func (a *assessor) operator() {
