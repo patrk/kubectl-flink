@@ -1,8 +1,10 @@
 Output docs/demo/why.gif
 Require kubectl
-Set Height 820
+Set Height 1420
 Source docs/demo/setup.tape
 
+Sleep 600ms
 # Jobs are found by the ID people use for them, here a use-case label.
-Type "kubectl flink why -A 5101" Sleep 400ms Enter
-Sleep 7s
+Type "# why is use case 5101 restarting?" Sleep 700ms Enter
+Type "kubectl flink why -A 5101" Sleep 500ms Enter
+Sleep 9s
