@@ -1,4 +1,4 @@
-Output docs/demo/graph.gif
+Output docs/demo/out/graph.gif
 Require kubectl
 Require jq
 Set Height 900

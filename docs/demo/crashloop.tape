@@ -1,4 +1,4 @@
-Output docs/demo/crashloop.gif
+Output docs/demo/out/crashloop.gif
 Require kubectl
 Set Height 1000
 Source docs/demo/look.tape
