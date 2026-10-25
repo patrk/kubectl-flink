@@ -108,3 +108,16 @@ func TestMetricMin(t *testing.T) {
 		t.Errorf("%+v", ms)
 	}
 }
+
+func TestMetricMinRoundTrip(t *testing.T) {
+	for _, m := range []flink.Metric{{ID: "a", Max: 5}, {ID: "b", Max: 5, Min: 0, HasMin: true}} {
+		b, err := json.Marshal(m)
+		if err != nil {
+			t.Fatal(err)
+		}
+		var back flink.Metric
+		if err := json.Unmarshal(b, &back); err != nil || back != m {
+			t.Errorf("%+v became %s and %+v", m, b, back)
+		}
+	}
+}

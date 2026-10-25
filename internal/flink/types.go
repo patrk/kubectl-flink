@@ -220,6 +220,19 @@ type Metric struct {
 	HasMin bool `json:"-"`
 }
 
+// MarshalJSON implements json.Marshaler: a min that was not reported is left out, so that it reads back as such.
+func (m Metric) MarshalJSON() ([]byte, error) {
+	type plain Metric
+	v := struct {
+		plain
+		Min *float64 `json:"min,omitempty"`
+	}{plain: plain(m)}
+	if m.HasMin {
+		v.Min = &m.Min
+	}
+	return json.Marshal(v)
+}
+
 // UnmarshalJSON implements json.Unmarshaler.
 func (m *Metric) UnmarshalJSON(b []byte) error {
 	type plain Metric

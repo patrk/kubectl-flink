@@ -176,7 +176,7 @@ func performanceSignals(job *flink.Job, vms []VertexMetrics, add adder) {
 		}
 	}
 	for i := range vms {
-		if v := &vms[i]; Skewed(v.Metrics[MetricBusy]) && parallelism(job, v.ID) > 1 {
+		if v := &vms[i]; Skewed(job, v) {
 			busy, in := v.Metrics[MetricBusy], v.Metrics[MetricIn]
 			add(SigSkew, Performance, fmt.Sprintf("%s: subtasks busy %.0f to %.0f ms/s, receiving %.0f to %.0f records/s",
 				v.Name, busy.Min, busy.Max, in.Min, in.Max))
@@ -192,17 +192,26 @@ func performanceSignals(job *flink.Job, vms []VertexMetrics, add adder) {
 	}
 }
 
-// Skewed reports whether an operator's busy time is skewed: one subtask saturated while another works much less,
-// as when one key carries most of the records.
-func Skewed(busy flink.Metric) bool {
-	return busy.HasMin && busy.Max >= BusyHigh && busy.Min <= busy.Max*SkewRatio
+// Skewed reports whether an operator is skewed: one subtask saturated while another works and receives much
+// less, as when one key carries most of the records. Both must differ: a subtask on a slow TaskManager is busier
+// on the same input, and a source has no input to compare. It needs Flink's per-subtask minimums.
+func Skewed(job *flink.Job, v *VertexMetrics) bool {
+	vertex := job.Vertex(v.ID)
+	busy, in := v.Metrics[MetricBusy], v.Metrics[MetricIn]
+	return vertex != nil && vertex.Parallelism > 1 && busy.HasMin && in.HasMin &&
+		busy.Max >= BusyHigh && busy.Min <= busy.Max*SkewRatio &&
+		in.Max > 0 && in.Min <= in.Max*SkewRatio
 }
 
-func parallelism(job *flink.Job, id string) int {
-	if v := job.Vertex(id); v != nil {
-		return v.Parallelism
+// WorstSplit is the time split of an operator's worst subtask: the most busy and back-pressured time and the least
+// idle time of its subtasks, which belong to the same subtask when one is the bottleneck. Without the minimum,
+// idle is the most idle subtask's.
+func WorstSplit(m map[string]flink.Metric) (busy, pressed, idle float64) {
+	busy, pressed, idle = m[MetricBusy].Max, m[MetricBackPressed].Max, m[MetricIdle].Max
+	if i := m[MetricIdle]; i.HasMin {
+		idle = i.Min
 	}
-	return 0
+	return busy, pressed, idle
 }
 
 // Warmup is how long a job must have been running before its rates are judged: Flink's rates are averages over

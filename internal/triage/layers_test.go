@@ -213,10 +213,14 @@ func TestSkewSignal(t *testing.T) {
 	if got := collect(j, skewed(280, 1000, true)); got != "Map: subtasks busy 280 to 1000 ms/s, receiving 52 to 196 records/s" {
 		t.Errorf("skewed: %q", got)
 	}
+	slowTM := skewed(280, 1000, true)
+	slowTM[1].Metrics[MetricIn] = flink.Metric{Min: 120, Max: 128, Sum: 248, HasMin: true}
 	for name, vms := range map[string][]VertexMetrics{
 		"evenly busy":      skewed(700, 1000, true),
 		"not saturated":    skewed(100, 800, true),
 		"min not reported": skewed(0, 1000, false),
+		// Busier on the same input: a slow TaskManager, not a hot key.
+		"even input": slowTM,
 	} {
 		if got := collect(j, vms); got != "" {
 			t.Errorf("%s: %q", name, got)
