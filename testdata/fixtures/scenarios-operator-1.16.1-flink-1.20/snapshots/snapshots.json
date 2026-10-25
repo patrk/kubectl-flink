@@ -1,0 +1,91 @@
+{
+  "apiVersion": "v1",
+  "items": [
+    {
+      "apiVersion": "flink.apache.org/v1beta1",
+      "kind": "FlinkStateSnapshot",
+      "metadata": {
+        "annotations": {
+          "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"flink.apache.org/v1beta1\",\"kind\":\"FlinkStateSnapshot\",\"metadata\":{\"annotations\":{},\"name\":\"snap-checkpoint\",\"namespace\":\"default\"},\"spec\":{\"checkpoint\":{},\"jobReference\":{\"kind\":\"FlinkDeployment\",\"name\":\"snap\"}}}\n"
+        },
+        "creationTimestamp": "2026-10-24T23:51:56Z",
+        "finalizers": [
+          "flinkstatesnapshots.flink.apache.org/finalizer"
+        ],
+        "generation": 1,
+        "labels": {
+          "job-reference.kind": "FlinkDeployment",
+          "job-reference.name": "snap",
+          "snapshot.state": "COMPLETED",
+          "snapshot.trigger-type": "MANUAL",
+          "snapshot.type": "CHECKPOINT"
+        },
+        "name": "snap-checkpoint",
+        "namespace": "default",
+        "resourceVersion": "97427",
+        "uid": "d0a481c5-83c1-4749-840a-71bdf2db40c2"
+      },
+      "spec": {
+        "checkpoint": {},
+        "jobReference": {
+          "kind": "FlinkDeployment",
+          "name": "snap"
+        }
+      },
+      "status": {
+        "failures": 0,
+        "path": "file:/flink-data/checkpoints/6fac4c809f2b12f9bdf409fd0ec650bd/chk-20",
+        "resultTimestamp": "2026-10-24T23:54:24.393422795Z",
+        "state": "COMPLETED",
+        "triggerId": "729154c8e598e71f9da6639470b3043e",
+        "triggerTimestamp": "2026-10-24T23:54:09.346992552Z"
+      }
+    },
+    {
+      "apiVersion": "flink.apache.org/v1beta1",
+      "kind": "FlinkStateSnapshot",
+      "metadata": {
+        "annotations": {
+          "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"flink.apache.org/v1beta1\",\"kind\":\"FlinkStateSnapshot\",\"metadata\":{\"annotations\":{},\"name\":\"snap-savepoint\",\"namespace\":\"default\"},\"spec\":{\"jobReference\":{\"kind\":\"FlinkDeployment\",\"name\":\"snap\"},\"savepoint\":{\"formatType\":\"CANONICAL\"}}}\n"
+        },
+        "creationTimestamp": "2026-10-24T23:51:56Z",
+        "finalizers": [
+          "flinkstatesnapshots.flink.apache.org/finalizer"
+        ],
+        "generation": 1,
+        "labels": {
+          "job-reference.kind": "FlinkDeployment",
+          "job-reference.name": "snap",
+          "snapshot.state": "COMPLETED",
+          "snapshot.trigger-type": "MANUAL",
+          "snapshot.type": "SAVEPOINT"
+        },
+        "name": "snap-savepoint",
+        "namespace": "default",
+        "resourceVersion": "97426",
+        "uid": "0379275c-3d8e-4b15-acbb-334330c0f795"
+      },
+      "spec": {
+        "jobReference": {
+          "kind": "FlinkDeployment",
+          "name": "snap"
+        },
+        "savepoint": {
+          "formatType": "CANONICAL"
+        }
+      },
+      "status": {
+        "failures": 0,
+        "path": "file:/flink-data/savepoints/savepoint-6fac4c-b19fea878c63",
+        "resultTimestamp": "2026-10-24T23:54:24.386439087Z",
+        "state": "COMPLETED",
+        "triggerId": "7fce8da8b9bd7388e5784565c657873b",
+        "triggerTimestamp": "2026-10-24T23:54:09.346951136Z"
+      }
+    }
+  ],
+  "kind": "List",
+  "metadata": {
+    "resourceVersion": ""
+  }
+}

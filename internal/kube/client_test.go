@@ -224,7 +224,7 @@ func TestLoad(t *testing.T) {
 	c := client(t, f)
 	plan := kube.Plan{Scope: kube.Scope{Context: "dev"}, Read: []string{"team-a", "team-b"}}
 
-	s, err := c.Load(context.Background(), plan, "")
+	s, err := c.Load(context.Background(), plan, kube.Query{})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -236,12 +236,12 @@ func TestLoad(t *testing.T) {
 	}
 
 	f.Set(func() { f.Forbidden["flinksessionjobs/team-b"] = true })
-	if _, err = c.Load(context.Background(), plan, ""); err == nil || !strings.Contains(err.Error(), "namespace team-b") {
+	if _, err = c.Load(context.Background(), plan, kube.Query{}); err == nil || !strings.Contains(err.Error(), "namespace team-b") {
 		t.Errorf("forbidden session jobs: %v", err)
 	}
 
 	f.Set(func() { f.NotFound = true })
-	if _, err := c.Load(context.Background(), kube.Plan{Read: []string{"team-a"}}, ""); !errors.Is(err, kube.ErrNoOperator) {
+	if _, err := c.Load(context.Background(), kube.Plan{Read: []string{"team-a"}}, kube.Query{}); !errors.Is(err, kube.ErrNoOperator) {
 		t.Errorf("not found: %v", err)
 	}
 }

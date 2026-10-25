@@ -14,6 +14,7 @@ import (
 	"sync"
 	"time"
 
+	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/types"
 
 	"github.com/patrk/kubectl-flink/internal/flink"
@@ -72,10 +73,12 @@ type Evidence struct {
 	// Metrics are the per-vertex metrics of a running job.
 	Metrics []VertexMetrics `json:"metrics,omitempty"`
 	// HA is nil when HA is not configured or could not be read.
-	HA           *HAState  `json:"ha,omitempty"`
-	HAConfigured bool      `json:"haConfigured"`
-	Gaps         []Gap     `json:"notCollected,omitempty"`
-	Now          time.Time `json:"-"`
+	HA           *HAState `json:"ha,omitempty"`
+	HAConfigured bool     `json:"haConfigured"`
+	// Snapshots are the job\'s FlinkStateSnapshots, newest first.
+	Snapshots []kube.FlinkStateSnapshot `json:"-"`
+	Gaps      []Gap                     `json:"notCollected,omitempty"`
+	Now       time.Time                 `json:"-"`
 }
 
 // Timeout bounds the whole collection, so that why answers even when part of the cluster does not.
@@ -130,6 +133,16 @@ func Collect(ctx context.Context, src Source, job *model.Job, now time.Time, th 
 			gap(Kubernetes, "events", err)
 		}
 		ev.Events = events
+	})
+	wg.Go(func() {
+		snaps, err := JobSnapshots(ctx, src.Kube, job)
+		switch {
+		case apierrors.IsNotFound(err):
+			// The CRD is not installed: an older operator, or snapshots turned off.
+		case err != nil:
+			gap(Runtime, "FlinkStateSnapshots", err)
+		}
+		ev.Snapshots = snaps
 	})
 	wg.Go(func() {
 		lines, errs := collectLogs(ctx, src.Kube, job.Namespace, ev.Pods)

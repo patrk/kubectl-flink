@@ -45,7 +45,7 @@ func TestWatchPublishes(t *testing.T) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 	ch := make(chan []fleet.Scope)
-	go fleet.Watch(ctx, []fleet.Source{source(t, f, kube.Scope{Context: "dev"})}, "", ch)
+	go fleet.Watch(ctx, []fleet.Source{source(t, f, kube.Scope{Context: "dev"})}, kube.Query{}, ch)
 	s := next(t, ch)
 	if len(s) != 1 || s[0].Err != nil || len(s[0].Jobs) != 3 {
 		t.Fatalf("initial: %+v", s)
@@ -59,7 +59,7 @@ func TestWatchFollowsChanges(t *testing.T) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 	ch := make(chan []fleet.Scope)
-	go fleet.Watch(ctx, []fleet.Source{source(t, f, kube.Scope{Context: "dev"})}, "", ch)
+	go fleet.Watch(ctx, []fleet.Source{source(t, f, kube.Scope{Context: "dev"})}, kube.Query{}, ch)
 	next(t, ch)
 
 	// A burst of 60 updates is published a few times at most, and the last publish has the final state.
@@ -111,7 +111,7 @@ func TestWatchForbiddenNamespaceFailsScope(t *testing.T) {
 	go fleet.Watch(ctx, []fleet.Source{
 		source(t, f, kube.Scope{Context: "prd", Namespaces: []string{"team-a", "team-b"}}),
 		source(t, ok, kube.Scope{Context: "dev"}),
-	}, "", ch)
+	}, kube.Query{}, ch)
 	s := next(t, ch)
 	if s[0].Err == nil || !strings.Contains(s[0].Err.Error(), "team-b") || s[1].Err != nil || len(s[1].Jobs) != 1 {
 		t.Fatalf("%+v", s)
@@ -125,7 +125,7 @@ func TestWatchWithoutPods(t *testing.T) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 	ch := make(chan []fleet.Scope)
-	go fleet.Watch(ctx, []fleet.Source{source(t, f, kube.Scope{Context: "dev"})}, "", ch)
+	go fleet.Watch(ctx, []fleet.Source{source(t, f, kube.Scope{Context: "dev"})}, kube.Query{}, ch)
 	s := next(t, ch)
 	if s[0].Err != nil || strings.Join(s[0].PodsUnread, ",") != "team-a" || s[0].Jobs[0].Pods != nil {
 		t.Errorf("%+v", s[0])
@@ -141,7 +141,7 @@ func TestWatchUnresolvableScope(t *testing.T) {
 	go fleet.Watch(ctx, []fleet.Source{
 		source(t, f, kube.Scope{Context: "dev", AllNamespaces: true}),
 		{Scope: kube.Scope{Context: "gone"}, Err: errors.New("no such context")},
-	}, "", ch)
+	}, kube.Query{}, ch)
 	s := next(t, ch)
 	if !errors.Is(s[0].Err, kube.ErrNoOperator) || s[1].Err == nil {
 		t.Errorf("%v / %v", s[0].Err, s[1].Err)
@@ -161,7 +161,7 @@ func TestWatchDoesNotWaitForBrokenScope(t *testing.T) {
 	start := time.Now()
 	go fleet.Watch(ctx, []fleet.Source{
 		source(t, broken, kube.Scope{Context: "prd"}), source(t, ok, kube.Scope{Context: "dev"}),
-	}, "", ch)
+	}, kube.Query{}, ch)
 	s := next(t, ch)
 	if took := time.Since(start); took > 5*time.Second {
 		t.Errorf("first publish after %s", took)

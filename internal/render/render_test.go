@@ -6,6 +6,7 @@ import (
 	"flag"
 	"os"
 	"path/filepath"
+	"slices"
 	"strings"
 	"testing"
 	"time"
@@ -119,6 +120,30 @@ func TestTableWatch(t *testing.T) {
 		t.Fatal(err)
 	}
 	golden(t, "table-watch-update", b.Bytes())
+}
+
+// In the wide table the snapshot age changes with time too; only a newer snapshot reprints the row.
+func TestTableWatchWide(t *testing.T) {
+	rows, scopes := fixture()
+	snapped := func(at time.Time) []fleet.Row {
+		out := slices.Clone(rows)
+		j := *out[0].Job
+		j.LastSnapshot = at
+		out[0].Job = &j
+		return out
+	}
+	var b bytes.Buffer
+	tbl := NewTable(&b, TableOptions{Wide: true})
+	if err := tbl.Print(snapped(now.Add(-time.Minute)), scopes, now); err != nil {
+		t.Fatal(err)
+	}
+	b.Reset()
+	if err := tbl.Update(snapped(now.Add(-time.Minute)), scopes, now.Add(time.Hour)); err != nil || b.Len() != 0 {
+		t.Fatalf("age-only change printed %q %v", b.String(), err)
+	}
+	if err := tbl.Update(snapped(now), scopes, now); err != nil || !strings.Contains(b.String(), rows[0].Job.Name) {
+		t.Errorf("newer snapshot printed %q %v", b.String(), err)
+	}
 }
 
 func TestJSONAndYAML(t *testing.T) {

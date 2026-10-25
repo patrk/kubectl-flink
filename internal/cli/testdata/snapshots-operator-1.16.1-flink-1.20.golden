@@ -1,0 +1,10 @@
+Job: FlinkDeployment default/snap in context dev, job 6fac4c809f2b12f9bdf409fd0ec650bd
+
+NAME              TYPE         TRIGGER   STATE       AGE      PATH OR ERROR
+snap-checkpoint   CHECKPOINT   MANUAL    COMPLETED   6s ago   file:/flink-data/checkpoints/6fac4c809f2b12f9bdf409fd0ec650bd/chk-20
+snap-savepoint    SAVEPOINT    MANUAL    COMPLETED   6s ago   file:/flink-data/savepoints/savepoint-6fac4c-b19fea878c63
+
+JobManager
+  last completed checkpoint: #23 5s ago, file:/flink-data/checkpoints/6fac4c809f2b12f9bdf409fd0ec650bd/chk-23
+  last savepoint: #21 21s ago, file:/flink-data/savepoints/savepoint-6fac4c-b19fea878c63
+  restored from: -

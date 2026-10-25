@@ -67,7 +67,7 @@ func (o *Options) resolveJob(ctx context.Context, arg string, allNamespaces bool
 		}
 	}
 
-	scopes := fleet.Load(ctx, srcs, "")
+	scopes := fleet.Load(ctx, srcs, kube.Query{})
 	var jobs []*model.Job
 	clients := map[*model.Job]*kube.Client{}
 	for i := range scopes {
@@ -214,7 +214,12 @@ func (o *Options) withJobManager(ctx context.Context, arg string, f *restFlags, 
 	if err != nil {
 		return err
 	}
-	if f.restURL == "" {
+	return t.withJobManager(ctx, f.restURL, func(c *flink.Client) error { return fn(ctx, t, c) })
+}
+
+// withJobManager runs fn against the job's JobManager, when it is up or restURL is given.
+func (t *target) withJobManager(ctx context.Context, restURL string, fn func(*flink.Client) error) error {
+	if restURL == "" {
 		if err := t.checkJobManager(); err != nil {
 			return err
 		}
@@ -222,7 +227,7 @@ func (o *Options) withJobManager(ctx context.Context, arg string, f *restFlags, 
 	if t.job.JobID == "" {
 		return fmt.Errorf("%s has no Flink job ID in its status yet", t)
 	}
-	access, closeFn := t.access(f.restURL)
+	access, closeFn := t.access(restURL)
 	defer closeFn()
-	return access.Do(ctx, t.job.Namespace, t.cluster(), func(c *flink.Client) error { return fn(ctx, t, c) })
+	return access.Do(ctx, t.job.Namespace, t.cluster(), fn)
 }

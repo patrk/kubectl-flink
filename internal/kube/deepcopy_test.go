@@ -25,7 +25,7 @@ func TestDeepCopy(t *testing.T) {
 	f := filler()
 	for _, obj := range []runtime.Object{
 		&FlinkDeployment{}, &FlinkSessionJob{}, &Pod{}, &FlinkDeploymentList{}, &FlinkSessionJobList{}, &PodList{},
-		&Event{}, &EventList{}, &ConfigMap{}, &ConfigMapList{},
+		&Event{}, &EventList{}, &ConfigMap{}, &ConfigMapList{}, &FlinkStateSnapshot{}, &FlinkStateSnapshotList{},
 	} {
 		for range 20 {
 			f.Fill(obj)

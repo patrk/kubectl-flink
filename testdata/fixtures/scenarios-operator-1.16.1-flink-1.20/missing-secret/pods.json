@@ -8,16 +8,16 @@
                 "annotations": {
                     "flinkdeployment.flink.apache.org/generation": "1"
                 },
-                "creationTimestamp": "2026-10-24T20:37:18Z",
-                "generateName": "missing-secret-5d8d9dbb9c-",
+                "creationTimestamp": "2026-10-24T23:43:36Z",
+                "generateName": "missing-secret-b74dfb5ff-",
                 "generation": 1,
                 "labels": {
                     "app": "missing-secret",
                     "component": "jobmanager",
-                    "pod-template-hash": "5d8d9dbb9c",
+                    "pod-template-hash": "b74dfb5ff",
                     "type": "flink-native-kubernetes"
                 },
-                "name": "missing-secret-5d8d9dbb9c-lpj2z",
+                "name": "missing-secret-b74dfb5ff-tmhfd",
                 "namespace": "default",
                 "ownerReferences": [
                     {
@@ -25,12 +25,12 @@
                         "blockOwnerDeletion": true,
                         "controller": true,
                         "kind": "ReplicaSet",
-                        "name": "missing-secret-5d8d9dbb9c",
-                        "uid": "73cacdb5-7973-452e-b0a6-75d8be367a96"
+                        "name": "missing-secret-b74dfb5ff",
+                        "uid": "c4d3de4d-1908-4ada-88c9-53bc6fc82c5d"
                     }
                 ],
-                "resourceVersion": "56740",
-                "uid": "aa59db02-1185-48cb-a88e-f037eef721a6"
+                "resourceVersion": "94283",
+                "uid": "c3e9cb16-3b04-4b9a-950f-78e34ad10030"
             },
             "spec": {
                 "containers": [
@@ -76,11 +76,11 @@
                         ],
                         "resources": {
                             "limits": {
-                                "cpu": "500m",
+                                "cpu": "900m",
                                 "memory": "1Gi"
                             },
                             "requests": {
-                                "cpu": "500m",
+                                "cpu": "150m",
                                 "memory": "1Gi"
                             }
                         },
@@ -116,7 +116,7 @@
                             },
                             {
                                 "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
-                                "name": "kube-api-access-gb8t4",
+                                "name": "kube-api-access-s7t57",
                                 "readOnly": true
                             }
                         ]
@@ -190,7 +190,7 @@
                         "name": "pod-template-volume"
                     },
                     {
-                        "name": "kube-api-access-gb8t4",
+                        "name": "kube-api-access-s7t57",
                         "projected": {
                             "defaultMode": 420,
                             "sources": [
@@ -231,13 +231,13 @@
             },
             "status": {
                 "allocatedResources": {
-                    "cpu": "500m",
+                    "cpu": "150m",
                     "memory": "1Gi"
                 },
                 "conditions": [
                     {
                         "lastProbeTime": null,
-                        "lastTransitionTime": "2026-10-24T20:37:18Z",
+                        "lastTransitionTime": "2026-10-24T23:43:36Z",
                         "message": "no pod sandbox exists",
                         "observedGeneration": 1,
                         "reason": "PodSandboxNotReady",
@@ -246,14 +246,14 @@
                     },
                     {
                         "lastProbeTime": null,
-                        "lastTransitionTime": "2026-10-24T20:37:18Z",
+                        "lastTransitionTime": "2026-10-24T23:43:36Z",
                         "observedGeneration": 1,
                         "status": "True",
                         "type": "Initialized"
                     },
                     {
                         "lastProbeTime": null,
-                        "lastTransitionTime": "2026-10-24T20:37:18Z",
+                        "lastTransitionTime": "2026-10-24T23:43:36Z",
                         "message": "containers with unready status: [flink-main-container]",
                         "observedGeneration": 1,
                         "reason": "ContainersNotReady",
@@ -262,7 +262,7 @@
                     },
                     {
                         "lastProbeTime": null,
-                        "lastTransitionTime": "2026-10-24T20:37:18Z",
+                        "lastTransitionTime": "2026-10-24T23:43:36Z",
                         "message": "containers with unready status: [flink-main-container]",
                         "observedGeneration": 1,
                         "reason": "ContainersNotReady",
@@ -271,7 +271,7 @@
                     },
                     {
                         "lastProbeTime": null,
-                        "lastTransitionTime": "2026-10-24T20:37:18Z",
+                        "lastTransitionTime": "2026-10-24T23:43:36Z",
                         "observedGeneration": 1,
                         "status": "True",
                         "type": "PodScheduled"
@@ -310,7 +310,7 @@
                             },
                             {
                                 "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
-                                "name": "kube-api-access-gb8t4",
+                                "name": "kube-api-access-s7t57",
                                 "readOnly": true,
                                 "recursiveReadOnly": "Disabled"
                             }
@@ -325,18 +325,18 @@
                 ],
                 "observedGeneration": 1,
                 "phase": "Pending",
-                "qosClass": "Guaranteed",
+                "qosClass": "Burstable",
                 "resources": {
                     "limits": {
-                        "cpu": "500m",
+                        "cpu": "900m",
                         "memory": "1Gi"
                     },
                     "requests": {
-                        "cpu": "500m",
+                        "cpu": "150m",
                         "memory": "1Gi"
                     }
                 },
-                "startTime": "2026-10-24T20:37:18Z"
+                "startTime": "2026-10-24T23:43:36Z"
             }
         }
     ],

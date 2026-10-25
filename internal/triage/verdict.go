@@ -81,17 +81,21 @@ func Judge(ev *Evidence, signals []Signal, rules []*Rule) (*Verdict, error) {
 // operator's event that carries an exception already in a finding.
 func unexplained(signals []Signal, findings []Finding, withQuiet bool) []Signal {
 	var used []string
+	same := map[string]bool{}
 	for _, f := range findings {
 		for _, s := range f.Evidence {
-			// Short texts, such as a status value, would make every signal that contains them look repeated.
-			if n := norm(s.Text); len(n) >= minRepeat && !strings.HasPrefix(s.Kind, "status.") {
+			n := norm(s.Text)
+			same[n] = true
+			// Short texts, such as a status value, would make every signal that contains them look repeated; a
+			// signal with the same text is a repeat whatever its length.
+			if len(n) >= minRepeat && !strings.HasPrefix(s.Kind, "status.") {
 				used = append(used, n)
 			}
 		}
 	}
 	repeats := func(s Signal) bool {
 		n := norm(s.Text)
-		return slices.ContainsFunc(used, func(u string) bool { return strings.Contains(n, u) || strings.Contains(u, n) })
+		return same[n] || slices.ContainsFunc(used, func(u string) bool { return strings.Contains(n, u) || strings.Contains(u, n) })
 	}
 	var out []Signal
 	for _, kind := range leadKinds {

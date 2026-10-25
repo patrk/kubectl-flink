@@ -1,0 +1,92 @@
+{
+  "apiVersion": "v1",
+  "items": [
+    {
+      "apiVersion": "v1",
+      "kind": "ConfigMap",
+      "metadata": {
+        "creationTimestamp": "2026-10-24T23:39:11Z",
+        "labels": {
+          "app": "snap",
+          "component": "autoscaler"
+        },
+        "name": "autoscaler-snap",
+        "namespace": "default",
+        "ownerReferences": [
+          {
+            "apiVersion": "flink.apache.org/v1beta1",
+            "blockOwnerDeletion": false,
+            "controller": false,
+            "kind": "FlinkDeployment",
+            "name": "snap",
+            "uid": "448db5cc-a804-457d-a698-f29c4a4e5c42"
+          }
+        ],
+        "resourceVersion": "93511",
+        "uid": "6fbb37e3-daa6-4179-9545-4d0c37a8c203"
+      },
+      "data": null
+    },
+    {
+      "apiVersion": "v1",
+      "data": {
+        "config.yaml": "",
+        "log4j-console.properties": ""
+      },
+      "kind": "ConfigMap",
+      "metadata": {
+        "creationTimestamp": "2026-10-24T23:39:11Z",
+        "labels": {
+          "app": "snap",
+          "type": "flink-native-kubernetes"
+        },
+        "name": "flink-config-snap",
+        "namespace": "default",
+        "ownerReferences": [
+          {
+            "apiVersion": "apps/v1",
+            "blockOwnerDeletion": true,
+            "controller": true,
+            "kind": "Deployment",
+            "name": "snap",
+            "uid": "4adeddcc-6986-4ca2-823c-522fb0a33a43"
+          }
+        ],
+        "resourceVersion": "93506",
+        "uid": "1c99265e-5423-43b3-8705-7c10970903d1"
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "data": {
+        "taskmanager-pod-template.yaml": ""
+      },
+      "kind": "ConfigMap",
+      "metadata": {
+        "creationTimestamp": "2026-10-24T23:39:11Z",
+        "labels": {
+          "app": "snap",
+          "type": "flink-native-kubernetes"
+        },
+        "name": "pod-template-snap",
+        "namespace": "default",
+        "ownerReferences": [
+          {
+            "apiVersion": "apps/v1",
+            "blockOwnerDeletion": true,
+            "controller": true,
+            "kind": "Deployment",
+            "name": "snap",
+            "uid": "4adeddcc-6986-4ca2-823c-522fb0a33a43"
+          }
+        ],
+        "resourceVersion": "93509",
+        "uid": "e0987883-e111-49c4-80ce-bf570decf141"
+      }
+    }
+  ],
+  "kind": "List",
+  "metadata": {
+    "resourceVersion": ""
+  }
+}

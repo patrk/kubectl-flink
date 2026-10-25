@@ -1,0 +1,300 @@
+2026-10-24 23:45:30,716 INFO  org.apache.flink.configuration.GlobalConfiguration           [] - Loading configuration property: execution.checkpointing.dir, file:///flink-data/checkpoints
+2026-10-24 23:45:30,716 INFO  org.apache.flink.configuration.GlobalConfiguration           [] - Loading configuration property: kubernetes.container.image.ref, flink:1.20
+2026-10-24 23:45:30,716 INFO  org.apache.flink.configuration.GlobalConfiguration           [] - Loading configuration property: taskmanager.memory.process.size, 1 gb
+2026-10-24 23:45:30,716 INFO  org.apache.flink.configuration.GlobalConfiguration           [] - Loading configuration property: kubernetes.internal.jobmanager.entrypoint.class, org.apache.flink.kubernetes.entrypoint.KubernetesApplicationClusterEntrypoint
+2026-10-24 23:45:30,716 INFO  org.apache.flink.configuration.GlobalConfiguration           [] - Loading configuration property: pipeline.name, checkpoint-storage
+2026-10-24 23:45:30,716 INFO  org.apache.flink.configuration.GlobalConfiguration           [] - Loading configuration property: kubernetes.pod-template-file.taskmanager, /tmp/flink_op_generated_podTemplate_6258329794431088739.yaml
+2026-10-24 23:45:30,716 INFO  org.apache.flink.configuration.GlobalConfiguration           [] - Loading configuration property: web.cancel.enable, false
+2026-10-24 23:45:30,716 INFO  org.apache.flink.configuration.GlobalConfiguration           [] - Loading configuration property: execution.target, kubernetes-application
+2026-10-24 23:45:30,716 INFO  org.apache.flink.configuration.GlobalConfiguration           [] - Loading configuration property: jobmanager.memory.process.size, 1 gb
+2026-10-24 23:45:30,716 INFO  org.apache.flink.configuration.GlobalConfiguration           [] - Loading configuration property: execution.shutdown-on-application-finish, false
+2026-10-24 23:45:30,716 INFO  org.apache.flink.configuration.GlobalConfiguration           [] - Loading configuration property: taskmanager.rpc.port, 6122
+2026-10-24 23:45:30,716 INFO  org.apache.flink.configuration.GlobalConfiguration           [] - Loading configuration property: execution.checkpointing.interval, 10s
+2026-10-24 23:45:30,716 INFO  org.apache.flink.configuration.GlobalConfiguration           [] - Loading configuration property: kubernetes.jobmanager.cpu.amount, 0.15
+2026-10-24 23:45:30,716 INFO  org.apache.flink.configuration.GlobalConfiguration           [] - Loading configuration property: internal.cluster.execution-mode, NORMAL
+2026-10-24 23:45:30,716 INFO  org.apache.flink.configuration.GlobalConfiguration           [] - Loading configuration property: env.java.default-opts.all, --add-exports=java.base/sun.net.util=ALL-UNNAMED --add-exports=java.rmi/sun.rmi.registry=ALL-UNNAMED --add-exports=java.security.jgss/sun.security.krb5=ALL-UNNAMED --add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.net=ALL-UNNAMED --add-opens=java.base/java.io=ALL-UNNAMED --add-opens=java.base/java.nio=ALL-UNNAMED --add-opens=java.base/sun.nio.ch=ALL-UNNAMED --add-opens=java.base/java.lang.reflect=ALL-UNNAMED --add-opens=java.base/java.text=ALL-UNNAMED --add-opens=java.base/java.time=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.base/java.util.concurrent=ALL-UNNAMED --add-opens=java.base/java.util.concurrent.atomic=ALL-UNNAMED --add-opens=java.base/java.util.concurrent.locks=ALL-UNNAMED
+2026-10-24 23:45:30,716 INFO  org.apache.flink.configuration.GlobalConfiguration           [] - Loading configuration property: $internal.pipeline.job-id, 920a5945cb9cd86b58d05e0395580d15
+2026-10-24 23:45:30,716 INFO  org.apache.flink.configuration.GlobalConfiguration           [] - Loading configuration property: pipeline.jars, local:///opt/flink/examples/streaming/StateMachineExample.jar
+2026-10-24 23:45:30,716 INFO  org.apache.flink.configuration.GlobalConfiguration           [] - Loading configuration property: execution.checkpointing.externalized-checkpoint-retention, RETAIN_ON_CANCELLATION
+2026-10-24 23:45:30,716 INFO  org.apache.flink.configuration.GlobalConfiguration           [] - Loading configuration property: $internal.flink.version, v1_20
+2026-10-24 23:45:30,716 INFO  org.apache.flink.configuration.GlobalConfiguration           [] - Loading configuration property: kubernetes.pod-template-file.jobmanager, /tmp/flink_op_generated_podTemplate_305802382766041878.yaml
+2026-10-24 23:45:30,718 INFO  org.apache.flink.runtime.rpc.pekko.PekkoRpcService           [] - Starting RPC endpoint for org.apache.flink.runtime.resourcemanager.active.ActiveResourceManager at pekko://flink/user/rpc/resourcemanager_2 .
+2026-10-24 23:45:30,749 INFO  org.apache.flink.runtime.resourcemanager.active.ActiveResourceManager [] - Starting the resource manager.
+2026-10-24 23:45:30,751 INFO  org.apache.flink.runtime.resourcemanager.slotmanager.FineGrainedSlotManager [] - Starting the slot manager.
+2026-10-24 23:45:30,752 INFO  org.apache.flink.runtime.security.token.DefaultDelegationTokenManager [] - Starting tokens update task
+2026-10-24 23:45:30,752 WARN  org.apache.flink.runtime.security.token.DefaultDelegationTokenManager [] - No tokens obtained so skipping notifications
+2026-10-24 23:45:30,752 WARN  org.apache.flink.runtime.security.token.DefaultDelegationTokenManager [] - Tokens update task not started because either no tokens obtained or none of the tokens specified its renewal date
+2026-10-24 23:45:30,755 INFO  org.apache.flink.runtime.executiongraph.ExecutionGraph       [] - Created execution graph 8b998b95cc6b1036af0b29b21fdc9ebc for job 920a5945cb9cd86b58d05e0395580d15.
+2026-10-24 23:45:30,849 INFO  org.apache.flink.runtime.jobmaster.JobMaster                 [] - Running initialization on master for job State machine job (920a5945cb9cd86b58d05e0395580d15).
+2026-10-24 23:45:30,850 INFO  org.apache.flink.runtime.jobmaster.JobMaster                 [] - Successfully ran initialization on master in 0 ms.
+2026-10-24 23:45:30,917 INFO  org.apache.flink.runtime.scheduler.adapter.DefaultExecutionTopology [] - Built 1 new pipelined regions in 0 ms, total 1 pipelined regions currently.
+2026-10-24 23:45:30,950 INFO  org.apache.flink.runtime.jobmaster.JobMaster                 [] - State backend is set to heap memory org.apache.flink.runtime.state.hashmap.HashMapStateBackend@74ceedda
+2026-10-24 23:45:30,950 INFO  org.apache.flink.runtime.state.StateBackendLoader            [] - State backend loader loads the state backend as HashMapStateBackend
+2026-10-24 23:45:30,951 INFO  org.apache.flink.runtime.jobmaster.JobMaster                 [] - Using job/cluster config to configure application-defined checkpoint storage: org.apache.flink.runtime.state.storage.FileSystemCheckpointStorage@eb08f4ba
+2026-10-24 23:45:31,012 INFO  org.apache.flink.runtime.dispatcher.StandaloneDispatcher     [] - Job 920a5945cb9cd86b58d05e0395580d15 reached terminal state FAILED.
+org.apache.flink.runtime.client.JobInitializationException: Could not start the JobMaster.
+	at org.apache.flink.runtime.jobmaster.DefaultJobMasterServiceProcess.lambda$new$0(DefaultJobMasterServiceProcess.java:97)
+	at java.base/java.util.concurrent.CompletableFuture.uniWhenComplete(Unknown Source)
+	at java.base/java.util.concurrent.CompletableFuture$UniWhenComplete.tryFire(Unknown Source)
+	at java.base/java.util.concurrent.CompletableFuture.postComplete(Unknown Source)
+	at java.base/java.util.concurrent.CompletableFuture$AsyncSupply.run(Unknown Source)
+	at org.apache.flink.util.MdcUtils.lambda$wrapRunnable$1(MdcUtils.java:70)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(Unknown Source)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source)
+	at java.base/java.lang.Thread.run(Unknown Source)
+Caused by: java.util.concurrent.CompletionException: org.apache.flink.util.FlinkRuntimeException: Failed to create checkpoint storage at checkpoint coordinator side.
+	at java.base/java.util.concurrent.CompletableFuture.encodeThrowable(Unknown Source)
+	at java.base/java.util.concurrent.CompletableFuture.completeThrowable(Unknown Source)
+	... 5 more
+Caused by: org.apache.flink.util.FlinkRuntimeException: Failed to create checkpoint storage at checkpoint coordinator side.
+	at org.apache.flink.runtime.checkpoint.CheckpointCoordinator.<init>(CheckpointCoordinator.java:365)
+	at org.apache.flink.runtime.checkpoint.CheckpointCoordinator.<init>(CheckpointCoordinator.java:274)
+	at org.apache.flink.runtime.executiongraph.DefaultExecutionGraph.enableCheckpointing(DefaultExecutionGraph.java:514)
+	at org.apache.flink.runtime.executiongraph.DefaultExecutionGraphBuilder.buildGraph(DefaultExecutionGraphBuilder.java:338)
+	at org.apache.flink.runtime.scheduler.DefaultExecutionGraphFactory.createAndRestoreExecutionGraph(DefaultExecutionGraphFactory.java:173)
+	at org.apache.flink.runtime.scheduler.SchedulerBase.createAndRestoreExecutionGraph(SchedulerBase.java:382)
+	at org.apache.flink.runtime.scheduler.SchedulerBase.<init>(SchedulerBase.java:225)
+	at org.apache.flink.runtime.scheduler.DefaultScheduler.<init>(DefaultScheduler.java:142)
+	at org.apache.flink.runtime.scheduler.DefaultSchedulerFactory.createInstance(DefaultSchedulerFactory.java:162)
+	at org.apache.flink.runtime.jobmaster.DefaultSlotPoolServiceSchedulerFactory.createScheduler(DefaultSlotPoolServiceSchedulerFactory.java:121)
+	at org.apache.flink.runtime.jobmaster.JobMaster.createScheduler(JobMaster.java:406)
+	at org.apache.flink.runtime.jobmaster.JobMaster.<init>(JobMaster.java:383)
+	at org.apache.flink.runtime.jobmaster.factories.DefaultJobMasterServiceFactory.internalCreateJobMasterService(DefaultJobMasterServiceFactory.java:128)
+	at org.apache.flink.runtime.jobmaster.factories.DefaultJobMasterServiceFactory.lambda$createJobMasterService$0(DefaultJobMasterServiceFactory.java:100)
+	at org.apache.flink.util.function.FunctionUtils.lambda$uncheckedSupplier$4(FunctionUtils.java:112)
+	... 5 more
+Caused by: java.io.IOException: Failed to create directory for shared state: file:/flink-data/checkpoints/920a5945cb9cd86b58d05e0395580d15/shared
+	at org.apache.flink.runtime.state.filesystem.FsCheckpointStorageAccess.initializeBaseLocationsForCheckpoint(FsCheckpointStorageAccess.java:143)
+	at org.apache.flink.runtime.checkpoint.CheckpointCoordinator.<init>(CheckpointCoordinator.java:361)
+	... 19 more
+2026-10-24 23:45:31,048 WARN  org.apache.flink.client.deployment.application.ApplicationDispatcherBootstrap [] - Application failed unexpectedly: 
+java.util.concurrent.CompletionException: org.apache.flink.client.deployment.application.ApplicationExecutionException: Could not execute application.
+	at java.base/java.util.concurrent.CompletableFuture.encodeThrowable(Unknown Source) ~[?:?]
+	at java.base/java.util.concurrent.CompletableFuture.completeThrowable(Unknown Source) ~[?:?]
+	at java.base/java.util.concurrent.CompletableFuture$UniCompose.tryFire(Unknown Source) ~[?:?]
+	at java.base/java.util.concurrent.CompletableFuture.postComplete(Unknown Source) ~[?:?]
+	at java.base/java.util.concurrent.CompletableFuture.completeExceptionally(Unknown Source) ~[?:?]
+	at org.apache.flink.client.deployment.application.ApplicationDispatcherBootstrap.runApplicationEntryPoint(ApplicationDispatcherBootstrap.java:337) ~[flink-dist-1.20.5.jar:1.20.5]
+	at org.apache.flink.client.deployment.application.ApplicationDispatcherBootstrap.lambda$runApplicationAsync$2(ApplicationDispatcherBootstrap.java:254) ~[flink-dist-1.20.5.jar:1.20.5]
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Unknown Source) ~[?:?]
+	at java.base/java.util.concurrent.FutureTask.run(Unknown Source) ~[?:?]
+	at org.apache.flink.runtime.concurrent.pekko.ActorSystemScheduledExecutorAdapter$ScheduledFutureTask.run(ActorSystemScheduledExecutorAdapter.java:172) ~[?:?]
+	at org.apache.flink.runtime.concurrent.ClassLoadingUtils.runWithContextClassLoader(ClassLoadingUtils.java:68) ~[flink-dist-1.20.5.jar:1.20.5]
+	at org.apache.flink.runtime.concurrent.ClassLoadingUtils.lambda$withContextClassLoader$0(ClassLoadingUtils.java:41) ~[flink-dist-1.20.5.jar:1.20.5]
+	at org.apache.pekko.dispatch.TaskInvocation.run(AbstractDispatcher.scala:59) [flink-rpc-akka57ae8948-7b6b-4f48-bed5-25615b96d44e.jar:1.20.5]
+	at org.apache.pekko.dispatch.ForkJoinExecutorConfigurator$PekkoForkJoinTask.exec(ForkJoinExecutorConfigurator.scala:61) [flink-rpc-akka57ae8948-7b6b-4f48-bed5-25615b96d44e.jar:1.20.5]
+	at java.base/java.util.concurrent.ForkJoinTask.doExec(Unknown Source) [?:?]
+	at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(Unknown Source) [?:?]
+	at java.base/java.util.concurrent.ForkJoinPool.scan(Unknown Source) [?:?]
+	at java.base/java.util.concurrent.ForkJoinPool.runWorker(Unknown Source) [?:?]
+	at java.base/java.util.concurrent.ForkJoinWorkerThread.run(Unknown Source) [?:?]
+Caused by: org.apache.flink.client.deployment.application.ApplicationExecutionException: Could not execute application.
+	... 14 more
+Caused by: org.apache.flink.client.program.ProgramInvocationException: The main method caused an error: Failed to execute job 'State machine job'.
+	at org.apache.flink.client.program.PackagedProgram.callMainMethod(PackagedProgram.java:373) ~[flink-dist-1.20.5.jar:1.20.5]
+	at org.apache.flink.client.program.PackagedProgram.invokeInteractiveModeForExecution(PackagedProgram.java:223) ~[flink-dist-1.20.5.jar:1.20.5]
+	at org.apache.flink.client.ClientUtils.executeProgram(ClientUtils.java:113) ~[flink-dist-1.20.5.jar:1.20.5]
+	at org.apache.flink.client.deployment.application.ApplicationDispatcherBootstrap.runApplicationEntryPoint(ApplicationDispatcherBootstrap.java:301) ~[flink-dist-1.20.5.jar:1.20.5]
+	... 13 more
+Caused by: org.apache.flink.util.FlinkException: Failed to execute job 'State machine job'.
+	at org.apache.flink.streaming.api.environment.StreamExecutionEnvironment.executeAsync(StreamExecutionEnvironment.java:2487) ~[flink-dist-1.20.5.jar:1.20.5]
+	at org.apache.flink.client.program.StreamContextEnvironment.executeAsync(StreamContextEnvironment.java:192) ~[flink-dist-1.20.5.jar:1.20.5]
+	at org.apache.flink.client.program.StreamContextEnvironment.execute(StreamContextEnvironment.java:117) ~[flink-dist-1.20.5.jar:1.20.5]
+	at org.apache.flink.streaming.api.environment.StreamExecutionEnvironment.execute(StreamExecutionEnvironment.java:2325) ~[flink-dist-1.20.5.jar:1.20.5]
+	at org.apache.flink.streaming.examples.statemachine.StateMachineExample.main(StateMachineExample.java:189) ~[?:?]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:?]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(Unknown Source) ~[?:?]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source) ~[?:?]
+	at java.base/java.lang.reflect.Method.invoke(Unknown Source) ~[?:?]
+	at org.apache.flink.client.program.PackagedProgram.callMainMethod(PackagedProgram.java:356) ~[flink-dist-1.20.5.jar:1.20.5]
+	at org.apache.flink.client.program.PackagedProgram.invokeInteractiveModeForExecution(PackagedProgram.java:223) ~[flink-dist-1.20.5.jar:1.20.5]
+	at org.apache.flink.client.ClientUtils.executeProgram(ClientUtils.java:113) ~[flink-dist-1.20.5.jar:1.20.5]
+	at org.apache.flink.client.deployment.application.ApplicationDispatcherBootstrap.runApplicationEntryPoint(ApplicationDispatcherBootstrap.java:301) ~[flink-dist-1.20.5.jar:1.20.5]
+	... 13 more
+Caused by: java.lang.RuntimeException: org.apache.flink.runtime.client.JobInitializationException: Could not start the JobMaster.
+	at org.apache.flink.util.ExceptionUtils.rethrow(ExceptionUtils.java:321) ~[flink-dist-1.20.5.jar:1.20.5]
+	at org.apache.flink.util.function.FunctionUtils.lambda$uncheckedFunction$2(FunctionUtils.java:75) ~[flink-dist-1.20.5.jar:1.20.5]
+	at java.base/java.util.concurrent.CompletableFuture$UniApply.tryFire(Unknown Source) ~[?:?]
+	at java.base/java.util.concurrent.CompletableFuture$Completion.run(Unknown Source) ~[?:?]
+	at java.base/java.lang.Thread.run(Unknown Source) ~[?:?]
+Caused by: org.apache.flink.runtime.client.JobInitializationException: Could not start the JobMaster.
+	at org.apache.flink.runtime.jobmaster.DefaultJobMasterServiceProcess.lambda$new$0(DefaultJobMasterServiceProcess.java:97) ~[flink-dist-1.20.5.jar:1.20.5]
+	at java.base/java.util.concurrent.CompletableFuture.uniWhenComplete(Unknown Source) ~[?:?]
+	at java.base/java.util.concurrent.CompletableFuture$UniWhenComplete.tryFire(Unknown Source) ~[?:?]
+	at java.base/java.util.concurrent.CompletableFuture.postComplete(Unknown Source) ~[?:?]
+	at java.base/java.util.concurrent.CompletableFuture$AsyncSupply.run(Unknown Source) ~[?:?]
+	at org.apache.flink.util.MdcUtils.lambda$wrapRunnable$1(MdcUtils.java:70) ~[flink-dist-1.20.5.jar:1.20.5]
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(Unknown Source) ~[?:?]
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source) ~[?:?]
+	at java.base/java.lang.Thread.run(Unknown Source) ~[?:?]
+Caused by: java.util.concurrent.CompletionException: org.apache.flink.util.FlinkRuntimeException: Failed to create checkpoint storage at checkpoint coordinator side.
+	at java.base/java.util.concurrent.CompletableFuture.encodeThrowable(Unknown Source) ~[?:?]
+	at java.base/java.util.concurrent.CompletableFuture.completeThrowable(Unknown Source) ~[?:?]
+	at java.base/java.util.concurrent.CompletableFuture$AsyncSupply.run(Unknown Source) ~[?:?]
+	at org.apache.flink.util.MdcUtils.lambda$wrapRunnable$1(MdcUtils.java:70) ~[flink-dist-1.20.5.jar:1.20.5]
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(Unknown Source) ~[?:?]
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source) ~[?:?]
+	at java.base/java.lang.Thread.run(Unknown Source) ~[?:?]
+Caused by: org.apache.flink.util.FlinkRuntimeException: Failed to create checkpoint storage at checkpoint coordinator side.
+	at org.apache.flink.runtime.checkpoint.CheckpointCoordinator.<init>(CheckpointCoordinator.java:365) ~[flink-dist-1.20.5.jar:1.20.5]
+	at org.apache.flink.runtime.checkpoint.CheckpointCoordinator.<init>(CheckpointCoordinator.java:274) ~[flink-dist-1.20.5.jar:1.20.5]
+	at org.apache.flink.runtime.executiongraph.DefaultExecutionGraph.enableCheckpointing(DefaultExecutionGraph.java:514) ~[flink-dist-1.20.5.jar:1.20.5]
+	at org.apache.flink.runtime.executiongraph.DefaultExecutionGraphBuilder.buildGraph(DefaultExecutionGraphBuilder.java:338) ~[flink-dist-1.20.5.jar:1.20.5]
+	at org.apache.flink.runtime.scheduler.DefaultExecutionGraphFactory.createAndRestoreExecutionGraph(DefaultExecutionGraphFactory.java:173) ~[flink-dist-1.20.5.jar:1.20.5]
+	at org.apache.flink.runtime.scheduler.SchedulerBase.createAndRestoreExecutionGraph(SchedulerBase.java:382) ~[flink-dist-1.20.5.jar:1.20.5]
+	at org.apache.flink.runtime.scheduler.SchedulerBase.<init>(SchedulerBase.java:225) ~[flink-dist-1.20.5.jar:1.20.5]
+	at org.apache.flink.runtime.scheduler.DefaultScheduler.<init>(DefaultScheduler.java:142) ~[flink-dist-1.20.5.jar:1.20.5]
+	at org.apache.flink.runtime.scheduler.DefaultSchedulerFactory.createInstance(DefaultSchedulerFactory.java:162) ~[flink-dist-1.20.5.jar:1.20.5]
+	at org.apache.flink.runtime.jobmaster.DefaultSlotPoolServiceSchedulerFactory.createScheduler(DefaultSlotPoolServiceSchedulerFactory.java:121) ~[flink-dist-1.20.5.jar:1.20.5]
+	at org.apache.flink.runtime.jobmaster.JobMaster.createScheduler(JobMaster.java:406) ~[flink-dist-1.20.5.jar:1.20.5]
+	at org.apache.flink.runtime.jobmaster.JobMaster.<init>(JobMaster.java:383) ~[flink-dist-1.20.5.jar:1.20.5]
+	at org.apache.flink.runtime.jobmaster.factories.DefaultJobMasterServiceFactory.internalCreateJobMasterService(DefaultJobMasterServiceFactory.java:128) ~[flink-dist-1.20.5.jar:1.20.5]
+	at org.apache.flink.runtime.jobmaster.factories.DefaultJobMasterServiceFactory.lambda$createJobMasterService$0(DefaultJobMasterServiceFactory.java:100) ~[flink-dist-1.20.5.jar:1.20.5]
+	at org.apache.flink.util.function.FunctionUtils.lambda$uncheckedSupplier$4(FunctionUtils.java:112) ~[flink-dist-1.20.5.jar:1.20.5]
+	at java.base/java.util.concurrent.CompletableFuture$AsyncSupply.run(Unknown Source) ~[?:?]
+	at org.apache.flink.util.MdcUtils.lambda$wrapRunnable$1(MdcUtils.java:70) ~[flink-dist-1.20.5.jar:1.20.5]
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(Unknown Source) ~[?:?]
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source) ~[?:?]
+	at java.base/java.lang.Thread.run(Unknown Source) ~[?:?]
+Caused by: java.io.IOException: Failed to create directory for shared state: file:/flink-data/checkpoints/920a5945cb9cd86b58d05e0395580d15/shared
+	at org.apache.flink.runtime.state.filesystem.FsCheckpointStorageAccess.initializeBaseLocationsForCheckpoint(FsCheckpointStorageAccess.java:143) ~[flink-dist-1.20.5.jar:1.20.5]
+	at org.apache.flink.runtime.checkpoint.CheckpointCoordinator.<init>(CheckpointCoordinator.java:361) ~[flink-dist-1.20.5.jar:1.20.5]
+	at org.apache.flink.runtime.checkpoint.CheckpointCoordinator.<init>(CheckpointCoordinator.java:274) ~[flink-dist-1.20.5.jar:1.20.5]
+	at org.apache.flink.runtime.executiongraph.DefaultExecutionGraph.enableCheckpointing(DefaultExecutionGraph.java:514) ~[flink-dist-1.20.5.jar:1.20.5]
+	at org.apache.flink.runtime.executiongraph.DefaultExecutionGraphBuilder.buildGraph(DefaultExecutionGraphBuilder.java:338) ~[flink-dist-1.20.5.jar:1.20.5]
+	at org.apache.flink.runtime.scheduler.DefaultExecutionGraphFactory.createAndRestoreExecutionGraph(DefaultExecutionGraphFactory.java:173) ~[flink-dist-1.20.5.jar:1.20.5]
+	at org.apache.flink.runtime.scheduler.SchedulerBase.createAndRestoreExecutionGraph(SchedulerBase.java:382) ~[flink-dist-1.20.5.jar:1.20.5]
+	at org.apache.flink.runtime.scheduler.SchedulerBase.<init>(SchedulerBase.java:225) ~[flink-dist-1.20.5.jar:1.20.5]
+	at org.apache.flink.runtime.scheduler.DefaultScheduler.<init>(DefaultScheduler.java:142) ~[flink-dist-1.20.5.jar:1.20.5]
+	at org.apache.flink.runtime.scheduler.DefaultSchedulerFactory.createInstance(DefaultSchedulerFactory.java:162) ~[flink-dist-1.20.5.jar:1.20.5]
+	at org.apache.flink.runtime.jobmaster.DefaultSlotPoolServiceSchedulerFactory.createScheduler(DefaultSlotPoolServiceSchedulerFactory.java:121) ~[flink-dist-1.20.5.jar:1.20.5]
+	at org.apache.flink.runtime.jobmaster.JobMaster.createScheduler(JobMaster.java:406) ~[flink-dist-1.20.5.jar:1.20.5]
+	at org.apache.flink.runtime.jobmaster.JobMaster.<init>(JobMaster.java:383) ~[flink-dist-1.20.5.jar:1.20.5]
+	at org.apache.flink.runtime.jobmaster.factories.DefaultJobMasterServiceFactory.internalCreateJobMasterService(DefaultJobMasterServiceFactory.java:128) ~[flink-dist-1.20.5.jar:1.20.5]
+	at org.apache.flink.runtime.jobmaster.factories.DefaultJobMasterServiceFactory.lambda$createJobMasterService$0(DefaultJobMasterServiceFactory.java:100) ~[flink-dist-1.20.5.jar:1.20.5]
+	at org.apache.flink.util.function.FunctionUtils.lambda$uncheckedSupplier$4(FunctionUtils.java:112) ~[flink-dist-1.20.5.jar:1.20.5]
+	at java.base/java.util.concurrent.CompletableFuture$AsyncSupply.run(Unknown Source) ~[?:?]
+	at org.apache.flink.util.MdcUtils.lambda$wrapRunnable$1(MdcUtils.java:70) ~[flink-dist-1.20.5.jar:1.20.5]
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(Unknown Source) ~[?:?]
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source) ~[?:?]
+	at java.base/java.lang.Thread.run(Unknown Source) ~[?:?]
+2026-10-24 23:45:31,052 ERROR org.apache.flink.runtime.entrypoint.ClusterEntrypoint        [] - Fatal error occurred in the cluster entrypoint.
+java.util.concurrent.CompletionException: org.apache.flink.client.deployment.application.ApplicationExecutionException: Could not execute application.
+	at java.base/java.util.concurrent.CompletableFuture.encodeThrowable(Unknown Source) ~[?:?]
+	at java.base/java.util.concurrent.CompletableFuture.completeThrowable(Unknown Source) ~[?:?]
+	at java.base/java.util.concurrent.CompletableFuture$UniCompose.tryFire(Unknown Source) ~[?:?]
+	at java.base/java.util.concurrent.CompletableFuture.postComplete(Unknown Source) ~[?:?]
+	at java.base/java.util.concurrent.CompletableFuture.completeExceptionally(Unknown Source) ~[?:?]
+	at org.apache.flink.client.deployment.application.ApplicationDispatcherBootstrap.runApplicationEntryPoint(ApplicationDispatcherBootstrap.java:337) ~[flink-dist-1.20.5.jar:1.20.5]
+	at org.apache.flink.client.deployment.application.ApplicationDispatcherBootstrap.lambda$runApplicationAsync$2(ApplicationDispatcherBootstrap.java:254) ~[flink-dist-1.20.5.jar:1.20.5]
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Unknown Source) ~[?:?]
+	at java.base/java.util.concurrent.FutureTask.run(Unknown Source) ~[?:?]
+	at org.apache.flink.runtime.concurrent.pekko.ActorSystemScheduledExecutorAdapter$ScheduledFutureTask.run(ActorSystemScheduledExecutorAdapter.java:172) ~[?:?]
+	at org.apache.flink.runtime.concurrent.ClassLoadingUtils.runWithContextClassLoader(ClassLoadingUtils.java:68) ~[flink-dist-1.20.5.jar:1.20.5]
+	at org.apache.flink.runtime.concurrent.ClassLoadingUtils.lambda$withContextClassLoader$0(ClassLoadingUtils.java:41) ~[flink-dist-1.20.5.jar:1.20.5]
+	at org.apache.pekko.dispatch.TaskInvocation.run(AbstractDispatcher.scala:59) [flink-rpc-akka57ae8948-7b6b-4f48-bed5-25615b96d44e.jar:1.20.5]
+	at org.apache.pekko.dispatch.ForkJoinExecutorConfigurator$PekkoForkJoinTask.exec(ForkJoinExecutorConfigurator.scala:61) [flink-rpc-akka57ae8948-7b6b-4f48-bed5-25615b96d44e.jar:1.20.5]
+	at java.base/java.util.concurrent.ForkJoinTask.doExec(Unknown Source) [?:?]
+	at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(Unknown Source) [?:?]
+	at java.base/java.util.concurrent.ForkJoinPool.scan(Unknown Source) [?:?]
+	at java.base/java.util.concurrent.ForkJoinPool.runWorker(Unknown Source) [?:?]
+	at java.base/java.util.concurrent.ForkJoinWorkerThread.run(Unknown Source) [?:?]
+Caused by: org.apache.flink.client.deployment.application.ApplicationExecutionException: Could not execute application.
+	... 14 more
+Caused by: org.apache.flink.client.program.ProgramInvocationException: The main method caused an error: Failed to execute job 'State machine job'.
+	at org.apache.flink.client.program.PackagedProgram.callMainMethod(PackagedProgram.java:373) ~[flink-dist-1.20.5.jar:1.20.5]
+	at org.apache.flink.client.program.PackagedProgram.invokeInteractiveModeForExecution(PackagedProgram.java:223) ~[flink-dist-1.20.5.jar:1.20.5]
+	at org.apache.flink.client.ClientUtils.executeProgram(ClientUtils.java:113) ~[flink-dist-1.20.5.jar:1.20.5]
+	at org.apache.flink.client.deployment.application.ApplicationDispatcherBootstrap.runApplicationEntryPoint(ApplicationDispatcherBootstrap.java:301) ~[flink-dist-1.20.5.jar:1.20.5]
+	... 13 more
+Caused by: org.apache.flink.util.FlinkException: Failed to execute job 'State machine job'.
+	at org.apache.flink.streaming.api.environment.StreamExecutionEnvironment.executeAsync(StreamExecutionEnvironment.java:2487) ~[flink-dist-1.20.5.jar:1.20.5]
+	at org.apache.flink.client.program.StreamContextEnvironment.executeAsync(StreamContextEnvironment.java:192) ~[flink-dist-1.20.5.jar:1.20.5]
+	at org.apache.flink.client.program.StreamContextEnvironment.execute(StreamContextEnvironment.java:117) ~[flink-dist-1.20.5.jar:1.20.5]
+	at org.apache.flink.streaming.api.environment.StreamExecutionEnvironment.execute(StreamExecutionEnvironment.java:2325) ~[flink-dist-1.20.5.jar:1.20.5]
+	at org.apache.flink.streaming.examples.statemachine.StateMachineExample.main(StateMachineExample.java:189) ~[?:?]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:?]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(Unknown Source) ~[?:?]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source) ~[?:?]
+	at java.base/java.lang.reflect.Method.invoke(Unknown Source) ~[?:?]
+	at org.apache.flink.client.program.PackagedProgram.callMainMethod(PackagedProgram.java:356) ~[flink-dist-1.20.5.jar:1.20.5]
+	at org.apache.flink.client.program.PackagedProgram.invokeInteractiveModeForExecution(PackagedProgram.java:223) ~[flink-dist-1.20.5.jar:1.20.5]
+	at org.apache.flink.client.ClientUtils.executeProgram(ClientUtils.java:113) ~[flink-dist-1.20.5.jar:1.20.5]
+	at org.apache.flink.client.deployment.application.ApplicationDispatcherBootstrap.runApplicationEntryPoint(ApplicationDispatcherBootstrap.java:301) ~[flink-dist-1.20.5.jar:1.20.5]
+	... 13 more
+Caused by: java.lang.RuntimeException: org.apache.flink.runtime.client.JobInitializationException: Could not start the JobMaster.
+	at org.apache.flink.util.ExceptionUtils.rethrow(ExceptionUtils.java:321) ~[flink-dist-1.20.5.jar:1.20.5]
+	at org.apache.flink.util.function.FunctionUtils.lambda$uncheckedFunction$2(FunctionUtils.java:75) ~[flink-dist-1.20.5.jar:1.20.5]
+	at java.base/java.util.concurrent.CompletableFuture$UniApply.tryFire(Unknown Source) ~[?:?]
+	at java.base/java.util.concurrent.CompletableFuture$Completion.run(Unknown Source) ~[?:?]
+	at java.base/java.lang.Thread.run(Unknown Source) ~[?:?]
+Caused by: org.apache.flink.runtime.client.JobInitializationException: Could not start the JobMaster.
+	at org.apache.flink.runtime.jobmaster.DefaultJobMasterServiceProcess.lambda$new$0(DefaultJobMasterServiceProcess.java:97) ~[flink-dist-1.20.5.jar:1.20.5]
+	at java.base/java.util.concurrent.CompletableFuture.uniWhenComplete(Unknown Source) ~[?:?]
+	at java.base/java.util.concurrent.CompletableFuture$UniWhenComplete.tryFire(Unknown Source) ~[?:?]
+	at java.base/java.util.concurrent.CompletableFuture.postComplete(Unknown Source) ~[?:?]
+	at java.base/java.util.concurrent.CompletableFuture$AsyncSupply.run(Unknown Source) ~[?:?]
+	at org.apache.flink.util.MdcUtils.lambda$wrapRunnable$1(MdcUtils.java:70) ~[flink-dist-1.20.5.jar:1.20.5]
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(Unknown Source) ~[?:?]
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source) ~[?:?]
+	at java.base/java.lang.Thread.run(Unknown Source) ~[?:?]
+Caused by: java.util.concurrent.CompletionException: org.apache.flink.util.FlinkRuntimeException: Failed to create checkpoint storage at checkpoint coordinator side.
+	at java.base/java.util.concurrent.CompletableFuture.encodeThrowable(Unknown Source) ~[?:?]
+	at java.base/java.util.concurrent.CompletableFuture.completeThrowable(Unknown Source) ~[?:?]
+	at java.base/java.util.concurrent.CompletableFuture$AsyncSupply.run(Unknown Source) ~[?:?]
+	at org.apache.flink.util.MdcUtils.lambda$wrapRunnable$1(MdcUtils.java:70) ~[flink-dist-1.20.5.jar:1.20.5]
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(Unknown Source) ~[?:?]
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source) ~[?:?]
+	at java.base/java.lang.Thread.run(Unknown Source) ~[?:?]
+Caused by: org.apache.flink.util.FlinkRuntimeException: Failed to create checkpoint storage at checkpoint coordinator side.
+	at org.apache.flink.runtime.checkpoint.CheckpointCoordinator.<init>(CheckpointCoordinator.java:365) ~[flink-dist-1.20.5.jar:1.20.5]
+	at org.apache.flink.runtime.checkpoint.CheckpointCoordinator.<init>(CheckpointCoordinator.java:274) ~[flink-dist-1.20.5.jar:1.20.5]
+	at org.apache.flink.runtime.executiongraph.DefaultExecutionGraph.enableCheckpointing(DefaultExecutionGraph.java:514) ~[flink-dist-1.20.5.jar:1.20.5]
+	at org.apache.flink.runtime.executiongraph.DefaultExecutionGraphBuilder.buildGraph(DefaultExecutionGraphBuilder.java:338) ~[flink-dist-1.20.5.jar:1.20.5]
+	at org.apache.flink.runtime.scheduler.DefaultExecutionGraphFactory.createAndRestoreExecutionGraph(DefaultExecutionGraphFactory.java:173) ~[flink-dist-1.20.5.jar:1.20.5]
+	at org.apache.flink.runtime.scheduler.SchedulerBase.createAndRestoreExecutionGraph(SchedulerBase.java:382) ~[flink-dist-1.20.5.jar:1.20.5]
+	at org.apache.flink.runtime.scheduler.SchedulerBase.<init>(SchedulerBase.java:225) ~[flink-dist-1.20.5.jar:1.20.5]
+	at org.apache.flink.runtime.scheduler.DefaultScheduler.<init>(DefaultScheduler.java:142) ~[flink-dist-1.20.5.jar:1.20.5]
+	at org.apache.flink.runtime.scheduler.DefaultSchedulerFactory.createInstance(DefaultSchedulerFactory.java:162) ~[flink-dist-1.20.5.jar:1.20.5]
+	at org.apache.flink.runtime.jobmaster.DefaultSlotPoolServiceSchedulerFactory.createScheduler(DefaultSlotPoolServiceSchedulerFactory.java:121) ~[flink-dist-1.20.5.jar:1.20.5]
+	at org.apache.flink.runtime.jobmaster.JobMaster.createScheduler(JobMaster.java:406) ~[flink-dist-1.20.5.jar:1.20.5]
+	at org.apache.flink.runtime.jobmaster.JobMaster.<init>(JobMaster.java:383) ~[flink-dist-1.20.5.jar:1.20.5]
+	at org.apache.flink.runtime.jobmaster.factories.DefaultJobMasterServiceFactory.internalCreateJobMasterService(DefaultJobMasterServiceFactory.java:128) ~[flink-dist-1.20.5.jar:1.20.5]
+	at org.apache.flink.runtime.jobmaster.factories.DefaultJobMasterServiceFactory.lambda$createJobMasterService$0(DefaultJobMasterServiceFactory.java:100) ~[flink-dist-1.20.5.jar:1.20.5]
+	at org.apache.flink.util.function.FunctionUtils.lambda$uncheckedSupplier$4(FunctionUtils.java:112) ~[flink-dist-1.20.5.jar:1.20.5]
+	at java.base/java.util.concurrent.CompletableFuture$AsyncSupply.run(Unknown Source) ~[?:?]
+	at org.apache.flink.util.MdcUtils.lambda$wrapRunnable$1(MdcUtils.java:70) ~[flink-dist-1.20.5.jar:1.20.5]
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(Unknown Source) ~[?:?]
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source) ~[?:?]
+	at java.base/java.lang.Thread.run(Unknown Source) ~[?:?]
+Caused by: java.io.IOException: Failed to create directory for shared state: file:/flink-data/checkpoints/920a5945cb9cd86b58d05e0395580d15/shared
+	at org.apache.flink.runtime.state.filesystem.FsCheckpointStorageAccess.initializeBaseLocationsForCheckpoint(FsCheckpointStorageAccess.java:143) ~[flink-dist-1.20.5.jar:1.20.5]
+	at org.apache.flink.runtime.checkpoint.CheckpointCoordinator.<init>(CheckpointCoordinator.java:361) ~[flink-dist-1.20.5.jar:1.20.5]
+	at org.apache.flink.runtime.checkpoint.CheckpointCoordinator.<init>(CheckpointCoordinator.java:274) ~[flink-dist-1.20.5.jar:1.20.5]
+	at org.apache.flink.runtime.executiongraph.DefaultExecutionGraph.enableCheckpointing(DefaultExecutionGraph.java:514) ~[flink-dist-1.20.5.jar:1.20.5]
+	at org.apache.flink.runtime.executiongraph.DefaultExecutionGraphBuilder.buildGraph(DefaultExecutionGraphBuilder.java:338) ~[flink-dist-1.20.5.jar:1.20.5]
+	at org.apache.flink.runtime.scheduler.DefaultExecutionGraphFactory.createAndRestoreExecutionGraph(DefaultExecutionGraphFactory.java:173) ~[flink-dist-1.20.5.jar:1.20.5]
+	at org.apache.flink.runtime.scheduler.SchedulerBase.createAndRestoreExecutionGraph(SchedulerBase.java:382) ~[flink-dist-1.20.5.jar:1.20.5]
+	at org.apache.flink.runtime.scheduler.SchedulerBase.<init>(SchedulerBase.java:225) ~[flink-dist-1.20.5.jar:1.20.5]
+	at org.apache.flink.runtime.scheduler.DefaultScheduler.<init>(DefaultScheduler.java:142) ~[flink-dist-1.20.5.jar:1.20.5]
+	at org.apache.flink.runtime.scheduler.DefaultSchedulerFactory.createInstance(DefaultSchedulerFactory.java:162) ~[flink-dist-1.20.5.jar:1.20.5]
+	at org.apache.flink.runtime.jobmaster.DefaultSlotPoolServiceSchedulerFactory.createScheduler(DefaultSlotPoolServiceSchedulerFactory.java:121) ~[flink-dist-1.20.5.jar:1.20.5]
+	at org.apache.flink.runtime.jobmaster.JobMaster.createScheduler(JobMaster.java:406) ~[flink-dist-1.20.5.jar:1.20.5]
+	at org.apache.flink.runtime.jobmaster.JobMaster.<init>(JobMaster.java:383) ~[flink-dist-1.20.5.jar:1.20.5]
+	at org.apache.flink.runtime.jobmaster.factories.DefaultJobMasterServiceFactory.internalCreateJobMasterService(DefaultJobMasterServiceFactory.java:128) ~[flink-dist-1.20.5.jar:1.20.5]
+	at org.apache.flink.runtime.jobmaster.factories.DefaultJobMasterServiceFactory.lambda$createJobMasterService$0(DefaultJobMasterServiceFactory.java:100) ~[flink-dist-1.20.5.jar:1.20.5]
+	at org.apache.flink.util.function.FunctionUtils.lambda$uncheckedSupplier$4(FunctionUtils.java:112) ~[flink-dist-1.20.5.jar:1.20.5]
+	at java.base/java.util.concurrent.CompletableFuture$AsyncSupply.run(Unknown Source) ~[?:?]
+	at org.apache.flink.util.MdcUtils.lambda$wrapRunnable$1(MdcUtils.java:70) ~[flink-dist-1.20.5.jar:1.20.5]
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(Unknown Source) ~[?:?]
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source) ~[?:?]
+	at java.base/java.lang.Thread.run(Unknown Source) ~[?:?]
+2026-10-24 23:45:31,053 INFO  org.apache.flink.runtime.blob.BlobServer                     [] - Stopped BLOB server at 0.0.0.0:6124
+2026-10-24 23:45:31,053 INFO  org.apache.flink.runtime.entrypoint.ClusterEntrypoint        [] - Shutting KubernetesApplicationClusterEntrypoint down with application status UNKNOWN. Diagnostics Cluster entrypoint has been closed externally..
+2026-10-24 23:45:31,716 INFO  org.apache.pekko.actor.CoordinatedShutdown                   [] - Running CoordinatedShutdown with reason [ActorSystemTerminateReason]
+2026-10-24 23:45:31,717 INFO  org.apache.pekko.remote.RemoteActorRefProvider$RemotingTerminator [] - Shutting down remote daemon.
+2026-10-24 23:45:31,717 INFO  org.apache.pekko.remote.RemoteActorRefProvider$RemotingTerminator [] - Shutting down remote daemon.
+2026-10-24 23:45:31,717 INFO  org.apache.pekko.remote.RemoteActorRefProvider$RemotingTerminator [] - Remote daemon shut down; proceeding with flushing remote transports.
+2026-10-24 23:45:31,717 INFO  org.apache.pekko.remote.RemoteActorRefProvider$RemotingTerminator [] - Remote daemon shut down; proceeding with flushing remote transports.
+2026-10-24 23:45:31,753 INFO  org.apache.pekko.remote.RemoteActorRefProvider$RemotingTerminator [] - Remoting shut down.
+2026-10-24 23:45:31,753 INFO  org.apache.pekko.remote.RemoteActorRefProvider$RemotingTerminator [] - Remoting shut down.

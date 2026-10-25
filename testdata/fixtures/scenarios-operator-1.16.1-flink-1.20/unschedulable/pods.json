@@ -8,16 +8,16 @@
                 "annotations": {
                     "flinkdeployment.flink.apache.org/generation": "1"
                 },
-                "creationTimestamp": "2026-10-24T20:37:18Z",
-                "generateName": "unschedulable-5bdd4b9576-",
+                "creationTimestamp": "2026-10-24T23:43:36Z",
+                "generateName": "unschedulable-64665d4c5b-",
                 "generation": 1,
                 "labels": {
                     "app": "unschedulable",
                     "component": "jobmanager",
-                    "pod-template-hash": "5bdd4b9576",
+                    "pod-template-hash": "64665d4c5b",
                     "type": "flink-native-kubernetes"
                 },
-                "name": "unschedulable-5bdd4b9576-mknkb",
+                "name": "unschedulable-64665d4c5b-8nbcj",
                 "namespace": "default",
                 "ownerReferences": [
                     {
@@ -25,12 +25,12 @@
                         "blockOwnerDeletion": true,
                         "controller": true,
                         "kind": "ReplicaSet",
-                        "name": "unschedulable-5bdd4b9576",
-                        "uid": "77a32f1e-7bbd-4dd3-91b0-f3f210bcd18c"
+                        "name": "unschedulable-64665d4c5b",
+                        "uid": "032889b3-3805-4a10-84dd-c468d53b4402"
                     }
                 ],
-                "resourceVersion": "56771",
-                "uid": "3a768712-b278-4c66-bb21-cc4c098ed6c5"
+                "resourceVersion": "94251",
+                "uid": "96cf2a43-ef4a-464d-823c-b0d969d3f016"
             },
             "spec": {
                 "containers": [
@@ -76,7 +76,7 @@
                         ],
                         "resources": {
                             "limits": {
-                                "cpu": "100",
+                                "cpu": "600",
                                 "memory": "1Gi"
                             },
                             "requests": {
@@ -108,7 +108,7 @@
                             },
                             {
                                 "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
-                                "name": "kube-api-access-txm9k",
+                                "name": "kube-api-access-nxmgh",
                                 "readOnly": true
                             }
                         ]
@@ -161,7 +161,7 @@
                         "name": "flink-config-volume"
                     },
                     {
-                        "name": "kube-api-access-txm9k",
+                        "name": "kube-api-access-nxmgh",
                         "projected": {
                             "defaultMode": 420,
                             "sources": [
@@ -204,7 +204,7 @@
                 "conditions": [
                     {
                         "lastProbeTime": null,
-                        "lastTransitionTime": "2026-10-24T20:37:18Z",
+                        "lastTransitionTime": "2026-10-24T23:43:36Z",
                         "message": "0/1 nodes are available: 1 Insufficient cpu. preemption: 0/1 nodes are available: 1 Preemption is not helpful for scheduling.",
                         "observedGeneration": 1,
                         "reason": "Unschedulable",
@@ -213,7 +213,7 @@
                     }
                 ],
                 "phase": "Pending",
-                "qosClass": "Guaranteed"
+                "qosClass": "Burstable"
             }
         }
     ],

@@ -1,12 +1,12 @@
-Job             FlinkDeployment default/tm-lost in context dev, job eb7b727117c18b1a3b48e0d4539bc5a1
+Job             FlinkDeployment default/tm-lost in context dev, job 321d712dcc40eaacbd7aa165048dcf3d
 Checkpointing   every 2s, timeout 10m, exactly_once, HashMapStateBackend, JobManagerCheckpointStorage
-Last completed  #98 3s ago, took 5ms, 14.6KiB
+Last completed  #101 1s ago, took 5ms, 14.9KiB
 Last failed     -
 Last savepoint  -
-Restored from   checkpoint #95 20s ago, not externally addressable
-Counts          98 completed, 14 failed, 0 in progress, 1 restores
+Restored from   checkpoint #96 20s ago, not externally addressable
+Counts          101 completed, 11 failed, 0 in progress, 1 restores
 
-ID   STATUS      TYPE         TRIGGERED   DURATION   SIZE      ACKED
-98   COMPLETED   CHECKPOINT   3s ago      5ms        14.6KiB   2/2
-97   COMPLETED   CHECKPOINT   5s ago      5ms        14.7KiB   2/2
-96   COMPLETED   CHECKPOINT   7s ago      14ms       12.7KiB   2/2
+ID    STATUS      TYPE         TRIGGERED   DURATION   SIZE      ACKED
+101   COMPLETED   CHECKPOINT   1s ago      5ms        14.9KiB   2/2
+100   COMPLETED   CHECKPOINT   3s ago      8ms        14.7KiB   2/2
+99    COMPLETED   CHECKPOINT   5s ago      5ms        14.7KiB   2/2

@@ -1,4 +1,4 @@
-FlinkDeployment default/suspended in context kind, job f357d52beef6b7f15265ca58cb1ed2d2 · SUSPENDED
+FlinkDeployment default/suspended in context kind, job ddf167e30a921e932873f7cf69ab460f · SUSPENDED
   suspended
 
 Matched patterns
@@ -6,8 +6,8 @@ Matched patterns
   and nothing else looks wrong
 
 Operator
-  lifecycle SUSPENDED, JobManager MISSING, job FINISHED, reconciled 60s ago, generation 2 (observed 2)
-  spec written by kubectl-client-side-apply, kubectl-patch, last 61s ago
+  lifecycle SUSPENDED, JobManager MISSING, job FINISHED, reconciled 0s ago, generation 2 (observed 2)
+  spec written by kubectl-client-side-apply, kubectl-patch, last 21s ago
 
 Kubernetes
   no Flink pods

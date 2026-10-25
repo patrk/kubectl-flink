@@ -1,0 +1,27 @@
+FlinkDeployment default/basic in context kind, job 1ccc5fa1160763c418eb2187017b7b42 · OK
+
+Matched patterns
+  1. DEGRADED: Savepoint basic-savepoint has nowhere to go (runtime, newest evidence 12s ago)
+    Neither the FlinkStateSnapshot nor the job's configuration names a savepoint directory, so the operator retries the savepoint without end.
+    Next: Set execution.checkpointing.savepoint-dir in flinkConfiguration, or spec.savepoint.path on the snapshot.
+    · snapshot.failing: SAVEPOINT basic-savepoint TRIGGER_PENDING after 2 failures: Either the savepoint path in the spec or configuration execution.checkpoint…
+
+Also seen, not explained by the above
+  · pod.terminated: Unknown exit 255 (jobmanager) (5h21m ago)
+
+Operator
+  lifecycle STABLE, JobManager READY, job RUNNING, reconciled 10h ago, generation 1 (observed 1)
+  spec written by kubectl-client-side-apply, last 10h ago
+
+Kubernetes
+  pod basic-79c667bbcc-64hss (jobmanager): Running, 1 restart, last Unknown exit 255 5h21m ago, ready
+  pod basic-taskmanager-2-1 (taskmanager): Running, ready
+
+Runtime
+  1 FlinkStateSnapshots, 1 failing
+  not collected: JobManager REST API: Get "http://127.0.0.1:1/config": dial tcp 127.0.0.1:1: connect: connection refused
+
+Performance
+
+HA
+  HA not configured

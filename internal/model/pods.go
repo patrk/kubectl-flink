@@ -115,3 +115,26 @@ func AttachPods(jobs []Job, pods map[string]*ClusterPods, read func(namespace st
 		}
 	}
 }
+
+// AttachSnapshots sets each job's newest completed FlinkStateSnapshot, matched by the operator's job-reference
+// labels.
+func AttachSnapshots(jobs []Job, snaps []kube.FlinkStateSnapshot) {
+	type key struct{ ns, kind, name string }
+	newest := map[key]*kube.FlinkStateSnapshot{}
+	for i := range snaps {
+		s := &snaps[i]
+		if s.Status.State != "COMPLETED" {
+			continue
+		}
+		k := key{s.Namespace, s.Labels[kube.LabelSnapshotKind], s.Labels[kube.LabelSnapshotJob]}
+		if cur := newest[k]; cur == nil || s.Result().After(cur.Result()) {
+			newest[k] = s
+		}
+	}
+	for i := range jobs {
+		j := &jobs[i]
+		if s := newest[key{j.Namespace, string(j.Kind), j.Name}]; s != nil {
+			j.LastSnapshot = s.Result()
+		}
+	}
+}

@@ -228,6 +228,19 @@ func TestReportGolden(t *testing.T) {
 	}
 }
 
+// The bundle carries the job's FlinkStateSnapshots, with the error the operator recorded.
+func TestReportSnapshots(t *testing.T) {
+	s := triagetest.Load(t, "../../testdata/fixtures/scenarios-operator-1.16.1-flink-2.2/savepoint-failing")
+	out := t.TempDir()
+	if code, _, errOut := runAt(t, s, "report", "default/basic", "--dir", out); code != ExitOK {
+		t.Fatalf("%d %s", code, errOut)
+	}
+	b, err := os.ReadFile(filepath.Join(out, "snapshots.json"))
+	if err != nil || !strings.Contains(string(b), "basic-savepoint") || !strings.Contains(string(b), "savepoint-dir") {
+		t.Errorf("snapshots.json: %v\n%s", err, b)
+	}
+}
+
 func TestReportTarball(t *testing.T) {
 	s := triagetest.Load(t, "../../testdata/fixtures/scenarios-operator-1.16.1-flink-2.2/missing-jar")
 	dir := t.TempDir()

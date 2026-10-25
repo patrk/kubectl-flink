@@ -5,23 +5,23 @@
       "apiVersion": "v1",
       "count": 1,
       "eventTime": null,
-      "firstTimestamp": "2026-10-24T20:32:43Z",
+      "firstTimestamp": "2026-10-24T23:33:28Z",
       "involvedObject": {
         "apiVersion": "flink.apache.org/v1beta1",
         "kind": "FlinkDeployment",
         "name": "missing-jar",
         "namespace": "default",
-        "uid": "a1a34f94-d73f-4576-9b83-568f03476d8c"
+        "uid": "31a2a242-8469-4c08-955b-332afb003beb"
       },
       "kind": "Event",
-      "lastTimestamp": "2026-10-24T20:32:43Z",
-      "message": "[flink-main-container] back-off 10s restarting failed container=flink-main-container pod=missing-jar-6dcbb6c8fc-jdxmc_default(6a46a5a3-2395-4124-ab3e-6c4174bdd176)",
+      "lastTimestamp": "2026-10-24T23:33:28Z",
+      "message": "[flink-main-container] back-off 10s restarting failed container=flink-main-container pod=missing-jar-6dc6464575-mn6dh_default(8f39af77-cea5-444c-8dfe-15131922fe32)",
       "metadata": {
-        "creationTimestamp": "2026-10-24T20:32:43Z",
-        "name": "JobManagerDeployment.1295992891",
+        "creationTimestamp": "2026-10-24T23:33:28Z",
+        "name": "JobManagerDeployment.1907926804",
         "namespace": "default",
-        "resourceVersion": "54680",
-        "uid": "443f6c21-5eb5-40c8-9f58-22dd3148250d"
+        "resourceVersion": "91210",
+        "uid": "f2c69b1c-0ef2-4aa1-a183-e84b8a52be6c"
       },
       "reason": "CrashLoopBackOff",
       "reportingComponent": "",
@@ -35,53 +35,23 @@
       "apiVersion": "v1",
       "count": 1,
       "eventTime": null,
-      "firstTimestamp": "2026-10-24T20:33:03Z",
+      "firstTimestamp": "2026-10-24T23:33:17Z",
       "involvedObject": {
         "apiVersion": "flink.apache.org/v1beta1",
         "kind": "FlinkDeployment",
         "name": "missing-jar",
         "namespace": "default",
-        "uid": "a1a34f94-d73f-4576-9b83-568f03476d8c"
+        "uid": "31a2a242-8469-4c08-955b-332afb003beb"
       },
       "kind": "Event",
-      "lastTimestamp": "2026-10-24T20:33:03Z",
-      "message": "[flink-main-container] back-off 20s restarting failed container=flink-main-container pod=missing-jar-6dcbb6c8fc-jdxmc_default(6a46a5a3-2395-4124-ab3e-6c4174bdd176)",
-      "metadata": {
-        "creationTimestamp": "2026-10-24T20:33:03Z",
-        "name": "JobManagerDeployment.1402801434",
-        "namespace": "default",
-        "resourceVersion": "54749",
-        "uid": "d7b21271-423f-4a3b-9f10-2ec743130efe"
-      },
-      "reason": "CrashLoopBackOff",
-      "reportingComponent": "",
-      "reportingInstance": "",
-      "source": {
-        "component": "JobManagerDeployment"
-      },
-      "type": "Warning"
-    },
-    {
-      "apiVersion": "v1",
-      "count": 1,
-      "eventTime": null,
-      "firstTimestamp": "2026-10-24T20:32:28Z",
-      "involvedObject": {
-        "apiVersion": "flink.apache.org/v1beta1",
-        "kind": "FlinkDeployment",
-        "name": "missing-jar",
-        "namespace": "default",
-        "uid": "a1a34f94-d73f-4576-9b83-568f03476d8c"
-      },
-      "kind": "Event",
-      "lastTimestamp": "2026-10-24T20:32:28Z",
+      "lastTimestamp": "2026-10-24T23:33:17Z",
       "message": "Starting deployment",
       "metadata": {
-        "creationTimestamp": "2026-10-24T20:32:28Z",
-        "name": "JobManagerDeployment.543935638",
+        "creationTimestamp": "2026-10-24T23:33:17Z",
+        "name": "JobManagerDeployment.1938673415",
         "namespace": "default",
-        "resourceVersion": "54422",
-        "uid": "f23399fd-f3c7-4159-99f5-efe94fe3dab3"
+        "resourceVersion": "90906",
+        "uid": "9b81820b-4163-4e32-a75c-e7c9ca67366d"
       },
       "reason": "Submit",
       "reportingComponent": "",
@@ -94,25 +64,25 @@
     {
       "action": "Binding",
       "apiVersion": "v1",
-      "eventTime": "2026-10-24T20:32:28.265560Z",
+      "eventTime": "2026-10-24T23:33:17.964387Z",
       "firstTimestamp": null,
       "involvedObject": {
         "apiVersion": "v1",
         "kind": "Pod",
-        "name": "missing-jar-6dcbb6c8fc-jdxmc",
+        "name": "missing-jar-6dc6464575-mn6dh",
         "namespace": "default",
-        "resourceVersion": "54451",
-        "uid": "6a46a5a3-2395-4124-ab3e-6c4174bdd176"
+        "resourceVersion": "90953",
+        "uid": "8f39af77-cea5-444c-8dfe-15131922fe32"
       },
       "kind": "Event",
       "lastTimestamp": null,
-      "message": "Successfully assigned default/missing-jar-6dcbb6c8fc-jdxmc to kubectl-flink-control-plane",
+      "message": "Successfully assigned default/missing-jar-6dc6464575-mn6dh to kubectl-flink-control-plane",
       "metadata": {
-        "creationTimestamp": "2026-10-24T20:32:28Z",
-        "name": "missing-jar-6dcbb6c8fc-jdxmc.18e1915b5d6bca54",
+        "creationTimestamp": "2026-10-24T23:33:17Z",
+        "name": "missing-jar-6dc6464575-mn6dh.18e19b3981dd8818",
         "namespace": "default",
-        "resourceVersion": "54461",
-        "uid": "1b985fc7-4aa9-42f8-b81d-0e78e51b7400"
+        "resourceVersion": "90987",
+        "uid": "b4deda08-f181-40c0-928f-065c2e15b4a3"
       },
       "reason": "Scheduled",
       "reportingComponent": "default-scheduler",
@@ -122,27 +92,27 @@
     },
     {
       "apiVersion": "v1",
-      "count": 3,
+      "count": 4,
       "eventTime": null,
-      "firstTimestamp": "2026-10-24T20:32:28Z",
+      "firstTimestamp": "2026-10-24T23:33:18Z",
       "involvedObject": {
         "apiVersion": "v1",
         "fieldPath": "spec.containers{flink-main-container}",
         "kind": "Pod",
-        "name": "missing-jar-6dcbb6c8fc-jdxmc",
+        "name": "missing-jar-6dc6464575-mn6dh",
         "namespace": "default",
-        "resourceVersion": "54457",
-        "uid": "6a46a5a3-2395-4124-ab3e-6c4174bdd176"
+        "resourceVersion": "90972",
+        "uid": "8f39af77-cea5-444c-8dfe-15131922fe32"
       },
       "kind": "Event",
-      "lastTimestamp": "2026-10-24T20:32:53Z",
+      "lastTimestamp": "2026-10-24T23:34:03Z",
       "message": "Container image \"flink:2.2\" already present on machine and can be accessed by the pod",
       "metadata": {
-        "creationTimestamp": "2026-10-24T20:32:28Z",
-        "name": "missing-jar-6dcbb6c8fc-jdxmc.18e1915b7262f95a",
+        "creationTimestamp": "2026-10-24T23:33:18Z",
+        "name": "missing-jar-6dc6464575-mn6dh.18e19b3997c76d65",
         "namespace": "default",
-        "resourceVersion": "54708",
-        "uid": "6063e47a-322b-4ae6-a80e-8c799c9a4189"
+        "resourceVersion": "91348",
+        "uid": "f4bed131-9e00-4438-a828-94461e622380"
       },
       "reason": "Pulled",
       "reportingComponent": "kubelet",
@@ -155,27 +125,27 @@
     },
     {
       "apiVersion": "v1",
-      "count": 3,
+      "count": 4,
       "eventTime": null,
-      "firstTimestamp": "2026-10-24T20:32:28Z",
+      "firstTimestamp": "2026-10-24T23:33:18Z",
       "involvedObject": {
         "apiVersion": "v1",
         "fieldPath": "spec.containers{flink-main-container}",
         "kind": "Pod",
-        "name": "missing-jar-6dcbb6c8fc-jdxmc",
+        "name": "missing-jar-6dc6464575-mn6dh",
         "namespace": "default",
-        "resourceVersion": "54457",
-        "uid": "6a46a5a3-2395-4124-ab3e-6c4174bdd176"
+        "resourceVersion": "90972",
+        "uid": "8f39af77-cea5-444c-8dfe-15131922fe32"
       },
       "kind": "Event",
-      "lastTimestamp": "2026-10-24T20:32:53Z",
+      "lastTimestamp": "2026-10-24T23:34:03Z",
       "message": "Container created",
       "metadata": {
-        "creationTimestamp": "2026-10-24T20:32:28Z",
-        "name": "missing-jar-6dcbb6c8fc-jdxmc.18e1915b72da9ba8",
+        "creationTimestamp": "2026-10-24T23:33:18Z",
+        "name": "missing-jar-6dc6464575-mn6dh.18e19b399845f7c3",
         "namespace": "default",
-        "resourceVersion": "54709",
-        "uid": "a0051500-f5c7-4311-bfbd-322215fbf7b5"
+        "resourceVersion": "91349",
+        "uid": "ebc2abf8-5a7b-4d1c-903e-e6a6eece526c"
       },
       "reason": "Created",
       "reportingComponent": "kubelet",
@@ -188,27 +158,27 @@
     },
     {
       "apiVersion": "v1",
-      "count": 3,
+      "count": 4,
       "eventTime": null,
-      "firstTimestamp": "2026-10-24T20:32:28Z",
+      "firstTimestamp": "2026-10-24T23:33:18Z",
       "involvedObject": {
         "apiVersion": "v1",
         "fieldPath": "spec.containers{flink-main-container}",
         "kind": "Pod",
-        "name": "missing-jar-6dcbb6c8fc-jdxmc",
+        "name": "missing-jar-6dc6464575-mn6dh",
         "namespace": "default",
-        "resourceVersion": "54457",
-        "uid": "6a46a5a3-2395-4124-ab3e-6c4174bdd176"
+        "resourceVersion": "90972",
+        "uid": "8f39af77-cea5-444c-8dfe-15131922fe32"
       },
       "kind": "Event",
-      "lastTimestamp": "2026-10-24T20:32:53Z",
+      "lastTimestamp": "2026-10-24T23:34:03Z",
       "message": "Container started",
       "metadata": {
-        "creationTimestamp": "2026-10-24T20:32:28Z",
-        "name": "missing-jar-6dcbb6c8fc-jdxmc.18e1915b746c2905",
+        "creationTimestamp": "2026-10-24T23:33:18Z",
+        "name": "missing-jar-6dc6464575-mn6dh.18e19b399a53acd1",
         "namespace": "default",
-        "resourceVersion": "54710",
-        "uid": "d8184ef7-2ca4-482c-9a72-186adf69fc7d"
+        "resourceVersion": "91350",
+        "uid": "ac79742a-de0f-4028-82de-b984eb65d3a3"
       },
       "reason": "Started",
       "reportingComponent": "kubelet",
@@ -221,27 +191,27 @@
     },
     {
       "apiVersion": "v1",
-      "count": 17,
+      "count": 13,
       "eventTime": null,
-      "firstTimestamp": "2026-10-24T20:32:29Z",
+      "firstTimestamp": "2026-10-24T23:33:19Z",
       "involvedObject": {
         "apiVersion": "v1",
         "fieldPath": "spec.containers{flink-main-container}",
         "kind": "Pod",
-        "name": "missing-jar-6dcbb6c8fc-jdxmc",
+        "name": "missing-jar-6dc6464575-mn6dh",
         "namespace": "default",
-        "resourceVersion": "54457",
-        "uid": "6a46a5a3-2395-4124-ab3e-6c4174bdd176"
+        "resourceVersion": "90972",
+        "uid": "8f39af77-cea5-444c-8dfe-15131922fe32"
       },
       "kind": "Event",
-      "lastTimestamp": "2026-10-24T20:32:58Z",
-      "message": "Startup probe failed: Get \"http://10.244.0.93:8081/config\": dial tcp 10.244.0.93:8081: connect: connection refused",
+      "lastTimestamp": "2026-10-24T23:34:06Z",
+      "message": "Startup probe failed: Get \"http://10.244.0.50:8081/config\": dial tcp 10.244.0.50:8081: connect: connection refused",
       "metadata": {
-        "creationTimestamp": "2026-10-24T20:32:29Z",
-        "name": "missing-jar-6dcbb6c8fc-jdxmc.18e1915bab5ead2d",
+        "creationTimestamp": "2026-10-24T23:33:19Z",
+        "name": "missing-jar-6dc6464575-mn6dh.18e19b39d096f423",
         "namespace": "default",
-        "resourceVersion": "54736",
-        "uid": "d377e6f4-48f7-424f-94eb-5420b54585e5"
+        "resourceVersion": "91365",
+        "uid": "2d4641d2-510f-472d-8894-1d6331012ee8"
       },
       "reason": "Unhealthy",
       "reportingComponent": "kubelet",
@@ -254,27 +224,27 @@
     },
     {
       "apiVersion": "v1",
-      "count": 4,
+      "count": 6,
       "eventTime": null,
-      "firstTimestamp": "2026-10-24T20:32:39Z",
+      "firstTimestamp": "2026-10-24T23:33:25Z",
       "involvedObject": {
         "apiVersion": "v1",
         "fieldPath": "spec.containers{flink-main-container}",
         "kind": "Pod",
-        "name": "missing-jar-6dcbb6c8fc-jdxmc",
+        "name": "missing-jar-6dc6464575-mn6dh",
         "namespace": "default",
-        "resourceVersion": "54457",
-        "uid": "6a46a5a3-2395-4124-ab3e-6c4174bdd176"
+        "resourceVersion": "90972",
+        "uid": "8f39af77-cea5-444c-8dfe-15131922fe32"
       },
       "kind": "Event",
-      "lastTimestamp": "2026-10-24T20:32:59Z",
-      "message": "Back-off restarting failed container flink-main-container in pod missing-jar-6dcbb6c8fc-jdxmc_default(6a46a5a3-2395-4124-ab3e-6c4174bdd176)",
+      "lastTimestamp": "2026-10-24T23:34:07Z",
+      "message": "Back-off restarting failed container flink-main-container in pod missing-jar-6dc6464575-mn6dh_default(8f39af77-cea5-444c-8dfe-15131922fe32)",
       "metadata": {
-        "creationTimestamp": "2026-10-24T20:32:39Z",
-        "name": "missing-jar-6dcbb6c8fc-jdxmc.18e1915e10c0f36f",
+        "creationTimestamp": "2026-10-24T23:33:25Z",
+        "name": "missing-jar-6dc6464575-mn6dh.18e19b3b359461ab",
         "namespace": "default",
-        "resourceVersion": "54739",
-        "uid": "e6260593-a77f-4e31-bac9-042e6a1dd4f2"
+        "resourceVersion": "91370",
+        "uid": "a9aee70e-7874-401e-8919-37912f1a987b"
       },
       "reason": "BackOff",
       "reportingComponent": "kubelet",

@@ -327,3 +327,60 @@ rules:
       {{.detail}}. An application cluster runs one job; a second one usually comes from a job plan the JobManager
       recovered from stale HA state.
     remedy: 'Compare the job ids with status.jobStatus.jobId; kubectl flink exceptions {{.job}}'
+
+  - id: checkpoint-storage-unwritable
+    layer: runtime
+    severity: FAILED
+    any:
+      - signal: log.jobmanager
+        match: 'Failed to create directory for (?:shared state|[^:]+): (?P<path>\S+)'
+      - signal: exception.cause
+        match: 'Failed to create directory for (?:shared state|[^:]+): (?P<path>\S+)'
+    optional:
+      - signal: log.jobmanager
+        match: '(?P<storage>Failed to create checkpoint storage)'
+    supersedes: [jobmanager-crashloop, restart-loop]
+    title: 'Flink cannot write its checkpoint storage at {{.path}}'
+    explain: >-
+      The JobManager creates the checkpoint directories when the job starts and fails if it cannot. On a volume the
+      Flink user (uid 9999 in the official image) needs write access; on object storage, the credentials or the
+      bucket are usually wrong.
+    remedy: 'Check execution.checkpointing.dir, and that the Flink user can write there.'
+
+  - id: snapshots-ignored
+    layer: operator
+    severity: DEGRADED
+    when:
+      - signal: snapshot.ignored
+        match: '(?P<detail>.+)'
+    title: 'The operator does not process FlinkStateSnapshots'
+    explain: >-
+      {{.detail}}. The operator decides when it starts whether it handles FlinkStateSnapshots: not when
+      kubernetes.operator.snapshot.resource.enabled is false, and not when listing them failed at that moment (it
+      then logs that the FlinkStateSnapshot CRD was not installed). The savepoints these resources ask for are not
+      taken, and periodic and upgrade snapshots are not recorded.
+    remedy: 'Check the operator log from its start and its snapshot.resource.enabled setting; once it can list FlinkStateSnapshots, restart it.'
+
+  - id: savepoint-dir-missing
+    layer: runtime
+    severity: DEGRADED
+    when:
+      - signal: snapshot.failing
+        match: '^SAVEPOINT (?P<name>\S+) .*(?:savepoint path in the spec or configuration (?P<key>\S+)|state\.savepoints\.dir)'
+    supersedes: [snapshot-failing]
+    title: 'Savepoint {{.name}} has nowhere to go'
+    explain: >-
+      Neither the FlinkStateSnapshot nor the job's configuration names a savepoint directory, so the operator
+      retries the savepoint without end.
+    remedy: 'Set {{if .key}}{{.key}}{{else}}execution.checkpointing.savepoint-dir{{end}} in flinkConfiguration, or spec.savepoint.path on the snapshot.'
+
+  - id: snapshot-failing
+    layer: runtime
+    severity: DEGRADED
+    when:
+      - signal: snapshot.failing
+        match: '^(?P<type>\S+) (?P<name>\S+)(?: (?P<state>[A-Z_]+))?(?: after (?P<failures>\d+) failures)?(?:: (?P<error>.+))?$'
+    title: '{{.type}} {{.name}} fails{{if .state}} ({{.state}}){{end}}'
+    explain: >-
+      {{if .failures}}The operator tried {{.failures}} times. {{end}}{{if .error}}The last error: {{.error}}{{end}}
+    remedy: 'kubectl flink snapshots {{.job}}'

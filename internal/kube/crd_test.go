@@ -128,8 +128,9 @@ func TestFieldsExistInCRDs(t *testing.T) {
 	}
 	for _, dir := range dirs {
 		for file, typ := range map[string]reflect.Type{
-			"flinkdeployments.yml.gz": reflect.TypeFor[FlinkDeployment](),
-			"flinksessionjobs.yml.gz": reflect.TypeFor[FlinkSessionJob](),
+			"flinkdeployments.yml.gz":    reflect.TypeFor[FlinkDeployment](),
+			"flinksessionjobs.yml.gz":    reflect.TypeFor[FlinkSessionJob](),
+			"flinkstatesnapshots.yml.gz": reflect.TypeFor[FlinkStateSnapshot](),
 		} {
 			s := loadCRDSchema(t, filepath.Join(dir, file))
 			for _, part := range []string{"Spec", "Status"} {

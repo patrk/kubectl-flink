@@ -64,7 +64,7 @@ func (t *Table) header() []string {
 	}
 	h = append(h, "NAME", "HEALTH", "LIFECYCLE", "JOB", "JM", ageColumn, "REASON")
 	if t.o.Wide {
-		h = append(h, "TM", "JM RESTARTS", "DRIFT", "FLINK", "IMAGE", "OWNER")
+		h = append(h, "TM", "JM RESTARTS", "DRIFT", "FLINK", "IMAGE", "OWNER", "SNAPSHOT AGE")
 	}
 	return h
 }
@@ -121,13 +121,20 @@ func (t *Table) cells(r *fleet.Row, now time.Time) (cells []string, sig string) 
 		if j.Drift() {
 			drift = fmt.Sprintf("%d>%d", j.ObservedGeneration, j.Generation)
 		}
-		cells = append(cells, tm, restarts, drift, dash(flinkVersion(j)), dash(j.Image), dash(strings.Join(j.SpecOwners, ",")))
+		snapshot := "-"
+		if !j.LastSnapshot.IsZero() {
+			snapshot = duration.HumanDuration(now.Sub(j.LastSnapshot))
+		}
+		cells = append(cells, tm, restarts, drift, dash(flinkVersion(j)), dash(j.Image), dash(strings.Join(j.SpecOwners, ",")), snapshot)
 	}
-	// The signature leaves out everything that changes with time alone: the age, and the duration in the reason.
+	// The signature leaves out everything that changes with time alone: the ages, and the duration in the reason.
 	stable := slices.Clone(cells)
 	stable[t.ageIdx] = ""
 	if len(r.Findings) > 0 {
 		stable[t.ageIdx+1] = r.Findings[0].Reason
+	}
+	if t.o.Wide {
+		stable[len(stable)-1] = j.LastSnapshot.String()
 	}
 	return cells, strings.Join(stable, "\t")
 }
@@ -139,7 +146,7 @@ func (t *Table) errorCells(s *fleet.Scope) []string {
 	}
 	cells = append(cells, "-", t.colored(errorHealth, "31"), "-", "-", "-", "-", truncate(s.Err.Error(), 120))
 	if t.o.Wide {
-		cells = append(cells, "-", "-", "-", "-", "-", "-")
+		cells = append(cells, "-", "-", "-", "-", "-", "-", "-")
 	}
 	return cells
 }
@@ -213,7 +220,7 @@ func (t *Table) goneCells(k string) []string {
 	}
 	cells = append(cells, name, "-", "-", "-", "-", "-", "deleted")
 	if t.o.Wide {
-		cells = append(cells, "-", "-", "-", "-", "-", "-")
+		cells = append(cells, "-", "-", "-", "-", "-", "-", "-")
 	}
 	return cells
 }

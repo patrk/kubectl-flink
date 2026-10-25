@@ -94,8 +94,11 @@ func (b *Bundle) Add(r *redact.Redactor, name, text string) {
 }
 
 // Collect gathers the raw artifacts of job; rawCR is the resource as read for history, so that both show the
-// same version. Nothing fails it: what cannot be read becomes a gap.
-func Collect(ctx context.Context, src Source, job *model.Job, rawCR []byte, pods []kube.Pod, events []kube.Event, r *redact.Redactor, opt Options) *Bundle {
+// same version, and pods, events and snapshots are what why read. Nothing fails it: what cannot be read becomes
+// a gap.
+func Collect(ctx context.Context, src Source, job *model.Job, rawCR []byte, pods []kube.Pod, events []kube.Event,
+	snapshots []kube.FlinkStateSnapshot, r *redact.Redactor, opt Options,
+) *Bundle {
 	ctx, cancel := context.WithTimeout(ctx, Timeout)
 	defer cancel()
 	c := &collector{r: r, bundle: &Bundle{}}
@@ -130,6 +133,13 @@ func Collect(ctx context.Context, src Source, job *model.Job, rawCR []byte, pods
 			c.addJSON("events.json", b)
 		}
 	})
+	if len(snapshots) > 0 {
+		wg.Go(func() {
+			if b, err := json.Marshal(map[string]any{"items": snapshots}); err == nil {
+				c.addJSON("snapshots.json", b)
+			}
+		})
+	}
 	wg.Go(func() {
 		// The configuration the operator renders for the cluster, which is what Flink reads.
 		raw, err := src.Kube.GetRaw(ctx, kube.ConfigMaps, job.Namespace, "flink-config-"+cluster)

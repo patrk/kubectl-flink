@@ -1,35 +1,35 @@
-FlinkDeployment default/tm-lost in context kind, job 7f58f6254b35f6cff84d0579d95f1849 · OK
+FlinkDeployment default/tm-lost in context kind, job 72f8977eef3e0ff020673e0f9fe746cc · OK
 
 Matched patterns
-  1. OK: The job restarted after losing a TaskManager, from checkpoint #104 (runtime, newest evidence 38s ago)
+  1. OK: The job restarted after losing a TaskManager, from checkpoint #96 (runtime, newest evidence 21s ago)
     A TaskManager went away, for example its pod was deleted, evicted or its node drained, and Flink restarted the job from its last checkpoint.
     Next: If it happens often, look at node events and kubectl flink exceptions default/tm-lost.
-    · checkpoint.restored: checkpoint #104
+    · checkpoint.restored: checkpoint #96
     · exception: org.apache.flink.util.FlinkExpectedException: The TaskExecutor is shutting down.
 
 Operator
-  lifecycle STABLE, JobManager READY, job RUNNING, reconciled 4m32s ago, generation 1 (observed 1)
-  spec written by kubectl-client-side-apply, last 4m32s ago
+  lifecycle STABLE, JobManager READY, job RUNNING, reconciled 3m52s ago, generation 1 (observed 1)
+  spec written by kubectl-client-side-apply, last 3m52s ago
 
 Kubernetes
-  pod tm-lost-5b85c8f44-jjpwp (jobmanager): Running, ready
+  pod tm-lost-844bdcc6d6-rr2jp (jobmanager): Running, ready
   pod tm-lost-taskmanager-1-2 (taskmanager): Running, ready
   warning events, newest first:
-    38s ago JobException on FlinkDeployment: org.apache.flink.util.FlinkExpectedException: The TaskExecutor is shutting down. at org.apache.flink.runtime.taske…
-    4m24s ago Unhealthy ×7 on Pod: Startup probe failed: Get "http://10.244.0.115:8081/config": dial tcp 10.244.0.115:8081: connect: connection refused
+    18s ago JobException on FlinkDeployment: org.apache.flink.util.FlinkExpectedException: The TaskExecutor is shutting down. at org.apache.flink.runtime.taske…
+    3m48s ago Unhealthy ×4 on Pod: Startup probe failed: Get "http://10.244.0.79:8081/config": dial tcp 10.244.0.79:8081: connect: connection refused
   JobManager log, error lines:
     org.apache.flink.util.FlinkExpectedException: The TaskExecutor is shutting down.
 
 Runtime
   job RUNNING, Flink 1.20.5, 1 job(s) on the cluster
-  1 failure(s), newest 38s ago: org.apache.flink.util.FlinkExpectedException: The TaskExecutor is shutting down.
-  checkpoints: last completed #114 0s ago, interval 2s, 114 completed, 17 failed
-    restored from #104 37s ago
+  1 failure(s), newest 21s ago: org.apache.flink.util.FlinkExpectedException: The TaskExecutor is shutting down.
+  checkpoints: last completed #101 1s ago, interval 2s, 101 completed, 11 failed
+    restored from #96 20s ago
 
 Performance
   rates average the last minute; not judged in the first 2m after the job started
-  Source: Events Generator Source (source): in 0/s, out 275/s; busy 17, backpressured 0, idle 983 ms/s
-  Flat Map -> Sink: Print to Std. Out (sink): in 274/s, out 0/s; busy 0, backpressured 0, idle 1000 ms/s
+  Source: Events Generator Source (source): in 0/s, out 139/s; busy 0, backpressured 0, idle 1000 ms/s
+  Flat Map -> Sink: Print to Std. Out (sink): in 137/s, out 0/s; busy 0, backpressured 0, idle 1000 ms/s
 
 HA
   HA not configured

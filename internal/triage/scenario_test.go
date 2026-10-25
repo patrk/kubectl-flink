@@ -44,17 +44,21 @@ func TestScenarioVerdicts(t *testing.T) {
 		first  string
 		health model.Health
 	}{
-		"bad-image":      {"image-pull", model.Progressing},
-		"missing-jar":    {"jar-missing", model.Progressing},
-		"missing-secret": {"mount-failed", model.Progressing},
-		"unschedulable":  {"unschedulable", model.Progressing},
-		"bad-memory":     {"memory-config", model.Progressing},
-		"tm-lost":        {"taskmanager-lost", model.OK},
-		"suspended":      {"", model.Suspended},
-		"unreachable":    {"dependency-unreachable", model.Failed},
-		"restart-loop":   {"dependency-unreachable", model.OK},
-		"restart-bot":    {"external-restart", model.OK},
-		"ha":             {"", model.OK},
+		"bad-image":          {"image-pull", model.Progressing},
+		"missing-jar":        {"jar-missing", model.Progressing},
+		"missing-secret":     {"mount-failed", model.Progressing},
+		"unschedulable":      {"unschedulable", model.Progressing},
+		"bad-memory":         {"memory-config", model.Progressing},
+		"tm-lost":            {"taskmanager-lost", model.OK},
+		"suspended":          {"", model.Suspended},
+		"unreachable":        {"dependency-unreachable", model.Failed},
+		"restart-loop":       {"dependency-unreachable", model.OK},
+		"restart-bot":        {"external-restart", model.OK},
+		"ha":                 {"", model.OK},
+		"checkpoint-storage": {"checkpoint-storage-unwritable", model.Progressing},
+		"snapshots":          {"", model.OK},
+		"savepoint-failing":  {"savepoint-dir-missing", model.OK},
+		"snapshot-ignored":   {"snapshots-ignored", model.OK},
 	}
 	dirs, _ := filepath.Glob("../../testdata/fixtures/scenarios-*/*")
 	if len(dirs) < 2*len(want) {

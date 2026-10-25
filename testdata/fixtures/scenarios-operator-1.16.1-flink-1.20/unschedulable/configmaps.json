@@ -5,7 +5,7 @@
       "apiVersion": "v1",
       "kind": "ConfigMap",
       "metadata": {
-        "creationTimestamp": "2026-10-24T20:37:18Z",
+        "creationTimestamp": "2026-10-24T23:43:36Z",
         "labels": {
           "app": "unschedulable",
           "component": "autoscaler"
@@ -19,11 +19,11 @@
             "controller": false,
             "kind": "FlinkDeployment",
             "name": "unschedulable",
-            "uid": "6f9b423a-09e3-4658-aa73-d35e15e2f4f2"
+            "uid": "8b630f00-5490-45a0-8c9c-a9f8707b29d8"
           }
         ],
-        "resourceVersion": "56747",
-        "uid": "6acc5708-4e1a-4ce0-86b1-00686698ba2b"
+        "resourceVersion": "94343",
+        "uid": "a24a43c6-5ed1-44dd-a90b-072b51123613"
       },
       "data": null
     },
@@ -35,7 +35,7 @@
       },
       "kind": "ConfigMap",
       "metadata": {
-        "creationTimestamp": "2026-10-24T20:37:18Z",
+        "creationTimestamp": "2026-10-24T23:43:36Z",
         "labels": {
           "app": "unschedulable",
           "type": "flink-native-kubernetes"
@@ -49,11 +49,11 @@
             "controller": true,
             "kind": "Deployment",
             "name": "unschedulable",
-            "uid": "80c499cd-fa57-49f5-b1f2-052fb6357ba3"
+            "uid": "4ba17a4b-394f-40d4-8a54-99234938565c"
           }
         ],
-        "resourceVersion": "56729",
-        "uid": "341f7230-b1ca-43b3-9f70-9804322f3ec1"
+        "resourceVersion": "94310",
+        "uid": "0b6409df-cd4d-493a-8a15-d4905afa6533"
       }
     }
   ],

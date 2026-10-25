@@ -60,7 +60,12 @@ restarts or snapshot age.
 - Spec: `jobReference{kind, name}`, `savepoint{path, formatType, disposeOnDelete, alreadyExists}` or `checkpoint{}`,
   `backoffLimit`. Status: `state` (TRIGGER_PENDING, IN_PROGRESS, COMPLETED, FAILED, ABANDONED), `path`, `triggerId`,
   `triggerTimestamp`, `resultTimestamp`, `error`, `failures`.
-- Enabled by default (`kubernetes.operator.snapshot.resource.enabled: true`). No ownerReferences.
+- Enabled by default (`kubernetes.operator.snapshot.resource.enabled: true`). The operator decides once, when it
+  starts, by listing FlinkStateSnapshots cluster-wide; any error turns them off with "FlinkStateSnapshot CRD was not
+  installed, snapshot resources will be disabled" (checked: 1.16.1 source; seen on kind after a start under load).
+  Either way every snapshot stays without labels or status until the operator restarts. No ownerReferences.
+- The savepoint directory is `execution.checkpointing.savepoint-dir` on Flink 2 (`state.savepoints.dir` before); without
+  it a savepoint stays TRIGGER_PENDING and the operator retries it, counting `status.failures`.
 - Labels set by the controller on every reconcile: `snapshot.type`, `snapshot.trigger-type`
   (MANUAL, PERIODIC, UPGRADE, UNKNOWN), `snapshot.state`, `job-reference.kind`, `job-reference.name`.
 - Latest completed per job: one list with `-l job-reference.name=<job>,snapshot.state=COMPLETED`, max

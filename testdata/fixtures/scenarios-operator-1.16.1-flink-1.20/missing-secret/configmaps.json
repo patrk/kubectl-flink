@@ -5,7 +5,7 @@
       "apiVersion": "v1",
       "kind": "ConfigMap",
       "metadata": {
-        "creationTimestamp": "2026-10-24T20:37:18Z",
+        "creationTimestamp": "2026-10-24T23:43:51Z",
         "labels": {
           "app": "missing-secret",
           "component": "autoscaler"
@@ -19,11 +19,11 @@
             "controller": false,
             "kind": "FlinkDeployment",
             "name": "missing-secret",
-            "uid": "c2546167-8145-474d-9177-31eae248f3de"
+            "uid": "fbd146f8-e2ea-425c-b5b5-731fb0fa4c36"
           }
         ],
-        "resourceVersion": "56732",
-        "uid": "0cb65338-a071-4f29-900f-0fa5cdda9ce2"
+        "resourceVersion": "94525",
+        "uid": "9ad94afc-efbf-4982-9490-37e0883b023e"
       },
       "data": null
     },
@@ -35,7 +35,7 @@
       },
       "kind": "ConfigMap",
       "metadata": {
-        "creationTimestamp": "2026-10-24T20:37:18Z",
+        "creationTimestamp": "2026-10-24T23:43:36Z",
         "labels": {
           "app": "missing-secret",
           "type": "flink-native-kubernetes"
@@ -49,11 +49,11 @@
             "controller": true,
             "kind": "Deployment",
             "name": "missing-secret",
-            "uid": "ff97d253-eea2-4dc4-ba5d-f62bbb1533ca"
+            "uid": "06978374-bfbb-4a7e-a271-dbad6ae65f53"
           }
         ],
-        "resourceVersion": "56708",
-        "uid": "80aeb359-3c18-4037-b7a4-e0310680cbeb"
+        "resourceVersion": "94325",
+        "uid": "c3e79cad-b29b-4781-8667-c9aff28c760a"
       }
     },
     {
@@ -63,7 +63,7 @@
       },
       "kind": "ConfigMap",
       "metadata": {
-        "creationTimestamp": "2026-10-24T20:37:18Z",
+        "creationTimestamp": "2026-10-24T23:43:36Z",
         "labels": {
           "app": "missing-secret",
           "type": "flink-native-kubernetes"
@@ -77,11 +77,11 @@
             "controller": true,
             "kind": "Deployment",
             "name": "missing-secret",
-            "uid": "ff97d253-eea2-4dc4-ba5d-f62bbb1533ca"
+            "uid": "06978374-bfbb-4a7e-a271-dbad6ae65f53"
           }
         ],
-        "resourceVersion": "56709",
-        "uid": "b94674bc-ef72-4003-92f0-e156fb37ae5b"
+        "resourceVersion": "94327",
+        "uid": "9939d0cd-7de6-4709-a61a-54aeec12120d"
       }
     }
   ],

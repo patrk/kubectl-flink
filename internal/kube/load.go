@@ -14,6 +14,9 @@ type Snapshot struct {
 	Deployments []FlinkDeployment
 	SessionJobs []FlinkSessionJob
 	Pods        []Pod
+	// Snapshots are the completed FlinkStateSnapshots, for the age of each job's newest; empty when the CRD is
+	// missing or they may not be listed, which only blanks that column.
+	Snapshots []FlinkStateSnapshot
 	// PodsErr holds, per namespace read ("" for cluster scope), why its pods could not be read. Pods only add
 	// the TaskManager check, so this never fails a load; jobs in those namespaces get no pod data.
 	PodsErr map[string]error
@@ -31,21 +34,29 @@ func (s *Snapshot) PodsRead(namespace string) bool {
 // parallelLists bounds concurrent LIST requests per context.
 const parallelLists = 8
 
-// Load lists deployments, session jobs and Flink pods in every namespace of p, in parallel. labelSelector
-// filters the deployments and session jobs on the server.
-func (c *Client) Load(ctx context.Context, p Plan, labelSelector string) (*Snapshot, error) {
+// Query is what a load reads beyond deployments, session jobs and pods.
+type Query struct {
+	// Selector filters the deployments and session jobs on the server.
+	Selector string
+	// Snapshots also reads completed FlinkStateSnapshots, for the snapshot age.
+	Snapshots bool
+}
+
+// Load lists deployments, session jobs and Flink pods in every namespace of p, in parallel.
+func (c *Client) Load(ctx context.Context, p Plan, q Query) (*Snapshot, error) {
 	type part struct {
 		fds  *FlinkDeploymentList
 		sjs  *FlinkSessionJobList
 		pods *PodList
 		perr error
+		snap *FlinkStateSnapshotList
 	}
 	parts := make([]part, len(p.Read))
 	g, ctx := errgroup.WithContext(ctx)
 	g.SetLimit(parallelLists)
 	for i, ns := range p.Read {
 		g.Go(func() error {
-			obj, err := c.List(ctx, Deployments, ns, labelSelector)
+			obj, err := c.List(ctx, Deployments, ns, q.Selector)
 			if err != nil {
 				return ListError(p, ns, err)
 			}
@@ -53,7 +64,7 @@ func (c *Client) Load(ctx context.Context, p Plan, labelSelector string) (*Snaps
 			return nil
 		})
 		g.Go(func() error {
-			obj, err := c.List(ctx, SessionJobs, ns, labelSelector)
+			obj, err := c.List(ctx, SessionJobs, ns, q.Selector)
 			if err != nil {
 				return ListError(p, ns, err)
 			}
@@ -69,6 +80,16 @@ func (c *Client) Load(ctx context.Context, p Plan, labelSelector string) (*Snaps
 			parts[i].perr = err
 			return nil
 		})
+		if !q.Snapshots {
+			continue
+		}
+		g.Go(func() error {
+			// Only completed ones, by the label the operator sets; an error only leaves the column empty.
+			if obj, err := c.List(ctx, Snapshots, ns, LabelSnapshotState+"=COMPLETED"); err == nil {
+				parts[i].snap = obj.(*FlinkStateSnapshotList)
+			}
+			return nil
+		})
 	}
 	if err := g.Wait(); err != nil {
 		return nil, err
@@ -77,6 +98,9 @@ func (c *Client) Load(ctx context.Context, p Plan, labelSelector string) (*Snaps
 	for i, pt := range parts {
 		s.Deployments = append(s.Deployments, pt.fds.Items...)
 		s.SessionJobs = append(s.SessionJobs, pt.sjs.Items...)
+		if pt.snap != nil {
+			s.Snapshots = append(s.Snapshots, pt.snap.Items...)
+		}
 		if pt.perr != nil {
 			if s.PodsErr == nil {
 				s.PodsErr = map[string]error{}
