@@ -27,4 +27,4 @@ Performance
   GlobalWindows -> Sink: Print to Std. Out (sink): in 10/s, out 0/s; busy 3, backpressured 0, idle 997 ms/s
 
 HA
-esc back  1-7 tab  ↑↓ pgup pgdn scroll  ←→ pan  r collect again  y copy: kubectl flink why --context kind default/snap
+esc back  1-7 tabs  ↑↓ ←→ scroll  r refresh  R report  y copy command  q quit

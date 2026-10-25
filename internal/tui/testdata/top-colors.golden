@@ -9,4 +9,4 @@ dev       payments    fraud-scoring   [32mOK[m          STABLE      RUNNING   
 dev       team-a      orders          [32mOK[m          STABLE      RUNNING     READY   3h         -
 prd       payments    fraud-scoring   [32mOK[m          STABLE      RUNNING     READY   3h         -
 
-[2menter details  / search name or ID label  f health filter  s sort  n namespace  c context  : command  ? help  q quit[m
+[2m⏎ open  R report  / search  f filter  s sort  n ns  c ctx  : cmd  ? help  q quit[m

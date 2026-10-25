@@ -31,11 +31,13 @@ type Detail struct {
 	Loaded     time.Time
 }
 
-// Loader collects a job's detail and reads its JobManager log. top's command implements it with the session's
-// clients and port-forwards.
+// Loader collects a job's detail, reads its JobManager log and writes its report. top's command implements it
+// with the session's clients and port-forwards.
 type Loader interface {
 	Detail(ctx context.Context, job model.Job) (*Detail, error)
 	Log(ctx context.Context, job model.Job, tail int) (string, error)
+	// Report writes the job's handover bundle, as kubectl flink report does, and returns its path.
+	Report(ctx context.Context, job model.Job) (string, error)
 }
 
 // Timing of the detail data.
@@ -50,6 +52,8 @@ const (
 	logTail = 300
 	// loadTimeout bounds one collection; why's own collection bounds itself a little earlier.
 	loadTimeout = triage.Timeout + 5*time.Second
+	// reportTimeout bounds writing a report, which collects again and reads every log.
+	reportTimeout = 2 * time.Minute
 )
 
 // tabs of the detail screen, each with the command that prints the same.
@@ -90,6 +94,44 @@ type detailMsg struct {
 	key    string
 	detail *Detail
 	err    error
+}
+
+type reportMsg struct {
+	key  string
+	name string
+	path string
+	err  error
+}
+
+// report writes job's report in the background; the footer says when it is written and where.
+func (m *Model) report(job model.Job) tea.Cmd {
+	if m.cfg.Loader == nil {
+		m.flash = "kubectl flink report " + jobRef(&job)
+		return nil
+	}
+	k, name := render.Key(&job), job.Namespace+"/"+job.Name
+	if m.reporting[k] {
+		m.flash = "still writing the report of " + name + "…"
+		return nil
+	}
+	m.reporting[k] = true
+	m.flash = "writing the report of " + name + "…"
+	loader, ctx := m.cfg.Loader, m.ctx
+	return func() tea.Msg {
+		ctx, cancel := context.WithTimeout(ctx, reportTimeout)
+		defer cancel()
+		path, err := loader.Report(ctx, job)
+		return reportMsg{key: k, name: name, path: path, err: err}
+	}
+}
+
+func (m *Model) reported(msg reportMsg) {
+	delete(m.reporting, msg.key)
+	if msg.err != nil {
+		m.flash = "report of " + msg.name + " failed: " + msg.err.Error()
+		return
+	}
+	m.flash = "report written: " + msg.path
 }
 
 type logMsg struct {
@@ -247,7 +289,7 @@ func (m *Model) detailKey(msg tea.KeyPressMsg) tea.Cmd {
 		m.mode = modeList
 		return nil
 	case key.Matches(msg, m.keys.quit):
-		return tea.Quit
+		return m.quit()
 	case s == "tab" || s == "]":
 		return m.setTab((m.detail.tab + 1) % len(tabs))
 	case s == "shift+tab" || s == "[":
@@ -259,6 +301,8 @@ func (m *Model) detailKey(msg tea.KeyPressMsg) tea.Cmd {
 		e.detail, e.err = nil, nil
 		m.fillDetail(true)
 		return m.collect(m.current())
+	case key.Matches(msg, m.keys.report):
+		return m.report(m.current())
 	case s == "y":
 		c := m.tabCommand()
 		m.flash = "copied: " + c
@@ -385,7 +429,7 @@ func (m *Model) detailView() string {
 			bar[i] = m.st.tab.Render(label)
 		}
 	}
-	footer := m.st.dim.Render("esc back  1-7 tab  ↑↓ pgup pgdn scroll  ←→ pan  r collect again  y copy: " + m.tabCommand())
+	footer := m.st.dim.Render("esc back  1-7 tabs  ↑↓ ←→ scroll  r refresh  R report  y copy command  q quit")
 	if m.flash != "" {
 		footer = m.st.flash.Render(m.flash)
 	}

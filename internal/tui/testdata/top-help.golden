@@ -2,15 +2,15 @@ kubectl flink top · dev, prd, broken · 6 jobs: 1 FAILED, 1 DEGRADED, 1 SUSPEND
 filter: all   sort: health
           ╭──────────────────────────────────────────────────────────────────────────────────────────────────╮
           │ keys                                                                                             │
-          │ ↑/k          up          /            search name or ID label   :            command             │
-          │ ↓/j          down        f            health filter             esc          back, clear filters │
-          │ pgup/ctrl+b  page up     s            sort                      ?            help                │
-          │ pgdn/ctrl+f  page down   n            namespace                 q            quit                │
-          │ g/home       first job   c            context                                                    │
-          │ G/end        last job    enter        details                                                    │
+          │ ↑/k          up          /            search name or ID label   enter        details             │
+          │ ↓/j          down        f            health filter             R            write a report      │
+          │ pgup/ctrl+b  page up     s            sort                      :            command             │
+          │ pgdn/ctrl+f  page down   n            namespace                 esc          back, clear filters │
+          │ g/home       first job   c            context                   ?            help                │
+          │ G/end        last job    w            wide columns              q            quit                │
           │                                                                                                  │
           │ :ns NAME|all    :ctx NAME|all    :q                                                              │
           │ :sort health|name|namespace|state-age|age                                                        │
           │ :filter all|unhealthy|FAILED|STUCK|…                                                             │
           ╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
-enter details  / search name or ID label  f health filter  s sort  n namespace  c context  : command  ? help  q quit
+⏎ open  R report  / search  f filter  s sort  n ns  c ctx  : cmd  ? help  q quit

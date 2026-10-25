@@ -91,6 +91,12 @@ type Model struct {
 	loading inflight
 	cache   map[string]*entry
 	detail  detailState
+	// reporting are the jobs whose report is being written, by key.
+	reporting map[string]bool
+	// wide adds ls -o wide's columns.
+	wide bool
+	// quitting is set by a quit that a report in progress held back.
+	quitting bool
 
 	picker picker
 	flash  string
@@ -122,7 +128,7 @@ var filters = []healthFilter{
 // New returns the model; the program starts it with Init.
 func New(cfg Config) *Model {
 	m := &Model{cfg: cfg, st: newStyles(), keys: newKeyMap(), search: cfg.Search, width: 80, height: 24,
-		ctx: cfg.Context, cache: map[string]*entry{}}
+		ctx: cfg.Context, cache: map[string]*entry{}, reporting: map[string]bool{}}
 	if m.ctx == nil {
 		m.ctx = context.Background()
 	}
@@ -179,6 +185,9 @@ func (m *Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	case logMsg:
 		m.logRead(msg)
 		return m, nil
+	case reportMsg:
+		m.reported(msg)
+		return m, nil
 	case scopesMsg:
 		if !m.loaded && len(msg) == 1 && msg[0].Err != nil {
 			m.err = msg[0].Err // nothing to show; ls says so the same way
@@ -207,7 +216,7 @@ func (m *Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 
 func (m *Model) key(msg tea.KeyPressMsg) tea.Cmd {
 	if key.Matches(msg, m.keys.forceQuit) {
-		return tea.Quit
+		return m.quit()
 	}
 	switch m.mode {
 	case modeSearch:
@@ -227,7 +236,7 @@ func (m *Model) key(msg tea.KeyPressMsg) tea.Cmd {
 	m.flash = ""
 	switch {
 	case key.Matches(msg, m.keys.quit):
-		return tea.Quit
+		return m.quit()
 	case key.Matches(msg, m.keys.up):
 		m.table.move(-1)
 		return m.moved()
@@ -269,6 +278,13 @@ func (m *Model) key(msg tea.KeyPressMsg) tea.Cmd {
 		m.openPicker("context", m.contexts(), m.context)
 	case key.Matches(msg, m.keys.enter):
 		return m.openDetail()
+	case key.Matches(msg, m.keys.report):
+		if r := m.selected(); r != nil {
+			return m.report(*r.Job)
+		}
+	case key.Matches(msg, m.keys.wide):
+		m.wide = !m.wide
+		m.apply()
 	case key.Matches(msg, m.keys.help):
 		m.mode = modeHelp
 	case key.Matches(msg, m.keys.back):
@@ -353,7 +369,7 @@ func (m *Model) run(line string) tea.Cmd {
 	case "":
 		return nil
 	case "q", "quit":
-		return tea.Quit
+		return m.quit()
 	case "ns", "namespace":
 		m.namespace = arg
 	case "ctx", "context":
@@ -428,7 +444,7 @@ func (m *Model) apply() {
 
 	o := render.ScopeOptions(m.scopes)
 	o.ShowNamespace = o.ShowNamespace || m.namespace == "" && len(m.nsChoices) > 1
-	o.ReasonWidth = reasonWidth
+	o.ReasonWidth, o.Wide, o.NoSnapshotAge = reasonWidth, m.wide, true
 	header := o.Header()
 	health := slices.Index(header, render.HealthColumn)
 	var cells [][]string
@@ -455,6 +471,16 @@ func (m *Model) selected() *fleet.Row {
 		}
 	}
 	return nil
+}
+
+// quit ends top, unless a report is still being written: then the first quit says so and the second drops it.
+func (m *Model) quit() tea.Cmd {
+	if len(m.reporting) > 0 && !m.quitting {
+		m.quitting = true
+		m.flash = "a report is still being written; quit again to drop it"
+		return nil
+	}
+	return tea.Quit
 }
 
 func sameHealth(a, b []model.Health) bool {

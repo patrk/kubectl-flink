@@ -42,11 +42,10 @@ value or a unique part of a name.`,
 	return cmd
 }
 
-// collectJob gathers why's evidence and the raw resource, which history and report both need, and returns the
-// JobManager access for further requests; closeFn closes it.
-func (o *Options) collectJob(ctx context.Context, t *target, restURL string) (ev *triage.Evidence, rawCR []byte, access flink.Access, closeFn func()) {
-	access, closeFn = t.access(restURL)
-	src := triage.Source{Kube: t.client, REST: access, ForceREST: restURL != ""}
+// collectJob gathers why's evidence and the raw resource, which history, report and top's detail all need. force
+// asks the JobManager whatever the resource says of it, as --rest-url does.
+func (o *Options) collectJob(ctx context.Context, t *target, access flink.Access, force bool) (ev *triage.Evidence, rawCR []byte) {
+	src := triage.Source{Kube: t.client, REST: access, ForceREST: force}
 	ev = triage.Collect(ctx, src, t.job, o.now(), t.profile.Thresholds())
 	resource := kube.Deployments
 	if t.job.Kind == model.KindSessionJob {
@@ -56,7 +55,7 @@ func (o *Options) collectJob(ctx context.Context, t *target, restURL string) (ev
 	if err != nil {
 		ev.Gaps = append(ev.Gaps, triage.Gap{Layer: triage.Operator, What: "resource", Why: err.Error()})
 	}
-	return ev, rawCR, access, closeFn
+	return ev, rawCR
 }
 
 func (ho *historyOptions) run(ctx context.Context, arg string) error {
@@ -71,8 +70,9 @@ func (ho *historyOptions) run(ctx context.Context, arg string) error {
 	if err != nil {
 		return err
 	}
-	ev, raw, _, closeFn := ho.collectJob(ctx, t, ho.restURL)
+	access, closeFn := t.access(ho.restURL)
 	defer closeFn()
+	ev, raw := ho.collectJob(ctx, t, access, ho.restURL != "")
 	h, err := history.Build(ev, raw, r)
 	if err != nil {
 		return err

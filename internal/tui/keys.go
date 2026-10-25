@@ -1,16 +1,13 @@
 package tui
 
-import (
-	"strings"
-
-	"charm.land/bubbles/v2/key"
-)
+import "charm.land/bubbles/v2/key"
 
 // keyMap follows k9s: / search, f filter, s sort, n namespace, c context, Enter, Esc back, ? help, : commands,
 // q quit.
 type keyMap struct {
 	up, down, pageUp, pageDown, top, bottom                 key.Binding
 	search, filter, sort, namespace, context, command, help key.Binding
+	report, wide                                            key.Binding
 	enter, back, quit, forceQuit                            key.Binding
 }
 
@@ -33,27 +30,24 @@ func newKeyMap() keyMap {
 		command:   b(":", "command", ":"),
 		help:      b("?", "help", "?"),
 		enter:     b("enter", "details", "enter"),
+		report:    b("R", "write a report", "R"),
+		wide:      b("w", "wide columns", "w"),
 		back:      b("esc", "back, clear filters", "esc"),
 		quit:      b("q", "quit", "q"),
 		forceQuit: b("ctrl+c", "quit", "ctrl+c"),
 	}
 }
 
-// short is the footer: the keys a first-time user needs.
+// short is the footer: the keys a first-time user needs, within 80 columns.
 func (k *keyMap) short() string {
-	bindings := []key.Binding{k.enter, k.search, k.filter, k.sort, k.namespace, k.context, k.command, k.help, k.quit}
-	parts := make([]string, 0, len(bindings))
-	for _, b := range bindings {
-		parts = append(parts, b.Help().Key+" "+b.Help().Desc)
-	}
-	return strings.Join(parts, "  ")
+	return "⏎ open  R report  / search  f filter  s sort  n ns  c ctx  : cmd  ? help  q quit"
 }
 
 // full is the help screen, in groups.
 func (k *keyMap) full() [][]key.Binding {
 	return [][]key.Binding{
 		{k.up, k.down, k.pageUp, k.pageDown, k.top, k.bottom},
-		{k.search, k.filter, k.sort, k.namespace, k.context, k.enter},
-		{k.command, k.back, k.help, k.quit},
+		{k.search, k.filter, k.sort, k.namespace, k.context, k.wide},
+		{k.enter, k.report, k.command, k.back, k.help, k.quit},
 	}
 }

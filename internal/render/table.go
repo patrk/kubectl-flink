@@ -25,6 +25,8 @@ type TableOptions struct {
 	ShowNamespace bool
 	// ReasonWidth truncates the reason; 0 is 60, or 120 when Wide.
 	ReasonWidth int
+	// NoSnapshotAge leaves the snapshot age out of the wide columns, for callers that do not read snapshots.
+	NoSnapshotAge bool
 }
 
 // Table prints rows as a table. With Watch it prints the header and all rows once, then only the rows whose
@@ -70,7 +72,10 @@ func (o TableOptions) Header() []string {
 	}
 	h = append(h, "NAME", HealthColumn, "LIFECYCLE", "JOB", "JM", ageColumn, "REASON")
 	if o.Wide {
-		h = append(h, "TM", "JM RESTARTS", "DRIFT", "FLINK", "IMAGE", "OWNER", "SNAPSHOT AGE")
+		h = append(h, "TM", "JM RESTARTS", "DRIFT", "FLINK", "IMAGE", "OWNER")
+		if !o.NoSnapshotAge {
+			h = append(h, "SNAPSHOT AGE")
+		}
 	}
 	return h
 }
@@ -134,7 +139,10 @@ func (o TableOptions) Cells(r *fleet.Row, now time.Time) []string {
 		if !j.LastSnapshot.IsZero() {
 			snapshot = duration.HumanDuration(now.Sub(j.LastSnapshot))
 		}
-		cells = append(cells, tm, restarts, drift, dash(flinkVersion(j)), dash(j.Image), dash(strings.Join(j.SpecOwners, ",")), snapshot)
+		cells = append(cells, tm, restarts, drift, dash(flinkVersion(j)), dash(j.Image), dash(strings.Join(j.SpecOwners, ",")))
+		if !o.NoSnapshotAge {
+			cells = append(cells, snapshot)
+		}
 	}
 	return cells
 }

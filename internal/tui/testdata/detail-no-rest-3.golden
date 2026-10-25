@@ -27,4 +27,4 @@ No exception history: not asked: the JobManager is ERROR.
 
 
 
-esc back  1-7 tab  ↑↓ pgup pgdn scroll  ←→ pan  r collect again  y copy: kubectl flink exceptions --context kind defaul…
+esc back  1-7 tabs  ↑↓ ←→ scroll  r refresh  R report  y copy command  q quit
