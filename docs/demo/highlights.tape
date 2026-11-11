@@ -25,7 +25,7 @@ Sleep 700ms
 Type "# 2,009 FlinkDeployments in 44 namespaces: 9 run" Sleep 300ms Enter
 Type "# here, 2,000 carry statuses copied from real jobs" Sleep 900ms Enter
 Type "# Which ones need you, and why?" Sleep 900ms Enter
-Type "kubectl flink top -A" Sleep 500ms Enter
+Type "kubectl flink-triage top -A" Sleep 500ms Enter
 Sleep 4s
 # Every job, the worst first; then one job's verdict.
 Sleep 1s
@@ -40,6 +40,6 @@ Type "2" Sleep 4.5s
 Escape Sleep 400ms
 Type "q" Sleep 500ms
 Ctrl+L Sleep 400ms
-Type "# kubectl flink: one command per question," Sleep 300ms Enter
+Type "# kubectl flink-triage: one command per question," Sleep 300ms Enter
 Type "# for 9 jobs or 2,000" Sleep 900ms Enter
 Type "# github.com/patrk/kubectl-flink" Sleep 3s

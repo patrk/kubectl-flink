@@ -52,12 +52,12 @@ func NewRootCommand(streams genericiooptions.IOStreams) *cobra.Command {
 func newRootCommand(o *Options) *cobra.Command {
 	streams := o.IOStreams
 	cmd := &cobra.Command{
-		Use:           "kubectl-flink",
+		Use:           "kubectl-flink_triage",
 		Short:         "Triage and operate Apache Flink Kubernetes Operator jobs",
 		SilenceUsage:  true,
 		SilenceErrors: true,
 		Annotations: map[string]string{
-			cobra.CommandDisplayNameAnnotation: "kubectl flink",
+			cobra.CommandDisplayNameAnnotation: "kubectl flink-triage",
 		},
 	}
 	cmd.SetIn(streams.In)

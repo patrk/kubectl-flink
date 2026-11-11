@@ -10,7 +10,7 @@ LDFLAGS := -s -w -X github.com/patrk/kubectl-flink/internal/version.Version=$(VE
 
 .PHONY: build test test-committed bench perf lint snapshot kind-up kind-deps kind-down e2e e2e-go fixtures scenarios crds demo demo-image demo-clean flood flood-clean bench-flood demo-gifs
 
-build: ; CGO_ENABLED=0 go build -ldflags "$(LDFLAGS)" -o bin/kubectl-flink ./cmd/kubectl-flink
+build: ; CGO_ENABLED=0 go build -ldflags "$(LDFLAGS)" -o bin/kubectl-flink_triage ./cmd/kubectl-flink
 test:  ; go test -race ./...
 # The tests on exactly what a commit would contain, as CI sees it.
 test-committed: ; hack/test-committed.sh
@@ -53,7 +53,7 @@ demo-image:
 demo-clean: ; KUBE_CONTEXT=$(KUBE_CONTEXT) FLINK_VERSION=$(FLINK_VERSION) hack/demo.sh clean
 
 # 2,000 more FlinkDeployments with statuses copied from real jobs, which the operator ignores; FLOOD_JOBS and
-# FLOOD_NAMESPACES change the size. bench-flood times kubectl flink against kubectl on them; needs hyperfine.
+# FLOOD_NAMESPACES change the size. bench-flood times kubectl flink-triage against kubectl on them; needs hyperfine.
 flood: ; KUBE_CONTEXT=$(KUBE_CONTEXT) hack/flood.sh
 flood-clean: ; KUBE_CONTEXT=$(KUBE_CONTEXT) hack/flood.sh clean
 bench-flood: build ; KUBE_CONTEXT=$(KUBE_CONTEXT) hack/bench-flood.sh

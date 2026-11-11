@@ -3,9 +3,9 @@
 `why` names failures it has a rule for and shows the evidence for everything else. When an incident needed a
 human to recognise it, it is a candidate for a rule.
 
-1. **Capture while it happens.** `kubectl flink report <job> --dir incident` keeps the evidence that disappears:
+1. **Capture while it happens.** `kubectl flink-triage report <job> --dir incident` keeps the evidence that disappears:
    events after an hour, the previous container's log after the next restart.
-2. **Find the signal.** `kubectl flink why <job> -o json | jq .signals` lists what rules can match, by kind
+2. **Find the signal.** `kubectl flink-triage why <job> -o json | jq .signals` lists what rules can match, by kind
    (`event`, `pod.waiting`, `log.jobmanager`, `exception.cause`, … in `internal/triage/signals.go`). Pick the
    text that names the cause, not a symptom: the exception's cause, not the restart it led to.
 3. **Decide where the rule lives.**

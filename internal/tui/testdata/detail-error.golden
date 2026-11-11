@@ -1,4 +1,4 @@
-kubectl flink top · kind · default/snap
+kubectl flink-triage top · kind · default/snap
  1 Why  2 Graph  3 Exceptions  4 Checkpoints  5 Snapshots  6 Logs  7 History
 could not collect the job: connection refused
 

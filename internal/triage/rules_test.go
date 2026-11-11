@@ -115,7 +115,7 @@ func TestRuleTemplates(t *testing.T) {
 	f := findings[0]
 	if f.Title != "Checkpoints are not completing: last completed checkpoint is 45m old, interval 60s" ||
 		!strings.Contains(f.Explain, "The latest failure: Checkpoint expired before completing.") ||
-		f.Remedy != "kubectl flink checkpoints team-a/orders" || len(f.Evidence) != 2 {
+		f.Remedy != "kubectl flink-triage checkpoints team-a/orders" || len(f.Evidence) != 2 {
 		t.Errorf("%+v", f)
 	}
 	// Without the optional failure, the sentence about it is left out.

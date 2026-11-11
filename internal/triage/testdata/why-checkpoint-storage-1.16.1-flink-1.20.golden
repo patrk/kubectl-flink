@@ -30,7 +30,7 @@ Kubernetes
     at java.base/java.util.concurrent.CompletableFuture.completeExceptionally(Unknown Source) ~[?:?] (×2)
     Caused by: org.apache.flink.client.deployment.application.ApplicationExecutionException: Could not execute application. (×2)
     Caused by: org.apache.flink.client.program.ProgramInvocationException: The main method caused an error: Failed to execute job 'State machine job'. (×2)
-    … 9 more: kubectl flink logs default/checkpoint-storage --previous
+    … 9 more: kubectl flink-triage logs default/checkpoint-storage --previous
 
 Runtime
   not collected: JobManager REST API: not asked: the JobManager is DEPLOYING

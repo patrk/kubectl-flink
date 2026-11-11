@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Times kubectl flink against plain kubectl for the same questions with hyperfine, against the current cluster:
+# Times kubectl flink-triage against plain kubectl for the same questions with hyperfine, against the current cluster:
 # make demo flood gives 2,009 FlinkDeployments. Writes docs/demo/out/bench.md. Both read the same API server, so
 # the numbers compare the tools, not the cluster; a remote cluster adds its round trips to both.
 # Usage: KUBE_CONTEXT=<ctx> hack/bench-flood.sh, from the repository root after make build.
@@ -13,7 +13,7 @@ KUBECTL_FLINK_CONFIG=$(mktemp)
 export KUBECTL_FLINK_CONFIG
 trap 'rm -f "$KUBECTL_FLINK_CONFIG"' EXIT
 printf 'apiVersion: kubectl-flink/v1alpha1\nprofiles: [{name: flood, match: ["*"], idLabels: [use-case]}]\n' > "$KUBECTL_FLINK_CONFIG"
-k="kubectl --context $KUBE_CONTEXT" f="bin/kubectl-flink --context $KUBE_CONTEXT"
+k="kubectl --context $KUBE_CONTEXT" f="bin/kubectl-flink_triage --context $KUBE_CONTEXT"
 n=$($k get flinkdeployments -A --no-headers | wc -l | tr -d ' ')
 # What kubectl alone can say about an unhealthy job: a lifecycle other than STABLE or SUSPENDED, or an error.
 unhealthy='.items[] | select((.status.lifecycleState | IN("STABLE", "SUSPENDED") | not) or .status.error != null) | .metadata.name'
@@ -30,9 +30,9 @@ run() {
   echo >> docs/demo/out/bench.md
   rm -f "$table"
 }
-run -n "kubectl get -A" "$k get flinkdeployments -A" -n "kubectl flink ls -A" "$f ls -A"
+run -n "kubectl get -A" "$k get flinkdeployments -A" -n "kubectl flink-triage ls -A" "$f ls -A"
 run -n "kubectl get -A -o json | jq (unhealthy)" "$k get flinkdeployments -A -o json | jq -r '$unhealthy'" \
-  -n "kubectl flink ls -A --unhealthy" "$f ls -A --unhealthy"
-run -n "kubectl get -A -l use-case=1234" "$k get flinkdeployments -A -l use-case=1234" -n "kubectl flink ls -A 1234" "$f ls -A 1234"
-run -n "kubectl flink why 1234 (-A)" "$f why -A 1234 >/dev/null"
+  -n "kubectl flink-triage ls -A --unhealthy" "$f ls -A --unhealthy"
+run -n "kubectl get -A -l use-case=1234" "$k get flinkdeployments -A -l use-case=1234" -n "kubectl flink-triage ls -A 1234" "$f ls -A 1234"
+run -n "kubectl flink-triage why 1234 (-A)" "$f why -A 1234 >/dev/null"
 cat docs/demo/out/bench.md

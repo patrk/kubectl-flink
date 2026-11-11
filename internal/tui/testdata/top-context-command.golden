@@ -1,4 +1,4 @@
-kubectl flink top · dev, prd, broken · 1 job: 1 OK
+kubectl flink-triage top · dev, prd, broken · 1 job: 1 OK
 filter: all   sort: health   context: prd
 CONTEXT   NAMESPACE   NAME            HEALTH   LIFECYCLE   JOB       JM      IN STATE   REASON
 prd       payments    fraud-scoring   OK       STABLE      RUNNING   READY   3h         -

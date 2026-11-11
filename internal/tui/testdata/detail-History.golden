@@ -1,4 +1,4 @@
-kubectl flink top · kind · default/snap · OK · collected 0s ago
+kubectl flink-triage top · kind · default/snap · OK · collected 0s ago
  1 Why  2 Graph  3 Exceptions  4 Checkpoints  5 Snapshots  6 Logs  7 History
 no history: not built in this test
 

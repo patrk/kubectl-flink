@@ -5,7 +5,7 @@ Source docs/demo/look.tape
 Source docs/demo/env.tape
 
 Sleep 600ms
-Type "kubectl flink top -A" Sleep 500ms Enter
+Type "kubectl flink-triage top -A" Sleep 500ms Enter
 Sleep 3.5s
 # The unhealthy only, then the worst one's verdict, collected while the cursor rested on it.
 Type "f" Sleep 2s

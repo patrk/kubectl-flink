@@ -232,7 +232,7 @@ func (t *target) checkJobManager() error {
 	if j.Error != nil {
 		msg += ": " + j.Error.Summary(200)
 	}
-	return fmt.Errorf("%s\nsee its log with: kubectl flink logs %s/%s --previous", msg, j.Namespace, j.Name)
+	return fmt.Errorf("%s\nsee its log with: kubectl flink-triage logs %s/%s --previous", msg, j.Namespace, j.Name)
 }
 
 // restFlags are the flags of every command that reads the JobManager REST API.

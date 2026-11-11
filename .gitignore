@@ -2,7 +2,7 @@ bin/
 dist/
 *.test
 coverage.out
-# Bundles that kubectl flink report and top's R write into the current directory.
+# Bundles that kubectl flink-triage report and top's R write into the current directory.
 kubectl-flink-report-*.tar.gz
 # The demo recordings, uploaded to the "demo" release instead of kept in git, and the tape variants written
 # while recording.

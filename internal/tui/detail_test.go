@@ -213,7 +213,7 @@ func TestDetailCopy(t *testing.T) {
 	if _, cmd := m.Update(tea.KeyPressMsg{Code: 'y', Text: "y"}); cmd == nil {
 		t.Fatal("y copies nothing")
 	}
-	if want := "copied: kubectl flink graph --context kind default/snap"; m.flash != want {
+	if want := "copied: kubectl flink-triage graph --context kind default/snap"; m.flash != want {
 		t.Errorf("flash %q, want %q", m.flash, want)
 	}
 }

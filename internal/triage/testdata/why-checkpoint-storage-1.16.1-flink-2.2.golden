@@ -33,7 +33,7 @@ Kubernetes
     Caused by: java.io.IOException: Failed to create directory for shared state: file:/flink-data/checkpoints/f89a84e44a12a8619d7694120b2aec3b/shared (×3)
     java.util.concurrent.CompletionException: org.apache.flink.client.deployment.application.ApplicationExecutionException: Could not execute application. (×2)
     at java.base/java.util.concurrent.CompletableFuture.completeExceptionally(Unknown Source) ~[?:?] (×2)
-    … 7 more: kubectl flink logs default/checkpoint-storage --previous
+    … 7 more: kubectl flink-triage logs default/checkpoint-storage --previous
   not collected: JobManager log: checkpoint-storage-85dc9b9897-xnkrr: pods "checkpoint-storage-85dc9b9897-xnkrr" not found
 
 Runtime

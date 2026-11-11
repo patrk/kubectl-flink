@@ -19,7 +19,7 @@ func newVersionCommand(o *Options) *cobra.Command {
 			info := map[string]string{"version": version.Version, "commit": version.Commit, "date": version.Date}
 			switch output {
 			case "":
-				_, err := fmt.Fprintf(o.Out, "kubectl-flink %s (%s, %s)\n", version.Version, version.Commit, version.Date)
+				_, err := fmt.Fprintf(o.Out, "kubectl flink-triage %s (%s, %s)\n", version.Version, version.Commit, version.Date)
 				return err
 			case "json":
 				enc := json.NewEncoder(o.Out)

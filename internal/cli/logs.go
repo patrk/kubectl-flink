@@ -31,9 +31,9 @@ func newLogsCommand(o *Options) *cobra.Command {
 		Long: `Print the log of the job's JobManager, or with --taskmanagers of every TaskManager, each line prefixed
 with its pod. JOB is namespace/name, a name, an ID label value or a unique part of a name. A session job reads
 its session cluster's pods. Use --previous after a crash.`,
-		Example: `  kubectl flink logs team-a/orders --tail 100
-  kubectl flink logs orders --previous
-  kubectl flink logs orders --taskmanagers -f`,
+		Example: `  kubectl flink-triage logs team-a/orders --tail 100
+  kubectl flink-triage logs orders --previous
+  kubectl flink-triage logs orders --taskmanagers -f`,
 		Args: cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error { return lo.run(cmd.Context(), args[0]) },
 	}

@@ -45,9 +45,9 @@ func newReportCommand(o *Options) *cobra.Command {
 configuration, JobManager and TaskManager logs, the JobManager's REST answers, why and history. Secrets are
 redacted. summary.md, printed on stdout, is the part to paste into a chat; the bundle holds the rest. JOB is
 namespace/name, a name, an ID label value or a unique part of a name.`,
-		Example: `  kubectl flink report team-a/orders
-  kubectl flink report orders --dir ./orders-report
-  kubectl flink report orders --tail 500 --max-taskmanagers 2 -q`,
+		Example: `  kubectl flink-triage report team-a/orders
+  kubectl flink-triage report orders --dir ./orders-report
+  kubectl flink-triage report orders --tail 500 --max-taskmanagers 2 -q`,
 		Args: cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if ro.tail < 1 || ro.maxTaskManagers < 0 {

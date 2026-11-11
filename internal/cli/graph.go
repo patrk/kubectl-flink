@@ -22,8 +22,8 @@ func newGraphCommand(o *Options) *cobra.Command {
 		Long: `Show the job's operators from the sources down, each with its parallelism, the time split of its worst
 subtask and its rates, coloured as the Flink web UI colours its job graph: busy red, back-pressured dark grey,
 idle blue. The bottleneck is the busy operator behind back pressure, the one why names.`,
-		Example: `  kubectl flink graph team-a/orders
-  kubectl flink graph orders -o json`,
+		Example: `  kubectl flink-triage graph team-a/orders
+  kubectl flink-triage graph orders -o json`,
 		Args: cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if err := g.validate(); err != nil {

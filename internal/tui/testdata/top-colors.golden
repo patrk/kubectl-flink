@@ -1,4 +1,4 @@
-[1mkubectl flink top · dev, prd, broken · 6 jobs: 1 FAILED, 1 DEGRADED, 1 SUSPENDED, 3 OK[m
+[1mkubectl flink-triage top · dev, prd, broken · 6 jobs: 1 FAILED, 1 DEGRADED, 1 SUSPENDED, 3 OK[m
 [2mfilter: all   sort: health[m
 [1mCONTEXT   NAMESPACE   NAME            HEALTH      LIFECYCLE   JOB         JM      IN STATE   REASON[m
 broken    -           -               [31mERROR[m       -           -           -       -          context broken: Unauthoriz…

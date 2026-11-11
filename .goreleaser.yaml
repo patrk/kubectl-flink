@@ -3,7 +3,7 @@ project_name: kubectl-flink
 
 builds:
   - main: ./cmd/kubectl-flink
-    binary: kubectl-flink
+    binary: kubectl-flink_triage
     env: [CGO_ENABLED=0]
     goos: [linux, darwin, windows]
     goarch: [amd64, arm64]
@@ -21,7 +21,7 @@ archives:
     format_overrides:
       - goos: windows
         formats: [zip]
-    files: [LICENSE, README.md, kubectl_complete-flink]
+    files: [LICENSE, README.md, kubectl_complete-flink_triage]
 
 # The demo tag holds the README's recordings, not a version; the changelog starts from the previous version.
 git:

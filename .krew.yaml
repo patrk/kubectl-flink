@@ -3,7 +3,7 @@
 apiVersion: krew.googlecontainertools.github.com/v1alpha2
 kind: Plugin
 metadata:
-  name: flink
+  name: flink-triage
 spec:
   version: {{ .TagName }}
   homepage: https://github.com/patrk/kubectl-flink
@@ -14,19 +14,19 @@ spec:
     Kubernetes, the JobManager's logs and its REST API. A live terminal UI, the job graph, exceptions,
     checkpoints, snapshots and a redacted handover bundle for a ticket. Read-only.
   caveats: |
-    Tab completion: krew links only the plugin. Copy kubectl_complete-flink from
-    ~/.krew/store/flink/{{ .TagName }}/ to a directory on your PATH.
+    Tab completion: krew links only the plugin. Copy kubectl_complete-flink_triage from
+    ~/.krew/store/flink-triage/{{ .TagName }}/ to a directory on your PATH.
   platforms:
   - selector:
       matchLabels:
         os: linux
         arch: amd64
     {{ addURIAndSha "https://github.com/patrk/kubectl-flink/releases/download/{{ .TagName }}/kubectl-flink_{{ .TagName }}_linux_amd64.tar.gz" .TagName }}
-    bin: kubectl-flink
+    bin: kubectl-flink_triage
     files:
-      - from: kubectl-flink
+      - from: kubectl-flink_triage
         to: .
-      - from: kubectl_complete-flink
+      - from: kubectl_complete-flink_triage
         to: .
       - from: LICENSE
         to: .
@@ -35,11 +35,11 @@ spec:
         os: linux
         arch: arm64
     {{ addURIAndSha "https://github.com/patrk/kubectl-flink/releases/download/{{ .TagName }}/kubectl-flink_{{ .TagName }}_linux_arm64.tar.gz" .TagName }}
-    bin: kubectl-flink
+    bin: kubectl-flink_triage
     files:
-      - from: kubectl-flink
+      - from: kubectl-flink_triage
         to: .
-      - from: kubectl_complete-flink
+      - from: kubectl_complete-flink_triage
         to: .
       - from: LICENSE
         to: .
@@ -48,11 +48,11 @@ spec:
         os: darwin
         arch: amd64
     {{ addURIAndSha "https://github.com/patrk/kubectl-flink/releases/download/{{ .TagName }}/kubectl-flink_{{ .TagName }}_darwin_amd64.tar.gz" .TagName }}
-    bin: kubectl-flink
+    bin: kubectl-flink_triage
     files:
-      - from: kubectl-flink
+      - from: kubectl-flink_triage
         to: .
-      - from: kubectl_complete-flink
+      - from: kubectl_complete-flink_triage
         to: .
       - from: LICENSE
         to: .
@@ -61,11 +61,11 @@ spec:
         os: darwin
         arch: arm64
     {{ addURIAndSha "https://github.com/patrk/kubectl-flink/releases/download/{{ .TagName }}/kubectl-flink_{{ .TagName }}_darwin_arm64.tar.gz" .TagName }}
-    bin: kubectl-flink
+    bin: kubectl-flink_triage
     files:
-      - from: kubectl-flink
+      - from: kubectl-flink_triage
         to: .
-      - from: kubectl_complete-flink
+      - from: kubectl_complete-flink_triage
         to: .
       - from: LICENSE
         to: .
@@ -74,9 +74,9 @@ spec:
         os: windows
         arch: amd64
     {{ addURIAndSha "https://github.com/patrk/kubectl-flink/releases/download/{{ .TagName }}/kubectl-flink_{{ .TagName }}_windows_amd64.zip" .TagName }}
-    bin: kubectl-flink.exe
+    bin: kubectl-flink_triage.exe
     files:
-      - from: kubectl-flink.exe
+      - from: kubectl-flink_triage.exe
         to: .
       - from: LICENSE
         to: .
@@ -85,9 +85,9 @@ spec:
         os: windows
         arch: arm64
     {{ addURIAndSha "https://github.com/patrk/kubectl-flink/releases/download/{{ .TagName }}/kubectl-flink_{{ .TagName }}_windows_arm64.zip" .TagName }}
-    bin: kubectl-flink.exe
+    bin: kubectl-flink_triage.exe
     files:
-      - from: kubectl-flink.exe
+      - from: kubectl-flink_triage.exe
         to: .
       - from: LICENSE
         to: .

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Deploys long-lived example jobs in four namespaces and many states, to try kubectl flink by hand and to record
+# Deploys long-lived example jobs in four namespaces and many states, to try kubectl flink-triage by hand and to record
 # the README demos. Every job carries a team label and a use-case ID, as real fleets name their jobs.
 # Usage: KUBE_CONTEXT=<ctx> FLINK_VERSION=<x.y> hack/demo.sh [clean]
 set -euo pipefail
@@ -89,10 +89,10 @@ k patch flinkdeployment order-archive -n orders --type merge -p '{"spec":{"job":
 cat <<EOF
 
 Deployed. Jobs settle in two to three minutes; then try:
-  bin/kubectl-flink --context $KUBE_CONTEXT top -A
-  bin/kubectl-flink --context $KUBE_CONTEXT ls -A -o wide
-  bin/kubectl-flink --context $KUBE_CONTEXT why 4711
-  bin/kubectl-flink --context $KUBE_CONTEXT graph shop/checkout
+  bin/kubectl-flink_triage --context $KUBE_CONTEXT top -A
+  bin/kubectl-flink_triage --context $KUBE_CONTEXT ls -A -o wide
+  bin/kubectl-flink_triage --context $KUBE_CONTEXT why 4711
+  bin/kubectl-flink_triage --context $KUBE_CONTEXT graph shop/checkout
 What can happen to shop/checkout, and back:
   kubectl --context $KUBE_CONTEXT -n shop set env deploy/inventory LATENCY_MS=500   # the inventory database gets slow (20)
   kubectl --context $KUBE_CONTEXT -n shop set env deploy/inventory ERROR_PERCENT=2  # it fails some requests (0)

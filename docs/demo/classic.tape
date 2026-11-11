@@ -16,8 +16,8 @@ Sleep 4s
 Type "# ...and repeat for every job, namespace and cluster" Sleep 1.5s Enter
 Sleep 1s
 Ctrl+L Sleep 500ms
-Type "# with kubectl flink" Sleep 700ms Enter
-Type "kubectl flink ls -A --unhealthy" Sleep 500ms Enter
+Type "# with kubectl flink-triage" Sleep 700ms Enter
+Type "kubectl flink-triage ls -A --unhealthy" Sleep 500ms Enter
 Sleep 3.5s
-Type "kubectl flink why orders/order-export" Sleep 500ms Enter
+Type "kubectl flink-triage why orders/order-export" Sleep 500ms Enter
 Sleep 8s

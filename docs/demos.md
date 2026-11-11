@@ -4,7 +4,7 @@ Recorded against the operator on kind with the example jobs of `make demo`; noth
 
 ## The classic way, then one command
 
-`kubectl get` shows no health, `describe` keeps the cause in a JSON string, and the log ends in stack frames. `kubectl flink` lists what is unhealthy and names the cause with its evidence.
+`kubectl get` shows no health, `describe` keeps the cause in a JSON string, and the log ends in stack frames. `kubectl flink-triage` lists what is unhealthy and names the cause with its evidence.
 
 <picture>
   <source media="(prefers-color-scheme: light)" srcset="https://github.com/patrk/kubectl-flink/releases/download/demo/classic-light.gif">
@@ -44,7 +44,7 @@ A use-case ID in a label, a team label, and `why` on an ID in another namespace.
 `make demo flood` adds 2,000 FlinkDeployments in 40 namespaces to the example jobs. Their specs and statuses are
 copied from jobs the operator really ran, so each resource has a real size; the operator ignores them, so no
 Flink cluster runs behind them. `make bench-flood` times the same questions with plain kubectl and with
-kubectl flink, with [hyperfine](https://github.com/sharkdp/hyperfine), on kind on a laptop. A remote cluster adds
+kubectl flink-triage, with [hyperfine](https://github.com/sharkdp/hyperfine), on kind on a laptop. A remote cluster adds
 its round trips to both.
 
 2009 FlinkDeployments, 2026-10-25, hyperfine 2.0.0; mean ± σ of 20 runs after 3 warmups;
@@ -53,21 +53,21 @@ profile idLabels: [use-case].
 | Command | Mean Wall Time [ms] | Change | Factor |
 |:---|---:|---:|:---|
 | `kubectl get -A` | 234.3 ± 5.3 |  |  |
-| `kubectl flink ls -A` | 147.2 ± 4.3 | -37.2% | (1.6x faster) |
+| `kubectl flink-triage ls -A` | 147.2 ± 4.3 | -37.2% | (1.6x faster) |
 
 | Command | Mean Wall Time [ms] | Change | Factor |
 |:---|---:|---:|:---|
 | `kubectl get -A -o json \| jq (unhealthy)` | 855.0 ± 5.4 |  |  |
-| `kubectl flink ls -A --unhealthy` | 148.4 ± 6.1 | -82.6% | (5.8x faster) |
+| `kubectl flink-triage ls -A --unhealthy` | 148.4 ± 6.1 | -82.6% | (5.8x faster) |
 
 | Command | Mean Wall Time [ms] | Change | Factor |
 |:---|---:|---:|:---|
 | `kubectl get -A -l use-case=1234` | 34.3 ± 2.2 |  |  |
-| `kubectl flink ls -A 1234` | 22.5 ± 1.7 | -34.5% | (1.5x faster) |
+| `kubectl flink-triage ls -A 1234` | 22.5 ± 1.7 | -34.5% | (1.5x faster) |
 
 | Command | Mean Wall Time [ms] | Change | Factor |
 |:---|---:|---:|:---|
-| `kubectl flink why 1234 (-A)` | 28.7 ± 4.5 |  |  |
+| `kubectl flink-triage why 1234 (-A)` | 28.7 ± 4.5 |  |  |
 
 - Listing with a health value per job is faster than `kubectl get` without one: each page is decoded while the
   API server encodes the next, and the table is written in a few large writes.
@@ -82,7 +82,7 @@ profile idLabels: [use-case].
 Wall time is the smaller part. The larger one is how many steps a question takes, and what you must already know
 to take them.
 
-| Question | kubectl | kubectl flink |
+| Question | kubectl | kubectl flink-triage |
 |:---|:---|:---|
 | Which of 2,000 jobs need attention? | `get -A` shows lifecycle and job state; restarts, missing TaskManagers and stale reconciles need a `describe` per job | `ls -A --unhealthy`, or `top`: one health value per job, the worst first |
 | Why is this one failing? | `describe` for `status.error` in a JSON string, `get pods`, `logs --previous` on the right container, a port-forward to the web UI for exceptions: five steps, and the pod and container names | `why <job>`: the cause first, then the evidence by layer; 26 ms here for a crash loop, 43 ms for a running job asked over REST, 30 ms by ID across 2,009 jobs |

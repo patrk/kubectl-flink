@@ -27,8 +27,8 @@ func newHistoryCommand(o *Options) *cobra.Command {
 wrote the spec and when, status timestamps, container exits, and the JobManager's failures and restores. Then list
 the differences between the spec and what the operator last deployed. JOB is namespace/name, a name, an ID label
 value or a unique part of a name.`,
-		Example: `  kubectl flink history team-a/orders
-  kubectl flink history orders -o json`,
+		Example: `  kubectl flink-triage history team-a/orders
+  kubectl flink-triage history orders -o json`,
 		Args: cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if err := ho.validate(); err != nil {
