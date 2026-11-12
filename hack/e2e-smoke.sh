@@ -32,25 +32,25 @@ while :; do
   sleep 5
 done
 echo "basic is STABLE/RUNNING"
-bin/kubectl-flink version
+bin/kubectl-flink_triage version
 
 # ls against the real operator: basic must be OK with its TaskManager ready.
-bin/kubectl-flink --context "$KUBE_CONTEXT" ls -A -o wide
-item=$(bin/kubectl-flink --context "$KUBE_CONTEXT" ls -A -o json | jq -c '.items[] | select(.name == "basic")')
+bin/kubectl-flink_triage --context "$KUBE_CONTEXT" ls -A -o wide
+item=$(bin/kubectl-flink_triage --context "$KUBE_CONTEXT" ls -A -o json | jq -c '.items[] | select(.name == "basic")')
 jq -e '.health == "OK" and .taskManagers.ready == 1 and .taskManagers.desired == 1' <<<"$item" >/dev/null ||
   { echo "ls: basic is not OK with 1/1 TaskManagers: $item" >&2; diagnose; }
-bin/kubectl-flink --context "$KUBE_CONTEXT" ls -A --exit-code --no-headers >/dev/null ||
+bin/kubectl-flink_triage --context "$KUBE_CONTEXT" ls -A --exit-code --no-headers >/dev/null ||
   { echo "ls --exit-code reports unhealthy jobs" >&2; diagnose; }
 echo "ls reports basic OK"
 
 # report: a bundle with a summary and the evidence, and history of the same job.
 out=$(mktemp -d)
-bin/kubectl-flink --context "$KUBE_CONTEXT" report default/basic --dir "$out" -q >/dev/null
+bin/kubectl-flink_triage --context "$KUBE_CONTEXT" report default/basic --dir "$out" -q >/dev/null
 for f in summary.md why.txt history.txt resource.json pods.json events.json flink-config.json rest/job.json; do
   [[ -s $out/$f ]] || { echo "report: $f missing or empty" >&2; ls -R "$out" >&2; diagnose; }
 done
 grep -q '^## Matched patterns' "$out/summary.md" || { echo "report: summary has no verdict" >&2; diagnose; }
 # Output first: with pipefail, grep -q closing the pipe early would fail the writer.
-hist=$(bin/kubectl-flink --context "$KUBE_CONTEXT" history default/basic)
+hist=$(bin/kubectl-flink_triage --context "$KUBE_CONTEXT" history default/basic)
 grep -q 'created, generation 1' <<<"$hist" || { echo "history: no creation entry" >&2; echo "$hist" >&2; diagnose; }
 echo "report and history work for basic"

@@ -9,7 +9,7 @@ Flink job `321d712dcc40eaacbd7aa165048dcf3d`.
 
 1. **OK**: The job restarted after losing a TaskManager, from checkpoint #96 (runtime)
    A TaskManager went away, for example its pod was deleted, evicted or its node drained, and Flink restarted the job from its last checkpoint.
-   Next: If it happens often, look at node events and kubectl flink exceptions default/tm-lost.
+   Next: If it happens often, look at node events and kubectl flink-triage exceptions default/tm-lost.
 
 ## Timeline, newest first
 

@@ -23,8 +23,8 @@ func newExceptionsCommand(o *Options) *cobra.Command {
 		Long: `Show the job's exception history, newest first: when, which exception, in which task and on which
 TaskManager, and the deepest cause. --full adds the stack traces. JOB is namespace/name, a name, an ID label
 value or a unique part of a name.`,
-		Example: `  kubectl flink exceptions team-a/orders
-  kubectl flink exceptions orders --full --limit 3`,
+		Example: `  kubectl flink-triage exceptions team-a/orders
+  kubectl flink-triage exceptions orders --full --limit 3`,
 		Args: cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if err := eo.validate(); err != nil {

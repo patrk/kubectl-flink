@@ -11,7 +11,7 @@ Matched patterns
     · exception: java.net.UnknownHostException: nowhere.invalid
   2. FAILED: The job keeps restarting: 5 failures in the last 15m (runtime)
     The restart strategy restarts the job after every failure, but the failure comes back, so the job never runs for long.
-    Next: kubectl flink exceptions default/restart-loop
+    Next: kubectl flink-triage exceptions default/restart-loop
     · job.restarts: 5 failures in the last 15m
 
 Operator

@@ -25,8 +25,8 @@ func newSnapshotsCommand(o *Options) *cobra.Command {
 completed checkpoint, the last savepoint and what the job restored from. The JobManager's record also holds
 savepoints taken through its REST API, which never appear as resources. JOB is namespace/name, a name, an ID
 label value or a unique part of a name.`,
-		Example: `  kubectl flink snapshots team-a/orders
-  kubectl flink snapshots orders -o json`,
+		Example: `  kubectl flink-triage snapshots team-a/orders
+  kubectl flink-triage snapshots orders -o json`,
 		Args: cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if err := so.validate(); err != nil {

@@ -44,10 +44,10 @@ func newLsCommand(o *Options) *cobra.Command {
 JobManager and TaskManager pods, and how long each state has lasted. FILTER keeps jobs whose namespace/name
 contains it or that carry it as an ID label value; with idLabels in the profile, the jobs that carry it as an ID
 are the answer when there are any, and only those are read. The summary and any fallback notes go to stderr.`,
-		Example: `  kubectl flink ls -A --unhealthy
-  kubectl flink ls -n team-a -o wide --sort state-age
-  kubectl flink ls -l team=payments -o json
-  kubectl flink ls -A -w`,
+		Example: `  kubectl flink-triage ls -A --unhealthy
+  kubectl flink-triage ls -n team-a -o wide --sort state-age
+  kubectl flink-triage ls -l team=payments -o json
+  kubectl flink-triage ls -A -w`,
 		Args: cobra.MaximumNArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 1 {

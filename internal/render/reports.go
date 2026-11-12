@@ -266,7 +266,7 @@ func Snapshots(out io.Writer, rep *SnapshotReport, now time.Time) error {
 		}
 	}
 	if unprocessed > 0 {
-		w.printf("\n%d without a status: the operator does not process them; see kubectl flink why %s/%s\n", unprocessed, rep.Job.Namespace, rep.Job.Name)
+		w.printf("\n%d without a status: the operator does not process them; see kubectl flink-triage why %s/%s\n", unprocessed, rep.Job.Namespace, rep.Job.Name)
 	}
 	w.printf("\nJobManager\n")
 	if cps := rep.JobManager; cps != nil {

@@ -142,7 +142,7 @@ func TestRESTRefusedWhenJobManagerDown(t *testing.T) {
 	c.add("dev", "default", f)
 	code, _, errOut := c.run("exceptions", "bad-image")
 	if code != ExitError || !strings.Contains(errOut, "JobManager is not running") || !strings.Contains(errOut, "is ERROR") ||
-		!strings.Contains(errOut, "kubectl flink logs default/bad-image --previous") {
+		!strings.Contains(errOut, "kubectl flink-triage logs default/bad-image --previous") {
 		t.Errorf("%d %s", code, errOut)
 	}
 }

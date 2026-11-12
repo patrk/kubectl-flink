@@ -39,7 +39,7 @@ Kubernetes
     Caused by: org.apache.flink.client.deployment.application.UnsuccessfulExecutionException: Application Status: FAILED
     at org.apache.flink.client.deployment.application.UnsuccessfulExecutionException.fromJobResult(UnsuccessfulExecutionException.java:71) ~[flink-dist-2.2.1.j…
     Caused by: org.apache.flink.runtime.client.JobExecutionException: Job execution failed.
-    … 2 more: kubectl flink logs default/unreachable
+    … 2 more: kubectl flink-triage logs default/unreachable
 
 Runtime
   job FAILED, Flink 2.2.1, 1 job(s) on the cluster

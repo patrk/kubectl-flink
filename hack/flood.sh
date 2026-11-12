@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Adds a fleet of FlinkDeployments that no Flink cluster runs behind, to try kubectl flink at the scale of a real
+# Adds a fleet of FlinkDeployments that no Flink cluster runs behind, to try kubectl flink-triage at the scale of a real
 # platform: FLOOD_JOBS jobs (default 2000) in FLOOD_NAMESPACES namespaces (default 40). Their specs and statuses are
 # copied from jobs the operator really ran (testdata/fixtures), with timestamps moved to now, so each resource has a
 # real size and a real status; the operator is told to ignore them by a label selector, so it neither deploys them

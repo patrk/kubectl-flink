@@ -1,4 +1,4 @@
-kubectl flink top · dev, prd, broken · 1 job: 1 FAILED
+kubectl flink-triage top · dev, prd, broken · 1 job: 1 FAILED
 filter: FAILED   sort: health
 CONTEXT   NAMESPACE   NAME     HEALTH   LIFECYCLE   JOB      JM      IN STATE   REASON
 broken    -           -        ERROR    -           -        -       -          context broken: Unauthorized

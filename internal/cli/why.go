@@ -26,9 +26,9 @@ func newWhyCommand(o *Options) *cobra.Command {
 		Long: `Collect the operator status, pods, events, JobManager logs and REST API of a job, name the known
 failure patterns among them, and show the evidence by layer. When no pattern matches, the strongest signals are
 listed first. JOB is namespace/name, a name, an ID label value or a unique part of a name.`,
-		Example: `  kubectl flink why team-a/orders
-  kubectl flink why orders -o json
-  kubectl flink why orders --exit-code && echo healthy`,
+		Example: `  kubectl flink-triage why team-a/orders
+  kubectl flink-triage why orders -o json
+  kubectl flink-triage why orders --exit-code && echo healthy`,
 		Args: cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if err := wo.validate(); err != nil {

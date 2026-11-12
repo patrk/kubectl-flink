@@ -56,7 +56,7 @@ rules:
     explain: >-
       The JobManager container exits and Kubernetes keeps restarting it. The reason is in the log of the previous
       container; the error lines are below.
-    remedy: 'kubectl flink logs {{.job}} --previous'
+    remedy: 'kubectl flink-triage logs {{.job}} --previous'
 
   - id: taskmanager-crashloop
     layer: kubernetes
@@ -70,7 +70,7 @@ rules:
     title: 'A TaskManager crashes at startup{{if .termination}} ({{.termination}}){{end}}'
     explain: >-
       A TaskManager container exits and Kubernetes keeps restarting it, so the job has fewer slots than it needs.
-    remedy: 'kubectl flink logs {{.job}} --taskmanagers --previous'
+    remedy: 'kubectl flink-triage logs {{.job}} --taskmanagers --previous'
 
   - id: mount-failed
     layer: kubernetes
@@ -181,7 +181,7 @@ rules:
     explain: >-
       The job runs with fewer TaskManagers than it asked for, so it has fewer slots than its parallelism needs
       and may not run all tasks.
-    remedy: 'Look at the TaskManager pods: kubectl flink logs {{.job}} --taskmanagers'
+    remedy: 'Look at the TaskManager pods: kubectl flink-triage logs {{.job}} --taskmanagers'
 
   - id: checkpoints-stale
     layer: runtime
@@ -197,7 +197,7 @@ rules:
       Transactional sinks, such as Kafka with exactly-once delivery, commit only on a completed checkpoint, so
       their consumers see no new data; a restart would replay everything since the last one.
       {{if .failure}}The latest failure: {{.failure}}{{end}}
-    remedy: 'kubectl flink checkpoints {{.job}}'
+    remedy: 'kubectl flink-triage checkpoints {{.job}}'
 
   - id: taskmanager-lost
     layer: runtime
@@ -212,7 +212,7 @@ rules:
     explain: >-
       A TaskManager went away, for example its pod was deleted, evicted or its node drained, and Flink restarted
       the job{{if .restored}} from its last checkpoint{{end}}.
-    remedy: 'If it happens often, look at node events and kubectl flink exceptions {{.job}}.'
+    remedy: 'If it happens often, look at node events and kubectl flink-triage exceptions {{.job}}.'
 
   - id: dependency-unreachable
     layer: runtime
@@ -261,7 +261,7 @@ rules:
     explain: >-
       The restart strategy restarts the job after every failure, but the failure comes back, so the job never
       runs for long. {{if .cause}}The newest cause: {{.cause}}{{end}}
-    remedy: 'kubectl flink exceptions {{.job}}'
+    remedy: 'kubectl flink-triage exceptions {{.job}}'
 
   - id: external-restart
     layer: operator
@@ -344,7 +344,7 @@ rules:
     explain: >-
       {{.detail}}. An application cluster runs one job; a second one usually comes from a job plan the JobManager
       recovered from stale HA state.
-    remedy: 'Compare the job ids with status.jobStatus.jobId; kubectl flink exceptions {{.job}}'
+    remedy: 'Compare the job ids with status.jobStatus.jobId; kubectl flink-triage exceptions {{.job}}'
 
   - id: checkpoint-storage-unwritable
     layer: runtime
@@ -401,4 +401,4 @@ rules:
     title: '{{.type}} {{.name}} fails{{if .state}} ({{.state}}){{end}}'
     explain: >-
       {{if .failures}}The operator tried {{.failures}} times. {{end}}{{if .error}}The last error: {{.error}}{{end}}
-    remedy: 'kubectl flink snapshots {{.job}}'
+    remedy: 'kubectl flink-triage snapshots {{.job}}'

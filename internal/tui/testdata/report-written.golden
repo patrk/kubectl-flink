@@ -1,4 +1,4 @@
-kubectl flink top · kind · 2 jobs: 2 OK
+kubectl flink-triage top · kind · 2 jobs: 2 OK
 filter: all   sort: name
 NAME      HEALTH   LIFECYCLE   JOB       JM      IN STATE   REASON
 snap      OK       STABLE      RUNNING   READY   3m19s      -

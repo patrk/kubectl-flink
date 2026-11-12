@@ -338,7 +338,7 @@ func TestTopLoader(t *testing.T) {
 	}
 }
 
-// R in top writes the same bundle as kubectl flink report, into the current directory.
+// R in top writes the same bundle as kubectl flink-triage report, into the current directory.
 func TestTopLoaderReport(t *testing.T) {
 	s := triagetest.Load(t, "../../testdata/fixtures/scenarios-operator-1.16.1-flink-2.2/missing-jar")
 	c := newCluster(t)

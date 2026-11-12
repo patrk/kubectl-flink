@@ -1,4 +1,4 @@
-// Package tui is kubectl flink top: the fleet as a live table, over the same rows, filters and sort as ls.
+// Package tui is kubectl flink-triage top: the fleet as a live table, over the same rows, filters and sort as ls.
 package tui
 
 import (
@@ -513,7 +513,7 @@ func (m *Model) render() string {
 		return m.detailView()
 	}
 	if !m.loaded {
-		return m.st.title.Render(cut("kubectl flink top · loading Flink jobs…", m.width))
+		return m.st.title.Render(cut("kubectl flink-triage top · loading Flink jobs…", m.width))
 	}
 	var body string
 	switch m.mode {
@@ -544,7 +544,7 @@ func (m *Model) titleLine() string {
 	for i := range m.scopes {
 		ctxs = append(ctxs, m.scopes[i].Context)
 	}
-	return m.st.title.Render(cut("kubectl flink top · "+strings.Join(ctxs, ", ")+" · "+m.counts, m.width))
+	return m.st.title.Render(cut("kubectl flink-triage top · "+strings.Join(ctxs, ", ")+" · "+m.counts, m.width))
 }
 
 // statusLine shows the filter, sort and search in force, then the first problem with the data: a failing watch,

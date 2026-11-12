@@ -6,7 +6,7 @@ Source docs/demo/env.tape
 
 Sleep 600ms
 Type "# a job keeps crashing: find it, see why, hand it over" Sleep 800ms Enter
-Type "kubectl flink top -A" Sleep 500ms Enter
+Type "kubectl flink-triage top -A" Sleep 500ms Enter
 Sleep 3.5s
 Type "f" Sleep 1.5s
 Type@120ms "/order-export" Sleep 600ms Enter Sleep 800ms

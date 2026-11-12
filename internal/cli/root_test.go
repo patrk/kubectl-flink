@@ -20,7 +20,7 @@ func execute(args ...string) (code int, stdout, stderr string) {
 
 func TestVersion(t *testing.T) {
 	code, out, _ := execute("version")
-	if code != ExitOK || !strings.HasPrefix(out, "kubectl-flink dev") {
+	if code != ExitOK || !strings.HasPrefix(out, "kubectl flink-triage dev") {
 		t.Fatalf("code %d, output %q", code, out)
 	}
 }

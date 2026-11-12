@@ -202,7 +202,7 @@ func kubernetesEvidence(w *lineWriter, ev *triage.Evidence) {
 				for _, r := range lines[i:] {
 					rest += r.n
 				}
-				w.line(2, "… %d more: kubectl flink logs %s%s", rest, ev.Job.Key(), previousFlag(l.LogLine))
+				w.line(2, "… %d more: kubectl flink-triage logs %s%s", rest, ev.Job.Key(), previousFlag(l.LogLine))
 				break
 			}
 			if l.n > 1 {

@@ -1,4 +1,4 @@
-kubectl flink top · dev, prd, broken · 6 jobs: 1 FAILED, 1 DEGRADED, 1 SUSPENDED, 3 OK
+kubectl flink-triage top · dev, prd, broken · 6 jobs: 1 FAILED, 1 DEGRADED, 1 SUSPENDED, 3 OK
 filter: all   sort: health
 CONTEXT   NAMESPACE   NAME            HEALTH      LIFECYCLE   JOB         JM      IN STATE   REASON
 broken    -           -               ERROR       -           -           -       -          context broken: Unauthoriz…
@@ -13,4 +13,4 @@ prd       payments    fraud-scoring   OK          STABLE      RUNNING     READY 
 
 
 
-kubectl flink why --context dev team-b/replay
+kubectl flink-triage why --context dev team-b/replay

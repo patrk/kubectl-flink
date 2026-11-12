@@ -22,8 +22,8 @@ func newCheckpointsCommand(o *Options) *cobra.Command {
 		Long: `Show how often the job checkpoints, when the last checkpoint completed and failed, what it restored
 from, and the recent history. A job whose last completed checkpoint is many intervals old commits nothing to
 transactional sinks. JOB is namespace/name, a name, an ID label value or a unique part of a name.`,
-		Example: `  kubectl flink checkpoints team-a/orders
-  kubectl flink checkpoints orders --limit 30 -o json`,
+		Example: `  kubectl flink-triage checkpoints team-a/orders
+  kubectl flink-triage checkpoints orders --limit 30 -o json`,
 		Args: cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if err := co.validate(); err != nil {

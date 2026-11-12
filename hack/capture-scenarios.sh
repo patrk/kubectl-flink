@@ -58,10 +58,10 @@ wait_pod_event() {
 }
 # check_why <name> <rule id>: when the binary is built, why must name the induced cause first.
 check_why() {
-  [[ -x bin/kubectl-flink ]] || return 0
+  [[ -x bin/kubectl-flink_triage ]] || return 0
   local first
-  first=$(bin/kubectl-flink --context "$KUBE_CONTEXT" why "default/$1" -o json | jq -r '.verdict.findings[0].id // "none"')
-  [[ $first == "$2" ]] || { echo "why $1: first finding $first, want $2" >&2; bin/kubectl-flink --context "$KUBE_CONTEXT" why "default/$1" >&2; exit 1; }
+  first=$(bin/kubectl-flink_triage --context "$KUBE_CONTEXT" why "default/$1" -o json | jq -r '.verdict.findings[0].id // "none"')
+  [[ $first == "$2" ]] || { echo "why $1: first finding $first, want $2" >&2; bin/kubectl-flink_triage --context "$KUBE_CONTEXT" why "default/$1" >&2; exit 1; }
   echo "why $1: $first"
 }
 # save <name> [dir]: the resource <name> and what belongs to it, into $OUT/<dir>, by default $OUT/<name>.

@@ -37,9 +37,9 @@ func newTopCommand(o *Options) *cobra.Command {
 		Short: "Watch Flink jobs and their health in a terminal UI",
 		Long: `Show the jobs ls lists as a live table: worst health first, kept current by watches. FILTER starts a
 search by namespace/name or ID label value. Keys follow k9s; press ? for the list.`,
-		Example: `  kubectl flink top -A
-  kubectl flink top -A --unhealthy
-  kubectl flink top -l team=payments 4711`,
+		Example: `  kubectl flink-triage top -A
+  kubectl flink-triage top -A --unhealthy
+  kubectl flink-triage top -l team=payments 4711`,
 		Args: cobra.MaximumNArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			search := ""
@@ -63,7 +63,7 @@ func (to *topOptions) check() error {
 	in, inOK := to.In.(*os.File)
 	out, outOK := to.Out.(*os.File)
 	if !inOK || !outOK || !term.IsTerminal(int(in.Fd())) || !term.IsTerminal(int(out.Fd())) {
-		return errors.New("top needs a terminal; use kubectl flink ls -w to follow jobs in a pipe")
+		return errors.New("top needs a terminal; use kubectl flink-triage ls -w to follow jobs in a pipe")
 	}
 	return nil
 }
@@ -220,7 +220,7 @@ func restarted(p *kube.Pod) bool {
 	return false
 }
 
-// Report writes the job's handover bundle into the current directory, as kubectl flink report does.
+// Report writes the job's handover bundle into the current directory, as kubectl flink-triage report does.
 func (l *topLoader) Report(ctx context.Context, job model.Job) (string, error) {
 	t, err := l.target(&job)
 	if err != nil {

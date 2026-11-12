@@ -36,7 +36,7 @@ type Detail struct {
 type Loader interface {
 	Detail(ctx context.Context, job model.Job) (*Detail, error)
 	Log(ctx context.Context, job model.Job, tail int) (string, error)
-	// Report writes the job's handover bundle, as kubectl flink report does, and returns its path.
+	// Report writes the job's handover bundle, as kubectl flink-triage report does, and returns its path.
 	Report(ctx context.Context, job model.Job) (string, error)
 }
 
@@ -106,7 +106,7 @@ type reportMsg struct {
 // report writes job's report in the background; the footer says when it is written and where.
 func (m *Model) report(job model.Job) tea.Cmd {
 	if m.cfg.Loader == nil {
-		m.flash = "kubectl flink report " + jobRef(&job)
+		m.flash = "kubectl flink-triage report " + jobRef(&job)
 		return nil
 	}
 	k, name := render.Key(&job), job.Namespace+"/"+job.Name
@@ -225,7 +225,7 @@ func (m *Model) openDetail() tea.Cmd {
 		return nil
 	}
 	if m.cfg.Loader == nil {
-		m.flash = "kubectl flink why " + jobRef(r.Job)
+		m.flash = "kubectl flink-triage why " + jobRef(r.Job)
 		return nil
 	}
 	k := render.Key(r.Job)
@@ -321,7 +321,7 @@ func (m *Model) setTab(i int) tea.Cmd {
 
 // tabCommand is the command that prints the open tab.
 func (m *Model) tabCommand() string {
-	return "kubectl flink " + tabs[m.detail.tab].command + " " + jobRef(&m.detail.job)
+	return "kubectl flink-triage " + tabs[m.detail.tab].command + " " + jobRef(&m.detail.job)
 }
 
 func (m *Model) detailHeight() int { return max(1, m.height-3) }
@@ -412,7 +412,7 @@ func notCollected(ev *triage.Evidence, what string) string {
 // detailView is the detail screen: the job and when it was collected, the tabs, the open tab and the footer.
 func (m *Model) detailView() string {
 	j := &m.detail.job
-	title := "kubectl flink top · " + j.Context + " · " + j.Namespace + "/" + j.Name
+	title := "kubectl flink-triage top · " + j.Context + " · " + j.Namespace + "/" + j.Name
 	if e := m.cache[m.detail.key]; e != nil && e.detail != nil {
 		title += " · " + e.detail.Evidence.Health.Health.String() + " · collected " +
 			duration.HumanDuration(m.cfg.Now().Sub(e.collectedAt)) + " ago"
